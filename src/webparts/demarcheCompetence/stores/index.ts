@@ -1,27 +1,42 @@
-import { createPinia } from 'pinia';
-import { App } from 'vue';
+import Vuex from 'vuex';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
-
-// Import stores
-export { useAppStore } from './app';
-export { useQuizStore } from './quiz';
-export { useUserStore } from './user';
 
 // Import services
 import { SharePointService } from '@services/SharePointService';
 import { QuizService } from '@services/QuizService';
 import { UserService } from '@services/UserService';
 
-// Create pinia instance
-export const pinia = createPinia();
+// Import store modules
+import { appModule, AppState } from './app';
+import { quizModule, QuizState } from './quiz';
+import { userModule, UserState } from './user';
+
+// Vue.use(Vuex) is not needed for manual store creation
+
+// Root state interface
+export interface RootState {
+  app: AppState;
+  quiz: QuizState;
+  user: UserState;
+}
 
 // Service instances
 let sharePointService: SharePointService;
 let quizService: QuizService;
 let userService: UserService;
 
+// Create Vuex store
+export const store = new Vuex.Store<RootState>({
+  modules: {
+    app: appModule,
+    quiz: quizModule,
+    user: userModule
+  },
+  strict: process.env.NODE_ENV !== 'production'
+});
+
 /**
- * Initialize stores with SharePoint context and services
+ * Initialize services and stores with SharePoint context
  */
 export function initializeStores(context: WebPartContext) {
   // Initialize services
@@ -29,8 +44,10 @@ export function initializeStores(context: WebPartContext) {
   quizService = new QuizService(sharePointService);
   userService = new UserService(sharePointService);
 
-  // The stores will be initialized when first accessed
-  // We'll provide the services through the store actions
+  // Set services in store
+  store.dispatch('app/setServices', { sharePointService, quizService, userService });
+  store.dispatch('quiz/setQuizService', quizService);
+  store.dispatch('user/setUserService', userService);
 }
 
 /**
@@ -47,52 +64,33 @@ export function getServices() {
 /**
  * Setup stores for Vue app
  */
-export function setupStores(app: App, context: WebPartContext) {
-  // Install Pinia
-  app.use(pinia);
-
+export function setupStores(app: any, context: WebPartContext) {
   // Initialize services
   initializeStores(context);
 
   return {
-    pinia,
+    store,
     services: getServices()
   };
 }
 
 /**
- * Store utilities for common operations
- */
-
-import { useAppStore } from './app';
-import { useQuizStore } from './quiz';
-import { useUserStore } from './user';
-
-/**
  * Initialize all stores with their respective services
  */
 export async function initializeAllStores() {
-  const appStore = useAppStore();
-  const quizStore = useQuizStore();
-  const userStore = useUserStore();
-
   try {
     // Initialize app store first
-    await appStore.initializeApp();
-
-    // Set services in stores
-    quizStore.setQuizService(quizService);
-    userStore.setUserService(userService);
+    await store.dispatch('app/initializeApp');
 
     // Initialize user store
-    await userStore.initializeUser();
+    await store.dispatch('user/initializeUser');
 
-    appStore.showSuccessMessage('Application initialisée avec succès');
+    store.dispatch('app/showSuccessMessage', 'Application initialisée avec succès');
   } catch (error) {
     console.error('Error initializing stores:', error);
-    appStore.showErrorMessage(
-      error instanceof Error ? error.message : 'Erreur lors de l\'initialisation'
-    );
+    store.dispatch('app/showErrorMessage', {
+      message: error instanceof Error ? error.message : 'Erreur lors de l\'initialisation'
+    });
     throw error;
   }
 }
@@ -101,54 +99,43 @@ export async function initializeAllStores() {
  * Reset all stores to initial state
  */
 export function resetAllStores() {
-  const appStore = useAppStore();
-  const quizStore = useQuizStore();
-  const userStore = useUserStore();
-
-  quizStore.clearAllData();
-  userStore.clearAllData();
-  appStore.resetApp();
+  store.dispatch('quiz/clearAllData');
+  store.dispatch('user/clearAllData');
+  store.dispatch('app/resetApp');
 }
 
 /**
  * Check if all required data is loaded
  */
 export function isDataLoaded(): boolean {
-  const userStore = useUserStore();
-  const quizStore = useQuizStore();
-
-  return userStore.isAuthenticated && 
-         userStore.isUserLoaded &&
-         (quizStore.hasIntroductionQuestions || quizStore.hasSondageQuestions);
+  const state = store.state;
+  return state.user.isAuthenticated && 
+         state.user.isUserLoaded &&
+         (state.quiz.introductionQuestions.length > 0 || state.quiz.sondageQuestions.length > 0);
 }
 
 /**
  * Refresh all store data
  */
 export async function refreshAllData() {
-  const appStore = useAppStore();
-  const quizStore = useQuizStore();
-  const userStore = useUserStore();
-
   try {
-    appStore.setLoading(true);
+    store.dispatch('app/setLoading', true);
 
     await Promise.all([
-      userStore.refreshUserData(),
-      quizStore.loadUserResults(),
-      // Refresh other data as needed
+      store.dispatch('user/refreshUserData'),
+      store.dispatch('quiz/loadUserResults'),
     ]);
 
-    appStore.updateLastSync();
-    appStore.showSuccessMessage('Données actualisées');
+    store.dispatch('app/updateLastSync');
+    store.dispatch('app/showSuccessMessage', 'Données actualisées');
   } catch (error) {
     console.error('Error refreshing data:', error);
-    appStore.showErrorMessage(
-      error instanceof Error ? error.message : 'Erreur lors de l\'actualisation'
-    );
+    store.dispatch('app/showErrorMessage', {
+      message: error instanceof Error ? error.message : 'Erreur lors de l\'actualisation'
+    });
     throw error;
   } finally {
-    appStore.setLoading(false);
+    store.dispatch('app/setLoading', false);
   }
 }
 
@@ -156,15 +143,13 @@ export async function refreshAllData() {
  * Handle store errors globally
  */
 export function handleStoreError(error: Error, operation: string) {
-  const appStore = useAppStore();
-  
   console.error(`Store error in ${operation}:`, error);
   
-  appStore.trackError(operation);
-  appStore.showErrorMessage(
-    error.message || 'Une erreur inattendue s\'est produite',
-    `Erreur - ${operation}`
-  );
+  store.dispatch('app/trackError', operation);
+  store.dispatch('app/showErrorMessage', {
+    message: error.message || 'Une erreur inattendue s\'est produite',
+    title: `Erreur - ${operation}`
+  });
 }
 
 /**
@@ -174,17 +159,16 @@ export function trackStoreOperation<T>(
   operation: string,
   fn: () => Promise<T>
 ): Promise<T> {
-  const appStore = useAppStore();
   const startTime = performance.now();
 
   return fn()
     .then(result => {
       const duration = performance.now() - startTime;
-      appStore.trackPerformance(operation, duration);
+      store.dispatch('app/trackPerformance', { operation, duration });
       return result;
     })
     .catch(error => {
-      appStore.trackError(operation);
+      store.dispatch('app/trackError', operation);
       throw error;
     });
 }
@@ -204,52 +188,6 @@ export function withErrorHandling<T extends any[], R>(
       throw error;
     }
   };
-}
-
-/**
- * Batch operations utility
- */
-export async function batchOperations<T>(
-  operations: Array<() => Promise<T>>,
-  concurrency: number = 3
-): Promise<T[]> {
-  const results: T[] = [];
-  
-  for (let i = 0; i < operations.length; i += concurrency) {
-    const batch = operations.slice(i, i + concurrency);
-    const batchResults = await Promise.all(batch.map(op => op()));
-    results.push(...batchResults);
-  }
-  
-  return results;
-}
-
-/**
- * Retry operation utility
- */
-export async function retryOperation<T>(
-  operation: () => Promise<T>,
-  maxRetries: number = 3,
-  delay: number = 1000
-): Promise<T> {
-  let lastError: Error;
-
-  for (let i = 0; i <= maxRetries; i++) {
-    try {
-      return await operation();
-    } catch (error) {
-      lastError = error as Error;
-      
-      if (i === maxRetries) {
-        throw lastError;
-      }
-
-      // Wait before retrying
-      await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
-    }
-  }
-
-  throw lastError!;
 }
 
 /**
@@ -291,22 +229,5 @@ export class StoreCache {
 // Global cache instance
 export const storeCache = new StoreCache();
 
-/**
- * Type definitions for store composition
- */
-export interface StoreComposition {
-  app: ReturnType<typeof useAppStore>;
-  quiz: ReturnType<typeof useQuizStore>;
-  user: ReturnType<typeof useUserStore>;
-}
-
-/**
- * Compose all stores for easier access
- */
-export function useStores(): StoreComposition {
-  return {
-    app: useAppStore(),
-    quiz: useQuizStore(),
-    user: useUserStore()
-  };
-}
+// Export store for component access
+export default store;

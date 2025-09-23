@@ -9,14 +9,15 @@ import {
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { escape } from '@microsoft/sp-lodash-subset';
 
-import { createApp } from 'vue';
-import type { App as VueApp } from 'vue';
+import * as React from 'react';
+import * as ReactDom from 'react-dom';
+import { Provider } from 'react-redux';
 
-// Import main Vue app component
-import DemarcheCompetenceApp from './app/DemarcheCompetenceApp.vue';
+// Import main React app component
+import DemarcheCompetenceApp from './app/DemarcheCompetenceApp';
 
 // Import store setup
-import { setupStores, initializeAllStores } from '@stores/index';
+import { setupStore, initializeAllStores } from '@stores/index';
 
 // Import styles
 import './app/styles/main.scss';
@@ -35,7 +36,7 @@ export interface IDemarcheCompetenceWebPartProps {
 }
 
 export default class DemarcheCompetenceWebPart extends BaseClientSideWebPart<IDemarcheCompetenceWebPartProps> {
-  private vueApp: VueApp | null = null;
+  private store: any = null;
 
   protected async onInit(): Promise<void> {
     await super.onInit();
@@ -99,24 +100,37 @@ export default class DemarcheCompetenceWebPart extends BaseClientSideWebPart<IDe
 
   private async initializeVueApp(): Promise<void> {
     try {
-      // Create Vue app instance
-      this.vueApp = createApp(DemarcheCompetenceApp, {
-        webPartProperties: this.properties,
-        webPartContext: this.context,
-        domElement: this.domElement
+      // Setup stores with SharePoint context
+      const { services } = setupStores(null, this.context);
+
+      // Create Vue app instance with Vue 2 syntax
+      this.vueApp = new (Vue as any)({
+        store,
+        data: () => ({
+          webPartProperties: this.properties,
+          webPartContext: this.context,
+          domElement: this.domElement,
+          services
+        }),
+        provide() {
+          return {
+            webPartContext: this.webPartContext,
+            webPartProperties: this.webPartProperties,
+            services: this.services,
+            sharePointService: this.services.sharePointService
+          };
+        },
+        render: h => h(DemarcheCompetenceApp, {
+          props: {
+            webPartProperties: this.properties,
+            webPartContext: this.context,
+            domElement: this.domElement
+          }
+        })
       });
 
-      // Setup stores with SharePoint context
-      const { services } = setupStores(this.vueApp, this.context);
-
-      // Provide additional dependencies
-      this.vueApp.provide('webPartContext', this.context);
-      this.vueApp.provide('webPartProperties', this.properties);
-      this.vueApp.provide('services', services);
-      this.vueApp.provide('sharePointService', services.sharePointService);
-
       // Mount the app
-      this.vueApp.mount('#demarche-competence-app');
+      this.vueApp.$mount('#demarche-competence-app');
 
       // Initialize stores after mounting
       await initializeAllStores();
@@ -164,7 +178,7 @@ export default class DemarcheCompetenceWebPart extends BaseClientSideWebPart<IDe
     try {
       // Cleanup Vue app
       if (this.vueApp) {
-        this.vueApp.unmount();
+        this.vueApp.$destroy();
         this.vueApp = null;
       }
 

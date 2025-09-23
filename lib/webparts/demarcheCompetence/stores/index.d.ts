@@ -1,14 +1,19 @@
-import { App } from 'vue';
+import Vuex from 'vuex';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
-export { useAppStore } from './app';
-export { useQuizStore } from './quiz';
-export { useUserStore } from './user';
 import { SharePointService } from '@services/SharePointService';
 import { QuizService } from '@services/QuizService';
 import { UserService } from '@services/UserService';
-export declare const pinia: import("pinia").Pinia;
+import { AppState } from './app';
+import { QuizState } from './quiz';
+import { UserState } from './user';
+export interface RootState {
+    app: AppState;
+    quiz: QuizState;
+    user: UserState;
+}
+export declare const store: Vuex.Store<RootState>;
 /**
- * Initialize stores with SharePoint context and services
+ * Initialize services and stores with SharePoint context
  */
 export declare function initializeStores(context: WebPartContext): void;
 /**
@@ -22,20 +27,14 @@ export declare function getServices(): {
 /**
  * Setup stores for Vue app
  */
-export declare function setupStores(app: App, context: WebPartContext): {
-    pinia: import("pinia").Pinia;
+export declare function setupStores(app: any, context: WebPartContext): {
+    store: Vuex.Store<RootState>;
     services: {
         sharePointService: SharePointService;
         quizService: QuizService;
         userService: UserService;
     };
 };
-/**
- * Store utilities for common operations
- */
-import { useAppStore } from './app';
-import { useQuizStore } from './quiz';
-import { useUserStore } from './user';
 /**
  * Initialize all stores with their respective services
  */
@@ -65,14 +64,6 @@ export declare function trackStoreOperation<T>(operation: string, fn: () => Prom
  */
 export declare function withErrorHandling<T extends any[], R>(operation: string, fn: (...args: T) => Promise<R>): (...args: T) => Promise<R>;
 /**
- * Batch operations utility
- */
-export declare function batchOperations<T>(operations: Array<() => Promise<T>>, concurrency?: number): Promise<T[]>;
-/**
- * Retry operation utility
- */
-export declare function retryOperation<T>(operation: () => Promise<T>, maxRetries?: number, delay?: number): Promise<T>;
-/**
  * Cache management for stores
  */
 export declare class StoreCache {
@@ -83,16 +74,5 @@ export declare class StoreCache {
     size(): number;
 }
 export declare const storeCache: StoreCache;
-/**
- * Type definitions for store composition
- */
-export interface StoreComposition {
-    app: ReturnType<typeof useAppStore>;
-    quiz: ReturnType<typeof useQuizStore>;
-    user: ReturnType<typeof useUserStore>;
-}
-/**
- * Compose all stores for easier access
- */
-export declare function useStores(): StoreComposition;
+export default store;
 //# sourceMappingURL=index.d.ts.map

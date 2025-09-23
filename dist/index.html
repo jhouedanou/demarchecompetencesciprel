@@ -3,91 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Démarche Compétence CIPREL - Workbench</title>
+    <title>🚀 Démarche Compétence CIPREL - Workbench Test</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f5f5f5;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        h1 {
-            color: #0078d4;
+        .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
         }
         .status {
-            background: #fff4ce;
-            border: 1px solid #ffb900;
-            border-radius: 4px;
-            padding: 15px;
+            background: #28a745;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: bold;
             margin: 20px 0;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
         }
         .instructions {
-            background: #f3f9ff;
-            border: 1px solid #0078d4;
-            border-radius: 4px;
+            background: #e9ecef;
+            border-left: 4px solid #007bff;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .workbench-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .link-card {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .link-card:hover {
+            border-color: #007bff;
+            box-shadow: 0 5px 15px rgba(0,123,255,0.1);
+            transform: translateY(-2px);
+        }
+        .link-card h3 {
+            color: #007bff;
+            margin-top: 0;
+        }
+        .debug-info {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .error-info {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
             padding: 15px;
             margin: 20px 0;
         }
-        .instructions h3 {
-            margin-top: 0;
-            color: #0078d4;
+        .solution-steps {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
         }
-        code {
-            background: #f1f1f1;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
+        .solution-steps ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .solution-steps li {
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🚀 Démarche Compétence CIPREL</h1>
-        
-        <div class="status">
-            <strong>État:</strong> Workbench en attente du build SPFx
+        <div class="header">
+            <h1>🚀 Démarche Compétence CIPREL</h1>
+            <div class="status">✅ Serveur SPFx Actif</div>
+            <p>Serveur de développement SharePoint Framework opérationnel</p>
         </div>
 
-        <div class="instructions">
-            <h3>Instructions de développement</h3>
-            <p>Pour développer l'application SPFx, suivez ces étapes :</p>
-            <ol>
-                <li>Assurez-vous que le conteneur SPFx est en cours d'exécution</li>
-                <li>Lancez le build : <code>npm run build</code></li>
-                <li>Démarrez le serveur de développement : <code>npm run serve</code></li>
-                <li>Accédez au workbench SharePoint à l'adresse indiquée</li>
-            </ol>
-        </div>
-
-        <div class="instructions">
-            <h3>Accès au Workbench SharePoint</h3>
-            <p>Une fois le serveur démarré, vous pourrez accéder au workbench à :</p>
+        <div class="error-info">
+            <h3>⚠️ Problème Détecté</h3>
+            <p>Des erreurs webpack empêchent la génération complète du workbench SharePoint :</p>
             <ul>
-                <li><strong>Local:</strong> <code>http://localhost:4321/temp/workbench.html</code></li>
-                <li><strong>Hosted:</strong> <code>https://[tenant].sharepoint.com/_layouts/15/workbench.aspx</code></li>
+                <li><code>TypeError: Cannot read properties of undefined (reading 'toJson')</code></li>
+                <li><code>TypeError: Cannot set properties of undefined (setting 'asyncChunks')</code></li>
             </ul>
         </div>
 
-        <div class="status">
-            <p><strong>Note:</strong> Cette page sera remplacée automatiquement par les fichiers de build SPFx une fois la compilation terminée.</p>
+        <div class="solution-steps">
+            <h3>🔧 Solutions Possibles</h3>
+            <ol>
+                <li><strong>Accès direct au serveur SPFx :</strong> 
+                    <br>Essayez d'accéder directement au serveur sur <a href="http://localhost:4321" target="_blank">http://localhost:4321</a>
+                </li>
+                <li><strong>Workbench SharePoint alternatif :</strong>
+                    <br>Utilisez un site SharePoint existant avec l'URL de debug
+                </li>
+                <li><strong>Mode de développement simplifié :</strong>
+                    <br>Testez l'application sans les optimisations webpack
+                </li>
+                <li><strong>Configuration Vue.js alternative :</strong>
+                    <br>Modification de la configuration webpack pour Vue.js 3
+                </li>
+            </ol>
+        </div>
+
+        <div class="workbench-links">
+            <a href="http://localhost:4321" class="link-card" target="_blank">
+                <h3>🌐 Serveur SPFx Direct</h3>
+                <p>Accès direct au serveur de développement</p>
+                <small>Port 4321</small>
+            </a>
+            
+            <a href="#" class="link-card" onclick="copyDebugUrl()">
+                <h3>📋 URL de Debug</h3>
+                <p>Copier l'URL pour SharePoint</p>
+                <small>À utiliser dans un site SharePoint</small>
+            </a>
+        </div>
+
+        <div class="debug-info">
+            <h4>🔍 Informations de Debug</h4>
+            <p><strong>URL du serveur :</strong> http://localhost:4321</p>
+            <p><strong>LiveReload :</strong> Port 35729</p>
+            <p><strong>Manifests :</strong> http://localhost:4321/temp/manifests.js</p>
+            <p><strong>Status :</strong> <span style="color: #dc3545;">Erreurs Webpack - Workbench non généré</span></p>
+        </div>
+
+        <div class="instructions">
+            <h4>📋 Prochaines Étapes Recommandées</h4>
+            <p>1. <strong>Tentez l'accès direct :</strong> Cliquez sur "Serveur SPFx Direct" ci-dessus</p>
+            <p>2. <strong>Si cela ne fonctionne pas :</strong> Nous devrons corriger la configuration webpack</p>
+            <p>3. <strong>Alternative :</strong> Utiliser un site SharePoint existant avec l'URL de debug</p>
+            <p>4. <strong>En dernier recours :</strong> Simplifier la configuration Vue.js</p>
         </div>
     </div>
 
     <script>
-        // Auto-refresh every 10 seconds to check for build completion
+        function copyDebugUrl() {
+            const debugUrl = 'http://localhost:4321/temp/manifests.js';
+            navigator.clipboard.writeText(debugUrl).then(() => {
+                alert('URL de debug copiée dans le presse-papiers !\\n\\nUtilisez cette URL dans la page workbench d\'un site SharePoint :\\n' + debugUrl);
+            });
+        }
+        
+        // Vérification automatique du serveur
         setTimeout(() => {
-            window.location.reload();
-        }, 10000);
+            fetch('http://localhost:4321')
+                .then(response => {
+                    if (response.ok) {
+                        document.querySelector('.status').innerHTML = '✅ Serveur SPFx Opérationnel';
+                        document.querySelector('.status').style.background = '#28a745';
+                    }
+                })
+                .catch(() => {
+                    document.querySelector('.status').innerHTML = '❌ Serveur SPFx Inaccessible';
+                    document.querySelector('.status').style.background = '#dc3545';
+                });
+        }, 1000);
     </script>
 </body>
 </html>
