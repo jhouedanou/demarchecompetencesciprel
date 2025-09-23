@@ -2,7 +2,7 @@
 
 ## Lancement Automatique de l'Environnement de Développement
 
-Plusieurs options pour démarrer automatiquement l'environnement de développement complet (SPFx + Vue 3 + Docker) :
+Plusieurs options pour démarrer automatiquement l'environnement de développement complet (SPFx + React + Docker) :
 
 ### 🎯 Option 1 : Scripts de lancement rapide
 
@@ -121,8 +121,8 @@ https://votre-tenant.sharepoint.com/_layouts/15/workbench.aspx?debugManifestsFil
 
 - ✅ **Hot Reload** : Rechargement automatique lors des modifications
 - ✅ **TypeScript** : Compilation en temps réel
-- ✅ **Vue 3** : Support complet avec Composition API
-- ✅ **Pinia** : Gestion d'état moderne
+- ✅ **React** : Support complet avec JSX et hooks
+- ✅ **Redux Toolkit** : Gestion d'état moderne
 - ✅ **SCSS** : Styles avec variables et mixins
 - ✅ **Linting** : ESLint + Prettier
 - ✅ **Docker** : Environnement isolé et reproductible

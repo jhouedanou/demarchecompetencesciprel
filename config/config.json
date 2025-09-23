@@ -11,10 +11,6 @@
       ]
     }
   },
-  "externals": {
-    "vue": "node_modules/vue/dist/vue.runtime.esm-bundler.js",
-    "pinia": "node_modules/pinia/dist/pinia.esm-browser.js"
-  },
   "localizedResources": {
     "DemarcheCompetenceWebPartStrings": "lib/webparts/demarcheCompetence/loc/{locale}.js"
   }

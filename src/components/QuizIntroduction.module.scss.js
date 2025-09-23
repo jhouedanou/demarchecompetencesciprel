@@ -1,8 +1,8 @@
 /* tslint:disable */
 require("./QuizIntroduction.module.css");
 const styles = {
-    'quiz-list': 'quiz-list_e3e4a530',
-    'instructions-list': 'instructions-list_e3e4a530'
+    quizList: 'quizList_f05b3da8',
+    instructionsList: 'instructionsList_f05b3da8'
 };
 export default styles;
 /* tslint:enable */ 

@@ -4,7 +4,7 @@ FROM node:18-alpine
 # Set working directory
 WORKDIR /usr/app/spfx
 
-# Install required tools for SharePoint Framework and Vue.js
+# Install required tools for SharePoint Framework and React
 RUN apk add --no-cache \
     git \
     python3 \

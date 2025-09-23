@@ -1,6 +1,6 @@
 declare const styles: {
-    'quiz-list': string;
-    'instructions-list': string;
+    quizList: string;
+    instructionsList: string;
 };
 export default styles;
 //# sourceMappingURL=QuizIntroduction.module.scss.d.ts.map

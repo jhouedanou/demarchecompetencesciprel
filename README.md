@@ -367,8 +367,8 @@ npm run build
 
 ### Documentation
 - [SharePoint Framework](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/)
-- [Vue.js 3](https://vuejs.org/guide/)
-- [Pinia](https://pinia.vuejs.org/)
+- [React](https://react.dev/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
 - [PnP.js](https://pnp.github.io/pnpjs/)
 
 ### Contact

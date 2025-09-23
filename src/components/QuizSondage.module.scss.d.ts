@@ -1,6 +1,5 @@
 declare const styles: {
-    'quiz-list': string;
-    'scale-list': string;
+    quizList: string;
 };
 export default styles;
 //# sourceMappingURL=QuizSondage.module.scss.d.ts.map

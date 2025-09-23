@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script de lancement automatique de l'environnement de développement
-# Démarche Compétence CIPREL - SPFx + Vue 3 + Docker
+# Démarche Compétence CIPREL - SPFx + React + Docker
 
 set -e  # Arrêter le script en cas d'erreur
 
@@ -39,7 +39,7 @@ echo -e "${BLUE}"
 echo "╔══════════════════════════════════════════════════════════════════════════════╗"
 echo "║                    🚀 DÉMARCHE COMPÉTENCE CIPREL 🚀                         ║"
 echo "║                      Environnement de Développement                          ║"
-echo "║                         SPFx + Vue 3 + Docker                               ║"
+echo "║                         SPFx + React + Docker                              ║"
 echo "╚══════════════════════════════════════════════════════════════════════════════╝"
 echo -e "${NC}"
 

@@ -1,5 +1,5 @@
 # Script de lancement automatique de l'environnement de développement
-# Démarche Compétence CIPREL - SPFx + Vue 3 + Docker
+# Démarche Compétence CIPREL - SPFx + React + Docker
 # Version PowerShell pour Windows
 
 param(
@@ -44,7 +44,7 @@ Write-ColorOutput Blue @"
 ╔══════════════════════════════════════════════════════════════════════════════╗
 ║                    🚀 DÉMARCHE COMPÉTENCE CIPREL 🚀                         ║
 ║                      Environnement de Développement                          ║
-║                         SPFx + Vue 3 + Docker                               ║
+║                         SPFx + React + Docker                              ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 "@
 
