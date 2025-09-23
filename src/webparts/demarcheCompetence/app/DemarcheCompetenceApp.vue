@@ -39,7 +39,13 @@
             >
               <fluent-icon icon="navigation"></fluent-icon>
             </fluent-button>
-            <h1 class="app-title">{{ webPartProperties.title }}</h1>
+            <div class="header-brand">
+              <img src="/assets/images/logo.webp" alt="CIPREL Logo" class="ciprel-logo" />
+              <div class="brand-text">
+                <h1 class="app-title">{{ webPartProperties.title }}</h1>
+                <p class="app-subtitle">Plateforme de gestion des compétences</p>
+              </div>
+            </div>
           </div>
           
           <div class="header-right">
@@ -528,11 +534,47 @@ onUnmounted(() => {
   gap: 15px;
 }
 
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.ciprel-logo {
+  height: 45px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+  transition: all 0.3s ease;
+}
+
+.ciprel-logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12));
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .app-title {
   margin: 0;
   color: #323130;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 600;
+  background: linear-gradient(45deg, #ED7E05, #0D9330);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.app-subtitle {
+  margin: 0;
+  color: #605e5c;
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
 .header-right {

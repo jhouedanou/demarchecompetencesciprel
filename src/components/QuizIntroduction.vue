@@ -1,7 +1,13 @@
 <template>
   <div class="quiz-introduction">
     <div class="quiz-header">
-      <h2>Quiz d'Introduction - Démarche Compétence CIPREL</h2>
+      <div class="quiz-brand">
+        <img src="/assets/images/logo.webp" alt="CIPREL Logo" class="quiz-logo" />
+        <div class="quiz-title">
+          <h2>Quiz d'Introduction - Démarche Compétence CIPREL</h2>
+          <p class="quiz-description">Évaluez vos connaissances sur les compétences professionnelles</p>
+        </div>
+      </div>
       <div class="quiz-info">
         <span class="question-counter">Question {{ currentQuestionIndex + 1 }} sur {{ questions.length }}</span>
         <div class="timer" v-if="timeRemaining > 0">
