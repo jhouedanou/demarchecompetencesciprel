@@ -5,21 +5,10 @@ import {
   Spinner, 
   MessageBar, 
   MessageBarType,
-  mergeStyles
+  SpinnerSize
 } from '@fluentui/react';
 
-// Simple Card component replacement
-const Card: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => (
-  <div className={`${mergeStyles({ 
-    backgroundColor: 'white', 
-    border: '1px solid #edebe9', 
-    borderRadius: '2px', 
-    boxShadow: '0 1.6px 3.6px 0 rgba(0,0,0,.132), 0 0.3px 0.9px 0 rgba(0,0,0,.108)',
-    padding: '12px'
-  })} ${className || ''}`}>
-    {children}
-  </div>
-);
+import Card from './shared/CardComponent';
 import { useNavigation, useUser, useError, useLoading, useAppContext } from '../contexts/AppContext';
 import { SharePointService } from '../services/SharePointService';
 import { QuizResult, QuizQuestion } from '../types';
@@ -83,7 +72,7 @@ const ResultsWrapper: React.FC = () => {
     return (
       <div className={styles.loadingContainer}>
         <Stack horizontalAlign="center" tokens={{ childrenGap: 16 }}>
-          <Spinner label="Chargement des résultats..." size="large" />
+          <Spinner label="Chargement des résultats..." size={SpinnerSize.large} />
         </Stack>
       </div>
     );

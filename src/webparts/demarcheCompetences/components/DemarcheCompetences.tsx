@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { initializeIcons } from '@fluentui/react/lib/Icons';
-import { ThemeProvider, Theme, Spinner, MessageBar, MessageBarType } from '@fluentui/react';
+import { ThemeProvider, Spinner, MessageBar, MessageBarType, SpinnerSize } from '@fluentui/react';
 import styles from './DemarcheCompetences.module.scss';
 import type { IDemarcheCompetencesProps } from './IDemarcheCompetencesProps';
 import { useAppContext, useNavigation, useError } from '../contexts/AppContext';
@@ -15,8 +14,8 @@ import ResultsWrapper from './ResultsWrapper';
 // Initialize Fluent UI icons
 initializeIcons();
 
-// CIPREL theme colors
-const ciprelTheme: Partial<Theme> = {
+// CIPREL theme colors (simplified for compatibility)
+const ciprelTheme = {
   palette: {
     themePrimary: '#ff6600',
     themeLighterAlt: '#fff8f5',
@@ -26,21 +25,7 @@ const ciprelTheme: Partial<Theme> = {
     themeSecondary: '#ff7a1a',
     themeDarkAlt: '#e55c00',
     themeDark: '#c14e00',
-    themeDarker: '#8f3900',
-    neutralLighterAlt: '#faf9f8',
-    neutralLighter: '#f3f2f1',
-    neutralLight: '#edebe9',
-    neutralQuaternaryAlt: '#e1dfdd',
-    neutralQuaternary: '#d0d0d0',
-    neutralTertiaryAlt: '#c8c6c4',
-    neutralTertiary: '#a19f9d',
-    neutralSecondary: '#605e5c',
-    neutralPrimaryAlt: '#3b3a39',
-    neutralPrimary: '#323130',
-    neutralDark: '#201f1e',
-    black: '#000000',
-    white: '#ffffff',
-    accent: '#107c10'
+    themeDarker: '#8f3900'
   }
 };
 
@@ -88,7 +73,7 @@ const DemarcheCompetences: React.FC<IDemarcheCompetencesProps> = (props) => {
 
         {isLoading && (
           <div className={styles.loadingContainer}>
-            <Spinner label="Chargement..." size="large" />
+            <Spinner label="Chargement..." size={SpinnerSize.large} />
           </div>
         )}
 

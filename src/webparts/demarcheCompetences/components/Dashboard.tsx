@@ -2,14 +2,12 @@ import * as React from 'react';
 import { 
   Text, 
   Stack, 
-  Card,
   Pivot,
   PivotItem,
-  DefaultButton,
-  Spinner,
-  MessageBar,
-  MessageBarType
+  DefaultButton
 } from '@fluentui/react';
+
+import Card from './shared/CardComponent';
 import { 
   BarChart, 
   Bar, 
@@ -21,9 +19,7 @@ import {
   ResponsiveContainer,
   PieChart,
   Pie,
-  Cell,
-  LineChart,
-  Line
+  Cell
 } from 'recharts';
 import { useNavigation, useUser, useError, useLoading, useAppContext } from '../contexts/AppContext';
 import { SharePointService } from '../services/SharePointService';
@@ -87,7 +83,7 @@ const RecentActivityItem: React.FC<RecentActivityItemProps> = ({ user, action, t
 
 const Dashboard: React.FC = () => {
   const { goBack } = useNavigation();
-  const { user, canViewDashboard } = useUser();
+  const { canViewDashboard } = useUser();
   const { setError, clearError } = useError();
   const { setLoading } = useLoading();
   const { context } = useAppContext();
@@ -110,17 +106,20 @@ const Dashboard: React.FC = () => {
       clearError();
       
       try {
-        // Load dashboard analytics
-        const dashData = await sharePointService.getDashboardData();
-        setDashboardData(dashData);
-
-        // Load detailed results
+        // Load detailed results first
         const results = await sharePointService.getQuizResults();
         setQuizResults(results);
 
         // Load sondage responses
         const responses = await sharePointService.getSondageResponses();
         setSondageResponses(responses);
+
+        // Load dashboard analytics
+        const dashData = await sharePointService.getDashboardData();
+        setDashboardData({
+          ...dashData,
+          recentResults: results.slice(0, 10) // Add recent results
+        });
 
       } catch (error) {
         console.error('Error loading dashboard data:', error);

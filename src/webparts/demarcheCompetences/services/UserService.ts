@@ -74,7 +74,8 @@ export class UserService {
 
   hasAdminPermissions(): boolean {
     try {
-      return this.context.pageContext.web.permissions?.hasAllPermissions || false;
+      const permissions = this.context.pageContext.web.permissions;
+      return permissions ? permissions.hasAllPermissions() : false;
     } catch {
       return false;
     }

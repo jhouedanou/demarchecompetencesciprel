@@ -104,7 +104,7 @@ export class QuizService {
       return question && answer.answer === question.CorrectAnswer;
     }).length;
 
-    const categories = [...new Set(questions.map(q => q.Category))];
+    const categories = Array.from(new Set(questions.map(q => q.Category)));
     const categoryResults = categories.map(category => ({
       category,
       score: this.getCategoryScore(questions, answers, category),

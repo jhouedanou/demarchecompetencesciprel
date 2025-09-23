@@ -3,28 +3,15 @@ import {
   Stack,
   Text,
   ChoiceGroup,
-  IChoiceGroupOption,
   PrimaryButton,
   DefaultButton,
   MessageBar,
   MessageBarType,
   IStackTokens,
-  Separator,
-  mergeStyles
+  Separator
 } from '@fluentui/react';
 
-// Simple Card component replacement
-const Card: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => (
-  <div className={`${mergeStyles({ 
-    backgroundColor: 'white', 
-    border: '1px solid #edebe9', 
-    borderRadius: '2px', 
-    boxShadow: '0 1.6px 3.6px 0 rgba(0,0,0,.132), 0 0.3px 0.9px 0 rgba(0,0,0,.108)',
-    padding: '12px'
-  })} ${className || ''}`}>
-    {children}
-  </div>
-);
+import Card from './CardComponent';
 import { QuizEngineProps, QuizAnswer } from '../../types';
 import { useQuiz } from '../../contexts/QuizContext';
 import { useUser } from '../../contexts/AppContext';
@@ -43,7 +30,6 @@ const QuizEngine: React.FC<QuizEngineProps> = ({
     answerQuestion,
     nextQuestion,
     completeQuiz,
-    hasAnswered,
     getAnswer,
     canProceed,
     isLastQuestion
@@ -68,6 +54,8 @@ const QuizEngine: React.FC<QuizEngineProps> = ({
   const cardTokens: IStackTokens = { childrenGap: 16, padding: 24 };
 
   const handleAnswerSelect = (answer: 'A' | 'B' | 'C') => {
+    if (!answer) return;
+    
     setSelectedAnswer(answer);
     setShowFeedback(false);
 
@@ -157,49 +145,48 @@ const QuizEngine: React.FC<QuizEngineProps> = ({
             {currentQuestion.Question}
           </Text>
 
-          <Stack tokens={{ childrenGap: 12 }}>
-            <RadioButton
-              label={currentQuestion.OptionA}
-              checked={selectedAnswer === 'A'}
-              onChange={() => handleAnswerSelect('A')}
-              styles={{
-                root: {
-                  padding: 12,
-                  border: selectedAnswer === 'A' ? '2px solid #0078d4' : '1px solid #e1e5e9',
-                  borderRadius: 4,
-                  backgroundColor: selectedAnswer === 'A' ? '#f8f9fa' : 'transparent'
+          <ChoiceGroup
+            selectedKey={selectedAnswer}
+            options={[
+              {
+                key: 'A',
+                text: currentQuestion.OptionA,
+                styles: {
+                  root: {
+                    padding: 12,
+                    border: selectedAnswer === 'A' ? '2px solid #0078d4' : '1px solid #e1e5e9',
+                    borderRadius: 4,
+                    backgroundColor: selectedAnswer === 'A' ? '#f8f9fa' : 'transparent'
+                  }
                 }
-              }}
-            />
-
-            <RadioButton
-              label={currentQuestion.OptionB}
-              checked={selectedAnswer === 'B'}
-              onChange={() => handleAnswerSelect('B')}
-              styles={{
-                root: {
-                  padding: 12,
-                  border: selectedAnswer === 'B' ? '2px solid #0078d4' : '1px solid #e1e5e9',
-                  borderRadius: 4,
-                  backgroundColor: selectedAnswer === 'B' ? '#f8f9fa' : 'transparent'
+              },
+              {
+                key: 'B',
+                text: currentQuestion.OptionB,
+                styles: {
+                  root: {
+                    padding: 12,
+                    border: selectedAnswer === 'B' ? '2px solid #0078d4' : '1px solid #e1e5e9',
+                    borderRadius: 4,
+                    backgroundColor: selectedAnswer === 'B' ? '#f8f9fa' : 'transparent'
+                  }
                 }
-              }}
-            />
-
-            <RadioButton
-              label={currentQuestion.OptionC}
-              checked={selectedAnswer === 'C'}
-              onChange={() => handleAnswerSelect('C')}
-              styles={{
-                root: {
-                  padding: 12,
-                  border: selectedAnswer === 'C' ? '2px solid #0078d4' : '1px solid #e1e5e9',
-                  borderRadius: 4,
-                  backgroundColor: selectedAnswer === 'C' ? '#f8f9fa' : 'transparent'
+              },
+              {
+                key: 'C',
+                text: currentQuestion.OptionC,
+                styles: {
+                  root: {
+                    padding: 12,
+                    border: selectedAnswer === 'C' ? '2px solid #0078d4' : '1px solid #e1e5e9',
+                    borderRadius: 4,
+                    backgroundColor: selectedAnswer === 'C' ? '#f8f9fa' : 'transparent'
+                  }
                 }
-              }}
-            />
-          </Stack>
+              }
+            ]}
+            onChange={(ev, option) => handleAnswerSelect(option?.key as 'A' | 'B' | 'C')}
+          />
 
           {showFeedback && selectedAnswer && (
             <MessageBar

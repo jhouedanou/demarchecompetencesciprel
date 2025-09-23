@@ -10,7 +10,6 @@ import { IReadonlyTheme } from '@microsoft/sp-component-base';
 
 import * as strings from 'DemarcheCompetencesWebPartStrings';
 import DemarcheCompetences from './components/DemarcheCompetences';
-import { IDemarcheCompetencesProps } from './components/IDemarcheCompetencesProps';
 import { AppProvider } from './contexts/AppContext';
 import { QuizProvider } from './contexts/QuizContext';
 import { SharePointService } from './services/SharePointService';
@@ -25,26 +24,27 @@ export default class DemarcheCompetencesWebPart extends BaseClientSideWebPart<ID
   private _environmentMessage: string = '';
 
   public render(): void {
-    const element: React.ReactElement<IDemarcheCompetencesProps> = React.createElement(
+    const element = React.createElement(
       AppProvider,
       {
-        context: this.context
-      },
-      React.createElement(
-        QuizProvider,
-        {},
-        React.createElement(
-          DemarcheCompetences,
+        context: this.context,
+        children: React.createElement(
+          QuizProvider,
           {
-            description: this.properties.description,
-            isDarkTheme: this._isDarkTheme,
-            environmentMessage: this._environmentMessage,
-            hasTeamsContext: !!this.context.sdks.microsoftTeams,
-            userDisplayName: this.context.pageContext.user.displayName,
-            context: this.context
+            children: React.createElement(
+              DemarcheCompetences,
+              {
+                description: this.properties.description,
+                isDarkTheme: this._isDarkTheme,
+                environmentMessage: this._environmentMessage,
+                hasTeamsContext: !!this.context.sdks.microsoftTeams,
+                userDisplayName: this.context.pageContext.user.displayName,
+                context: this.context
+              }
+            )
           }
         )
-      )
+      }
     );
 
     ReactDom.render(element, this.domElement);

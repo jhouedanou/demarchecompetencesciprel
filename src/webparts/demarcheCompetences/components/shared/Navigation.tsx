@@ -10,8 +10,7 @@ import {
   PersonaSize,
   IContextualMenuProps
 } from '@fluentui/react';
-import { useAppContext, useNavigation, useUser } from '../../contexts/AppContext';
-import { AppState } from '../../types';
+import { useNavigation, useUser } from '../../contexts/AppContext';
 
 export interface NavigationProps {
   showBackButton?: boolean;
@@ -22,9 +21,8 @@ const Navigation: React.FC<NavigationProps> = ({
   showBackButton = false,
   title
 }) => {
-  const { context } = useAppContext();
   const { currentPage, navigateTo, goBack } = useNavigation();
-  const { user, userInfo, canViewDashboard } = useUser();
+  const { userInfo, canViewDashboard } = useUser();
 
   const backIcon: IIconProps = { iconName: 'ChevronLeft' };
   const homeIcon: IIconProps = { iconName: 'Home' };
@@ -113,9 +111,9 @@ const Navigation: React.FC<NavigationProps> = ({
             text={userInfo.displayName}
             size={PersonaSize.size32}
             initialsColor="blue"
-            menuProps={userMenuProps}
           />
-        )
+        ),
+        subMenuProps: userMenuProps
       }
     ];
   };
