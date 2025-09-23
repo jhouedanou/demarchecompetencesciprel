@@ -18,7 +18,8 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "typings/**/*.d.ts"],
   "exclude": ["node_modules", "lib", "dist"]

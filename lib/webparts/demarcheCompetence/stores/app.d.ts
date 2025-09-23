@@ -107,7 +107,7 @@ export declare const useAppStore: import("pinia").StoreDefinition<"app", Pick<{
         persistent?: boolean | undefined;
         timestamp: Date;
     }[]>;
-    currentTheme: import("vue").ComputedRef<"dark" | "light">;
+    currentTheme: import("vue").ComputedRef<"light" | "dark">;
     isOffline: import("vue").ComputedRef<boolean>;
     canGoBack: import("vue").ComputedRef<boolean>;
     setLoading: (value: boolean) => void;
@@ -138,7 +138,7 @@ export declare const useAppStore: import("pinia").StoreDefinition<"app", Pick<{
     showErrorMessage: (message: string, title?: string) => void;
     showWarningMessage: (message: string, title?: string) => void;
     showInfoMessage: (message: string, title?: string) => void;
-}, "error" | "notifications" | "loading" | "settings" | "initialized" | "currentView" | "previousView" | "navigationHistory" | "isOnline" | "isMobile" | "sidebarOpen" | "performanceMetrics">, Pick<{
+}, "settings" | "error" | "loading" | "initialized" | "currentView" | "previousView" | "navigationHistory" | "notifications" | "isOnline" | "isMobile" | "sidebarOpen" | "performanceMetrics">, Pick<{
     loading: import("vue").Ref<boolean, boolean>;
     initialized: import("vue").Ref<boolean, boolean>;
     error: import("vue").Ref<string | null, string | null>;
@@ -226,7 +226,7 @@ export declare const useAppStore: import("pinia").StoreDefinition<"app", Pick<{
         persistent?: boolean | undefined;
         timestamp: Date;
     }[]>;
-    currentTheme: import("vue").ComputedRef<"dark" | "light">;
+    currentTheme: import("vue").ComputedRef<"light" | "dark">;
     isOffline: import("vue").ComputedRef<boolean>;
     canGoBack: import("vue").ComputedRef<boolean>;
     setLoading: (value: boolean) => void;
@@ -345,7 +345,7 @@ export declare const useAppStore: import("pinia").StoreDefinition<"app", Pick<{
         persistent?: boolean | undefined;
         timestamp: Date;
     }[]>;
-    currentTheme: import("vue").ComputedRef<"dark" | "light">;
+    currentTheme: import("vue").ComputedRef<"light" | "dark">;
     isOffline: import("vue").ComputedRef<boolean>;
     canGoBack: import("vue").ComputedRef<boolean>;
     setLoading: (value: boolean) => void;
@@ -376,5 +376,5 @@ export declare const useAppStore: import("pinia").StoreDefinition<"app", Pick<{
     showErrorMessage: (message: string, title?: string) => void;
     showWarningMessage: (message: string, title?: string) => void;
     showInfoMessage: (message: string, title?: string) => void;
-}, "applyTheme" | "setLoading" | "setInitialized" | "setError" | "clearError" | "navigateTo" | "goBack" | "addNotification" | "removeNotification" | "clearNotifications" | "clearNonPersistentNotifications" | "updateSettings" | "loadSettingsFromStorage" | "saveSettingsToStorage" | "toggleSidebar" | "setSidebarOpen" | "updateOnlineStatus" | "updateMobileStatus" | "trackPerformance" | "trackError" | "updateLastSync" | "initializeApp" | "cleanup" | "resetApp" | "showSuccessMessage" | "showErrorMessage" | "showWarningMessage" | "showInfoMessage">>;
+}, "setLoading" | "setInitialized" | "setError" | "clearError" | "navigateTo" | "goBack" | "addNotification" | "removeNotification" | "clearNotifications" | "clearNonPersistentNotifications" | "updateSettings" | "loadSettingsFromStorage" | "saveSettingsToStorage" | "applyTheme" | "toggleSidebar" | "setSidebarOpen" | "updateOnlineStatus" | "updateMobileStatus" | "trackPerformance" | "trackError" | "updateLastSync" | "initializeApp" | "cleanup" | "resetApp" | "showSuccessMessage" | "showErrorMessage" | "showWarningMessage" | "showInfoMessage">>;
 //# sourceMappingURL=app.d.ts.map

@@ -16,10 +16,8 @@ import type {
 
 export class SharePointService {
   private sp: ReturnType<typeof spfi>;
-  private context: WebPartContext;
 
   constructor(context: WebPartContext) {
-    this.context = context;
     this.sp = spfi().using(SPFx(context));
   }
 

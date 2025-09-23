@@ -64,9 +64,12 @@ docker-compose logs -f
 2. **Nettoyage** : Suppression des conteneurs existants
 3. **Construction** : Build des images Docker
 4. **Démarrage** : Lancement des services
-5. **Configuration** : Génération du certificat SPFx
-6. **Vérification** : Test de disponibilité des services
-7. **Information** : Affichage des URLs et commandes utiles
+5. **Installation** : Vérification et installation des dépendances npm
+6. **Configuration** : Génération du certificat SPFx
+7. **Build initial** : Compilation de l'application SPFx
+8. **Redémarrage** : Redémarrage du serveur avec les derniers builds
+9. **Vérification** : Test de disponibilité des services
+10. **Information** : Affichage des URLs et commandes utiles
 
 ## 🌐 Services démarrés
 
@@ -87,6 +90,12 @@ docker-compose logs -f spfx-dev
 
 # Redémarrer le serveur SPFx
 docker-compose restart spfx-dev
+
+# Build manuel
+docker-compose exec spfx-dev npx gulp bundle
+
+# Serveur manuel
+docker-compose exec spfx-dev npx gulp serve
 
 # Arrêter tous les services
 docker-compose down

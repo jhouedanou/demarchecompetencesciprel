@@ -7,7 +7,7 @@ export declare const useQuizStore: import("pinia").StoreDefinition<"quiz", Pick<
         id: string;
         title: string;
         question: string;
-        type: "text" | "rating" | "multiple-choice";
+        type: "multiple-choice" | "text" | "rating";
         options: {
             id: string;
             text: string;
@@ -23,7 +23,7 @@ export declare const useQuizStore: import("pinia").StoreDefinition<"quiz", Pick<
         id: string;
         title: string;
         question: string;
-        type: "text" | "rating" | "multiple-choice";
+        type: "multiple-choice" | "text" | "rating";
         options: {
             id: string;
             text: string;
@@ -40,7 +40,7 @@ export declare const useQuizStore: import("pinia").StoreDefinition<"quiz", Pick<
         id: string;
         title: string;
         question: string;
-        type: "text" | "rating" | "multiple-choice";
+        type: "multiple-choice" | "text" | "rating";
         options: {
             id: string;
             text: string;
@@ -56,7 +56,7 @@ export declare const useQuizStore: import("pinia").StoreDefinition<"quiz", Pick<
         id: string;
         title: string;
         question: string;
-        type: "text" | "rating" | "multiple-choice";
+        type: "multiple-choice" | "text" | "rating";
         options: {
             id: string;
             text: string;
@@ -152,7 +152,7 @@ export declare const useQuizStore: import("pinia").StoreDefinition<"quiz", Pick<
         id: string;
         title: string;
         question: string;
-        type: "text" | "rating" | "multiple-choice";
+        type: "multiple-choice" | "text" | "rating";
         options: {
             id: string;
             text: string;
@@ -251,7 +251,7 @@ export declare const useQuizStore: import("pinia").StoreDefinition<"quiz", Pick<
         id: string;
         title: string;
         question: string;
-        type: "text" | "rating" | "multiple-choice";
+        type: "multiple-choice" | "text" | "rating";
         options: {
             id: string;
             text: string;
@@ -267,7 +267,7 @@ export declare const useQuizStore: import("pinia").StoreDefinition<"quiz", Pick<
         id: string;
         title: string;
         question: string;
-        type: "text" | "rating" | "multiple-choice";
+        type: "multiple-choice" | "text" | "rating";
         options: {
             id: string;
             text: string;
@@ -284,7 +284,7 @@ export declare const useQuizStore: import("pinia").StoreDefinition<"quiz", Pick<
         id: string;
         title: string;
         question: string;
-        type: "text" | "rating" | "multiple-choice";
+        type: "multiple-choice" | "text" | "rating";
         options: {
             id: string;
             text: string;
@@ -300,7 +300,7 @@ export declare const useQuizStore: import("pinia").StoreDefinition<"quiz", Pick<
         id: string;
         title: string;
         question: string;
-        type: "text" | "rating" | "multiple-choice";
+        type: "multiple-choice" | "text" | "rating";
         options: {
             id: string;
             text: string;
@@ -396,7 +396,7 @@ export declare const useQuizStore: import("pinia").StoreDefinition<"quiz", Pick<
         id: string;
         title: string;
         question: string;
-        type: "text" | "rating" | "multiple-choice";
+        type: "multiple-choice" | "text" | "rating";
         options: {
             id: string;
             text: string;
@@ -495,7 +495,7 @@ export declare const useQuizStore: import("pinia").StoreDefinition<"quiz", Pick<
         id: string;
         title: string;
         question: string;
-        type: "text" | "rating" | "multiple-choice";
+        type: "multiple-choice" | "text" | "rating";
         options: {
             id: string;
             text: string;
@@ -511,7 +511,7 @@ export declare const useQuizStore: import("pinia").StoreDefinition<"quiz", Pick<
         id: string;
         title: string;
         question: string;
-        type: "text" | "rating" | "multiple-choice";
+        type: "multiple-choice" | "text" | "rating";
         options: {
             id: string;
             text: string;
@@ -528,7 +528,7 @@ export declare const useQuizStore: import("pinia").StoreDefinition<"quiz", Pick<
         id: string;
         title: string;
         question: string;
-        type: "text" | "rating" | "multiple-choice";
+        type: "multiple-choice" | "text" | "rating";
         options: {
             id: string;
             text: string;
@@ -544,7 +544,7 @@ export declare const useQuizStore: import("pinia").StoreDefinition<"quiz", Pick<
         id: string;
         title: string;
         question: string;
-        type: "text" | "rating" | "multiple-choice";
+        type: "multiple-choice" | "text" | "rating";
         options: {
             id: string;
             text: string;
@@ -640,7 +640,7 @@ export declare const useQuizStore: import("pinia").StoreDefinition<"quiz", Pick<
         id: string;
         title: string;
         question: string;
-        type: "text" | "rating" | "multiple-choice";
+        type: "multiple-choice" | "text" | "rating";
         options: {
             id: string;
             text: string;

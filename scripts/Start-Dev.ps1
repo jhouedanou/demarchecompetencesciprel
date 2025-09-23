@@ -125,18 +125,63 @@ function Wait-ForPort($host, $port, $service, $timeout = 60) {
 # Attendre le workbench nginx
 Wait-ForPort "localhost" 8080 "Workbench (nginx)"
 
+# Vérifier et installer les dépendances SPFx
+Log-Step "Vérification et installation des dépendances SPFx..."
+try {
+    docker-compose exec -T spfx-dev npm list gulp 2>$null | Out-Null
+    Log-Success "Dépendances déjà installées ✓"
+} catch {
+    Log-Info "Installation des dépendances manquantes..."
+    try {
+        docker-compose exec -T spfx-dev npm install
+        Log-Success "Dépendances installées ✓"
+    } catch {
+        Log-Error "Erreur lors de l'installation des dépendances"
+        exit 1
+    }
+}
+
 # Générer le certificat de développement SPFx
 Log-Step "Génération du certificat de développement SPFx..."
 try {
-    docker-compose exec -T spfx-dev gulp trust-dev-cert | Out-Null
+    docker-compose exec -T spfx-dev npx gulp trust-dev-cert 2>$null | Out-Null
     Log-Success "Certificat de développement généré ✓"
 } catch {
-    Log-Warning "Le certificat pourrait déjà exister"
+    Log-Warning "Le certificat pourrait déjà exister ou être généré automatiquement"
 }
 
-# Attendre que SPFx soit prêt
-Log-Step "Démarrage du serveur de développement SPFx..."
-Start-Sleep 10  # Laisser le temps à SPFx de compiler
+# Effectuer un build initial pour s'assurer que tout compile
+Log-Step "Build initial de l'application SPFx..."
+Log-Info "Ceci peut prendre quelques minutes lors du premier build..."
+try {
+    docker-compose exec -T spfx-dev npx gulp bundle --no-color
+    Log-Success "Build initial réussi ✓"
+} catch {
+    Log-Warning "Le build initial a échoué, mais le serveur de développement va essayer de corriger"
+}
+
+# Redémarrer le serveur de développement
+Log-Step "Redémarrage du serveur de développement SPFx..."
+docker-compose restart spfx-dev
+Start-Sleep 10
+
+# Attendre que SPFx soit prêt et vérifier qu'il fonctionne
+Log-Step "Vérification du serveur de développement SPFx..."
+Log-Info "Vérification que le serveur SPFx répond..."
+for ($i = 1; $i -le 12; $i++) {
+    try {
+        $response = Invoke-WebRequest -Uri "http://localhost:4321" -TimeoutSec 5 -UseBasicParsing 2>$null
+        Log-Success "Serveur SPFx opérationnel ✓"
+        break
+    } catch {
+        if ($i -eq 12) {
+            Log-Warning "Le serveur SPFx met du temps à démarrer, vérifiez les logs avec: docker-compose logs spfx-dev"
+        } else {
+            Log-Info "Attente du serveur SPFx... (tentative $i/12)"
+            Start-Sleep 5
+        }
+    }
+}
 
 # Vérifier l'état des conteneurs
 Log-Step "Vérification de l'état des services..."

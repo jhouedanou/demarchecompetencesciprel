@@ -36,24 +36,25 @@
     "start:auto": "chmod +x start.sh && ./start.sh"
   },
   "dependencies": {
-    "@fluentui/web-components": "^2.5.16",
+    "@fluentui/web-components": "2.13.1",
     "@microsoft/sp-core-library": "1.18.2",
     "@microsoft/sp-lodash-subset": "1.18.2",
     "@microsoft/sp-office-ui-fabric-core": "1.18.2",
     "@microsoft/sp-property-pane": "1.18.2",
     "@microsoft/sp-webpart-base": "1.18.2",
     "@microsoft/sp-http": "1.18.2",
-    "@pnp/sp": "^3.19.0",
-    "@pnp/core": "^3.19.0",
-    "@pnp/queryable": "^3.19.0",
-    "@pnp/logging": "^3.19.0",
-    "chart.js": "^4.4.0",
-    "vue-chartjs": "^5.2.0",
-    "pinia": "^2.1.7",
-    "vee-validate": "^4.11.8",
-    "vue": "^3.3.8",
-    "@vueuse/core": "^10.5.0",
-    "date-fns": "^2.30.0"
+    "@pnp/sp": "3.19.0",
+    "@pnp/core": "3.19.0",
+    "@pnp/queryable": "3.19.0",
+    "@pnp/logging": "3.19.0",
+    "chart.js": "4.4.4",
+    "vue-chartjs": "5.3.0",
+    "pinia": "2.1.7",
+    "vee-validate": "4.12.6",
+    "vue": "3.3.11",
+    "vue-router": "4.2.5",
+    "@vueuse/core": "10.5.0",
+    "date-fns": "2.30.0"
   },
   "devDependencies": {
     "@microsoft/rush-stack-compiler-4.5": "0.4.0",
@@ -61,10 +62,10 @@
     "@microsoft/sp-module-interfaces": "1.18.2",
     "@microsoft/sp-tslint-rules": "1.18.2",
     "@types/webpack-env": "~1.15.2",
-    "@vue/compiler-sfc": "^3.3.8",
-    "vue-loader": "^17.3.1",
-    "typescript": "4.7.4",
-    "ajv": "^6.12.5",
+    "@vue/compiler-sfc": "3.3.11",
+    "vue-loader": "17.4.2",
+    "typescript": "4.5.5",
+    "ajv": "6.12.5",
     "gulp": "4.0.2"
   }
 }

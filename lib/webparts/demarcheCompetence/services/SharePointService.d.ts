@@ -8,7 +8,6 @@ import '@pnp/sp/profiles';
 import type { QuizIntroductionItem, QuizSondageItem, QuizResultsItem, UserProgressItem, SharePointListItem } from '../types/index';
 export declare class SharePointService {
     private sp;
-    private context;
     constructor(context: WebPartContext);
     /**
      * Get current user information

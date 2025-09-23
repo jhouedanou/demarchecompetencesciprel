@@ -107,7 +107,7 @@ export default class DemarcheCompetenceWebPart extends BaseClientSideWebPart<IDe
       });
 
       // Setup stores with SharePoint context
-      const { pinia, services } = setupStores(this.vueApp, this.context);
+      const { services } = setupStores(this.vueApp, this.context);
 
       // Provide additional dependencies
       this.vueApp.provide('webPartContext', this.context);

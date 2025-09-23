@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Démarche Compétence CIPREL - Version Native</title>
+    
+    <!-- SharePoint REST API et jQuery (généralement déjà disponibles dans SharePoint) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Styles CSS -->
+    <link rel="stylesheet" href="./styles/main.css">
+    
+    <!-- Fluent UI (optionnel, pour un look SharePoint moderne) -->
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css">
+</head>
+<body>
+    <div id="app" class="ms-Grid">
+        <!-- Header -->
+        <div class="ms-Grid-row app-header">
+            <div class="ms-Grid-col ms-sm12">
+                <h1 class="ms-fontSize-32 ms-fontWeight-light">
+                    <i class="ms-Icon ms-Icon--Rocket" aria-hidden="true"></i>
+                    Démarche Compétence CIPREL
+                </h1>
+                <div class="user-info">
+                    <span id="currentUser">Chargement...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="ms-Grid-row">
+            <div class="ms-Grid-col ms-sm12">
+                <nav class="ms-Nav">
+                    <ul class="ms-Nav-compositeLink">
+                        <li class="ms-Nav-item">
+                            <a href="#dashboard" class="ms-Nav-link nav-link active" data-view="dashboard">
+                                <i class="ms-Icon ms-Icon--Home" aria-hidden="true"></i>
+                                Tableau de Bord
+                            </a>
+                        </li>
+                        <li class="ms-Nav-item">
+                            <a href="#quiz-intro" class="ms-Nav-link nav-link" data-view="quiz-intro">
+                                <i class="ms-Icon ms-Icon--Quiz" aria-hidden="true"></i>
+                                Quiz Introduction
+                            </a>
+                        </li>
+                        <li class="ms-Nav-item">
+                            <a href="#quiz-sondage" class="ms-Nav-link nav-link" data-view="quiz-sondage">
+                                <i class="ms-Icon ms-Icon--Survey" aria-hidden="true"></i>
+                                Sondage Satisfaction
+                            </a>
+                        </li>
+                        <li class="ms-Nav-item">
+                            <a href="#progress" class="ms-Nav-link nav-link" data-view="progress">
+                                <i class="ms-Icon ms-Icon--BarChart4" aria-hidden="true"></i>
+                                Mes Progrès
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="ms-Grid-row loading-container" style="display: none;">
+            <div class="ms-Grid-col ms-sm12">
+                <div class="ms-Spinner ms-Spinner--large">
+                    <div class="ms-Spinner-circle ms-Spinner-circle--large"></div>
+                    <div class="ms-Spinner-label">Chargement en cours...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="ms-Grid-row">
+            <div class="ms-Grid-col ms-sm12">
+                <main id="mainContent">
+                    <!-- Le contenu sera injecté ici dynamiquement -->
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./scripts/sharepoint-api.js"></script>
+    <script src="./scripts/quiz-service.js"></script>
+    <script src="./scripts/user-service.js"></script>
+    <script src="./scripts/components/dashboard.js"></script>
+    <script src="./scripts/components/quiz-intro.js"></script>
+    <script src="./scripts/components/quiz-sondage.js"></script>
+    <script src="./scripts/components/progress.js"></script>
+    <script src="./scripts/app.js"></script>
+</body>
+</html>
