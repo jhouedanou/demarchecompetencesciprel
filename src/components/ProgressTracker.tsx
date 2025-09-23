@@ -5,16 +5,12 @@ import {
   DefaultButton,
   MessageBar,
   MessageBarType,
-  ProgressIndicator,
-  Card,
-  ICardTokens
+  ProgressIndicator
 } from '@fluentui/react';
 
 interface ProgressTrackerProps {
   onNavigate: (view: string) => void;
 }
-
-const cardTokens: ICardTokens = { childrenMargin: 12 };
 
 const ProgressTracker: React.FC<ProgressTrackerProps> = ({ onNavigate }) => {
   // Mock data for demonstration
@@ -45,7 +41,19 @@ const ProgressTracker: React.FC<ProgressTrackerProps> = ({ onNavigate }) => {
       {/* Progress Cards */}
       <Stack horizontal wrap tokens={{ childrenGap: 20 }} horizontalAlign="center">
         {mockProgress.map((item, index) => (
-          <Card key={index} tokens={cardTokens} styles={{ root: { width: 250, padding: 20 } }}>
+          <Stack 
+            key={index} 
+            styles={{ 
+              root: { 
+                width: 250, 
+                padding: 20, 
+                backgroundColor: '#ffffff',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                borderRadius: '8px',
+                border: '1px solid #edebe9'
+              } 
+            }}
+          >
             <Stack tokens={{ childrenGap: 10 }}>
               <Text variant="medium" styles={{ root: { fontWeight: 600 } }}>
                 {item.name}
@@ -64,12 +72,22 @@ const ProgressTracker: React.FC<ProgressTrackerProps> = ({ onNavigate }) => {
                 </Text>
               </Stack>
             </Stack>
-          </Card>
+          </Stack>
         ))}
       </Stack>
 
       {/* Overall Stats */}
-      <Card tokens={cardTokens} styles={{ root: { padding: 30 } }}>
+      <Stack 
+        styles={{ 
+          root: { 
+            padding: 30, 
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            borderRadius: '8px',
+            border: '1px solid #edebe9'
+          } 
+        }}
+      >
         <Stack tokens={{ childrenGap: 20 }}>
           <Text variant="xLarge" styles={{ root: { fontWeight: 600, textAlign: 'center' } }}>
             📊 Statistiques Globales
@@ -105,7 +123,7 @@ const ProgressTracker: React.FC<ProgressTrackerProps> = ({ onNavigate }) => {
             </Stack>
           </Stack>
         </Stack>
-      </Card>
+      </Stack>
 
       <MessageBar messageBarType={MessageBarType.warning}>
         <strong>En cours de développement :</strong> Les données de progression réelles seront 

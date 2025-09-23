@@ -4,8 +4,6 @@ import {
   Text,
   PrimaryButton,
   DefaultButton,
-  Card,
-  ICardTokens,
   Icon
 } from '@fluentui/react';
 
@@ -15,8 +13,6 @@ interface DashboardProps {
   canStartSurvey: boolean;
   onNavigate: (view: string) => void;
 }
-
-const cardTokens: ICardTokens = { childrenMargin: 12 };
 
 const Dashboard: React.FC<DashboardProps> = ({
   user,
@@ -45,7 +41,18 @@ const Dashboard: React.FC<DashboardProps> = ({
       {/* Quick Actions */}
       <Stack horizontal horizontalAlign="center" wrap tokens={{ childrenGap: 20 }}>
         
-        <Card tokens={cardTokens} styles={{ root: { maxWidth: 300, padding: 20 } }}>
+        <Stack 
+          styles={{ 
+            root: { 
+              maxWidth: 300, 
+              padding: 20, 
+              backgroundColor: '#ffffff',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+              borderRadius: '8px',
+              border: '1px solid #edebe9'
+            } 
+          }}
+        >
           <Stack tokens={{ childrenGap: 15 }} horizontalAlign="center">
             <Icon iconName="TestBeaker" styles={{ root: { fontSize: 48, color: '#0078d4' } }} />
             <Text variant="large" styles={{ root: { fontWeight: 600 } }}>
@@ -61,9 +68,20 @@ const Dashboard: React.FC<DashboardProps> = ({
               styles={{ root: { width: '100%' } }}
             />
           </Stack>
-        </Card>
+        </Stack>
 
-        <Card tokens={cardTokens} styles={{ root: { maxWidth: 300, padding: 20 } }}>
+        <Stack 
+          styles={{ 
+            root: { 
+              maxWidth: 300, 
+              padding: 20, 
+              backgroundColor: '#ffffff',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+              borderRadius: '8px',
+              border: '1px solid #edebe9'
+            } 
+          }}
+        >
           <Stack tokens={{ childrenGap: 15 }} horizontalAlign="center">
             <Icon iconName="Survey" styles={{ root: { fontSize: 48, color: '#107c10' } }} />
             <Text variant="large" styles={{ root: { fontWeight: 600 } }}>
@@ -79,9 +97,20 @@ const Dashboard: React.FC<DashboardProps> = ({
               styles={{ root: { width: '100%' } }}
             />
           </Stack>
-        </Card>
+        </Stack>
 
-        <Card tokens={cardTokens} styles={{ root: { maxWidth: 300, padding: 20 } }}>
+        <Stack 
+          styles={{ 
+            root: { 
+              maxWidth: 300, 
+              padding: 20, 
+              backgroundColor: '#ffffff',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+              borderRadius: '8px',
+              border: '1px solid #edebe9'
+            } 
+          }}
+        >
           <Stack tokens={{ childrenGap: 15 }} horizontalAlign="center">
             <Icon iconName="ProgressRingDots" styles={{ root: { fontSize: 48, color: '#d83b01' } }} />
             <Text variant="large" styles={{ root: { fontWeight: 600 } }}>
@@ -97,7 +126,7 @@ const Dashboard: React.FC<DashboardProps> = ({
               styles={{ root: { width: '100%' } }}
             />
           </Stack>
-        </Card>
+        </Stack>
 
       </Stack>
 

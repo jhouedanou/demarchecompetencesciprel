@@ -69,10 +69,9 @@ export default class DemarcheCompetenceWebPart extends BaseClientSideWebPart<IDe
 
   public render(): void {
     try {
-      // Destroy existing Vue app if it exists
-      if (this.vueApp) {
-        this.vueApp.unmount();
-        this.vueApp = null;
+      // Clear existing React app if it exists
+      if (this.domElement) {
+        ReactDom.unmountComponentAtNode(this.domElement);
       }
 
       // Create container element
@@ -103,7 +102,7 @@ export default class DemarcheCompetenceWebPart extends BaseClientSideWebPart<IDe
       // Setup Redux store with SharePoint context
       this.store = setupStore(this.context);
 
-      // Create React element
+      // Create React element with children
       const element: React.ReactElement = React.createElement(
         Provider,
         { store: this.store },
