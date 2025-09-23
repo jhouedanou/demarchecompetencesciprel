@@ -2,16 +2,17 @@
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
   "version": "2.0",
   "bundles": {
-    "demarche-competence-web-part": {
+    "demarche-competences-web-part": {
       "components": [
         {
-          "entrypoint": "./lib/webparts/demarcheCompetence/DemarcheCompetenceWebPart.js",
-          "manifest": "./src/webparts/demarcheCompetence/DemarcheCompetenceWebPart.manifest.json"
+          "entrypoint": "./lib/webparts/demarcheCompetences/DemarcheCompetencesWebPart.js",
+          "manifest": "./src/webparts/demarcheCompetences/DemarcheCompetencesWebPart.manifest.json"
         }
       ]
     }
   },
+  "externals": {},
   "localizedResources": {
-    "DemarcheCompetenceWebPartStrings": "lib/webparts/demarcheCompetence/loc/{locale}.js"
+    "DemarcheCompetencesWebPartStrings": "lib/webparts/demarcheCompetences/loc/{locale}.js"
   }
 }

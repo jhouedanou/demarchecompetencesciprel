@@ -1,38 +1,40 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "demarche-competence-ciprel-client-side-solution",
-    "id": "a5d37b5e-5c7a-4c3f-b5e4-3f2a1d8c9e7f",
+    "name": "demarchecompetencesciprel-client-side-solution",
+    "id": "1f52ff9b-aa6c-4b89-b05f-c757050fa9ad",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
     "isDomainIsolated": false,
-    "features": [
-      {
-        "title": "Démarche Compétence CIPREL Feature",
-        "description": "Application de gestion des compétences CIPREL",
-        "id": "b6d48c6f-6d8b-5e9c-a7f3-4e5b2c1d9f8e",
-        "version": "1.0.0.0"
-      }
-    ],
     "developer": {
-      "name": "CIPREL",
-      "websiteUrl": "https://ciprel.ci",
-      "privacyUrl": "https://ciprel.ci/privacy",
-      "termsOfUseUrl": "https://ciprel.ci/terms"
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.21.1"
     },
     "metadata": {
       "shortDescription": {
-        "default": "Application de démarche compétence CIPREL"
+        "default": "demarchecompetencesciprel description"
       },
       "longDescription": {
-        "default": "Application complète pour la gestion de la démarche compétence chez CIPREL avec quiz interactifs et suivi des progrès"
+        "default": "demarchecompetencesciprel description"
       },
       "screenshotPaths": [],
       "videoUrl": "",
-      "categories": ["Productivity", "Education"]
-    }
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "demarchecompetencesciprel Feature",
+        "description": "The feature that activates elements of the demarchecompetencesciprel solution.",
+        "id": "49fc0115-71f1-401f-9abc-1522e7183f01",
+        "version": "1.0.0.0"
+      }
+    ]
   },
   "paths": {
-    "zippedPackage": "solution/demarche-competence-ciprel.sppkg"
+    "zippedPackage": "solution/demarchecompetencesciprel.sppkg"
   }
 }

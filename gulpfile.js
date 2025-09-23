@@ -4,7 +4,6 @@ const build = require('@microsoft/sp-build-web');
 
 build.addSuppression(`Warning - [sass] The local CSS class 'ms-Grid' is not camelCase and will not be type-safe.`);
 
-// Configuration SPFx standard - pas de modification webpack pour éviter les conflits
 var getTasks = build.rig.getTasks;
 build.rig.getTasks = function () {
   var result = getTasks.call(build.rig);

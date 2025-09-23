@@ -1,0 +1,18 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "22.18.0",
+    "sdksVersions": {},
+    "version": "1.21.1",
+    "libraryName": "demarchecompetencesciprel",
+    "libraryId": "1f52ff9b-aa6c-4b89-b05f-c757050fa9ad",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "demarchecompetencesciprel",
+    "solutionShortDescription": "demarchecompetencesciprel description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

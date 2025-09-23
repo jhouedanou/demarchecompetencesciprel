@@ -1,33 +1,35 @@
 {
+  "extends": "./node_modules/@microsoft/rush-stack-compiler-5.3/includes/tsconfig-web.json",
   "compilerOptions": {
-    "target": "es2017",
-    "lib": ["es2017", "dom"],
+    "target": "es5",
+    "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "moduleResolution": "node",
-    "types": ["webpack-env"],
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"],
-      "@assets/*": ["src/assets/*"],
-      "@components/*": ["src/components/*"],
-      "@services/*": ["src/webparts/demarcheCompetence/services/*"],
-      "@stores/*": ["src/webparts/demarcheCompetence/stores/*"],
-      "@utils/*": ["src/webparts/demarcheCompetence/utils/*"],
-      "@types/*": ["src/webparts/demarcheCompetence/types/*"]
-    },
-    "experimentalDecorators": true,
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "noImplicitAny": false,
+    "jsx": "react",
     "declaration": true,
-    "declarationMap": true,
     "sourceMap": true,
-    "jsx": "react-jsx"
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "outDir": "lib",
+    "inlineSources": false,
+    "noImplicitAny": true,
+
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/@microsoft"
+    ],
+    "types": [
+      "webpack-env"
+    ],
+    "lib": [
+      "es5",
+      "dom",
+      "es2015.collection",
+      "es2015.promise"
+    ]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "typings/**/*.d.ts"],
-  "exclude": ["node_modules", "lib", "dist", "release"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ]
 }
