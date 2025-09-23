@@ -42,6 +42,13 @@ export class QuizService {
   }
 
   /**
+   * Alias FR: Charger les questions du sondage (compatibilité avec le store)
+   */
+  public async loadSondageQuestions(): Promise<QuizQuestion[]> {
+    return this.loadSurveyQuestions();
+  }
+
+  /**
    * Save quiz result
    */
   public async saveQuizResult(result: QuizResult): Promise<void> {
