@@ -113,6 +113,7 @@ export default class DemarcheCompetenceWebPart extends BaseClientSideWebPart<IDe
       this.vueApp.provide('webPartContext', this.context);
       this.vueApp.provide('webPartProperties', this.properties);
       this.vueApp.provide('services', services);
+      this.vueApp.provide('sharePointService', services.sharePointService);
 
       // Mount the app
       this.vueApp.mount('#demarche-competence-app');

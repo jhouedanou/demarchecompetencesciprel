@@ -1,17 +1,31 @@
 <template>
   <div class="admin-dashboard">
     <div class="dashboard-header">
-      <h1>Administration - Gestion des Quiz</h1>
+      <div class="header-brand">
+        <img src="/assets/images/logo.webp" alt="CIPREL Logo" class="ciprel-logo" />
+        <div class="header-text">
+          <h1>Administration - Gestion des Quiz</h1>
+          <p class="header-subtitle">Plateforme de gestion des compétences CIPREL</p>
+        </div>
+      </div>
       <div class="header-actions">
-        <fluent-button appearance="secondary" @click="exportData">
+        <fluent-button appearance="secondary" @click="exportData" :disabled="loading">
           <fluent-icon icon="download" slot="start"></fluent-icon>
           Exporter Données
         </fluent-button>
-        <fluent-button appearance="primary" @click="showAddQuizModal = true">
-          <fluent-icon icon="add" slot="start"></fluent-icon>
-          Nouveau Quiz
-        </fluent-button>
       </div>
+    </div>
+    
+    <!-- Messages d'erreur -->
+    <div v-if="error" class="error-message">
+      {{ error }}
+      <button @click="error = null" class="close-error">&times;</button>
+    </div>
+    
+    <!-- Indicateur de chargement -->
+    <div v-if="loading" class="loading-spinner">
+      <div class="spinner"></div>
+      Chargement...
     </div>
 
     <!-- Statistiques rapides -->
@@ -421,13 +435,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, inject } from 'vue';
 import { useQuizStore } from '@stores/quiz';
 import { useUserStore } from '@stores/user';
-import type { QuizQuestion, QuizResult } from '@types/index';
+import type { QuizIntroductionItem, QuizSondageItem, QuizResultsItem } from '@types/index';
+import { SharePointService } from '../webparts/demarcheCompetence/services/SharePointService';
 
 const quizStore = useQuizStore();
 const userStore = useUserStore();
+const sharePointService = inject('sharePointService') as SharePointService;
 
 // État réactif
 const activeTab = ref('quiz-intro');
@@ -453,23 +469,25 @@ const questionForm = ref({
   required: false
 });
 
-// Données
-const introQuestions = ref<QuizQuestion[]>([]);
-const sondageQuestions = ref<QuizQuestion[]>([]);
-const allResults = ref<QuizResult[]>([]);
+// État des données
+const introQuestions = ref<QuizIntroductionItem[]>([]);
+const sondageQuestions = ref<QuizSondageItem[]>([]);
+const allResults = ref<QuizResultsItem[]>([]);
+const loading = ref(false);
+const error = ref<string | null>(null);
 
 // Computed
 const totalQuizQuestions = computed(() => introQuestions.value.length);
 const totalSurveyQuestions = computed(() => sondageQuestions.value.length);
-const totalParticipants = computed(() => new Set(allResults.value.map(r => r.userId)).size);
+const totalParticipants = computed(() => new Set(allResults.value.map(r => r.User?.Email || '')).size);
 const averageScore = computed(() => {
-  const scores = allResults.value.filter(r => r.score !== undefined).map(r => r.score!);
+  const scores = allResults.value.filter(r => r.Score !== undefined).map(r => r.Score!);
   return scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
 });
 
 const filteredResults = computed(() => {
   if (!selectedQuizType.value) return allResults.value;
-  return allResults.value.filter(r => r.quizType === selectedQuizType.value);
+  return allResults.value.filter(r => r.QuizType === selectedQuizType.value);
 });
 
 const isQuestionValid = computed(() => {
@@ -557,23 +575,93 @@ const saveQuestion = async () => {
 };
 
 const createQuestion = async (questionData: any) => {
-  // Implémentation de création via le service SharePoint
-  console.log('Creating question:', questionData);
+  try {
+    loading.value = true;
+    error.value = null;
+    
+    if (questionData.type === 'introduction') {
+      await sharePointService.addQuizIntroductionQuestion({
+        Title: questionData.title,
+        Question: questionData.question,
+        Options: questionData.options,
+        CorrectAnswer: questionData.options.find((opt: any) => opt.correct)?.value || '',
+        Category: questionData.category,
+        Points: questionData.points,
+        Order: questionData.order
+      });
+      await loadIntroQuestions();
+    } else {
+      await sharePointService.addQuizSondageQuestion({
+        Title: questionData.title,
+        Question: questionData.question,
+        QuestionType: questionData.questionType,
+        Options: questionData.options,
+        Required: questionData.required,
+        Order: questionData.order
+      });
+      await loadSondageQuestions();
+    }
+  } catch (err) {
+    error.value = 'Erreur lors de la création de la question';
+    console.error('Erreur lors de la création:', err);
+  } finally {
+    loading.value = false;
+  }
 };
 
-const updateQuestion = async (id: string, questionData: any) => {
-  // Implémentation de mise à jour via le service SharePoint
-  console.log('Updating question:', id, questionData);
+const updateQuestion = async (id: number, questionData: any) => {
+  try {
+    loading.value = true;
+    error.value = null;
+    
+    if (questionData.type === 'introduction') {
+      await sharePointService.updateQuizIntroductionQuestion(id, {
+        Title: questionData.title,
+        Question: questionData.question,
+        Options: questionData.options,
+        CorrectAnswer: questionData.options.find((opt: any) => opt.correct)?.value || '',
+        Category: questionData.category,
+        Points: questionData.points,
+        Order: questionData.order
+      });
+      await loadIntroQuestions();
+    } else {
+      await sharePointService.updateQuizSondageQuestion(id, {
+        Title: questionData.title,
+        Question: questionData.question,
+        QuestionType: questionData.questionType,
+        Options: questionData.options,
+        Required: questionData.required,
+        Order: questionData.order
+      });
+      await loadSondageQuestions();
+    }
+  } catch (err) {
+    error.value = 'Erreur lors de la mise à jour de la question';
+    console.error('Erreur lors de la mise à jour:', err);
+  } finally {
+    loading.value = false;
+  }
 };
 
-const deleteQuestion = async (id: string) => {
+const deleteQuestion = async (id: number) => {
   if (confirm('Êtes-vous sûr de vouloir supprimer cette question ?')) {
     try {
-      // Implémentation de suppression
-      console.log('Deleting question:', id);
-      await loadAllData();
-    } catch (error) {
-      console.error('Erreur lors de la suppression:', error);
+      loading.value = true;
+      error.value = null;
+      
+      if (activeTab.value === 'quiz-intro') {
+        await sharePointService.deleteQuizIntroductionQuestion(id);
+        await loadIntroQuestions();
+      } else {
+        await sharePointService.deleteQuizSondageQuestion(id);
+        await loadSondageQuestions();
+      }
+    } catch (err) {
+      error.value = 'Erreur lors de la suppression de la question';
+      console.error('Erreur lors de la suppression:', err);
+    } finally {
+      loading.value = false;
     }
   }
 };
@@ -632,35 +720,86 @@ const formatDuration = (seconds: number) => {
   return `${minutes}min ${seconds % 60}s`;
 };
 
-const exportData = () => {
-  // Implémentation d'export
-  console.log('Exporting data...');
+const exportData = async () => {
+  try {
+    loading.value = true;
+    await sharePointService.exportToExcel('Quiz_Introduction', 'questions-quiz.csv');
+  } catch (err) {
+    error.value = 'Erreur lors de l\'export des données';
+    console.error('Erreur lors de l\'export:', err);
+  } finally {
+    loading.value = false;
+  }
 };
 
-const exportResults = () => {
-  // Implémentation d'export des résultats
-  console.log('Exporting results...');
+const exportResults = async () => {
+  try {
+    loading.value = true;
+    await sharePointService.exportToExcel('Quiz_Results', 'resultats-quiz.csv');
+  } catch (err) {
+    error.value = 'Erreur lors de l\'export des résultats';
+    console.error('Erreur lors de l\'export:', err);
+  } finally {
+    loading.value = false;
+  }
+};
+
+const loadIntroQuestions = async () => {
+  try {
+    loading.value = true;
+    error.value = null;
+    introQuestions.value = await sharePointService.getQuizIntroductionQuestions();
+  } catch (err) {
+    error.value = 'Erreur lors du chargement des questions du quiz';
+    console.error('Erreur lors du chargement des questions du quiz:', err);
+  } finally {
+    loading.value = false;
+  }
+};
+
+const loadSondageQuestions = async () => {
+  try {
+    loading.value = true;
+    error.value = null;
+    sondageQuestions.value = await sharePointService.getQuizSondageQuestions();
+  } catch (err) {
+    error.value = 'Erreur lors du chargement des questions du sondage';
+    console.error('Erreur lors du chargement des questions du sondage:', err);
+  } finally {
+    loading.value = false;
+  }
+};
+
+const loadResults = async () => {
+  try {
+    loading.value = true;
+    error.value = null;
+    allResults.value = await sharePointService.getQuizResults();
+  } catch (err) {
+    error.value = 'Erreur lors du chargement des résultats';
+    console.error('Erreur lors du chargement des résultats:', err);
+  } finally {
+    loading.value = false;
+  }
 };
 
 const loadAllData = async () => {
   try {
     await Promise.all([
-      quizStore.loadIntroductionQuestions(),
-      quizStore.loadSondageQuestions(),
-      quizStore.loadUserResults()
+      loadIntroQuestions(),
+      loadSondageQuestions(),
+      loadResults()
     ]);
-    
-    introQuestions.value = quizStore.introductionQuestions;
-    sondageQuestions.value = quizStore.sondageQuestions;
-    allResults.value = quizStore.userResults;
   } catch (error) {
     console.error('Error loading data:', error);
   }
 };
 
 // Lifecycle
-onMounted(() => {
-  loadAllData();
+onMounted(async () => {
+  if (sharePointService) {
+    await loadAllData();
+  }
 });
 </script>
 
@@ -681,13 +820,41 @@ onMounted(() => {
   border-bottom: 2px solid var(--ciprel-primary);
 }
 
-.dashboard-header h1 {
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.ciprel-logo {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s ease;
+}
+
+.ciprel-logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+.header-text h1 {
   color: var(--ciprel-text-primary);
-  margin: 0;
+  margin: 0 0 5px 0;
   background: var(--ciprel-gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  font-size: 1.8rem;
+  font-weight: var(--font-weight-bold);
+}
+
+.header-subtitle {
+  color: var(--ciprel-text-secondary);
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: var(--font-weight-medium);
 }
 
 .header-actions {
@@ -1052,6 +1219,61 @@ onMounted(() => {
   display: flex;
   gap: 12px;
   align-items: center;
+}
+
+/* Messages d'erreur */
+.error-message {
+  background-color: #fee;
+  color: #c33;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #c33;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-error {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  padding: 0;
+  color: #c33;
+}
+
+/* Indicateur de chargement */
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: var(--ciprel-primary);
+  font-weight: 500;
+}
+
+.spinner {
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid var(--ciprel-primary);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* États désactivés */
+fluent-button:disabled,
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 @media (max-width: 768px) {
