@@ -27,7 +27,7 @@ USER spfx
 COPY --chown=spfx:spfx package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production=false && npm cache clean --force
+RUN npm install && npm cache clean --force
 
 # Copy source code (excluding node_modules due to .dockerignore)
 COPY --chown=spfx:spfx . .
