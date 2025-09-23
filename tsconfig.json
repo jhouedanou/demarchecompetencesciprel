@@ -1,8 +1,9 @@
 {
-  "extends": "./node_modules/@microsoft/rush-stack-compiler-4.5/includes/tsconfig-web.json",
   "compilerOptions": {
     "target": "es2017",
     "lib": ["es2017", "dom"],
+    "module": "esnext",
+    "moduleResolution": "node",
     "types": ["webpack-env"],
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./",
@@ -19,8 +20,14 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "strict": false,
+    "noImplicitAny": false,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "jsx": "react-jsx"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "typings/**/*.d.ts"],
-  "exclude": ["node_modules", "lib", "dist"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "typings/**/*.d.ts"],
+  "exclude": ["node_modules", "lib", "dist", "release"]
 }

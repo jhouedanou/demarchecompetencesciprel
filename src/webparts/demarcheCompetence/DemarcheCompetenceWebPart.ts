@@ -69,11 +69,6 @@ export default class DemarcheCompetenceWebPart extends BaseClientSideWebPart<IDe
 
   public render(): void {
     try {
-      // Clear existing React app if it exists
-      if (this.domElement) {
-        ReactDom.unmountComponentAtNode(this.domElement);
-      }
-
       // Create container element
       this.domElement.innerHTML = `
         <div id="demarche-competence-app" 
@@ -102,7 +97,7 @@ export default class DemarcheCompetenceWebPart extends BaseClientSideWebPart<IDe
       // Setup Redux store with SharePoint context
       this.store = setupStore(this.context);
 
-      // Create React element with children
+      // Create React element
       const element: React.ReactElement = React.createElement(
         Provider,
         { store: this.store },

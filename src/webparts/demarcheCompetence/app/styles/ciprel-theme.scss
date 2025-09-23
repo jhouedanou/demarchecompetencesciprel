@@ -389,15 +389,25 @@ fluent-badge {
   .gradient-ciprel-primary,
   .gradient-ciprel-warm {
     background: #ED7E05 !important;
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
+    /* Print color adjustments for supported browsers */
+    @supports (-webkit-print-color-adjust: exact) {
+      -webkit-print-color-adjust: exact;
+    }
+    @supports (color-adjust: exact) {
+      color-adjust: exact;
+    }
   }
   
   .bg-ciprel-secondary,
   .gradient-ciprel-cool {
     background: #0D9330 !important;
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
+    /* Print color adjustments for supported browsers */
+    @supports (-webkit-print-color-adjust: exact) {
+      -webkit-print-color-adjust: exact;
+    }
+    @supports (color-adjust: exact) {
+      color-adjust: exact;
+    }
   }
   
   /* Assurer la lisibilité en impression */

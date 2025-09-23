@@ -7,6 +7,7 @@ import {
   MessageBar,
   MessageBarType
 } from '@fluentui/react';
+import styles from './QuizIntroduction.module.scss';
 
 interface QuizIntroductionProps {
   onNavigate: (view: string) => void;
@@ -35,7 +36,7 @@ const QuizIntroduction: React.FC<QuizIntroductionProps> = ({ onNavigate }) => {
           À quoi vous attendre :
         </Text>
         
-        <ul style={{ fontSize: '14px', lineHeight: '1.5' }}>
+        <ul className={styles.quizList}>
           <li>✅ Questions sur les valeurs et la culture CIPREL</li>
           <li>✅ Compétences techniques de base</li>
           <li>✅ Soft skills et collaboration</li>
@@ -49,7 +50,7 @@ const QuizIntroduction: React.FC<QuizIntroductionProps> = ({ onNavigate }) => {
           Instructions :
         </Text>
         
-        <ol style={{ fontSize: '14px', lineHeight: '1.5' }}>
+        <ol className={styles.instructionsList}>
           <li>Lisez attentivement chaque question</li>
           <li>Répondez de manière spontanée et honnête</li>
           <li>Vous pouvez naviguer entre les questions</li>

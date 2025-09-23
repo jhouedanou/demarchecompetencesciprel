@@ -2,16 +2,16 @@
 
 ## 📋 Vue d'ensemble
 
-Cette application SharePoint Framework (SPFx) avec Vue.js permet de gérer la démarche compétence chez CIPREL. Elle offre des quiz interactifs, un suivi des progrès, et une intégration complète avec l'écosystème SharePoint.
+Cette application SharePoint Framework (SPFx) avec React permet de gérer la démarche compétence chez CIPREL. Elle offre des quiz interactifs, un suivi des progrès, et une intégration complète avec l'écosystème SharePoint.
 
 ## 🏗️ Architecture
 
 ### Technologies Utilisées
-- **Frontend**: Vue.js 3 (Composition API) + TypeScript
+- **Frontend**: React 17 + TypeScript
 - **Framework**: SharePoint Framework (SPFx) 1.18.2
-- **État**: Pinia (store management)
+- **État**: Redux Toolkit (store management)
 - **API**: PnP.js v3 pour SharePoint
-- **UI**: Fluent UI Web Components
+- **UI**: Fluent UI React
 - **Build**: Webpack + Gulp
 - **Conteneurisation**: Docker
 
@@ -21,12 +21,12 @@ demarche-competence-ciprel/
 ├── config/                 # Configuration SPFx
 ├── scripts/                # Scripts de déploiement
 ├── src/
-│   ├── components/         # Composants Vue.js
+│   ├── components/         # Composants React
 │   ├── webparts/
 │   │   └── demarcheCompetence/
 │   │       ├── app/        # Application principale
 │   │       ├── services/   # Services SharePoint
-│   │       ├── stores/     # Gestion d'état Pinia
+│   │       ├── stores/     # Gestion d'état Redux Toolkit
 │   │       ├── types/      # Définitions TypeScript
 │   │       └── utils/      # Utilitaires
 │   └── assets/            # Ressources statiques
@@ -207,14 +207,14 @@ const config = {
 
 ## 🔧 Développement
 
-### Structure des Composants Vue.js
+### Structure des Composants React
 ```typescript
 // Composant principal
-DemarcheCompetenceApp.vue
-├── Dashboard.vue
-├── QuizIntroduction.vue
-├── QuizSondage.vue
-└── ProgressTracker.vue
+DemarcheCompetenceApp.tsx
+├── Dashboard.tsx
+├── QuizIntroduction.tsx
+├── QuizSondage.tsx
+└── ProgressTracker.tsx
 ```
 
 ### Services
@@ -224,11 +224,11 @@ DemarcheCompetenceApp.vue
 // UserService - Gestion des utilisateurs et progrès
 ```
 
-### Stores Pinia
+### Stores Redux Toolkit
 ```typescript
-// appStore - État global de l'application
-// quizStore - Gestion des quiz et résultats
-// userStore - Données utilisateur et progrès
+// app slice    - État global de l'application
+// quiz slice   - Gestion des quiz et résultats
+// user slice   - Données utilisateur et progrès
 ```
 
 ### Ajout de Nouvelles Fonctionnalités
@@ -236,7 +236,7 @@ DemarcheCompetenceApp.vue
 #### 1. Nouveau Composant
 ```bash
 # Créer dans src/components/
-touch src/components/NouveauComposant.vue
+touch src/components/NouveauComposant.tsx
 ```
 
 #### 2. Nouveau Service
@@ -255,12 +255,29 @@ export class NouveauService {
 
 #### 3. Nouveau Store
 ```typescript
-// src/stores/nouveauStore.ts
-import { defineStore } from 'pinia';
+// src/webparts/demarcheCompetence/stores/nouveauSlice.ts
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export const useNouveauStore = defineStore('nouveau', () => {
-  // État et actions
+interface NouveauState {
+  valeur: string;
+}
+
+const initialState: NouveauState = {
+  valeur: ''
+};
+
+export const nouveauSlice = createSlice({
+  name: 'nouveau',
+  initialState,
+  reducers: {
+    setValeur(state, action: PayloadAction<string>) {
+      state.valeur = action.payload;
+    }
+  }
 });
+
+export const { setValeur } = nouveauSlice.actions;
+export default nouveauSlice.reducer;
 ```
 
 ## 🧪 Tests

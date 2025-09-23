@@ -7,6 +7,7 @@ import {
   MessageBar,
   MessageBarType
 } from '@fluentui/react';
+import styles from './QuizSondage.module.scss';
 
 interface QuizSondageProps {
   onNavigate: (view: string) => void;
@@ -35,7 +36,7 @@ const QuizSondage: React.FC<QuizSondageProps> = ({ onNavigate }) => {
           Domaines d'évaluation :
         </Text>
         
-        <ul style={{ fontSize: '14px', lineHeight: '1.5' }}>
+        <ul className={styles.quizList}>
           <li>🔧 Compétences techniques</li>
           <li>💼 Management et leadership</li>
           <li>🤝 Communication et collaboration</li>

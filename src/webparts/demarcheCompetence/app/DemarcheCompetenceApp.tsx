@@ -74,35 +74,27 @@ const DemarcheCompetenceApp: React.FC<Props> = ({
       key: 'dashboard',
       text: 'Tableau de bord',
       iconProps: { iconName: 'Home' },
-      onClick: () => {
-        dispatch(setCurrentView('dashboard'));
-      }
+      onClick: () => dispatch(setCurrentView('dashboard'))
     },
     {
       key: 'quiz-introduction',
       text: 'Quiz d\'introduction',
       iconProps: { iconName: 'TestBeaker' },
-      onClick: () => {
-        dispatch(setCurrentView('quiz-introduction'));
-      },
+      onClick: () => dispatch(setCurrentView('quiz-introduction')),
       disabled: !user.isAuthenticated
     },
     {
       key: 'quiz-sondage',
       text: 'Sondage compétences',
       iconProps: { iconName: 'Survey' },
-      onClick: () => {
-        dispatch(setCurrentView('quiz-sondage'));
-      },
+      onClick: () => dispatch(setCurrentView('quiz-sondage')),
       disabled: !user.isAuthenticated
     },
     {
       key: 'progress',
       text: 'Suivi des progrès',
       iconProps: { iconName: 'ProgressRingDots' },
-      onClick: () => {
-        dispatch(setCurrentView('progress'));
-      },
+      onClick: () => dispatch(setCurrentView('progress')),
       disabled: !user.isAuthenticated
     }
   ];
