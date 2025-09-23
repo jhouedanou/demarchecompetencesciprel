@@ -4,7 +4,7 @@ import type {
   QuizQuestion,
   QuizResponse,
   QuizResult
-} from '@types/index';
+} from '../types/index';
 import { QuizService } from '@services/QuizService';
 
 export const useQuizStore = defineStore('quiz', () => {

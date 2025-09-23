@@ -4,7 +4,7 @@ import type {
   UserProgressItem,
   CompetenceArea,
   CompetenceLevel
-} from '@types/index';
+} from '../types/index';
 
 export interface User {
   id: number;

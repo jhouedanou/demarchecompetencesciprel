@@ -3,7 +3,7 @@ import { ref, computed } from 'vue';
 import type {
   UserProgress,
   CompetenceArea
-} from '@types/index';
+} from '../types/index';
 import { UserService, User } from '@services/UserService';
 
 export const useUserStore = defineStore('user', () => {
@@ -379,8 +379,8 @@ export const useUserStore = defineStore('user', () => {
     const progress = getProgressForCompetence(competenceArea);
     if (!progress) return null;
     
-    const today = new Date();
-    const nextAssessment = new Date(progress.nextAssessment);
+    const today = new globalThis.Date();
+    const nextAssessment = new globalThis.Date(progress.nextAssessment.getTime());
     const diffTime = nextAssessment.getTime() - today.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     
@@ -405,12 +405,12 @@ export const useUserStore = defineStore('user', () => {
   }
 
   function getRecentActivity(days: number = 30): UserProgress[] {
-    const cutoffDate = new Date();
+    const cutoffDate = new globalThis.Date();
     cutoffDate.setDate(cutoffDate.getDate() - days);
     
     return userProgress.value
-      .filter(p => new Date(p.lastAssessment) >= cutoffDate)
-      .sort((a, b) => new Date(b.lastAssessment).getTime() - new Date(a.lastAssessment).getTime());
+      .filter(p => new globalThis.Date(p.lastAssessment.getTime()) >= cutoffDate)
+      .sort((a, b) => new globalThis.Date(b.lastAssessment.getTime()).getTime() - new globalThis.Date(a.lastAssessment.getTime()).getTime());
   }
 
   // Clear all data

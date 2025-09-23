@@ -5,7 +5,7 @@ import '@pnp/sp/items';
 import '@pnp/sp/fields';
 import '@pnp/sp/site-users/web';
 import '@pnp/sp/profiles';
-import type { QuizIntroductionItem, QuizSondageItem, QuizResultsItem, UserProgressItem, SharePointListItem } from '@types/index';
+import type { QuizIntroductionItem, QuizSondageItem, QuizResultsItem, UserProgressItem, SharePointListItem } from '../types/index';
 export declare class SharePointService {
     private sp;
     private context;
@@ -65,17 +65,11 @@ export declare class SharePointService {
      * Helper Methods
      */
     private parseJSON;
-    private formatDate;
     /**
      * Cache Management
      */
     private cache;
-    private getCachedData;
     clearCache(): void;
     removeCacheEntry(key: string): void;
-    /**
-     * Error Handling and Retry Logic
-     */
-    private retryOperation;
 }
 //# sourceMappingURL=SharePointService.d.ts.map

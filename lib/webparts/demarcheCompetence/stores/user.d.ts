@@ -1,4 +1,4 @@
-import type { UserProgress, CompetenceArea } from '@types/index';
+import type { UserProgress, CompetenceArea } from '../types/index';
 import { UserService, User } from '@services/UserService';
 export declare const useUserStore: import("pinia").StoreDefinition<"user", Pick<{
     loading: import("vue").Ref<boolean, boolean>;

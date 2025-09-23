@@ -12,7 +12,7 @@ import type {
   QuizResultsItem,
   UserProgressItem,
   SharePointListItem
-} from '@types/index';
+} from '../types/index';
 
 export class SharePointService {
   private sp: ReturnType<typeof spfi>;
@@ -509,14 +509,12 @@ export class SharePointService {
     updates: Array<{ id: number; data: Partial<T> }>
   ): Promise<void> {
     try {
-      const batch = this.sp.web.createBatch();
+      // Use sequential updates for now - batch operations can be added later
       const list = this.sp.web.lists.getByTitle(listTitle);
-
-      updates.forEach(update => {
-        list.items.getById(update.id).inBatch(batch).update(update.data);
-      });
-
-      await batch.execute();
+      
+      for (const update of updates) {
+        await list.items.getById(update.id).update(update.data);
+      }
     } catch (error) {
       console.error(`Error bulk updating items in list ${listTitle}:`, error);
       throw error;
@@ -579,32 +577,10 @@ export class SharePointService {
     }
   }
 
-  private formatDate(date: Date | string): string {
-    const d = new Date(date);
-    return d.toISOString();
-  }
-
   /**
    * Cache Management
    */
   private cache = new Map<string, { data: any; timestamp: number; ttl: number }>();
-
-  private async getCachedData<T>(
-    key: string,
-    fetcher: () => Promise<T>,
-    ttl: number = 300000 // 5 minutes default
-  ): Promise<T> {
-    const cached = this.cache.get(key);
-    const now = Date.now();
-
-    if (cached && (now - cached.timestamp) < cached.ttl) {
-      return cached.data;
-    }
-
-    const data = await fetcher();
-    this.cache.set(key, { data, timestamp: now, ttl });
-    return data;
-  }
 
   public clearCache(): void {
     this.cache.clear();
@@ -612,33 +588,5 @@ export class SharePointService {
 
   public removeCacheEntry(key: string): void {
     this.cache.delete(key);
-  }
-
-  /**
-   * Error Handling and Retry Logic
-   */
-  private async retryOperation<T>(
-    operation: () => Promise<T>,
-    maxRetries: number = 3,
-    delay: number = 1000
-  ): Promise<T> {
-    let lastError: Error;
-
-    for (let i = 0; i <= maxRetries; i++) {
-      try {
-        return await operation();
-      } catch (error) {
-        lastError = error as Error;
-        
-        if (i === maxRetries) {
-          throw lastError;
-        }
-
-        // Wait before retrying
-        await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
-      }
-    }
-
-    throw lastError!;
   }
 }

@@ -1,5 +1,5 @@
 import { SharePointService } from './SharePointService';
-import type { UserProgress, CompetenceArea } from '@types/index';
+import type { UserProgress, CompetenceArea } from '../types/index';
 export interface User {
     id: number;
     title: string;

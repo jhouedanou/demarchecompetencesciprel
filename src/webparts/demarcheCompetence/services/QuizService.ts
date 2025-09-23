@@ -6,7 +6,7 @@ import type {
   QuizIntroductionItem,
   QuizSondageItem,
   QuizResultsItem
-} from '@types/index';
+} from '../types/index';
 
 export class QuizService {
   private sharePointService: SharePointService;

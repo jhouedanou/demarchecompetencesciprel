@@ -1,4 +1,4 @@
-import type { QuizQuestion, QuizResponse, QuizResult } from '@types/index';
+import type { QuizQuestion, QuizResponse, QuizResult } from '../types/index';
 import { QuizService } from '@services/QuizService';
 export declare const useQuizStore: import("pinia").StoreDefinition<"quiz", Pick<{
     loading: import("vue").Ref<boolean, boolean>;

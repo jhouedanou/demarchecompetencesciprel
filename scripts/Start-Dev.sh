@@ -111,17 +111,59 @@ wait_for_port() {
 # Attendre le workbench nginx
 wait_for_port localhost 8080 "Workbench (nginx)"
 
-# Générer le certificat de développement SPFx
-log_step "Génération du certificat de développement SPFx..."
-if docker-compose exec -T spfx-dev gulp trust-dev-cert &> /dev/null; then
-    log_success "Certificat de développement généré ✓"
+# Vérifier et installer les dépendances SPFx
+log_step "Vérification et installation des dépendances SPFx..."
+if docker-compose exec -T spfx-dev npm list gulp &> /dev/null; then
+    log_success "Dépendances déjà installées ✓"
 else
-    log_warning "Le certificat pourrait déjà exister"
+    log_info "Installation des dépendances manquantes..."
+    if docker-compose exec -T spfx-dev npm install; then
+        log_success "Dépendances installées ✓"
+    else
+        log_error "Erreur lors de l'installation des dépendances"
+        exit 1
+    fi
 fi
 
-# Attendre que SPFx soit prêt
-log_step "Démarrage du serveur de développement SPFx..."
-sleep 10  # Laisser le temps à SPFx de compiler
+# Générer le certificat de développement SPFx
+log_step "Génération du certificat de développement SPFx..."
+if docker-compose exec -T spfx-dev npx gulp trust-dev-cert &> /dev/null; then
+    log_success "Certificat de développement généré ✓"
+else
+    log_warning "Le certificat pourrait déjà exister ou être généré automatiquement"
+fi
+
+# Effectuer un build initial pour s'assurer que tout compile
+log_step "Build initial de l'application SPFx..."
+log_info "Ceci peut prendre quelques minutes lors du premier build..."
+if docker-compose exec -T spfx-dev npx gulp bundle --no-color; then
+    log_success "Build initial réussi ✓"
+else
+    log_warning "Le build initial a échoué, mais le serveur de développement va essayer de corriger"
+fi
+
+# Attendre que SPFx soit prêt et vérifier qu'il fonctionne
+log_step "Démarrage et vérification du serveur de développement SPFx..."
+sleep 15  # Laisser le temps à SPFx de compiler
+
+# Redémarrer le serveur de développement pour s'assurer qu'il utilise les derniers builds
+log_step "Redémarrage du serveur de développement SPFx..."
+docker-compose restart spfx-dev
+sleep 10
+
+# Vérifier que le serveur SPFx répond
+log_info "Vérification que le serveur SPFx répond..."
+for i in {1..12}; do
+    if curl -s http://localhost:4321 &> /dev/null; then
+        log_success "Serveur SPFx opérationnel ✓"
+        break
+    elif [ $i -eq 12 ]; then
+        log_warning "Le serveur SPFx met du temps à démarrer, vérifiez les logs avec: docker-compose logs spfx-dev"
+    else
+        log_info "Attente du serveur SPFx... (tentative $i/12)"
+        sleep 5
+    fi
+done
 
 # Vérifier l'état des conteneurs
 log_step "Vérification de l'état des services..."

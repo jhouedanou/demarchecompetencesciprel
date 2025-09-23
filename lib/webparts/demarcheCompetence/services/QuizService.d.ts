@@ -1,5 +1,5 @@
 import { SharePointService } from './SharePointService';
-import type { QuizQuestion, QuizResponse, QuizResult } from '@types/index';
+import type { QuizQuestion, QuizResponse, QuizResult } from '../types/index';
 export declare class QuizService {
     private sharePointService;
     constructor(sharePointService: SharePointService);
