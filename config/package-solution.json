@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "demarche-competence-ciprel-client-side-solution",
+    "id": "a5d37b5e-5c7a-4c3f-b5e4-3f2a1d8c9e7f",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "isDomainIsolated": false,
+    "features": [
+      {
+        "title": "Démarche Compétence CIPREL Feature",
+        "description": "Application de gestion des compétences CIPREL",
+        "id": "b6d48c6f-6d8b-5e9c-a7f3-4e5b2c1d9f8e",
+        "version": "1.0.0.0"
+      }
+    ],
+    "developer": {
+      "name": "CIPREL",
+      "websiteUrl": "https://ciprel.ci",
+      "privacyUrl": "https://ciprel.ci/privacy",
+      "termsOfUseUrl": "https://ciprel.ci/terms"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "Application de démarche compétence CIPREL"
+      },
+      "longDescription": {
+        "default": "Application complète pour la gestion de la démarche compétence chez CIPREL avec quiz interactifs et suivi des progrès"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": ["Productivity", "Education"]
+    }
+  },
+  "paths": {
+    "zippedPackage": "solution/demarche-competence-ciprel.sppkg"
+  }
+}

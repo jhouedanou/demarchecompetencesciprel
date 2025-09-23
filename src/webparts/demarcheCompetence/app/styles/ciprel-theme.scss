@@ -1,0 +1,411 @@
+/* =================================================================
+   CIPREL Theme - Thème spécifique CIPREL avec palette personnalisée
+   ================================================================= */
+
+@import './variables.scss';
+
+/* =================================================================
+   Override Fluent UI avec les couleurs CIPREL
+   ================================================================= */
+
+.demarche-competence-app {
+  /* Variables Fluent UI customisées avec la palette CIPREL */
+  
+  /* Couleurs primaires */
+  --accent-fill-rest: var(--tangerine);
+  --accent-fill-hover: var(--ciprel-primary-hover);
+  --accent-fill-active: var(--ciprel-primary-dark);
+  --accent-foreground-rest: var(--seasalt);
+  
+  /* Couleurs secondaires */
+  --neutral-fill-rest: var(--seasalt);
+  --neutral-fill-hover: var(--isabelline);
+  --neutral-fill-active: var(--silver);
+  
+  /* Couleurs de texte */
+  --neutral-foreground-rest: var(--rich-black);
+  --neutral-foreground-hint: var(--silver);
+  
+  /* Couleurs de fond */
+  --neutral-layer-floating: var(--seasalt);
+  --neutral-layer-1: var(--isabelline);
+  --neutral-layer-2: var(--silver);
+  
+  /* Bordures */
+  --neutral-stroke-rest: var(--silver);
+  --neutral-stroke-hover: var(--tangerine);
+  --neutral-stroke-focus: var(--forest-green);
+}
+
+/* =================================================================
+   Composants Fluent UI avec style CIPREL
+   ================================================================= */
+
+/* Boutons */
+fluent-button {
+  &[appearance="accent"] {
+    --accent-fill-rest: var(--tangerine);
+    --accent-fill-hover: #F59E3D;
+    --accent-fill-active: #C96604;
+    border-radius: var(--border-radius-md);
+    font-weight: var(--font-weight-medium);
+    box-shadow: var(--ciprel-shadow-sm);
+    transition: var(--transition-base);
+    
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--ciprel-shadow-md);
+    }
+  }
+  
+  &[appearance="neutral"] {
+    --neutral-fill-rest: var(--seasalt);
+    --neutral-fill-hover: var(--isabelline);
+    --neutral-stroke-rest: var(--silver);
+    border-radius: var(--border-radius-md);
+    transition: var(--transition-base);
+  }
+  
+  &[appearance="outline"] {
+    --accent-stroke-control-rest: var(--tangerine);
+    --accent-foreground-rest: var(--tangerine);
+    border-radius: var(--border-radius-md);
+    border-width: 2px;
+    
+    &:hover {
+      --accent-fill-rest: var(--tangerine);
+      --accent-foreground-rest: var(--seasalt);
+    }
+  }
+  
+  &[appearance="stealth"] {
+    --neutral-foreground-rest: var(--forest-green);
+    border-radius: var(--border-radius-md);
+    
+    &:hover {
+      --neutral-fill-hover: rgba(13, 147, 48, 0.1);
+    }
+  }
+}
+
+/* Progress Ring */
+fluent-progress-ring {
+  --accent-fill-rest: var(--tangerine);
+  --neutral-fill-rest: var(--isabelline);
+}
+
+/* Text Field */
+fluent-text-field,
+fluent-text-area {
+  --neutral-fill-input-rest: var(--seasalt);
+  --neutral-stroke-control-rest: var(--silver);
+  --neutral-stroke-control-hover: var(--tangerine);
+  --neutral-stroke-control-focus: var(--forest-green);
+  --accent-fill-rest: var(--tangerine);
+  border-radius: var(--border-radius-md);
+  
+  &:focus-within {
+    box-shadow: 0 0 0 2px rgba(237, 126, 5, 0.2);
+  }
+}
+
+/* Select */
+fluent-select {
+  --neutral-fill-input-rest: var(--seasalt);
+  --neutral-stroke-control-rest: var(--silver);
+  --neutral-stroke-control-hover: var(--tangerine);
+  --accent-fill-rest: var(--tangerine);
+  border-radius: var(--border-radius-md);
+}
+
+/* Checkbox */
+fluent-checkbox {
+  --accent-fill-rest: var(--forest-green);
+  --accent-fill-hover: #2FA84D;
+  --accent-fill-active: #0A7A26;
+  --neutral-stroke-control-rest: var(--silver);
+  border-radius: var(--border-radius-sm);
+}
+
+/* Radio */
+fluent-radio {
+  --accent-fill-rest: var(--tangerine);
+  --accent-fill-hover: #F59E3D;
+  --neutral-stroke-control-rest: var(--silver);
+}
+
+/* Card */
+fluent-card {
+  --neutral-fill-rest: var(--seasalt);
+  --neutral-stroke-rest: var(--silver);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--ciprel-shadow-md);
+  
+  &:hover {
+    box-shadow: var(--ciprel-shadow-lg);
+  }
+}
+
+/* Dialog */
+fluent-dialog {
+  --neutral-layer-floating: var(--seasalt);
+  --neutral-stroke-layer-rest: var(--silver);
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--ciprel-shadow-xl);
+}
+
+/* Badge */
+fluent-badge {
+  &[appearance="accent"] {
+    --accent-fill-rest: var(--tangerine);
+    --accent-foreground-rest: var(--seasalt);
+    border-radius: var(--border-radius-full);
+  }
+  
+  &[appearance="lightweight"] {
+    --neutral-fill-secondary-rest: var(--isabelline);
+    --neutral-foreground-rest: var(--rich-black);
+    border-radius: var(--border-radius-full);
+  }
+}
+
+/* =================================================================
+   Classes utilitaires avec thème CIPREL
+   ================================================================= */
+
+/* Couleurs de fond CIPREL */
+.bg-ciprel-primary {
+  background-color: var(--tangerine) !important;
+  color: var(--seasalt);
+}
+
+.bg-ciprel-secondary {
+  background-color: var(--forest-green) !important;
+  color: var(--seasalt);
+}
+
+.bg-ciprel-light {
+  background-color: var(--isabelline) !important;
+  color: var(--rich-black);
+}
+
+.bg-ciprel-neutral {
+  background-color: var(--seasalt) !important;
+  color: var(--rich-black);
+}
+
+.bg-ciprel-dark {
+  background-color: var(--rich-black) !important;
+  color: var(--seasalt);
+}
+
+/* Couleurs de texte CIPREL */
+.text-ciprel-primary {
+  color: var(--tangerine) !important;
+}
+
+.text-ciprel-secondary {
+  color: var(--forest-green) !important;
+}
+
+.text-ciprel-dark {
+  color: var(--rich-black) !important;
+}
+
+.text-ciprel-light {
+  color: var(--seasalt) !important;
+}
+
+.text-ciprel-muted {
+  color: var(--silver) !important;
+}
+
+/* Bordures CIPREL */
+.border-ciprel-primary {
+  border-color: var(--tangerine) !important;
+}
+
+.border-ciprel-secondary {
+  border-color: var(--forest-green) !important;
+}
+
+.border-ciprel-light {
+  border-color: var(--silver) !important;
+}
+
+/* Dégradés CIPREL */
+.gradient-ciprel-primary {
+  background: linear-gradient(135deg, var(--tangerine) 0%, var(--forest-green) 100%) !important;
+  color: var(--seasalt);
+}
+
+.gradient-ciprel-warm {
+  background: linear-gradient(135deg, var(--tangerine) 0%, #F59E3D 100%) !important;
+  color: var(--seasalt);
+}
+
+.gradient-ciprel-cool {
+  background: linear-gradient(135deg, var(--forest-green) 0%, #2FA84D 100%) !important;
+  color: var(--seasalt);
+}
+
+.gradient-ciprel-neutral {
+  background: linear-gradient(135deg, var(--isabelline) 0%, var(--seasalt) 100%) !important;
+  color: var(--rich-black);
+}
+
+/* =================================================================
+   Animations et effets avec couleurs CIPREL
+   ================================================================= */
+
+/* Animation de pulsation pour les éléments actifs */
+@keyframes ciprel-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(237, 126, 5, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(237, 126, 5, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(237, 126, 5, 0);
+  }
+}
+
+.ciprel-pulse {
+  animation: ciprel-pulse 2s infinite;
+}
+
+/* Animation de glow pour les éléments importants */
+@keyframes ciprel-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(237, 126, 5, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(237, 126, 5, 0.6);
+  }
+}
+
+.ciprel-glow {
+  animation: ciprel-glow 3s ease-in-out infinite;
+}
+
+/* Animation de slide pour les éléments de navigation */
+.ciprel-slide-enter-active,
+.ciprel-slide-leave-active {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.ciprel-slide-enter-from {
+  transform: translateX(-20px);
+  opacity: 0;
+}
+
+.ciprel-slide-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
+/* =================================================================
+   États spéciaux avec couleurs CIPREL
+   ================================================================= */
+
+/* État de succès */
+.ciprel-success {
+  background-color: rgba(13, 147, 48, 0.1);
+  border: 1px solid var(--forest-green);
+  color: var(--forest-green);
+  border-radius: var(--border-radius-md);
+}
+
+/* État d'avertissement */
+.ciprel-warning {
+  background-color: rgba(237, 126, 5, 0.1);
+  border: 1px solid var(--tangerine);
+  color: var(--tangerine);
+  border-radius: var(--border-radius-md);
+}
+
+/* État d'erreur */
+.ciprel-error {
+  background-color: rgba(220, 53, 69, 0.1);
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  border-radius: var(--border-radius-md);
+}
+
+/* État d'information */
+.ciprel-info {
+  background-color: rgba(197, 200, 201, 0.2);
+  border: 1px solid var(--silver);
+  color: var(--rich-black);
+  border-radius: var(--border-radius-md);
+}
+
+/* =================================================================
+   Mode sombre avec couleurs CIPREL adaptées
+   ================================================================= */
+
+[data-theme="dark"] .demarche-competence-app {
+  /* Ajustements pour le mode sombre */
+  --neutral-fill-rest: #2A2A2A;
+  --neutral-fill-hover: #3A3A3A;
+  --neutral-layer-floating: #1A1A1A;
+  --neutral-foreground-rest: var(--seasalt);
+  
+  /* Les couleurs CIPREL restent vibrantes en mode sombre */
+  --accent-fill-rest: var(--tangerine);
+  --accent-fill-hover: #F59E3D;
+  
+  /* Adaptation des bordures pour le mode sombre */
+  --neutral-stroke-rest: rgba(197, 200, 201, 0.3);
+  --neutral-stroke-hover: var(--tangerine);
+}
+
+/* =================================================================
+   Responsive avec couleurs CIPREL
+   ================================================================= */
+
+@media (max-width: 768px) {
+  /* Ajustements mobiles pour conserver la lisibilité des couleurs */
+  .gradient-ciprel-primary,
+  .gradient-ciprel-warm,
+  .gradient-ciprel-cool {
+    background-attachment: scroll; /* Évite les problèmes de performance sur mobile */
+  }
+  
+  /* Augmentation des contrastes sur mobile */
+  .text-ciprel-muted {
+    color: var(--rich-black);
+  }
+}
+
+/* =================================================================
+   Impression avec couleurs CIPREL
+   ================================================================= */
+
+@media print {
+  /* Conversion des couleurs pour l'impression */
+  .bg-ciprel-primary,
+  .gradient-ciprel-primary,
+  .gradient-ciprel-warm {
+    background: #ED7E05 !important;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+  
+  .bg-ciprel-secondary,
+  .gradient-ciprel-cool {
+    background: #0D9330 !important;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+  
+  /* Assurer la lisibilité en impression */
+  .text-ciprel-primary {
+    color: #ED7E05 !important;
+  }
+  
+  .text-ciprel-secondary {
+    color: #0D9330 !important;
+  }
+}

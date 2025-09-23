@@ -1,0 +1,22 @@
+{
+  "extends": "./node_modules/@microsoft/rush-stack-compiler-4.5/includes/tsconfig-web.json",
+  "compilerOptions": {
+    "types": ["webpack-env"],
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@components/*": ["src/webparts/demarcheCompetence/components/*"],
+      "@services/*": ["src/webparts/demarcheCompetence/services/*"],
+      "@stores/*": ["src/webparts/demarcheCompetence/stores/*"],
+      "@utils/*": ["src/webparts/demarcheCompetence/utils/*"],
+      "@types/*": ["src/webparts/demarcheCompetence/types/*"]
+    },
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "typings/**/*.d.ts"],
+  "exclude": ["node_modules", "lib", "dist"]
+}

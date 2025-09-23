@@ -1,0 +1,21 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "demarche-competence-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/demarcheCompetence/DemarcheCompetenceWebPart.js",
+          "manifest": "./src/webparts/demarcheCompetence/DemarcheCompetenceWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {
+    "vue": "node_modules/vue/dist/vue.runtime.esm-bundler.js",
+    "pinia": "node_modules/pinia/dist/pinia.esm-browser.js"
+  },
+  "localizedResources": {
+    "DemarcheCompetenceWebPartStrings": "lib/webparts/demarcheCompetence/loc/{locale}.js"
+  }
+}

@@ -1,0 +1,511 @@
+/* =================================================================
+   Styles principaux - Application Démarche Compétence CIPREL
+   ================================================================= */
+
+/* Import des variables et thème CIPREL */
+@import './variables.scss';
+@import './ciprel-theme.scss';
+
+/* =================================================================
+   Styles globaux
+   ================================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-primary);
+  color: var(--ciprel-text-primary);
+  background-color: var(--ciprel-surface-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =================================================================
+   Application principale
+   ================================================================= */
+
+.demarche-competence-app {
+  background-color: var(--ciprel-surface-primary);
+  color: var(--ciprel-text-primary);
+  min-height: 100vh;
+  
+  /* Variables Fluent UI override */
+  --neutral-foreground-rest: var(--ciprel-text-primary);
+  --neutral-fill-rest: var(--ciprel-surface-tertiary);
+  --accent-fill-rest: var(--ciprel-primary);
+  --accent-fill-hover: var(--ciprel-primary-hover);
+  --accent-fill-active: var(--ciprel-primary-dark);
+}
+
+/* =================================================================
+   En-tête de l'application
+   ================================================================= */
+
+.app-header {
+  background: linear-gradient(90deg, var(--ciprel-surface-tertiary) 0%, var(--ciprel-neutral-100) 100%);
+  border-bottom: 2px solid var(--ciprel-primary);
+  box-shadow: var(--ciprel-shadow-sm);
+  
+  .app-title {
+    color: var(--ciprel-text-primary);
+    background: var(--ciprel-gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: var(--font-weight-bold);
+  }
+  
+  .user-info {
+    color: var(--ciprel-text-secondary);
+    background-color: var(--ciprel-neutral-200);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--ciprel-border-light);
+  }
+}
+
+/* =================================================================
+   Barre latérale
+   ================================================================= */
+
+.app-sidebar {
+  background: var(--ciprel-gradient-neutral);
+  border-right: 1px solid var(--ciprel-border-medium);
+  
+  .nav-section h3 {
+    color: var(--ciprel-text-primary);
+    border-bottom: 2px solid var(--ciprel-primary);
+    padding-bottom: var(--spacing-sm);
+  }
+  
+  .nav-list fluent-button {
+    border-radius: var(--border-radius-md);
+    transition: var(--transition-base);
+    
+    &:hover {
+      background-color: var(--ciprel-neutral-200);
+      transform: translateX(4px);
+    }
+    
+    &.active {
+      background: var(--ciprel-gradient-warm);
+      color: var(--ciprel-text-inverse);
+      box-shadow: var(--ciprel-shadow-md);
+    }
+  }
+  
+  .quick-stats {
+    background: var(--ciprel-surface-tertiary);
+    border: 1px solid var(--ciprel-border-light);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--ciprel-shadow-sm);
+    
+    .stat-bar {
+      background-color: var(--ciprel-neutral-200);
+      
+      .stat-fill {
+        background: var(--ciprel-gradient-primary);
+      }
+    }
+  }
+}
+
+/* =================================================================
+   Contenu principal
+   ================================================================= */
+
+.app-content {
+  background-color: var(--ciprel-surface-primary);
+}
+
+/* =================================================================
+   Cartes et composants
+   ================================================================= */
+
+.dashboard-card,
+.progress-card,
+.question-card,
+.results-card {
+  background: var(--ciprel-surface-tertiary);
+  border: 1px solid var(--ciprel-border-light);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--ciprel-shadow-md);
+  transition: var(--transition-base);
+  
+  &:hover {
+    box-shadow: var(--ciprel-shadow-lg);
+    transform: translateY(-2px);
+  }
+  
+  h2, h3 {
+    color: var(--ciprel-text-primary);
+    border-bottom: 2px solid var(--ciprel-primary);
+    padding-bottom: var(--spacing-sm);
+  }
+}
+
+/* =================================================================
+   Boutons et actions
+   ================================================================= */
+
+.action-buttons fluent-button,
+.question-actions fluent-button,
+.next-steps fluent-button {
+  border-radius: var(--border-radius-md);
+  font-weight: var(--font-weight-medium);
+  transition: var(--transition-base);
+  
+  &[appearance="primary"] {
+    background: var(--ciprel-gradient-warm);
+    border: none;
+    color: var(--ciprel-text-inverse);
+    
+    &:hover {
+      background: var(--ciprel-primary-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--ciprel-shadow-md);
+    }
+  }
+  
+  &[appearance="secondary"] {
+    background: var(--ciprel-gradient-cool);
+    border: 1px solid var(--ciprel-secondary);
+    color: var(--ciprel-text-inverse);
+    
+    &:hover {
+      background: var(--ciprel-secondary-hover);
+    }
+  }
+  
+  &[appearance="outline"] {
+    border: 2px solid var(--ciprel-primary);
+    color: var(--ciprel-primary);
+    background: transparent;
+    
+    &:hover {
+      background: var(--ciprel-primary);
+      color: var(--ciprel-text-inverse);
+    }
+  }
+}
+
+/* =================================================================
+   Quiz et questions
+   ================================================================= */
+
+.quiz-introduction,
+.quiz-sondage {
+  .progress-bar {
+    background-color: var(--ciprel-neutral-200);
+    border-radius: var(--border-radius-full);
+    
+    .progress-fill {
+      background: var(--ciprel-gradient-primary);
+      border-radius: var(--border-radius-full);
+    }
+  }
+  
+  .option-item {
+    border: 2px solid var(--ciprel-border-light);
+    border-radius: var(--border-radius-md);
+    transition: var(--transition-base);
+    
+    &:hover {
+      border-color: var(--ciprel-primary);
+      background-color: var(--ciprel-neutral-100);
+    }
+    
+    &.selected {
+      border-color: var(--ciprel-primary);
+      background: var(--ciprel-gradient-warm);
+      color: var(--ciprel-text-inverse);
+      box-shadow: var(--ciprel-shadow-md);
+    }
+  }
+  
+  .rating-button {
+    border: 2px solid var(--ciprel-border-medium);
+    background: var(--ciprel-surface-tertiary);
+    transition: var(--transition-base);
+    
+    &:hover {
+      border-color: var(--ciprel-primary);
+      background: var(--ciprel-neutral-100);
+    }
+    
+    &.selected {
+      background: var(--ciprel-primary);
+      border-color: var(--ciprel-primary);
+      color: var(--ciprel-text-inverse);
+    }
+  }
+}
+
+/* =================================================================
+   Résultats et statistiques
+   ================================================================= */
+
+.score-circle,
+.score-circle-small {
+  background: var(--ciprel-gradient-primary);
+  color: var(--ciprel-text-inverse);
+  box-shadow: var(--ciprel-shadow-md);
+}
+
+.feedback-excellent {
+  background-color: var(--ciprel-success-light);
+  border-left-color: var(--ciprel-success);
+  color: var(--ciprel-success-dark);
+}
+
+.feedback-good {
+  background-color: var(--ciprel-warning-light);
+  border-left-color: var(--ciprel-warning);
+  color: var(--ciprel-warning-dark);
+}
+
+.feedback-needs-improvement {
+  background-color: var(--ciprel-error-light);
+  border-left-color: var(--ciprel-error);
+  color: var(--ciprel-error-dark);
+}
+
+/* =================================================================
+   Notifications
+   ================================================================= */
+
+.notifications-panel,
+.settings-panel {
+  background: var(--ciprel-surface-tertiary);
+  border: 1px solid var(--ciprel-border-medium);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--ciprel-shadow-xl);
+}
+
+.notification-item {
+  border-radius: var(--border-radius-md);
+  border-left-width: 4px;
+  
+  &.success {
+    background-color: var(--ciprel-success-light);
+    border-left-color: var(--ciprel-success);
+  }
+  
+  &.error {
+    background-color: var(--ciprel-error-light);
+    border-left-color: var(--ciprel-error);
+  }
+  
+  &.warning {
+    background-color: var(--ciprel-warning-light);
+    border-left-color: var(--ciprel-warning);
+  }
+  
+  &.info {
+    background-color: var(--ciprel-info-light);
+    border-left-color: var(--ciprel-info);
+  }
+}
+
+.notification-count {
+  background: var(--ciprel-error);
+  color: var(--ciprel-text-inverse);
+  border-radius: var(--border-radius-full);
+}
+
+/* =================================================================
+   États et badges
+   ================================================================= */
+
+.detail-status.completed,
+.activity-status.completed {
+  background-color: var(--ciprel-success-light);
+  color: var(--ciprel-success-dark);
+  border-radius: var(--border-radius-lg);
+}
+
+.activity-status.in-progress {
+  background-color: var(--ciprel-warning-light);
+  color: var(--ciprel-warning-dark);
+  border-radius: var(--border-radius-lg);
+}
+
+.activity-status.pending {
+  background-color: var(--ciprel-neutral-200);
+  color: var(--ciprel-text-muted);
+  border-radius: var(--border-radius-lg);
+}
+
+/* =================================================================
+   Graphiques et visualisations
+   ================================================================= */
+
+.competence-item {
+  border: 1px solid var(--ciprel-border-light);
+  border-radius: var(--border-radius-md);
+  transition: var(--transition-base);
+  
+  &:hover {
+    border-color: var(--ciprel-primary);
+    box-shadow: var(--ciprel-shadow-md);
+    transform: translateY(-2px);
+  }
+  
+  .competence-progress {
+    background-color: var(--ciprel-neutral-200);
+    border-radius: var(--border-radius-full);
+    
+    .competence-fill {
+      background: var(--ciprel-gradient-cool);
+      border-radius: var(--border-radius-full);
+    }
+  }
+}
+
+/* =================================================================
+   États de chargement et erreurs
+   ================================================================= */
+
+.app-loading-overlay {
+  background: rgba(243, 238, 231, 0.95);
+  
+  .loading-content h3 {
+    color: var(--ciprel-text-primary);
+  }
+  
+  .loading-content p {
+    color: var(--ciprel-text-secondary);
+  }
+}
+
+.app-error-state {
+  .error-content h2 {
+    color: var(--ciprel-error);
+  }
+}
+
+.offline-banner {
+  background: var(--ciprel-warning);
+  color: var(--ciprel-text-primary);
+  border-top: 2px solid var(--ciprel-warning-dark);
+}
+
+/* =================================================================
+   Formulaires et inputs
+   ================================================================= */
+
+fluent-text-field,
+fluent-text-area,
+fluent-select {
+  --neutral-fill-rest: var(--ciprel-surface-tertiary);
+  --neutral-stroke-rest: var(--ciprel-border-medium);
+  --neutral-stroke-hover: var(--ciprel-primary);
+  --neutral-stroke-focus: var(--ciprel-primary);
+  --accent-fill-rest: var(--ciprel-primary);
+}
+
+fluent-checkbox {
+  --accent-fill-rest: var(--ciprel-primary);
+  --accent-fill-hover: var(--ciprel-primary-hover);
+  --accent-fill-active: var(--ciprel-primary-dark);
+}
+
+/* =================================================================
+   Adaptations mobiles
+   ================================================================= */
+
+@media (max-width: 768px) {
+  .app-header {
+    padding: 0 var(--spacing-md);
+    
+    .app-title {
+      font-size: var(--font-size-lg);
+    }
+  }
+  
+  .app-content {
+    padding: var(--spacing-md);
+  }
+  
+  .dashboard-card,
+  .progress-card,
+  .question-card {
+    margin-bottom: var(--spacing-lg);
+  }
+}
+
+/* =================================================================
+   Mode compact
+   ================================================================= */
+
+.compact-mode {
+  .app-header {
+    height: 45px;
+    
+    .app-title {
+      font-size: var(--font-size-base);
+    }
+  }
+  
+  .dashboard-card,
+  .progress-card,
+  .question-card {
+    padding: var(--spacing-md);
+  }
+  
+  .sidebar-content {
+    padding: var(--spacing-md);
+  }
+}
+
+/* =================================================================
+   Animations
+   ================================================================= */
+
+.demarche-competence-app:not(.animations-disabled) {
+  .dashboard-card,
+  .progress-card,
+  .question-card,
+  .option-item,
+  .competence-item,
+  .nav-list fluent-button {
+    transition: all var(--transition-base);
+  }
+  
+  .score-circle,
+  .progress-fill,
+  .stat-fill,
+  .competence-fill {
+    transition: all var(--transition-slow);
+  }
+}
+
+/* =================================================================
+   Focus et accessibilité
+   ================================================================= */
+
+fluent-button:focus-visible,
+.option-item:focus-visible,
+.rating-button:focus-visible {
+  outline: 2px solid var(--ciprel-primary);
+  outline-offset: 2px;
+}
+
+/* Amélioration du contraste pour l'accessibilité */
+@media (prefers-contrast: high) {
+  :root {
+    --ciprel-border-light: var(--ciprel-border-dark);
+    --ciprel-text-muted: var(--ciprel-text-secondary);
+  }
+}
+
+/* Support pour les préférences de mouvement réduit */
+@media (prefers-reduced-motion: reduce) {
+  .demarche-competence-app * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
