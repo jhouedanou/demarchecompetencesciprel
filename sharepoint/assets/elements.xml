@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  
+  <!-- CompetenceQuestions List -->
+  <ListInstance 
+    CustomSchema="schema_CompetenceQuestions.xml"
+    Description="Liste des questions pour les quiz et sondages de la démarche compétences"
+    DocumentTemplate=""
+    FeatureId="00bfea71-de22-43b2-a848-c05709900100"
+    Hidden="FALSE"
+    HyperlinkBaseUrl=""
+    Id="101"
+    ImageUrl=""
+    OnQuickLaunch="TRUE"
+    QuickLaunchUrl=""
+    RootWebOnly="FALSE"
+    Title="Questions Compétences"
+    Url="Lists/CompetenceQuestions"
+    VersioningEnabled="FALSE" />
+
+  <!-- CompetenceResults List -->
+  <ListInstance 
+    CustomSchema="schema_CompetenceResults.xml"
+    Description="Résultats des quiz et évaluations de la démarche compétences"
+    DocumentTemplate=""
+    FeatureId="00bfea71-de22-43b2-a848-c05709900100"
+    Hidden="FALSE"
+    HyperlinkBaseUrl=""
+    Id="102"
+    ImageUrl=""
+    OnQuickLaunch="TRUE"
+    QuickLaunchUrl=""
+    RootWebOnly="FALSE"
+    Title="Résultats Compétences"
+    Url="Lists/CompetenceResults"
+    VersioningEnabled="FALSE" />
+
+  <!-- SondageResponses List -->
+  <ListInstance 
+    CustomSchema="schema_SondageResponses.xml"
+    Description="Réponses aux sondages d'opinion sur la démarche compétences"
+    DocumentTemplate=""
+    FeatureId="00bfea71-de22-43b2-a848-c05709900100"
+    Hidden="FALSE"
+    HyperlinkBaseUrl=""
+    Id="103"
+    ImageUrl=""
+    OnQuickLaunch="TRUE"
+    QuickLaunchUrl=""
+    RootWebOnly="FALSE"
+    Title="Réponses Sondage"
+    Url="Lists/SondageResponses"
+    VersioningEnabled="FALSE" />
+
+  <!-- List Schema for CompetenceQuestions -->
+  <ListTemplate 
+    Name="CompetenceQuestions"
+    Type="10001"
+    BaseType="0"
+    OnQuickLaunch="TRUE"
+    SecurityBits="11"
+    Sequence="110"
+    DisplayName="Questions Compétences"
+    Description="Liste des questions pour les quiz et sondages"
+    Image="/_layouts/15/images/itgen.png">
+    
+    <MetaData>
+      <ContentTypes>
+        <ContentTypeRef ID="0x01">
+          <Folder TargetName="Questions" />
+        </ContentTypeRef>
+      </ContentTypes>
+      
+      <Fields>
+        <!-- Question Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050c8}"
+               Type="Note"
+               Name="Question"
+               DisplayName="Question"
+               Required="TRUE"
+               NumLines="3"
+               RichText="FALSE"
+               Sortable="FALSE" />
+        
+        <!-- OptionA Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050c9}"
+               Type="Text"
+               Name="OptionA"
+               DisplayName="Option A"
+               Required="TRUE"
+               MaxLength="255" />
+        
+        <!-- OptionB Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050ca}"
+               Type="Text"
+               Name="OptionB"
+               DisplayName="Option B"
+               Required="TRUE"
+               MaxLength="255" />
+        
+        <!-- OptionC Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050cb}"
+               Type="Text"
+               Name="OptionC"
+               DisplayName="Option C"
+               Required="TRUE"
+               MaxLength="255" />
+        
+        <!-- CorrectAnswer Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050cc}"
+               Type="Choice"
+               Name="CorrectAnswer"
+               DisplayName="Réponse Correcte"
+               Required="TRUE">
+          <CHOICES>
+            <CHOICE>A</CHOICE>
+            <CHOICE>B</CHOICE>
+            <CHOICE>C</CHOICE>
+          </CHOICES>
+        </Field>
+        
+        <!-- Category Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050cd}"
+               Type="Choice"
+               Name="Category"
+               DisplayName="Catégorie"
+               Required="TRUE">
+          <CHOICES>
+            <CHOICE>Definition</CHOICE>
+            <CHOICE>Responsabilite</CHOICE>
+            <CHOICE>Competences</CHOICE>
+            <CHOICE>Etapes</CHOICE>
+          </CHOICES>
+        </Field>
+        
+        <!-- Points Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050ce}"
+               Type="Number"
+               Name="Points"
+               DisplayName="Points"
+               Required="TRUE"
+               Min="1"
+               Max="100" />
+        
+        <!-- QuizType Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050cf}"
+               Type="Choice"
+               Name="QuizType"
+               DisplayName="Type de Quiz"
+               Required="TRUE">
+          <CHOICES>
+            <CHOICE>Introduction</CHOICE>
+            <CHOICE>Sondage</CHOICE>
+          </CHOICES>
+        </Field>
+      </Fields>
+      
+      <Views>
+        <View BaseViewID="1"
+              Type="HTML"
+              WebPartZoneID="Main"
+              DisplayName="Toutes les questions"
+              DefaultView="TRUE"
+              MobileView="TRUE"
+              MobileDefaultView="TRUE"
+              SetupPath="pages\viewpage.aspx"
+              ImageUrl="/_layouts/15/images/generic.png"
+              Url="AllItems.aspx">
+          <Toolbar Type="Standard" />
+          <XslLink Default="TRUE">main.xsl</XslLink>
+          <JSLink>clienttemplates.js</JSLink>
+          <RowLimit Paged="TRUE">30</RowLimit>
+          <ViewFields>
+            <FieldRef Name="ID" />
+            <FieldRef Name="Title" />
+            <FieldRef Name="Question" />
+            <FieldRef Name="CorrectAnswer" />
+            <FieldRef Name="Category" />
+            <FieldRef Name="Points" />
+            <FieldRef Name="QuizType" />
+            <FieldRef Name="Modified" />
+          </ViewFields>
+          <Query>
+            <OrderBy>
+              <FieldRef Name="ID" />
+            </OrderBy>
+          </Query>
+        </View>
+      </Views>
+      
+      <Forms>
+        <Form Type="DisplayForm" Url="DispForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+        <Form Type="EditForm" Url="EditForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+        <Form Type="NewForm" Url="NewForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+      </Forms>
+    </MetaData>
+  </ListTemplate>
+
+  <!-- List Schema for CompetenceResults -->
+  <ListTemplate 
+    Name="CompetenceResults"
+    Type="10002"
+    BaseType="0"
+    OnQuickLaunch="TRUE"
+    SecurityBits="11"
+    Sequence="111"
+    DisplayName="Résultats Compétences"
+    Description="Résultats des quiz et évaluations"
+    Image="/_layouts/15/images/itgen.png">
+    
+    <MetaData>
+      <ContentTypes>
+        <ContentTypeRef ID="0x01">
+          <Folder TargetName="Results" />
+        </ContentTypeRef>
+      </ContentTypes>
+      
+      <Fields>
+        <!-- UserId Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050d0}"
+               Type="Number"
+               Name="UserId"
+               DisplayName="ID Utilisateur"
+               Required="TRUE" />
+        
+        <!-- UserEmail Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050d1}"
+               Type="Text"
+               Name="UserEmail"
+               DisplayName="Email Utilisateur"
+               Required="TRUE"
+               MaxLength="255" />
+        
+        <!-- QuizType Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050d2}"
+               Type="Choice"
+               Name="QuizType"
+               DisplayName="Type de Quiz"
+               Required="TRUE">
+          <CHOICES>
+            <CHOICE>Introduction</CHOICE>
+            <CHOICE>Sondage</CHOICE>
+          </CHOICES>
+        </Field>
+        
+        <!-- Score Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050d3}"
+               Type="Number"
+               Name="Score"
+               DisplayName="Score"
+               Required="FALSE"
+               Min="0"
+               Max="1000" />
+        
+        <!-- TotalQuestions Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050d4}"
+               Type="Number"
+               Name="TotalQuestions"
+               DisplayName="Nombre de Questions"
+               Required="TRUE"
+               Min="1"
+               Max="100" />
+        
+        <!-- Responses Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050d5}"
+               Type="Note"
+               Name="Responses"
+               DisplayName="Réponses (JSON)"
+               Required="TRUE"
+               NumLines="10"
+               RichText="FALSE"
+               Sortable="FALSE" />
+        
+        <!-- CompletedDate Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050d6}"
+               Type="DateTime"
+               Name="CompletedDate"
+               DisplayName="Date de Complétion"
+               Required="TRUE"
+               Format="DateTime" />
+        
+        <!-- Duration Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050d7}"
+               Type="Number"
+               Name="Duration"
+               DisplayName="Durée (secondes)"
+               Required="TRUE"
+               Min="1"
+               Max="86400" />
+      </Fields>
+      
+      <Views>
+        <View BaseViewID="1"
+              Type="HTML"
+              WebPartZoneID="Main"
+              DisplayName="Tous les résultats"
+              DefaultView="TRUE"
+              MobileView="TRUE"
+              MobileDefaultView="TRUE"
+              SetupPath="pages\viewpage.aspx"
+              ImageUrl="/_layouts/15/images/generic.png"
+              Url="AllItems.aspx">
+          <Toolbar Type="Standard" />
+          <XslLink Default="TRUE">main.xsl</XslLink>
+          <JSLink>clienttemplates.js</JSLink>
+          <RowLimit Paged="TRUE">30</RowLimit>
+          <ViewFields>
+            <FieldRef Name="ID" />
+            <FieldRef Name="Title" />
+            <FieldRef Name="UserEmail" />
+            <FieldRef Name="QuizType" />
+            <FieldRef Name="Score" />
+            <FieldRef Name="TotalQuestions" />
+            <FieldRef Name="CompletedDate" />
+            <FieldRef Name="Duration" />
+          </ViewFields>
+          <Query>
+            <OrderBy>
+              <FieldRef Name="CompletedDate" Ascending="FALSE" />
+            </OrderBy>
+          </Query>
+        </View>
+      </Views>
+      
+      <Forms>
+        <Form Type="DisplayForm" Url="DispForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+        <Form Type="EditForm" Url="EditForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+        <Form Type="NewForm" Url="NewForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+      </Forms>
+    </MetaData>
+  </ListTemplate>
+
+  <!-- List Schema for SondageResponses -->
+  <ListTemplate 
+    Name="SondageResponses"
+    Type="10003"
+    BaseType="0"
+    OnQuickLaunch="TRUE"
+    SecurityBits="11"
+    Sequence="112"
+    DisplayName="Réponses Sondage"
+    Description="Réponses aux sondages d'opinion"
+    Image="/_layouts/15/images/itgen.png">
+    
+    <MetaData>
+      <ContentTypes>
+        <ContentTypeRef ID="0x01">
+          <Folder TargetName="Responses" />
+        </ContentTypeRef>
+      </ContentTypes>
+      
+      <Fields>
+        <!-- UserId Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050e0}"
+               Type="Number"
+               Name="UserId"
+               DisplayName="ID Utilisateur"
+               Required="TRUE" />
+        
+        <!-- UserEmail Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050e1}"
+               Type="Text"
+               Name="UserEmail"
+               DisplayName="Email Utilisateur"
+               Required="TRUE"
+               MaxLength="255" />
+        
+        <!-- Q1_Connaissance Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050e2}"
+               Type="Choice"
+               Name="Q1_Connaissance"
+               DisplayName="Q1 - Connaissance"
+               Required="TRUE">
+          <CHOICES>
+            <CHOICE>Oui</CHOICE>
+            <CHOICE>Non</CHOICE>
+            <CHOICE>J'en ai une vague idée</CHOICE>
+          </CHOICES>
+        </Field>
+        
+        <!-- Q2_Definition Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050e3}"
+               Type="Text"
+               Name="Q2_Definition"
+               DisplayName="Q2 - Définition"
+               Required="TRUE"
+               MaxLength="255" />
+        
+        <!-- Q3_Benefices Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050e4}"
+               Type="Note"
+               Name="Q3_Benefices"
+               DisplayName="Q3 - Bénéfices"
+               Required="TRUE"
+               NumLines="3"
+               RichText="FALSE"
+               Sortable="FALSE" />
+        
+        <!-- Q4_Attentes Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050e5}"
+               Type="Note"
+               Name="Q4_Attentes"
+               DisplayName="Q4 - Attentes"
+               Required="TRUE"
+               NumLines="5"
+               RichText="FALSE"
+               Sortable="FALSE" />
+        
+        <!-- Q5_Inquietudes Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050e6}"
+               Type="Note"
+               Name="Q5_Inquietudes"
+               DisplayName="Q5 - Inquiétudes"
+               Required="FALSE"
+               NumLines="5"
+               RichText="FALSE"
+               Sortable="FALSE" />
+        
+        <!-- Q6_Informations Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050e7}"
+               Type="Note"
+               Name="Q6_Informations"
+               DisplayName="Q6 - Informations"
+               Required="TRUE"
+               NumLines="3"
+               RichText="FALSE"
+               Sortable="FALSE" />
+        
+        <!-- SubmittedDate Field -->
+        <Field ID="{8553196d-ec8d-4564-9861-3dbe931050e8}"
+               Type="DateTime"
+               Name="SubmittedDate"
+               DisplayName="Date de Soumission"
+               Required="TRUE"
+               Format="DateTime" />
+      </Fields>
+      
+      <Views>
+        <View BaseViewID="1"
+              Type="HTML"
+              WebPartZoneID="Main"
+              DisplayName="Toutes les réponses"
+              DefaultView="TRUE"
+              MobileView="TRUE"
+              MobileDefaultView="TRUE"
+              SetupPath="pages\viewpage.aspx"
+              ImageUrl="/_layouts/15/images/generic.png"
+              Url="AllItems.aspx">
+          <Toolbar Type="Standard" />
+          <XslLink Default="TRUE">main.xsl</XslLink>
+          <JSLink>clienttemplates.js</JSLink>
+          <RowLimit Paged="TRUE">30</RowLimit>
+          <ViewFields>
+            <FieldRef Name="ID" />
+            <FieldRef Name="Title" />
+            <FieldRef Name="UserEmail" />
+            <FieldRef Name="Q1_Connaissance" />
+            <FieldRef Name="Q2_Definition" />
+            <FieldRef Name="SubmittedDate" />
+          </ViewFields>
+          <Query>
+            <OrderBy>
+              <FieldRef Name="SubmittedDate" Ascending="FALSE" />
+            </OrderBy>
+          </Query>
+        </View>
+      </Views>
+      
+      <Forms>
+        <Form Type="DisplayForm" Url="DispForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+        <Form Type="EditForm" Url="EditForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+        <Form Type="NewForm" Url="NewForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+      </Forms>
+    </MetaData>
+  </ListTemplate>
+
+</Elements>

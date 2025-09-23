@@ -27,10 +27,21 @@
     },
     "features": [
       {
-        "title": "demarchecompetencesciprel Feature",
-        "description": "The feature that activates elements of the demarchecompetencesciprel solution.",
+        "title": "Démarche Compétences WebPart Feature",
+        "description": "The feature that activates the Démarche Compétences WebPart.",
         "id": "49fc0115-71f1-401f-9abc-1522e7183f01",
         "version": "1.0.0.0"
+      },
+      {
+        "title": "Démarche Compétences Lists Provisioning",
+        "description": "Provision SharePoint lists for competence management (CompetenceQuestions, CompetenceResults, SondageResponses)",
+        "id": "8a4b3c2d-1e5f-4g6h-7i8j-9k0l1m2n3o4p",
+        "version": "1.0.0.0",
+        "assets": {
+          "elementManifests": [
+            "elements.xml"
+          ]
+        }
       }
     ]
   },

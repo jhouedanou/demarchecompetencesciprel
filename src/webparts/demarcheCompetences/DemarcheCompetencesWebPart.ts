@@ -11,6 +11,9 @@ import { IReadonlyTheme } from '@microsoft/sp-component-base';
 import * as strings from 'DemarcheCompetencesWebPartStrings';
 import DemarcheCompetences from './components/DemarcheCompetences';
 import { IDemarcheCompetencesProps } from './components/IDemarcheCompetencesProps';
+import { AppProvider } from './contexts/AppContext';
+import { QuizProvider } from './contexts/QuizContext';
+import { SharePointService } from './services/SharePointService';
 
 export interface IDemarcheCompetencesWebPartProps {
   description: string;
@@ -23,14 +26,25 @@ export default class DemarcheCompetencesWebPart extends BaseClientSideWebPart<ID
 
   public render(): void {
     const element: React.ReactElement<IDemarcheCompetencesProps> = React.createElement(
-      DemarcheCompetences,
+      AppProvider,
       {
-        description: this.properties.description,
-        isDarkTheme: this._isDarkTheme,
-        environmentMessage: this._environmentMessage,
-        hasTeamsContext: !!this.context.sdks.microsoftTeams,
-        userDisplayName: this.context.pageContext.user.displayName
-      }
+        context: this.context
+      },
+      React.createElement(
+        QuizProvider,
+        {},
+        React.createElement(
+          DemarcheCompetences,
+          {
+            description: this.properties.description,
+            isDarkTheme: this._isDarkTheme,
+            environmentMessage: this._environmentMessage,
+            hasTeamsContext: !!this.context.sdks.microsoftTeams,
+            userDisplayName: this.context.pageContext.user.displayName,
+            context: this.context
+          }
+        )
+      )
     );
 
     ReactDom.render(element, this.domElement);
@@ -39,6 +53,12 @@ export default class DemarcheCompetencesWebPart extends BaseClientSideWebPart<ID
   protected onInit(): Promise<void> {
     return this._getEnvironmentMessage().then(message => {
       this._environmentMessage = message;
+      
+      // Initialize SharePoint lists
+      const sharePointService = new SharePointService(this.context);
+      return sharePointService.ensureListsExist().catch(error => {
+        console.warn('Could not ensure SharePoint lists exist:', error);
+      });
     });
   }
 

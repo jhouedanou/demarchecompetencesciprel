@@ -1,15 +1,555 @@
 @import '~@fluentui/react/dist/sass/References.scss';
 
+// Main app container
 .demarcheCompetences {
-  overflow: hidden;
-  padding: 1em;
-  color: "[theme:bodyText, default: #323130]";
-  color: var(--bodyText);
+  min-height: 100vh;
+  background-color: #fafafa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
   &.teams {
     font-family: $ms-font-family-fallbacks;
   }
+
+  &.lightTheme {
+    background-color: #fafafa;
+    color: #323130;
+  }
+
+  &.darkTheme {
+    background-color: #1f1f1f;
+    color: #ffffff;
+  }
 }
 
+// Error message styling
+.errorMessage {
+  margin-bottom: 16px;
+}
+
+// Loading container
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  padding: 24px;
+}
+
+// Content container
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+// ============== LANDING PAGE ==============
+.landingPage {
+  .heroSection {
+    background: linear-gradient(135deg, #ff6600 0%, #ff8c42 100%);
+    color: white;
+    padding: 60px 0;
+    margin-bottom: 48px;
+    border-radius: 8px;
+
+    .heroContent {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        text-align: center;
+        gap: 32px;
+      }
+    }
+
+    .heroText {
+      flex: 1;
+    }
+
+    .heroTitle {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.2;
+
+      @media (max-width: 768px) {
+        font-size: 36px;
+      }
+    }
+
+    .heroSubtitle {
+      font-size: 24px;
+      margin-bottom: 16px;
+      opacity: 0.9;
+
+      @media (max-width: 768px) {
+        font-size: 20px;
+      }
+    }
+
+    .heroDescription {
+      font-size: 18px;
+      margin-bottom: 32px;
+      opacity: 0.8;
+      line-height: 1.5;
+    }
+
+    .heroButtons {
+      gap: 16px !important;
+
+      @media (max-width: 568px) {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    .heroImage {
+      .logo {
+        max-width: 200px;
+        height: auto;
+        filter: brightness(0) invert(1);
+        opacity: 0.9;
+      }
+    }
+  }
+
+  .ctaButton {
+    background-color: white !important;
+    color: #ff6600 !important;
+    border: 2px solid white !important;
+    font-weight: 600 !important;
+    padding: 12px 24px !important;
+    min-width: 180px !important;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.9) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+    }
+  }
+
+  .secondaryButton {
+    background-color: transparent !important;
+    color: white !important;
+    border: 2px solid white !important;
+    font-weight: 600 !important;
+    padding: 12px 24px !important;
+    min-width: 180px !important;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+      transform: translateY(-2px);
+    }
+  }
+
+  .sectionHeader {
+    text-align: center;
+    margin-bottom: 48px;
+
+    .sectionTitle {
+      font-size: 36px;
+      font-weight: 700;
+      color: #323130;
+      margin-bottom: 16px;
+    }
+
+    .sectionSubtitle {
+      font-size: 20px;
+      color: #605e5c;
+    }
+  }
+
+  .stepsSection, .benefitsSection {
+    margin-bottom: 64px;
+  }
+
+  .stepsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .stepCard {
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+      border-color: #ff6600;
+    }
+
+    .stepNumber {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background-color: #ff6600;
+      color: white;
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+  }
+
+  .benefitsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 24px;
+  }
+
+  .benefitCard {
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+      border-color: #ff6600;
+    }
+  }
+
+  .ctaSection {
+    margin-bottom: 48px;
+
+    .ctaCard {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border: 1px solid #e1e5e9;
+      border-radius: 12px;
+      padding: 48px 24px;
+    }
+  }
+
+  .footer {
+    text-align: center;
+    padding: 24px;
+    color: #605e5c;
+    border-top: 1px solid #e1e5e9;
+  }
+}
+
+// ============== QUIZ COMPONENTS ==============
+.quizIntroduction {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px;
+
+  .introCard {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .quizContent, .quizModalities {
+    margin: 0;
+    padding-left: 20px;
+
+    li {
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+  }
+
+  .benefitsBox {
+    background-color: #f8f9fa;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+  }
+
+  .startButton {
+    background-color: #ff6600 !important;
+    border-color: #ff6600 !important;
+    min-width: 200px;
+    padding: 12px 24px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+
+    &:hover {
+      background-color: #e55c00 !important;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(255, 102, 0, 0.3) !important;
+    }
+  }
+}
+
+.sondageIntroduction {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px;
+
+  .introCard {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .sondageInfo {
+    margin: 0;
+    padding-left: 20px;
+
+    li {
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+  }
+}
+
+.sondageCompleted {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px;
+
+  .completionIcon {
+    font-size: 64px;
+    margin-bottom: 16px;
+  }
+}
+
+.sondageOpinion {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px;
+
+  .sondageHeader {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .questionsContainer {
+    margin-bottom: 32px;
+
+    .sondageQuestion {
+      margin-bottom: 24px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  .actionsCard {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// ============== DASHBOARD ==============
+.dashboard {
+  padding: 24px;
+
+  .dashboardHeader {
+    margin-bottom: 32px;
+  }
+
+  .dashboardContent {
+    .statsGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .statCard {
+      border-radius: 8px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .statIcon {
+        font-size: 32px;
+        color: #ff6600;
+      }
+
+      .statValue {
+        color: #323130;
+      }
+
+      .trendPositive {
+        color: #107c10;
+      }
+
+      .trendNegative {
+        color: #d13438;
+      }
+    }
+
+    .chartsRow {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+
+      @media (max-width: 1024px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chartCard {
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .activityCard {
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+      .activityItem {
+        padding: 12px;
+        border-radius: 6px;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: #f8f9fa;
+        }
+
+        .activityIcon {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 16px;
+
+          &.quizIcon {
+            background-color: #e1f5fe;
+          }
+
+          &.sondageIcon {
+            background-color: #f3e5f5;
+          }
+        }
+
+        .activityTime {
+          color: #666;
+        }
+      }
+    }
+
+    .resultsTable {
+      .tableHeader, .tableRow {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1.5fr 1fr;
+        gap: 16px;
+        padding: 12px 16px;
+        align-items: center;
+      }
+
+      .tableHeader {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #e1e5e9;
+        font-weight: 600;
+      }
+
+      .tableRow {
+        border-bottom: 1px solid #f3f2f1;
+
+        &:hover {
+          background-color: #fafafa;
+        }
+      }
+
+      .tableCell {
+        display: flex;
+        align-items: center;
+      }
+
+      .percentageCell {
+        .excellent {
+          color: #107c10;
+          font-weight: 600;
+        }
+
+        .good {
+          color: #0078d4;
+          font-weight: 600;
+        }
+
+        .average {
+          color: #ff8c00;
+          font-weight: 600;
+        }
+
+        .needsImprovement {
+          color: #d13438;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .sondageAnalysis {
+      margin-bottom: 32px;
+
+      .responseDistribution {
+        .distributionItem {
+          margin-bottom: 12px;
+
+          .progressBar {
+            width: 100%;
+            height: 8px;
+            background-color: #f3f2f1;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 4px;
+
+            .progressFill {
+              height: 100%;
+              background-color: #ff6600;
+              transition: width 0.3s ease;
+            }
+          }
+        }
+      }
+    }
+
+    .recentResponses {
+      .responseItem {
+        padding: 12px;
+        border: 1px solid #e1e5e9;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        
+        &:hover {
+          background-color: #f8f9fa;
+        }
+      }
+    }
+  }
+
+  .noPermissions {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px;
+
+    .noPermissionsIcon {
+      font-size: 64px;
+      opacity: 0.7;
+    }
+  }
+}
+
+// ============== SHARED COMPONENTS ==============
+
+// No additional permissions styling
+.noPermissions {
+  text-align: center;
+  padding: 48px 24px;
+
+  .noPermissionsIcon {
+    font-size: 64px;
+    opacity: 0.7;
+  }
+}
+
+// Legacy styles (kept for compatibility)
 .welcome {
   text-align: center;
 }
@@ -23,12 +563,54 @@
   a {
     text-decoration: none;
     color: "[theme:link, default:#03787c]";
-    color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
+    color: var(--link);
 
     &:hover {
       text-decoration: underline;
       color: "[theme:linkHovered, default: #014446]";
-      color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
+      color: var(--linkHovered);
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .content {
+    padding: 0 12px;
+  }
+
+  .landingPage {
+    .stepsGrid, .benefitsGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .dashboard {
+    .dashboardContent {
+      .statsGrid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .chartsRow {
+        grid-template-columns: 1fr;
+      }
+
+      .resultsTable {
+        .tableHeader, .tableRow {
+          grid-template-columns: 1fr;
+          text-align: left;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard {
+    .dashboardContent {
+      .statsGrid {
+        grid-template-columns: 1fr;
+      }
     }
   }
 }
