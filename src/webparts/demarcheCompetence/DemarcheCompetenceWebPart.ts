@@ -89,8 +89,8 @@ export default class DemarcheCompetenceWebPart extends BaseClientSideWebPart<IDe
         </div>
       `;
 
-      // Initialize Vue application
-      this.initializeVueApp();
+      // Initialize React application
+      this.initializeReactApp();
 
     } catch (error) {
       console.error('Error rendering WebPart:', error);
@@ -98,47 +98,32 @@ export default class DemarcheCompetenceWebPart extends BaseClientSideWebPart<IDe
     }
   }
 
-  private async initializeVueApp(): Promise<void> {
+  private async initializeReactApp(): Promise<void> {
     try {
-      // Setup stores with SharePoint context
-      const { services } = setupStores(null, this.context);
+      // Setup Redux store with SharePoint context
+      this.store = setupStore(this.context);
 
-      // Create Vue app instance with Vue 2 syntax
-      this.vueApp = new (Vue as any)({
-        store,
-        data: () => ({
+      // Create React element
+      const element: React.ReactElement = React.createElement(
+        Provider,
+        { store: this.store },
+        React.createElement(DemarcheCompetenceApp, {
           webPartProperties: this.properties,
           webPartContext: this.context,
-          domElement: this.domElement,
-          services
-        }),
-        provide() {
-          return {
-            webPartContext: this.webPartContext,
-            webPartProperties: this.webPartProperties,
-            services: this.services,
-            sharePointService: this.services.sharePointService
-          };
-        },
-        render: h => h(DemarcheCompetenceApp, {
-          props: {
-            webPartProperties: this.properties,
-            webPartContext: this.context,
-            domElement: this.domElement
-          }
+          domElement: this.domElement
         })
-      });
+      );
 
-      // Mount the app
-      this.vueApp.$mount('#demarche-competence-app');
+      // Render the app
+      ReactDom.render(element, this.domElement.querySelector('#demarche-competence-app'));
 
       // Initialize stores after mounting
-      await initializeAllStores();
+      await initializeAllStores(this.store, this.context);
 
-      console.log('Vue application mounted successfully');
+      console.log('React application mounted successfully');
 
     } catch (error) {
-      console.error('Error initializing Vue app:', error);
+      console.error('Error initializing React app:', error);
       this.showErrorMessage('Erreur lors de l\'initialisation de l\'interface');
       throw error;
     }
@@ -176,11 +161,13 @@ export default class DemarcheCompetenceWebPart extends BaseClientSideWebPart<IDe
 
   protected onDispose(): void {
     try {
-      // Cleanup Vue app
-      if (this.vueApp) {
-        this.vueApp.$destroy();
-        this.vueApp = null;
+      // Cleanup React app
+      if (this.domElement) {
+        ReactDom.unmountComponentAtNode(this.domElement);
       }
+
+      // Clear store reference
+      this.store = null;
 
       // Clear DOM
       if (this.domElement) {

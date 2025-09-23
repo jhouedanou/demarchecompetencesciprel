@@ -15,10 +15,10 @@ export interface IDemarcheCompetenceWebPartProps {
     debugMode: boolean;
 }
 export default class DemarcheCompetenceWebPart extends BaseClientSideWebPart<IDemarcheCompetenceWebPartProps> {
-    private vueApp;
+    private store;
     protected onInit(): Promise<void>;
     render(): void;
-    private initializeVueApp;
+    private initializeReactApp;
     private checkPermissions;
     private showErrorMessage;
     protected onDispose(): void;
