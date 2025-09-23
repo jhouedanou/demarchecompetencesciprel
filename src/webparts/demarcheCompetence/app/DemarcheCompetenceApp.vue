@@ -40,7 +40,7 @@
               <fluent-icon icon="navigation"></fluent-icon>
             </fluent-button>
             <div class="header-brand">
-              <img src="/assets/images/logo.webp" alt="CIPREL Logo" class="ciprel-logo" />
+              <img :src="ciprelLogoUrl" alt="CIPREL Logo" class="ciprel-logo" />
               <div class="brand-text">
                 <h1 class="app-title">{{ webPartProperties.title }}</h1>
                 <p class="app-subtitle">Plateforme de gestion des compétences</p>
@@ -331,6 +331,7 @@ import Dashboard from '@components/Dashboard.vue';
 import QuizIntroduction from '@components/QuizIntroduction.vue';
 import QuizSondage from '@components/QuizSondage.vue';
 import ProgressTracker from '@components/ProgressTracker.vue';
+import ciprelLogoUrl from '@assets/images/logo.webp';
 
 // Props
 interface Props {

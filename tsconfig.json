@@ -6,7 +6,8 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"],
-    "@components/*": ["src/components/*"],
+      "@assets/*": ["src/assets/*"],
+      "@components/*": ["src/components/*"],
       "@services/*": ["src/webparts/demarcheCompetence/services/*"],
       "@stores/*": ["src/webparts/demarcheCompetence/stores/*"],
       "@utils/*": ["src/webparts/demarcheCompetence/utils/*"],

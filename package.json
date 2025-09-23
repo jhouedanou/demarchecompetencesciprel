@@ -29,7 +29,11 @@
     "docker:serve-minimal": "docker-compose -f docker-compose.minimal.yml up --build",
     "docker:clean": "chmod +x scripts/Clean-And-Rebuild.sh && ./scripts/Clean-And-Rebuild.sh",
     "test:quick": "chmod +x scripts/Quick-Test.sh && ./scripts/Quick-Test.sh",
-    "deploy:lists": "powershell -ExecutionPolicy Bypass -File ./scripts/Deploy-SharePointLists.ps1"
+    "deploy:lists": "powershell -ExecutionPolicy Bypass -File ./scripts/Deploy-SharePointLists.ps1",
+    "start:dev": "chmod +x scripts/Start-Dev.sh && ./scripts/Start-Dev.sh",
+    "start:dev:win": "powershell -ExecutionPolicy Bypass -File ./scripts/Start-Dev.ps1",
+    "dev": "npm run start:dev",
+    "start:auto": "chmod +x start.sh && ./start.sh"
   },
   "dependencies": {
     "@fluentui/web-components": "^2.5.16",
