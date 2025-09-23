@@ -4,14 +4,24 @@ import {
   DefaultButton, 
   Text, 
   Stack, 
-  Card,
-  CardSectionProps,
   mergeStyles
 } from '@fluentui/react';
+
+// Simple Card component replacement
+const Card: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => (
+  <div className={`${mergeStyles({ 
+    backgroundColor: 'white', 
+    border: '1px solid #edebe9', 
+    borderRadius: '2px', 
+    boxShadow: '0 1.6px 3.6px 0 rgba(0,0,0,.132), 0 0.3px 0.9px 0 rgba(0,0,0,.108)'
+  })} ${className || ''}`}>
+    {children}
+  </div>
+);
 import { useNavigation, useUser } from '../contexts/AppContext';
 import styles from './DemarcheCompetences.module.scss';
 
-const cardSectionStyles: CardSectionProps['styles'] = {
+const cardSectionStyles = {
   root: {
     padding: '12px',
     borderBottom: '1px solid #edebe9'

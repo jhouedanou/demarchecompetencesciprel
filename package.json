@@ -8,8 +8,15 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "gulp bundle",
+    "build:prod": "gulp bundle --ship",
+    "package": "gulp package-solution --ship",
     "clean": "gulp clean",
-    "test": "gulp test"
+    "test": "gulp test",
+    "serve": "gulp serve",
+    "deploy": "npm run clean && npm run build:prod && npm run package",
+    "start": "gulp serve",
+    "lint": "eslint src/ --ext .ts,.tsx",
+    "lint:fix": "eslint src/ --ext .ts,.tsx --fix"
   },
   "dependencies": {
     "tslib": "2.3.1",
