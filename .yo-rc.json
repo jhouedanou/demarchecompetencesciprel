@@ -2,9 +2,9 @@
   "@microsoft/generator-sharepoint": {
     "plusBeta": false,
     "isCreatingSolution": true,
-    "nodeVersion": "22.18.0",
+    "nodeVersion": "18.19.1",
     "sdksVersions": {},
-    "version": "1.21.1",
+    "version": "1.20.0",
     "libraryName": "demarchecompetencesciprel",
     "libraryId": "1f52ff9b-aa6c-4b89-b05f-c757050fa9ad",
     "environment": "spo",
