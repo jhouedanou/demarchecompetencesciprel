@@ -106,7 +106,7 @@ export function AdminSidebar() {
               key={item.name}
               href={item.href}
               className={cn(
-                'flex w-full flex-col items-center gap-2 rounded-lg px-3 py-3 text-sm font-medium text-center transition-all duration-200',
+                'flex w-full flex-col items-center gap-3 rounded-lg px-3 py-4 text-sm font-medium text-center transition-all duration-200',
                 isActive
                   ? 'bg-blue-50 text-blue-700 ring-1 ring-blue-200'
                   : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900',
@@ -114,9 +114,12 @@ export function AdminSidebar() {
               )}
               title={collapsed ? item.name : undefined}
             >
-              <item.icon className="h-5 w-5" />
+              <item.icon className={cn(
+                'flex-shrink-0',
+                collapsed ? 'h-4 w-4' : 'h-6 w-6'
+              )} />
               {!collapsed && (
-                <span className="truncate">{item.name}</span>
+                <span className="truncate text-xs leading-tight">{item.name}</span>
               )}
             </Link>
           )
