@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@/lib/supabase/server'
+import { createUserServerClient } from '@/lib/supabase/server'
 
 interface RouteParams {
   params: {
@@ -9,7 +9,7 @@ interface RouteParams {
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const supabase = createServerClient()
+    const supabase = createUserServerClient()
     
     // Vérifier l'authentification et les permissions
     const {
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
-    const supabase = createServerClient()
+    const supabase = createUserServerClient()
     
     // Vérifier l'authentification et les permissions
     const {
@@ -124,7 +124,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
-    const supabase = createServerClient()
+    const supabase = createUserServerClient()
     
     // Vérifier l'authentification et les permissions
     const {
