@@ -107,10 +107,10 @@ export function CiprelNavigation() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="group flex items-center space-x-2 px-4 py-3 rounded-xl text-gray-700 hover:text-ciprel-green-600 hover:bg-gradient-to-r hover:from-ciprel-green-50 hover:to-ciprel-orange-50 transition-all duration-300 font-medium"
+                  className="group flex flex-col items-center space-y-1 px-3 py-2 rounded-xl text-gray-700 hover:text-ciprel-green-600 hover:bg-gradient-to-r hover:from-ciprel-green-50 hover:to-ciprel-orange-50 transition-all duration-300 font-medium"
                 >
-                  <Icon className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
-                  <span>{item.label}</span>
+                  <Icon className="w-6 h-6 group-hover:scale-110 transition-transform duration-200" />
+                  <span className="text-xs text-center">{item.label}</span>
                 </Link>
               )
             })}

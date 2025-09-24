@@ -662,6 +662,44 @@ export type Database = {
           }
         ]
       }
+      user_reading_progress: {
+        Row: {
+          id: string
+          user_id: string
+          section_id: string
+          section_title: string
+          completed_at: string | null
+          reading_time_seconds: number | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          section_id: string
+          section_title: string
+          completed_at?: string | null
+          reading_time_seconds?: number | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          section_id?: string
+          section_title?: string
+          completed_at?: string | null
+          reading_time_seconds?: number | null
+          created_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_reading_progress_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -695,6 +733,7 @@ export type VideoLike = Database['public']['Tables']['video_likes']['Row']
 export type ConsentRecord = Database['public']['Tables']['consent_records']['Row']
 export type Visit = Database['public']['Tables']['visits']['Row']
 export type Notification = Database['public']['Tables']['notifications']['Row']
+export type UserReadingProgress = Database['public']['Tables']['user_reading_progress']['Row']
 
 export type QuizType = Database['public']['Enums']['quiz_type']
 export type QuestionCategory = Database['public']['Enums']['question_category']
