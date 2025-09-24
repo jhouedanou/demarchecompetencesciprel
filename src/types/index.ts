@@ -1,6 +1,20 @@
 export * from './database'
 
+// Profile alias for compatibility
+export interface Profile {
+  id: string
+  email: string
+  name: string | null
+  role: 'USER' | 'ADMIN' | 'MANAGER'
+  avatar_url: string | null
+  phone: string | null
+  created_at: string
+  updated_at: string
+}
+
 // Quiz Types
+export type QuestionCategory = 'DEFINITION' | 'RESPONSABILITE' | 'COMPETENCES' | 'ETAPES' | 'OPINION'
+export type QuizType = 'INTRODUCTION' | 'SONDAGE'
 export interface QuizQuestion {
   id: string
   title: string
@@ -16,6 +30,7 @@ export interface QuizQuestion {
   feedback?: string
   explanation?: string
   order_index: number
+  active?: boolean
 }
 
 export interface QuizAnswer {
@@ -35,6 +50,19 @@ export interface QuizState {
   isCompleted: boolean
   score?: number
   percentage?: number
+}
+
+export interface QuizResult {
+  id: string
+  user_id: string
+  quiz_type: QuizType
+  score: number
+  max_score: number
+  percentage: number
+  completed_at: string
+  duration_seconds: number
+  attempt_number: number
+  answers: QuizAnswer[]
 }
 
 // Sondage Types
@@ -103,6 +131,49 @@ export interface ConsentPreferences {
   functional: boolean
 }
 
+// Types manquants pour GDPR
+export interface SondageResponse {
+  id: string
+  user_id: string
+  question_id: string
+  response_value: string
+  response_text?: string
+  submitted_at: string
+}
+
+export interface VideoView {
+  id: string
+  user_id: string
+  video_id: string
+  viewed_at: string
+  watch_duration: number
+  completed: boolean
+}
+
+export interface VideoLike {
+  id: string
+  user_id: string
+  video_id: string
+  liked: boolean
+  created_at: string
+}
+
+export interface ConsentRecord {
+  id: string
+  user_id: string
+  consent_type: string
+  granted: boolean
+  timestamp: string
+  version: string
+}
+
+export interface Visit {
+  id: string
+  user_id: string
+  page: string
+  timestamp: string
+}
+
 export interface GDPRExportData {
   profile: Profile
   quiz_results: QuizResult[]
@@ -114,6 +185,8 @@ export interface GDPRExportData {
 }
 
 // Authentication Types
+export type UserRole = 'USER' | 'ADMIN' | 'MANAGER'
+
 export interface AuthUser {
   id: string
   email: string
@@ -234,6 +307,8 @@ export interface ThemeConfig {
 }
 
 // Device Detection Types
+export type DeviceType = 'mobile' | 'tablet' | 'desktop'
+
 export interface DeviceInfo {
   type: DeviceType
   isMobile: boolean

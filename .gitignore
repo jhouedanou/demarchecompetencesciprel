@@ -32,3 +32,11 @@ obj
 
 # Styles Generated Code
 *.scss.ts
+
+# Next.js
+.next/
+out/
+
+# Environment variables
+.env.local
+.env.production.local

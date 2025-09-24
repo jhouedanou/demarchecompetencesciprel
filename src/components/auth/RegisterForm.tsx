@@ -47,16 +47,15 @@ export function RegisterForm() {
     setIsLoading(true)
     
     try {
-      const { user, error } = await signUp(
-        data.email,
-        data.password,
-        {
-          name: data.name,
-          phone: data.phone,
-        }
-      )
-      
-      if (error) throw error
+      const { error } = await signUp({
+        email: data.email,
+        password: data.password,
+        confirmPassword: data.confirmPassword,
+        name: data.name,
+        phone: data.phone || undefined
+      })
+
+      if (error) throw new Error(error)
 
       toast.success('Compte créé avec succès ! Vérifiez votre email pour confirmer votre compte.')
       router.push('/login')

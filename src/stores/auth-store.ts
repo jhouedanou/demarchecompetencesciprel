@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { supabase } from '@/lib/supabase/client'
-import type { AuthUser, LoginCredentials, RegisterCredentials } from '@/types'
+import type { AuthUser, LoginCredentials, RegisterCredentials } from '@/types/auth'
 
 interface AuthState {
   user: AuthUser | null

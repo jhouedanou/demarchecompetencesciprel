@@ -36,16 +36,19 @@ export function LoginForm() {
 
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true)
-    
+
     try {
-      const { user, error } = await signIn(data.email, data.password)
-      
-      if (error) throw error
+      const { error } = await signIn({ email: data.email, password: data.password })
+
+      if (error) throw new Error(error)
 
       toast.success('Connexion réussie !')
-      
+
+      // Get user from store after successful sign in
+      const currentUser = useAuthStore.getState().user
+
       // Redirection basée sur le rôle
-      if (user?.user_metadata?.role === 'ADMIN') {
+      if (currentUser?.role === 'ADMIN') {
         router.push('/admin')
       } else {
         router.push('/competences')

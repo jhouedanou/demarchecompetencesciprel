@@ -26,7 +26,16 @@ export async function GET(request: NextRequest) {
     }
 
     // Récupérer les activités récentes
-    const activities = []
+    const activities: Array<{
+      id: string;
+      type: string;
+      user_name: string;
+      user_email: string;
+      user_avatar: string | null;
+      details: string;
+      timestamp: string;
+      status: string;
+    }> = []
 
     // Nouvelles inscriptions (dernières 24h)
     const { data: newUsers } = await supabase

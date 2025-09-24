@@ -32,12 +32,12 @@ export function Hero() {
   }
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-ciprel-50 via-white to-ciprel-100">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-ciprel-green-50 via-white to-ciprel-green-100">
       {/* Background Elements */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-ciprel-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
-        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
-        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-ciprel-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-ciprel-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-ciprel-orange-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-ciprel-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
       </div>
 
       <motion.div
@@ -50,14 +50,14 @@ export function Hero() {
           {/* Content */}
           <div className="space-y-8">
             <motion.div variants={itemVariants}>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-ciprel-100 text-ciprel-800 rounded-full text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-ciprel-green-100 text-ciprel-green-800 rounded-full text-sm font-medium mb-6">
                 <Award className="w-4 h-4" />
                 Développement des compétences
               </div>
 
               <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                 Démarche{' '}
-                <span className="text-gradient bg-gradient-to-r from-ciprel-600 to-ciprel-500 bg-clip-text text-transparent">
+                <span className="text-gradient bg-gradient-to-r from-ciprel-green-600 to-ciprel-green-500 bg-clip-text text-transparent">
                   Compétences
                 </span>
                 <br />
@@ -98,13 +98,13 @@ export function Hero() {
               variants={itemVariants}
             >
               <div className="flex items-center gap-2">
-                <Users className="w-5 h-5 text-ciprel-600" />
+                <Users className="w-5 h-5 text-ciprel-green-600" />
                 <span className="text-sm text-gray-600">
                   <strong className="text-gray-900">500+</strong> employés formés
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <Award className="w-5 h-5 text-ciprel-600" />
+                <Award className="w-5 h-5 text-ciprel-green-600" />
                 <span className="text-sm text-gray-600">
                   <strong className="text-gray-900">85%</strong> de satisfaction
                 </span>
@@ -123,15 +123,15 @@ export function Hero() {
                 transition={{ duration: 0.3 }}
               >
                 <Link href={ROUTES.QUIZ_INTRODUCTION}>
-                  <Card className="p-6 hover:shadow-ciprel cursor-pointer group border-2 hover:border-ciprel-300 transition-all duration-300">
-                    <div className="w-12 h-12 bg-ciprel-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-ciprel-200 transition-colors">
-                      <Award className="w-6 h-6 text-ciprel-600" />
+                  <Card className="p-6 hover:shadow-ciprel cursor-pointer group border-2 hover:border-ciprel-green-300 transition-all duration-300">
+                    <div className="w-12 h-12 bg-ciprel-green-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-ciprel-green-200 transition-colors">
+                      <Award className="w-6 h-6 text-ciprel-green-600" />
                     </div>
                     <h3 className="font-semibold text-gray-900 mb-2">Quiz Introduction</h3>
                     <p className="text-sm text-gray-600">
                       Testez vos connaissances sur la démarche compétences
                     </p>
-                    <div className="mt-4 text-ciprel-600 group-hover:text-ciprel-700 text-sm font-medium">
+                    <div className="mt-4 text-ciprel-green-600 group-hover:text-ciprel-green-700 text-sm font-medium">
                       Commencer →
                     </div>
                   </Card>
@@ -143,15 +143,15 @@ export function Hero() {
                 transition={{ duration: 0.3 }}
               >
                 <Link href={ROUTES.SONDAGE}>
-                  <Card className="p-6 hover:shadow-ciprel cursor-pointer group border-2 hover:border-ciprel-300 transition-all duration-300">
-                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-200 transition-colors">
-                      <Users className="w-6 h-6 text-blue-600" />
+                  <Card className="p-6 hover:shadow-ciprel cursor-pointer group border-2 hover:border-ciprel-orange-300 transition-all duration-300">
+                    <div className="w-12 h-12 bg-ciprel-orange-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-ciprel-orange-200 transition-colors">
+                      <Users className="w-6 h-6 text-ciprel-orange-600" />
                     </div>
                     <h3 className="font-semibold text-gray-900 mb-2">Sondage Opinion</h3>
                     <p className="text-sm text-gray-600">
                       Partagez votre point de vue et vos attentes
                     </p>
-                    <div className="mt-4 text-blue-600 group-hover:text-blue-700 text-sm font-medium">
+                    <div className="mt-4 text-ciprel-orange-600 group-hover:text-ciprel-orange-700 text-sm font-medium">
                       Participer →
                     </div>
                   </Card>
@@ -164,10 +164,10 @@ export function Hero() {
                 className="md:col-span-2"
               >
                 <Link href={ROUTES.VIDEOS}>
-                  <Card className="p-6 hover:shadow-ciprel cursor-pointer group border-2 hover:border-ciprel-300 transition-all duration-300 bg-gradient-to-r from-ciprel-50 to-blue-50">
+                  <Card className="p-6 hover:shadow-ciprel cursor-pointer group border-2 hover:border-ciprel-green-300 transition-all duration-300 bg-gradient-to-r from-ciprel-green-50 to-ciprel-orange-50">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-gradient-to-r from-ciprel-600 to-blue-600 rounded-lg flex items-center justify-center">
+                        <div className="w-12 h-12 bg-gradient-to-r from-ciprel-green-600 to-ciprel-orange-600 rounded-lg flex items-center justify-center">
                           <Play className="w-6 h-6 text-white" />
                         </div>
                         <div>
@@ -177,7 +177,7 @@ export function Hero() {
                           </p>
                         </div>
                       </div>
-                      <div className="text-ciprel-600 group-hover:text-ciprel-700">
+                      <div className="text-ciprel-green-600 group-hover:text-ciprel-green-700">
                         <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
@@ -188,7 +188,7 @@ export function Hero() {
 
             {/* Floating Elements */}
             <motion.div
-              className="absolute -top-4 -right-4 w-24 h-24 bg-ciprel-200 rounded-full opacity-20"
+              className="absolute -top-4 -right-4 w-24 h-24 bg-ciprel-green-200 rounded-full opacity-20"
               animate={{
                 y: [0, -10, 0],
                 rotate: [0, 5, 0]
@@ -200,7 +200,7 @@ export function Hero() {
               }}
             />
             <motion.div
-              className="absolute -bottom-6 -left-6 w-16 h-16 bg-blue-300 rounded-full opacity-30"
+              className="absolute -bottom-6 -left-6 w-16 h-16 bg-ciprel-orange-300 rounded-full opacity-30"
               animate={{
                 y: [0, 10, 0],
                 rotate: [0, -3, 0]

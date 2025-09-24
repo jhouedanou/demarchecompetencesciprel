@@ -33,6 +33,9 @@ export interface UserProfile {
   updated_at: string
 }
 
+// Alias for compatibility
+export type Profile = UserProfile
+
 export interface CreateUserRequest {
   email: string
   password: string

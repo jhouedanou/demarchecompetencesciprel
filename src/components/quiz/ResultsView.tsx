@@ -210,15 +210,15 @@ export function ResultsView({ quizType, onRestart, className }: ResultsViewProps
 
           {/* Message de motivation */}
           <div className="text-center p-4 bg-gray-50 rounded-lg">
-            {percentage >= 90 ? (
+            {(percentage || 0) >= 90 ? (
               <p className="text-lg text-gray-700">
                 🎉 Excellent travail ! Vous maîtrisez parfaitement le sujet.
               </p>
-            ) : percentage >= 70 ? (
+            ) : (percentage || 0) >= 70 ? (
               <p className="text-lg text-gray-700">
                 👏 Bravo ! Vous avez une bonne compréhension du sujet.
               </p>
-            ) : percentage >= 50 ? (
+            ) : (percentage || 0) >= 50 ? (
               <p className="text-lg text-gray-700">
                 👍 Pas mal ! Avec un peu plus d'étude, vous y arriverez parfaitement.
               </p>
@@ -274,7 +274,7 @@ export function ResultsView({ quizType, onRestart, className }: ResultsViewProps
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {percentage < 70 && (
+            {(percentage || 0) < 70 && (
               <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                 <h4 className="font-semibold text-yellow-800 mb-2">
                   Recommandations d'amélioration :
