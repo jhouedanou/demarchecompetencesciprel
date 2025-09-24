@@ -13,7 +13,10 @@ import {
   BarChart3, 
   Key, 
   FileText, 
-  Phone 
+  Phone,
+  ChevronDown,
+  Settings,
+  Shield
 } from 'lucide-react'
 
 const navigationItems = [
@@ -42,12 +45,6 @@ const navigationItems = [
     description: 'Testez vos connaissances'
   },
   { 
-    href: '/sondage', 
-    label: 'Sondage Opinion', 
-    icon: BarChart3,
-    description: 'Partagez votre avis'
-  },
-  { 
     href: '/facteurs-cles', 
     label: 'Facteurs Clés', 
     icon: Key,
@@ -67,45 +64,152 @@ const navigationItems = [
   }
 ]
 
+const sondageItems = [
+  { 
+    href: '/sondage', 
+    label: 'Sondage Opinion', 
+    description: 'Partagez votre avis sur la démarche compétence'
+  },
+  // Ajout d'autres sondages futurs
+  { 
+    href: '/sondage/satisfaction', 
+    label: 'Satisfaction Formation', 
+    description: 'Évaluez la qualité des formations'
+  },
+  { 
+    href: '/sondage/besoins', 
+    label: 'Analyse des Besoins', 
+    description: 'Identifiez vos besoins en compétences'
+  }
+]
+
 export function CiprelNavigation() {
   const [isOpen, setIsOpen] = useState(false)
+  const [sondageDropdownOpen, setSondageDropdownOpen] = useState(false)
+  const [adminDropdownOpen, setAdminDropdownOpen] = useState(false)
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50 border-b border-ciprel-green-100">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo CIPREL */}
-          <Link href="/" className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-gradient-to-r from-ciprel-green-500 to-ciprel-green-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">C</span>
-            </div>
-            <div>
-              <div className="font-bold text-ciprel-green-700 text-lg">CIPREL</div>
-              <div className="text-xs text-ciprel-orange-600 font-medium">30 ans d'expérience</div>
+    <nav className="bg-white shadow-xl sticky top-0 z-50 border-b-2 border-ciprel-green-500">
+      <div className="container mx-auto px-4 lg:px-6">
+        <div className="flex justify-between items-center h-20">
+          {/* Logo CIPREL Corporate */}
+          <Link href="/" className="flex items-center space-x-4 group">
+            <div className="relative">
+            <img src="../images/logo.webp"/>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-6">
+          <div className="hidden lg:flex items-center space-x-8">
             {navigationItems.map((item) => {
               const Icon = item.icon
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="flex items-center space-x-2 px-3 py-2 rounded-lg text-gray-700 hover:text-ciprel-green-600 hover:bg-ciprel-green-50 transition-colors duration-200"
+                  className="group flex items-center space-x-2 px-4 py-3 rounded-xl text-gray-700 hover:text-ciprel-green-600 hover:bg-gradient-to-r hover:from-ciprel-green-50 hover:to-ciprel-orange-50 transition-all duration-300 font-medium"
                 >
-                  <Icon className="w-4 h-4" />
-                  <span className="font-medium">{item.label}</span>
+                  <Icon className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
+                  <span>{item.label}</span>
                 </Link>
               )
             })}
+            
+            {/* Menu Sondages */}
+            <div className="relative group">
+              <button
+                onMouseEnter={() => setSondageDropdownOpen(true)}
+                onMouseLeave={() => setSondageDropdownOpen(false)}
+                className="flex items-center space-x-2 px-4 py-3 rounded-xl text-gray-700 hover:text-ciprel-green-600 hover:bg-gradient-to-r hover:from-ciprel-green-50 hover:to-ciprel-orange-50 transition-all duration-300 font-medium"
+              >
+                <BarChart3 className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
+                <span>Sondages</span>
+                <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
+              </button>
+              
+              <AnimatePresence>
+                {sondageDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full left-0 w-80 mt-2 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 z-50"
+                    onMouseEnter={() => setSondageDropdownOpen(true)}
+                    onMouseLeave={() => setSondageDropdownOpen(false)}
+                  >
+                    {sondageItems.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className="block px-6 py-3 hover:bg-gradient-to-r hover:from-ciprel-green-50 hover:to-ciprel-orange-50 transition-colors duration-200"
+                      >
+                        <div className="font-medium text-gray-900">{item.label}</div>
+                        <div className="text-sm text-gray-500 mt-1">{item.description}</div>
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Menu Administration */}
+            <div className="relative group">
+              <button
+                onMouseEnter={() => setAdminDropdownOpen(true)}
+                onMouseLeave={() => setAdminDropdownOpen(false)}
+                className="flex items-center space-x-2 px-4 py-3 rounded-xl text-gray-700 hover:text-ciprel-green-600 hover:bg-gradient-to-r hover:from-ciprel-green-50 hover:to-ciprel-orange-50 transition-all duration-300 font-medium"
+              >
+                <Settings className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
+                <span>Administration</span>
+                <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
+              </button>
+              
+              <AnimatePresence>
+                {adminDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full right-0 w-72 mt-2 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 z-50"
+                    onMouseEnter={() => setAdminDropdownOpen(true)}
+                    onMouseLeave={() => setAdminDropdownOpen(false)}
+                  >
+                    <Link
+                      href="/admin"
+                      className="block px-6 py-3 hover:bg-gradient-to-r hover:from-ciprel-green-50 hover:to-ciprel-orange-50 transition-colors duration-200"
+                    >
+                      <div className="flex items-center space-x-3">
+                        <Shield className="w-5 h-5 text-ciprel-green-600" />
+                        <div>
+                          <div className="font-medium text-gray-900">Tableau de Bord</div>
+                          <div className="text-sm text-gray-500">Interface d'administration</div>
+                        </div>
+                      </div>
+                    </Link>
+                    <Link
+                      href="/login"
+                      className="block px-6 py-3 hover:bg-gradient-to-r hover:from-ciprel-green-50 hover:to-ciprel-orange-50 transition-colors duration-200"
+                    >
+                      <div className="flex items-center space-x-3">
+                        <Key className="w-5 h-5 text-ciprel-orange-600" />
+                        <div>
+                          <div className="font-medium text-gray-900">Connexion Sécurisée</div>
+                          <div className="text-sm text-gray-500">Accès administrateur</div>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2 rounded-lg hover:bg-ciprel-green-50 transition-colors"
+            className="lg:hidden p-3 rounded-xl bg-gradient-to-r from-ciprel-green-50 to-ciprel-orange-50 hover:from-ciprel-green-100 hover:to-ciprel-orange-100 transition-colors shadow-md"
           >
             {isOpen ? (
               <X className="w-6 h-6 text-ciprel-green-600" />
@@ -123,9 +227,9 @@ export function CiprelNavigation() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="lg:hidden border-t border-ciprel-green-100 bg-white"
+              className="lg:hidden border-t-2 border-ciprel-green-100 bg-gradient-to-b from-white to-gray-50"
             >
-              <div className="py-4">
+              <div className="py-6 space-y-2">
                 {navigationItems.map((item) => {
                   const Icon = item.icon
                   return (
@@ -133,16 +237,72 @@ export function CiprelNavigation() {
                       key={item.href}
                       href={item.href}
                       onClick={() => setIsOpen(false)}
-                      className="flex items-center space-x-3 px-4 py-3 hover:bg-ciprel-green-50 transition-colors duration-200"
+                      className="flex items-center space-x-4 px-6 py-4 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-ciprel-green-50 hover:to-ciprel-orange-50 transition-all duration-200 group"
                     >
-                      <Icon className="w-5 h-5 text-ciprel-green-600" />
+                      <Icon className="w-6 h-6 text-ciprel-green-600 group-hover:scale-110 transition-transform duration-200" />
                       <div>
-                        <div className="font-medium text-gray-900">{item.label}</div>
-                        <div className="text-sm text-gray-500">{item.description}</div>
+                        <div className="font-semibold text-gray-900 text-lg">{item.label}</div>
+                        <div className="text-sm text-gray-600">{item.description}</div>
                       </div>
                     </Link>
                   )
                 })}
+                
+                {/* Sondages Mobile */}
+                <div className="border-t border-gray-200 mt-4 pt-4">
+                  <div className="px-6 py-2">
+                    <div className="flex items-center space-x-2 text-ciprel-green-700 font-semibold text-lg">
+                      <BarChart3 className="w-5 h-5" />
+                      <span>Sondages</span>
+                    </div>
+                  </div>
+                  {sondageItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-start space-x-4 px-8 py-3 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-ciprel-green-50 hover:to-ciprel-orange-50 transition-colors duration-200"
+                    >
+                      <div className="w-2 h-2 bg-ciprel-orange-500 rounded-full mt-3 flex-shrink-0"></div>
+                      <div>
+                        <div className="font-medium text-gray-900">{item.label}</div>
+                        <div className="text-sm text-gray-600 mt-1">{item.description}</div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+                
+                {/* Administration Mobile */}
+                <div className="border-t border-gray-200 mt-4 pt-4">
+                  <div className="px-6 py-2">
+                    <div className="flex items-center space-x-2 text-ciprel-green-700 font-semibold text-lg">
+                      <Settings className="w-5 h-5" />
+                      <span>Administration</span>
+                    </div>
+                  </div>
+                  <Link
+                    href="/admin"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center space-x-4 px-8 py-3 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-ciprel-green-50 hover:to-ciprel-orange-50 transition-colors duration-200"
+                  >
+                    <Shield className="w-5 h-5 text-ciprel-green-600" />
+                    <div>
+                      <div className="font-medium text-gray-900">Tableau de Bord</div>
+                      <div className="text-sm text-gray-600">Interface d'administration</div>
+                    </div>
+                  </Link>
+                  <Link
+                    href="/login"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center space-x-4 px-8 py-3 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-ciprel-green-50 hover:to-ciprel-orange-50 transition-colors duration-200"
+                  >
+                    <Key className="w-5 h-5 text-ciprel-orange-600" />
+                    <div>
+                      <div className="font-medium text-gray-900">Connexion Sécurisée</div>
+                      <div className="text-sm text-gray-600">Accès administrateur</div>
+                    </div>
+                  </Link>
+                </div>
               </div>
             </motion.div>
           )}

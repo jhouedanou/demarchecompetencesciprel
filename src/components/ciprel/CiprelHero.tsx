@@ -3,22 +3,41 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, BookOpen, Users } from 'lucide-react'
+import { 
+  ArrowRight, 
+  BookOpen, 
+  Users, 
+  Zap, 
+  Shield, 
+  Award,
+  TrendingUp,
+  Building2,
+  Globe,
+  Clock
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export function CiprelHero() {
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-ciprel-green-50 via-white to-ciprel-orange-50">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-gradient-to-r from-ciprel-green-500 to-ciprel-orange-500 opacity-10"></div>
-        <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+    <div className="relative min-h-screen bg-gradient-to-br from-white via-ciprel-green-50 to-ciprel-orange-50">
+      {/* Background Pattern Corporate */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-r from-ciprel-green-500/5 to-ciprel-orange-500/5"></div>
+        <div className="absolute inset-0" style={{
+          backgroundImage: `
+            radial-gradient(circle at 25% 25%, ${`#36A24C`}10 0%, transparent 25%),
+            radial-gradient(circle at 75% 75%, ${`#EC7E05`}10 0%, transparent 25%)
+          `
+        }}></div>
+        {/* Grid corporé subtil */}
+        <svg className="absolute inset-0 w-full h-full opacity-3" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#36A24C" strokeWidth="1"/>
+            <pattern id="corporate-grid" width="60" height="60" patternUnits="userSpaceOnUse">
+              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#36A24C" strokeWidth="0.5"/>
+              <circle cx="30" cy="30" r="1" fill="#36A24C" opacity="0.3"/>
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
+          <rect width="100%" height="100%" fill="url(#corporate-grid)" />
         </svg>
       </div>
 
@@ -36,13 +55,13 @@ export function CiprelHero() {
               <div className="w-8 h-8 bg-ciprel-green-500 rounded-full flex items-center justify-center">
                 <span className="text-white font-bold text-sm">C</span>
               </div>
-              <span className="text-ciprel-green-800 font-semibold">CIPREL - 30 ans d'expérience</span>
+             
             </div>
 
             {/* Titre principal */}
             <div>
               <h1 className="text-5xl lg:text-6xl font-bold text-ciprel-black leading-tight mb-4">
-                Guide de la{' '}
+             {' '}
                 <span className="text-gradient bg-gradient-to-r from-ciprel-green-600 to-ciprel-orange-500 bg-clip-text text-transparent">
                   Démarche Compétence
                 </span>
@@ -50,12 +69,7 @@ export function CiprelHero() {
               <div className="w-24 h-1 bg-gradient-to-r from-ciprel-green-500 to-ciprel-orange-500 rounded-full"></div>
             </div>
 
-            {/* Message d'accueil */}
-            <p className="text-xl text-gray-700 leading-relaxed max-w-2xl">
-              Les collaborateurs de <strong className="text-ciprel-green-600">CIPREL</strong> sont mobilisés{' '}
-              <strong className="text-ciprel-orange-600">24h/24, 365 jours par an</strong>{' '}
-              pour la production d'électricité
-            </p>
+          
 
             {/* Boutons d'action */}
             <div className="flex flex-col sm:flex-row gap-4">
@@ -79,17 +93,7 @@ export function CiprelHero() {
               </Link>
             </div>
 
-            {/* Statistiques */}
-            <div className="grid grid-cols-2 gap-8 pt-8 border-t border-gray-200">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-ciprel-green-600 mb-2">30+</div>
-                <div className="text-sm text-gray-600 uppercase tracking-wide">Années d'expertise</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-ciprel-orange-600 mb-2">24/7</div>
-                <div className="text-sm text-gray-600 uppercase tracking-wide">Production continue</div>
-              </div>
-            </div>
+            
           </motion.div>
 
           {/* Image de la centrale */}

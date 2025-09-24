@@ -36,7 +36,32 @@ obj
 # Next.js
 .next/
 out/
+*.tsbuildinfo
+.next/**/*.pack*
+.next/cache/
+.next/static/
+.next/server/
+*.js.map
+*.css.map
 
 # Environment variables
 .env.local
 .env.production.local
+.env.local.backup
+
+# Build artifacts
+dist/
+build/
+*.tsbuildinfo
+
+# Cache files
+.cache/
+.parcel-cache/
+.turbo/
+
+# Webpack
+.webpack/
+
+# Temporary files
+*.tmp
+*.temp

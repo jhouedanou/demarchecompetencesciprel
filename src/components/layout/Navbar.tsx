@@ -22,8 +22,10 @@ export function Navbar() {
   const [showNotifications, setShowNotifications] = useState(false)
 
   const handleSignOut = async () => {
+    // Déconnecter l'admin aussi
+    localStorage.removeItem('ciprel-admin-auth')
     await signOut()
-    router.push('/login')
+    router.push('/')
   }
 
   const getInitials = (name: string | null) => {
