@@ -60,7 +60,7 @@ export function CompetencesNavbar() {
             <div className="flex-shrink-0 flex items-center py-3">
               <img
                 className="h-10 w-auto"
-                src="/images/logo-ciprel.png"
+                src="/images/logo.webp"
                 alt="CIPREL"
               />
               <div className="ml-3 flex flex-col">

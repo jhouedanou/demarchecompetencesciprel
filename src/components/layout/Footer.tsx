@@ -42,7 +42,7 @@ export function Footer() {
             <div className="flex items-center">
               <img
                 className="h-8 w-auto"
-                src="/images/logo-ciprel.png"
+                src="/images/logo.webp"
                 alt="CIPREL"
               />
               <span className="ml-3 text-xl font-bold text-gray-900">

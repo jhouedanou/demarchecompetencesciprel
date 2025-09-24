@@ -44,7 +44,7 @@ export function Navbar() {
         {/* Logo et titre (visible sur mobile) */}
         <div className="flex items-center lg:hidden">
           <img 
-            src="/images/logo-ciprel.png" 
+            src="/images/logo.webp" 
             alt="CIPREL" 
             className="h-8 w-auto mr-3" 
           />

@@ -74,7 +74,7 @@ export function AdminSidebar() {
         {!collapsed && (
           <div className="flex items-center space-x-3">
             <img 
-              src="/images/logo-ciprel.png" 
+              src="/images/logo.webp" 
               alt="CIPREL" 
               className="h-8 w-auto" 
             />

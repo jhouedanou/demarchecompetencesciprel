@@ -3,7 +3,18 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Eye, EyeOff, Lock, User, Mail, ArrowRight, Shield, Building } from 'lucide-react'
+import {
+  Eye,
+  EyeOff,
+  Lock,
+  User,
+  Mail,
+  ArrowRight,
+  Shield,
+  Building,
+  Sparkles,
+  Layers,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -49,10 +60,18 @@ export default function RegisterPage() {
     }
 
     try {
-      await signUp(formData.email, formData.password, formData.name)
-      // La redirection sera gérée par l'effet useEffect ci-dessus
+      const { error: signUpError } = await signUp({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+      })
+
+      if (signUpError) {
+        setError(signUpError)
+      }
     } catch (err: any) {
-      setError(err.message || 'Une erreur est survenue lors de l\'inscription')
+      setError(err.message || "Une erreur est survenue lors de l'inscription")
     } finally {
       setIsLoading(false)
     }
@@ -75,170 +94,200 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-ciprel-green-50 via-white to-ciprel-orange-50 flex items-center justify-center px-4">
-      <div className="max-w-md w-full">
-        {/* En-tête */}
-        <div className="text-center mb-8">
-          <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-ciprel-green-500 to-ciprel-green-600 rounded-2xl flex items-center justify-center shadow-lg">
-            <Building className="h-10 w-10 text-white" />
+    <div className="relative min-h-screen bg-gradient-to-br from-white via-slate-50 to-ciprel-green-50 overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -top-24 right-0 h-80 w-80 rounded-full bg-ciprel-green-200/40 blur-3xl" />
+        <div className="absolute bottom-0 left-0 h-96 w-96 rounded-full bg-ciprel-orange-200/40 blur-3xl" />
+      </div>
+
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col lg:flex-row">
+        <aside className="mx-auto w-full max-w-2xl px-6 py-16 text-center lg:mx-0 lg:flex lg:w-2/5 lg:flex-col lg:justify-center lg:px-12 lg:text-left">
+          <div className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-ciprel-green-700 shadow-sm ring-1 ring-ciprel-green-100/70 backdrop-blur">
+            <Sparkles className="h-3.5 w-3.5" />
+            Nouveaux parcours disponibles
           </div>
-          <h1 className="text-3xl font-bold text-ciprel-black mb-2">
-            Inscription
-          </h1>
-          <p className="text-gray-600">
+          <h1 className="mt-6 text-3xl font-bold tracking-tight text-ciprel-black sm:text-4xl">
             Créez votre compte CIPREL Compétences
+          </h1>
+          <p className="mt-4 text-base text-slate-600">
+            Accédez aux contenus exclusifs, participez aux campagnes de montée en compétences et suivez votre progression au sein de l'entreprise.
           </p>
-        </div>
 
-        {/* Formulaire */}
-        <div className="bg-white/90 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-gray-200">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Nom complet */}
-            <div className="space-y-2">
-              <Label htmlFor="name" className="text-sm font-semibold text-gray-700 flex items-center">
-                <User className="h-4 w-4 mr-2" />
-                Nom complet
-              </Label>
-              <Input
-                id="name"
-                type="text"
-                value={formData.name}
-                onChange={(e) => handleInputChange('name', e.target.value)}
-                placeholder="Votre nom complet"
-                className="h-12 border-gray-300 focus:border-ciprel-green-500 focus:ring-ciprel-green-500"
-                required
-              />
+          <dl className="mt-8 space-y-4 text-left">
+            {[{
+              icon: Building,
+              title: 'Une plateforme pensée pour CIPREL',
+              description: 'Tous les outils dont vous avez besoin pour soutenir vos objectifs stratégiques.',
+            },
+            {
+              icon: Layers,
+              title: 'Parcours multi-métiers',
+              description: 'Des contenus adaptés à chaque pôle pour dynamiser les compétences clés.',
+            }].map(feature => (
+              <div
+                key={feature.title}
+                className="group flex items-start gap-3 rounded-2xl border border-white/50 bg-white/70 p-4 shadow-sm transition hover:border-ciprel-green-200 hover:shadow-lg"
+              >
+                <feature.icon className="mt-1 h-5 w-5 text-ciprel-green-600 transition group-hover:scale-110" />
+                <div>
+                  <dt className="text-sm font-semibold text-ciprel-black">{feature.title}</dt>
+                  <dd className="mt-1 text-sm text-slate-600">{feature.description}</dd>
+                </div>
+              </div>
+            ))}
+          </dl>
+        </aside>
+
+        <main className="flex flex-1 items-center justify-center px-4 py-16 sm:px-8 lg:px-12">
+          <div className="w-full max-w-md">
+            <div className="mb-8 flex flex-col gap-3 text-center lg:text-left">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-ciprel-green-500 to-ciprel-green-600 shadow-lg lg:mx-0">
+                <Shield className="h-8 w-8 text-white" />
+              </div>
+              <div>
+                <h2 className="text-3xl font-semibold text-ciprel-black">Créer un compte</h2>
+                <p className="mt-2 text-sm text-slate-600">
+                  Quelques informations suffisent pour rejoindre la plateforme et débloquer vos parcours.
+                </p>
+              </div>
             </div>
 
-            {/* Email */}
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-semibold text-gray-700 flex items-center">
-                <Mail className="h-4 w-4 mr-2" />
-                Adresse email
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
-                placeholder="votre.email@ciprel.ci"
-                className="h-12 border-gray-300 focus:border-ciprel-green-500 focus:ring-ciprel-green-500"
-                required
-              />
-            </div>
+            <div className="rounded-3xl border border-white/70 bg-white/90 p-8 shadow-2xl backdrop-blur">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="name" className="flex items-center text-sm font-semibold text-gray-700">
+                    <User className="mr-2 h-4 w-4" />
+                    Nom complet
+                  </Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) => handleInputChange('name', e.target.value)}
+                    placeholder="Votre nom et prénom"
+                    className="h-12 rounded-xl border-gray-200 focus:border-ciprel-green-500 focus:ring-ciprel-green-500"
+                    required
+                  />
+                </div>
 
-            {/* Mot de passe */}
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-semibold text-gray-700 flex items-center">
-                <Lock className="h-4 w-4 mr-2" />
-                Mot de passe
-              </Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  value={formData.password}
-                  onChange={(e) => handleInputChange('password', e.target.value)}
-                  placeholder="••••••••"
-                  className="h-12 pr-12 border-gray-300 focus:border-ciprel-green-500 focus:ring-ciprel-green-500"
-                  required
-                />
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="flex items-center text-sm font-semibold text-gray-700">
+                    <Mail className="mr-2 h-4 w-4" />
+                    Adresse email professionnelle
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    placeholder="prenom.nom@ciprel.ci"
+                    className="h-12 rounded-xl border-gray-200 focus:border-ciprel-green-500 focus:ring-ciprel-green-500"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="flex items-center text-sm font-semibold text-gray-700">
+                    <Lock className="mr-2 h-4 w-4" />
+                    Mot de passe
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type={showPassword ? 'text' : 'password'}
+                      value={formData.password}
+                      onChange={(e) => handleInputChange('password', e.target.value)}
+                      placeholder="Minimum 6 caractères"
+                      className="h-12 rounded-xl border-gray-200 pr-12 focus:border-ciprel-green-500 focus:ring-ciprel-green-500"
+                      required
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute inset-y-0 right-0 flex h-12 items-center px-3 text-gray-400 hover:text-ciprel-green-600"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword" className="flex items-center text-sm font-semibold text-gray-700">
+                    <Lock className="mr-2 h-4 w-4" />
+                    Confirmer le mot de passe
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="confirmPassword"
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      value={formData.confirmPassword}
+                      onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                      placeholder="Répétez votre mot de passe"
+                      className="h-12 rounded-xl border-gray-200 pr-12 focus:border-ciprel-green-500 focus:ring-ciprel-green-500"
+                      required
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute inset-y-0 right-0 flex h-12 items-center px-3 text-gray-400 hover:text-ciprel-green-600"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    >
+                      {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                {error && (
+                  <div className="rounded-xl border border-red-200 bg-red-50/80 p-4 text-sm text-red-600">
+                    {error}
+                  </div>
+                )}
+
                 <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-0 top-0 h-12 px-3 hover:bg-transparent"
-                  onClick={() => setShowPassword(!showPassword)}
+                  type="submit"
+                  disabled={isLoading}
+                  className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-ciprel-green-600 to-ciprel-green-700 text-sm font-semibold text-white shadow-lg transition hover:from-ciprel-green-700 hover:to-ciprel-green-800"
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4 text-gray-400" />
+                  {isLoading ? (
+                    <>
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                      Création du compte...
+                    </>
                   ) : (
-                    <Eye className="h-4 w-4 text-gray-400" />
+                    <>
+                      <Building className="h-4 w-4" />
+                      Créer mon compte
+                      <ArrowRight className="h-4 w-4" />
+                    </>
                   )}
                 </Button>
+              </form>
+
+              <div className="mt-6 rounded-xl bg-slate-50/70 p-4 text-sm text-slate-600">
+                <p>
+                  Vous avez déjà un compte ?{' '}
+                  <Link href="/login" className="font-semibold text-ciprel-green-600 hover:text-ciprel-green-700">
+                    Se connecter
+                  </Link>
+                </p>
               </div>
             </div>
 
-            {/* Confirmation mot de passe */}
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword" className="text-sm font-semibold text-gray-700 flex items-center">
-                <Lock className="h-4 w-4 mr-2" />
-                Confirmer le mot de passe
-              </Label>
-              <div className="relative">
-                <Input
-                  id="confirmPassword"
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  value={formData.confirmPassword}
-                  onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                  placeholder="••••••••"
-                  className="h-12 pr-12 border-gray-300 focus:border-ciprel-green-500 focus:ring-ciprel-green-500"
-                  required
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-0 top-0 h-12 px-3 hover:bg-transparent"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
-                  {showConfirmPassword ? (
-                    <EyeOff className="h-4 w-4 text-gray-400" />
-                  ) : (
-                    <Eye className="h-4 w-4 text-gray-400" />
-                  )}
-                </Button>
-              </div>
+            <div className="mt-6 flex flex-col gap-2 rounded-2xl border border-white/70 bg-white/80 p-4 text-sm text-slate-600 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+              <span>Support technique</span>
+              <a
+                href="mailto:support@ciprel.ci"
+                className="inline-flex items-center gap-1 font-semibold text-ciprel-green-600 hover:text-ciprel-green-700"
+              >
+                support@ciprel.ci
+                <ArrowRight className="h-3.5 w-3.5" />
+              </a>
             </div>
-
-            {/* Message d'erreur */}
-            {error && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <p className="text-red-600 text-sm font-medium">{error}</p>
-              </div>
-            )}
-
-            {/* Bouton d'inscription */}
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="w-full h-12 bg-gradient-to-r from-ciprel-green-600 to-ciprel-green-700 hover:from-ciprel-green-700 hover:to-ciprel-green-800 shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              {isLoading ? (
-                <div className="flex items-center justify-center">
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
-                  Création du compte...
-                </div>
-              ) : (
-                <div className="flex items-center justify-center">
-                  <Building className="w-5 h-5 mr-2" />
-                  Créer mon compte
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </div>
-              )}
-            </Button>
-          </form>
-
-          {/* Lien vers connexion */}
-          <div className="mt-6 pt-6 border-t border-gray-200 text-center">
-            <p className="text-sm text-gray-600">
-              Vous avez déjà un compte ?{' '}
-              <Link href="/login" className="font-semibold text-ciprel-green-600 hover:text-ciprel-green-700 transition-colors">
-                Se connecter
-              </Link>
-            </p>
           </div>
-        </div>
-
-        {/* Support */}
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-500">
-            Besoin d'aide ?{' '}
-            <a href="mailto:support@ciprel.ci" className="text-ciprel-green-600 hover:text-ciprel-green-700 font-medium">
-              support@ciprel.ci
-            </a>
-          </p>
-        </div>
+        </main>
       </div>
     </div>
   )

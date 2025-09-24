@@ -150,7 +150,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               '@type': 'Organization',
               name: ENV.COMPANY_NAME,
               url: ENV.APP_URL,
-              logo: `${ENV.APP_URL}/images/logo-ciprel.png`,
+              logo: `${ENV.APP_URL}/images/logo.webp`,
               description: 'Compagnie Ivoirienne de Production d\'Électricité',
               address: {
                 '@type': 'PostalAddress',

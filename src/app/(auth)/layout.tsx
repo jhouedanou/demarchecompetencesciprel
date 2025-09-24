@@ -11,21 +11,16 @@ interface AuthLayoutProps {
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div id="backroud" className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       <div className="flex items-center justify-center min-h-screen p-4">
-        <div className="w-full max-w-md">
+        <div className="w-100">
           <div className="text-center mb-8">
             <img
-              src="/images/logo-ciprel.png"
+              src="/images/logo.webp"
               alt="CIPREL"
               className="mx-auto h-12 w-auto mb-4"
             />
-            <h1 className="text-2xl font-bold text-gray-900">
-              CIPREL Compétences
-            </h1>
-            <p className="text-gray-600 mt-2">
-              Développez vos compétences professionnelles
-            </p>
+       
           </div>
           
           <div className="bg-white rounded-lg shadow-lg p-8">
