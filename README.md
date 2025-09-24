@@ -147,16 +147,34 @@ Le dashboard admin inclut :
 
 ## 🚀 Déploiement
 
-### Netlify
+### Vercel (Recommandé)
+
+1. **Connecter le repository** :
+   - Aller sur [vercel.com](https://vercel.com)
+   - Importer votre projet GitHub
+   - Vercel détectera automatiquement Next.js
+
+2. **Configurer les variables d'environnement** :
+   - Dans les settings du projet Vercel
+   - Ajouter toutes les variables de `.env.local`
+   - Redéployer après ajout des variables
+
+3. **Configuration automatique** :
+   - Le fichier `vercel.json` est déjà configuré
+   - Build Command: `npm run build`
+   - Output Directory: `.next` (automatique pour Next.js)
+   - Framework: Next.js (détecté automatiquement)
+
+### Netlify (Alternative)
 
 1. Connecter votre repo GitHub à Netlify
 2. Configurer les variables d'environnement
 3. Le fichier `netlify.toml` est déjà configuré
 4. Deploy automatique !
 
-### Variables d'environnement Netlify
+### Variables d'environnement
 
-Copier toutes les variables de `.env.local` dans les settings Netlify.
+Copier toutes les variables de `.env.local` dans les settings de votre plateforme de déploiement.
 
 ## 🐛 Dépannage
 

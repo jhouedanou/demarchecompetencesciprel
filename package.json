@@ -16,8 +16,8 @@
     "supabase:stop": "supabase stop",
     "supabase:reset": "supabase db reset",
     "db:generate-types": "supabase gen types typescript --local > src/types/database.ts",
-    "deploy": "npm run build && netlify deploy --prod",
-    "deploy:preview": "npm run build && netlify deploy"
+    "deploy": "npm run build",
+    "deploy:preview": "npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
