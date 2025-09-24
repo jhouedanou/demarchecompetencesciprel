@@ -28,6 +28,13 @@ export const useAuthStore = create<AuthState>()(
         try {
           set({ isLoading: true })
 
+          // Vérifier si Supabase est configuré
+          if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+            console.warn('Supabase not configured - skipping auth initialization')
+            set({ user: null, isAuthenticated: false, isLoading: false })
+            return
+          }
+
           // Get current session
           const { data: { session }, error } = await supabase.auth.getSession()
 

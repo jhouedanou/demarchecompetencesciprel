@@ -15,9 +15,23 @@ export async function middleware(req: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
+  // Si les variables d'environnement Supabase ne sont pas configurées,
+  // permettre l'accès à toutes les routes publiques
   if (!supabaseUrl || !supabaseAnonKey) {
-    console.error('Missing Supabase environment variables for middleware')
-    return NextResponse.next()
+    console.warn('Missing Supabase environment variables for middleware - allowing public access')
+    const pathname = req.nextUrl.pathname
+    
+    // Permettre l'accès à toutes les routes publiques même sans Supabase
+    const publicRoutes = ['/', '/login', '/register', '/legal', '/dialectique', '/synoptique', '/quiz', '/facteurs-cles', '/ressources', '/contact', '/sondage']
+    
+    if (publicRoutes.some(route => pathname.startsWith(route))) {
+      return NextResponse.next()
+    }
+    
+    // Pour les autres routes, rediriger vers la page d'accueil
+    const url = req.nextUrl.clone()
+    url.pathname = '/'
+    return NextResponse.redirect(url)
   }
 
   const requestHeaders = new Headers(req.headers)
