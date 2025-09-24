@@ -130,13 +130,13 @@ export function StatsSection() {
           viewport={{ once: true }}
           className="mt-16 text-center"
         >
-          <p className="text-blue-100 text-lg mb-6">
+          <p className="text-ciprel-green-100 text-lg mb-6">
             Prêt à rejoindre cette communauté de professionnels ambitieux ?
           </p>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-white text-ciprel-600 px-8 py-3 rounded-full font-semibold hover:shadow-xl transition-all duration-300 hover:bg-yellow-50"
+            className="bg-white text-ciprel-green-600 px-8 py-3 rounded-full font-semibold hover:shadow-xl transition-all duration-300 hover:bg-ciprel-orange-50"
           >
             Commencer maintenant
           </motion.button>
