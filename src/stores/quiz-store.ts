@@ -1,0 +1,209 @@
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
+import { supabase } from '@/lib/supabase/client'
+import type { QuizQuestion, QuizAnswer } from '@/types'
+
+interface QuizStore {
+  // State
+  questions: QuizQuestion[]
+  currentQuestionIndex: number
+  answers: QuizAnswer[]
+  isLoading: boolean
+  error: string | null
+  timeLimit?: number // en minutes
+  startTime?: number
+  completedAt?: number
+  isCompleted: boolean
+  score?: number
+  percentage?: number
+
+  // Actions
+  loadQuestions: (quizType: 'INTRODUCTION' | 'SONDAGE') => Promise<void>
+  startQuiz: () => void
+  submitAnswer: (questionId: string, selectedAnswers: string[]) => void
+  completeQuiz: (quizType: 'INTRODUCTION' | 'SONDAGE') => Promise<void>
+  resetQuiz: () => void
+  setError: (error: string | null) => void
+}
+
+export const useQuizStore = create<QuizStore>()(
+  persist(
+    (set, get) => ({
+      questions: [],
+      currentQuestionIndex: 0,
+      answers: [],
+      isLoading: false,
+      error: null,
+      timeLimit: 30, // 30 minutes par défaut
+      startTime: undefined,
+      completedAt: undefined,
+      isCompleted: false,
+      score: undefined,
+      percentage: undefined,
+
+      loadQuestions: async (quizType: 'INTRODUCTION' | 'SONDAGE') => {
+        try {
+          set({ isLoading: true, error: null })
+
+          const response = await fetch(`/api/quiz?type=${quizType}`)
+          
+          if (!response.ok) {
+            throw new Error('Erreur lors du chargement des questions')
+          }
+
+          const data = await response.json()
+          
+          if (!data.questions || data.questions.length === 0) {
+            throw new Error('Aucune question trouvée pour ce quiz')
+          }
+
+          set({
+            questions: data.questions,
+            isLoading: false,
+            timeLimit: quizType === 'INTRODUCTION' ? 30 : undefined
+          })
+        } catch (error: any) {
+          set({
+            error: error.message || 'Erreur lors du chargement du quiz',
+            isLoading: false
+          })
+        }
+      },
+
+      startQuiz: () => {
+        set({ 
+          startTime: Date.now(),
+          currentQuestionIndex: 0,
+          answers: [],
+          isCompleted: false,
+          score: undefined,
+          percentage: undefined,
+          completedAt: undefined
+        })
+      },
+
+      submitAnswer: (questionId: string, selectedAnswers: string[]) => {
+        const { questions, currentQuestionIndex, answers } = get()
+        const currentQuestion = questions[currentQuestionIndex]
+        
+        if (!currentQuestion || currentQuestion.id !== questionId) return
+
+        // Calculate if answer is correct
+        const isCorrect = selectedAnswers.length === currentQuestion.correct_answer.length &&
+                         selectedAnswers.every(answer => currentQuestion.correct_answer.includes(answer))
+
+        const answer: QuizAnswer = {
+          questionId,
+          selectedAnswers,
+          isCorrect,
+          timeSpent: 0, // Calculé différemment si nécessaire
+          timestamp: new Date().toISOString(),
+        }
+
+        const updatedAnswers = [...answers]
+        const existingIndex = updatedAnswers.findIndex(a => a.questionId === questionId)
+
+        if (existingIndex >= 0) {
+          updatedAnswers[existingIndex] = answer
+        } else {
+          updatedAnswers.push(answer)
+        }
+
+        // Passer à la question suivante automatiquement
+        const nextIndex = currentQuestionIndex < questions.length - 1 
+          ? currentQuestionIndex + 1 
+          : currentQuestionIndex
+
+        set({ 
+          answers: updatedAnswers,
+          currentQuestionIndex: nextIndex
+        })
+      },
+
+      completeQuiz: async (quizType: 'INTRODUCTION' | 'SONDAGE') => {
+        const { questions, answers, startTime } = get()
+        
+        if (!startTime) {
+          throw new Error('Quiz non démarré')
+        }
+
+        // Calculer le score
+        const correctAnswers = answers.filter(a => a.isCorrect).length
+        const totalPossiblePoints = questions.reduce((total, q) => total + (q.points || 1), 0)
+        const score = answers.reduce((total, answer) => {
+          const question = questions.find(q => q.id === answer.questionId)
+          return total + (answer.isCorrect ? (question?.points || 1) : 0)
+        }, 0)
+        const percentage = totalPossiblePoints > 0 ? (score / totalPossiblePoints) * 100 : 0
+        const duration = Math.floor((Date.now() - startTime) / 1000)
+        const completedAt = Date.now()
+
+        try {
+          // Sauvegarder le résultat
+          const response = await fetch('/api/quiz', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              quiz_type: quizType,
+              responses: answers,
+              score,
+              max_score: totalPossiblePoints,
+              total_questions: questions.length,
+              correct_answers: correctAnswers,
+              duration,
+              started_at: new Date(startTime).toISOString()
+            })
+          })
+
+          if (!response.ok) {
+            const error = await response.json()
+            throw new Error(error.message || 'Erreur lors de la sauvegarde')
+          }
+
+          // Mettre à jour l'état
+          set({
+            isCompleted: true,
+            score,
+            percentage: Math.round(percentage * 100) / 100,
+            completedAt
+          })
+
+        } catch (error: any) {
+          // Même en cas d'erreur de sauvegarde, on peut montrer les résultats localement
+          set({
+            isCompleted: true,
+            score,
+            percentage: Math.round(percentage * 100) / 100,
+            completedAt,
+            error: `Résultats calculés mais non sauvegardés: ${error.message}`
+          })
+        }
+      },
+
+      resetQuiz: () => {
+        set({
+          questions: [],
+          currentQuestionIndex: 0,
+          answers: [],
+          isLoading: false,
+          error: null,
+          startTime: undefined,
+          completedAt: undefined,
+          isCompleted: false,
+          score: undefined,
+          percentage: undefined
+        })
+      },
+
+      setError: (error: string | null) => {
+        set({ error })
+      },
+    }),
+    {
+      name: 'ciprel-quiz-store',
+      partialize: (state) => ({
+        // Ne persister que les données essentielles
+      }),
+    }
+  )
+)
