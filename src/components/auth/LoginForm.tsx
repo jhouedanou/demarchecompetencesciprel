@@ -145,7 +145,7 @@ export function LoginForm() {
         <p className="text-sm text-gray-600">
           Pas encore de compte ?{' '}
           <Link
-            href="/auth/register"
+            href="/register"
             className="text-blue-600 hover:text-blue-500 font-medium"
           >
             Créer un compte
