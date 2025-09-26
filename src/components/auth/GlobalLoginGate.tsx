@@ -1,14 +1,20 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { useAuthStore } from '@/stores/auth-store'
 import { LoginForm } from '@/components/auth/LoginForm'
 
 export function GlobalLoginGate() {
+  const pathname = usePathname()
   const isAuthenticated = useAuthStore(state => state.isAuthenticated)
   const isLoading = useAuthStore(state => state.isLoading)
   const initialize = useAuthStore(state => state.initialize)
   const [dismissed, setDismissed] = useState(false)
+
+  // Pages où la modale ne doit pas s'afficher
+  const excludedPages = ['/register', '/login']
+  const shouldHideModal = excludedPages.includes(pathname)
 
   useEffect(() => {
     // Ensure auth is initialized on mount in case provider hasn't yet run
@@ -26,7 +32,7 @@ export function GlobalLoginGate() {
     if (isAuthenticated) setDismissed(true)
   }, [isAuthenticated])
 
-  if (isLoading || isAuthenticated || dismissed) return null
+  if (isLoading || isAuthenticated || dismissed || shouldHideModal) return null
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm">
