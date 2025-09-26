@@ -241,8 +241,15 @@ export default function RegisterPage() {
                 </div>
 
                 {error && (
-                  <div className="rounded-xl border border-red-200 bg-red-50/80 p-4 text-sm text-red-600">
-                    {error}
+                  <div className={`rounded-xl border p-4 text-sm ${
+                    error.startsWith('CONFIRMATION_EMAIL_SENT:')
+                      ? 'border-green-200 bg-green-50/80 text-green-700'
+                      : 'border-red-200 bg-red-50/80 text-red-600'
+                  }`}>
+                    {error.startsWith('CONFIRMATION_EMAIL_SENT:')
+                      ? error.replace('CONFIRMATION_EMAIL_SENT:', '')
+                      : error
+                    }
                   </div>
                 )}
 

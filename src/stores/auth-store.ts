@@ -208,7 +208,7 @@ export const useAuthStore = create<AuthState>()(
             }
           } else {
             set({ isLoading: false })
-            return { error: 'Veuillez vérifier votre email pour confirmer votre inscription' }
+            return { error: 'CONFIRMATION_EMAIL_SENT:Un email de confirmation a été envoyé à votre adresse. Veuillez cliquer sur le lien dans l\'email pour activer votre compte et pouvoir vous connecter. Vérifiez également vos spams si vous ne le trouvez pas.' }
           }
 
           return {}

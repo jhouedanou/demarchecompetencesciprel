@@ -89,12 +89,33 @@ export function SectionModal({
   }
 
   const handleMarkAsRead = async () => {
-    if (user && canMarkAsRead) {
+    console.log('handleMarkAsRead called', { user: !!user, canMarkAsRead, sectionId })
+
+    if (!user) {
+      console.error('No user found when trying to mark section as read')
+      return
+    }
+
+    if (!canMarkAsRead) {
+      console.error('Cannot mark as read - permission denied')
+      return
+    }
+
+    try {
       const readingTime = Math.round((Date.now() - startTime.current) / 1000)
+      console.log(`Marking section ${sectionId} as read with reading time: ${readingTime}s`)
+
       const success = await markSectionCompleted(sectionId, readingTime)
+      console.log('Mark as read result:', success)
+
       if (success) {
+        console.log('Successfully marked section as read, closing modal')
         onClose()
+      } else {
+        console.error('Failed to mark section as read')
       }
+    } catch (error) {
+      console.error('Error in handleMarkAsRead:', error)
     }
   }
 
