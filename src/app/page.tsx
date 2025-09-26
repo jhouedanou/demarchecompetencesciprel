@@ -79,32 +79,25 @@ export default function HomePage() {
                 <div className="mb-8">
                   <div className="relative h-48 bg-gradient-to-r from-ciprel-green-50 to-ciprel-orange-50 rounded-lg mb-6 overflow-hidden">
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-center">
-                        <div className="flex justify-center mb-4">
-                          <div className="bg-ciprel-green-500 p-4 rounded-full">
-                            <Zap className="h-12 w-12 text-white" />
-                          </div>
-                        </div>
-                        <h2 className="text-xl font-semibold text-ciprel-green-800 mb-2">
-                          Centrale électrique CIPREL
-                        </h2>
-                        <p className="text-ciprel-green-700 text-sm max-w-md">
-                          Production d'électricité 24h/24, 365 jours par an
-                        </p>
+                      <div className="flex items-center gap-8">
+                        <img
+                          src="/images/logo.webp"
+                          alt="Logo CIPREL"
+                          className="h-20 w-auto object-contain drop-shadow"
+                        />
+                        <img
+                          src="/images/30ans.png"
+                          alt="30 ans CIPREL"
+                          className="h-20 w-auto object-contain drop-shadow"
+                        />
                       </div>
                     </div>
                   </div>
 
                   <div className="bg-ciprel-green-50 border-l-4 border-ciprel-green-400 p-6 rounded-r-lg">
                     <div className="flex items-start">
-                      <Users className="h-6 w-6 text-ciprel-green-600 mr-3 mt-1 flex-shrink-0" />
                       <div>
-                        <h3 className="text-lg font-semibold text-ciprel-green-900 mb-2">
-                          Message d'accueil
-                        </h3>
                         <p className="text-ciprel-green-800 leading-relaxed">
-                          <strong>Les collaborateurs de CIPREL sont mobilisés 24h/24, 365 jours par an pour la production d'électricité.</strong>
-                          <br /><br />
                           Cette plateforme vous accompagne dans la découverte et la compréhension de notre démarche compétence,
                           un processus essentiel pour le développement de vos talents et la performance de notre organisation.
                         </p>
@@ -113,32 +106,6 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Quick stats */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                  <div className="bg-gradient-to-br from-ciprel-green-50 to-ciprel-green-100 p-6 rounded-lg border border-ciprel-green-200">
-                    <div className="flex items-center mb-3">
-                      <Award className="h-6 w-6 text-ciprel-green-600 mr-2" />
-                      <h4 className="font-semibold text-ciprel-green-900">30 ans</h4>
-                    </div>
-                    <p className="text-ciprel-green-700 text-sm">d'expérience en production électrique</p>
-                  </div>
-
-                  <div className="bg-gradient-to-br from-ciprel-orange-50 to-ciprel-orange-100 p-6 rounded-lg border border-ciprel-orange-200">
-                    <div className="flex items-center mb-3">
-                      <Zap className="h-6 w-6 text-ciprel-orange-600 mr-2" />
-                      <h4 className="font-semibold text-ciprel-orange-900">24/7</h4>
-                    </div>
-                    <p className="text-ciprel-orange-700 text-sm">Production continue d'électricité</p>
-                  </div>
-
-                  <div className="bg-gradient-to-br from-ciprel-green-50 to-ciprel-orange-50 p-6 rounded-lg border border-ciprel-green-200">
-                    <div className="flex items-center mb-3">
-                      <TrendingUp className="h-6 w-6 text-ciprel-green-600 mr-2" />
-                      <h4 className="font-semibold text-ciprel-green-900">Excellence</h4>
-                    </div>
-                    <p className="text-ciprel-orange-700 text-sm">Engagement vers la performance</p>
-                  </div>
-                </div>
 
                 {/* Sections Navigation */}
                 <div className="bg-gray-50 rounded-lg p-6">
@@ -300,12 +267,16 @@ export default function HomePage() {
                   <p className="text-gray-600 text-sm mb-4">
                     Créez un compte pour accéder aux quiz et suivre votre progression.
                   </p>
-                  <Link
-                    href="/auth/login"
-                    className="block text-center bg-ciprel-green-600 text-white px-4 py-2 rounded-lg hover:bg-ciprel-green-700 transition-colors"
+                  <button
+                    onClick={() => {
+                      if (typeof window !== 'undefined') {
+                        window.dispatchEvent(new Event('open-login'))
+                      }
+                    }}
+                    className="w-full text-center bg-ciprel-green-600 text-white px-4 py-2 rounded-lg hover:bg-ciprel-green-700 transition-colors"
                   >
                     Se connecter
-                  </Link>
+                  </button>
                 </div>
               )}
             </div>

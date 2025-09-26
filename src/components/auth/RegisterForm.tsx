@@ -15,7 +15,11 @@ import { useAuthStore } from '@/stores/auth-store'
 
 const registerSchema = z.object({
   name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
-  email: z.string().email('Adresse email invalide'),
+  email: z.string()
+    .email('Adresse email invalide')
+    .refine((val) => /@((ciprel\.ci)|(bigfiveabidjan\.com))$/i.test(val), {
+      message: 'Seules les adresses se terminant par ciprel.ci ou bigfiveabidjan.com sont autorisées',
+    }),
   phone: z.string().optional(),
   password: z.string()
     .min(8, 'Le mot de passe doit contenir au moins 8 caractères')

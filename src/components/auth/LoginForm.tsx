@@ -50,9 +50,7 @@ export function LoginForm() {
       // Redirection basée sur le rôle
       if (currentUser?.role === 'ADMIN') {
         router.push('/admin')
-      } else {
-        router.push('/competences')
-      }
+      } // Les autres rôles restent sur la page courante; le portail se fermera automatiquement
     } catch (error: any) {
       console.error('Erreur de connexion:', error)
       
@@ -147,7 +145,7 @@ export function LoginForm() {
         <p className="text-sm text-gray-600">
           Pas encore de compte ?{' '}
           <Link
-            href="/register"
+            href="/auth/register"
             className="text-blue-600 hover:text-blue-500 font-medium"
           >
             Créer un compte

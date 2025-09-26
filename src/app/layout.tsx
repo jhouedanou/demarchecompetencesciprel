@@ -3,6 +3,7 @@ import { Inter, Poppins } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
 import './globals.css'
 import { AuthProvider } from '@/components/auth/AuthProvider'
+import { GlobalLoginGate } from '@/components/auth/GlobalLoginGate'
 import { CookieBanner } from '@/components/gdpr/CookieBanner'
 import { ENV } from '@/lib/utils/constants'
 
@@ -108,6 +109,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <main className="relative z-0">
               {children}
             </main>
+
+            {/* Global login modal gate */}
+            <GlobalLoginGate />
 
             {/* Toast Notifications */}
             <Toaster

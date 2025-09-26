@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 // Routes protégées nécessitant une authentification
-const protectedRoutes = ['/competences', '/profile', '/admin']
+const protectedRoutes = ['/competences', '/profile', '/admin', '/sondage']
 
 // Routes admin nécessitant le rôle ADMIN ou MANAGER
 const adminRoutes = ['/admin']
@@ -107,8 +107,8 @@ export async function middleware(req: NextRequest) {
       .single()
 
     if (!profile || !['ADMIN', 'MANAGER'].includes(profile.role)) {
-      // Rediriger vers une page d'erreur ou l'accueil si pas les bonnes permissions
-      url.pathname = '/competences'
+      // Rediriger vers la porte d'accès admin si pas les bonnes permissions
+      url.pathname = '/ciprel-admin'
       const redirectResponse = NextResponse.redirect(url)
       mergeSupabaseCookies(supabaseResponse, redirectResponse)
       return redirectResponse

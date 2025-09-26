@@ -26,22 +26,21 @@ export function CiprelWelcomeSection() {
 
       {/* Main content */}
       <div className="p-8">
-        {/* Hero image and message */}
+        {/* Hero with logos */}
         <div className="mb-8">
           <div className="relative h-48 bg-gradient-to-r from-blue-100 to-blue-50 rounded-lg mb-6 overflow-hidden">
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <div className="flex justify-center mb-4">
-                  <div className="bg-blue-600 p-4 rounded-full">
-                    <Zap className="h-12 w-12 text-white" />
-                  </div>
-                </div>
-                <h2 className="text-xl font-semibold text-blue-900 mb-2">
-                  Centrale électrique CIPREL
-                </h2>
-                <p className="text-blue-700 text-sm max-w-md">
-                  Production d'électricité 24h/24, 365 jours par an
-                </p>
+              <div className="flex items-center gap-8">
+                <img
+                  src="/images/logo.webp"
+                  alt="Logo CIPREL"
+                  className="h-20 w-auto object-contain drop-shadow"
+                />
+                <img
+                  src="/images/30ans.png"
+                  alt="30 ans CIPREL"
+                  className="h-20 w-auto object-contain drop-shadow"
+                />
               </div>
             </div>
           </div>

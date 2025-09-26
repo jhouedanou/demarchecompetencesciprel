@@ -159,6 +159,13 @@ export const useAuthStore = create<AuthState>()(
             return { error: 'Les mots de passe ne correspondent pas' }
           }
 
+          // Restrict allowed email domains
+          const allowed = /@((ciprel\.ci)|(bigfiveabidjan\.com))$/i.test(credentials.email)
+          if (!allowed) {
+            set({ isLoading: false })
+            return { error: 'Seules les adresses se terminant par ciprel.ci ou bigfiveabidjan.com sont autorisées' }
+          }
+
           const { data, error } = await supabase.auth.signUp({
             email: credentials.email,
             password: credentials.password,
