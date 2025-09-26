@@ -18,14 +18,12 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils/cn'
 
 const navigation = [
-  { name: 'Accueil', href: '/competences', icon: BookOpen },
+  { name: 'Accueil', href: '/', icon: BookOpen },
   { name: 'Évaluations', href: '/competences/quiz-introduction', icon: Brain },
-  { name: 'Formation', href: '/competences/videos', icon: Video },
-  { name: 'Tableau de bord', href: '/competences/resultats', icon: BarChart3 },
 ]
 
 const sondageItems = [
-  { name: 'Sondage Opinion', href: '/competences/sondage', icon: MessageCircle },
+  { name: 'Sondage Opinion', href: '/sondage', icon: MessageCircle },
   { name: 'Évaluation 360°', href: '/competences/evaluation-360', icon: Users },
   { name: 'Feedback Manager', href: '/competences/feedback', icon: FileText },
 ]

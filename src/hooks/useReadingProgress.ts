@@ -44,6 +44,18 @@ export function useReadingProgress(user: User | null) {
     loadProgress()
   }, [user])
 
+  // Listen for reading progress updates from other components
+  useEffect(() => {
+    const handleProgressUpdate = () => {
+      if (user) {
+        loadProgress()
+      }
+    }
+
+    window.addEventListener('reading-progress-updated', handleProgressUpdate)
+    return () => window.removeEventListener('reading-progress-updated', handleProgressUpdate)
+  }, [user])
+
   const loadProgress = async () => {
     if (!user) return
 
@@ -102,6 +114,10 @@ export function useReadingProgress(user: User | null) {
 
       // Reload progress
       await loadProgress()
+
+      // Emit event to notify other components
+      window.dispatchEvent(new CustomEvent('reading-progress-updated'))
+
       return true
     } catch (error) {
       console.error('Error in markSectionCompleted:', error)

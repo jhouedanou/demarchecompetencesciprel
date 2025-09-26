@@ -231,7 +231,7 @@ export default function HomePage() {
 
                     {user && canAccessQuiz() ? (
                       <Link
-                        href="/competences/sondage"
+                        href="/sondage"
                         className="block p-4 bg-gradient-to-r from-ciprel-orange-500 to-ciprel-orange-600 text-white rounded-lg hover:from-ciprel-orange-600 hover:to-ciprel-orange-700 transition-all duration-200 shadow-md"
                       >
                         <div className="flex items-center justify-between mb-2">
