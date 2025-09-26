@@ -2,11 +2,13 @@
 
 import { useUser } from '@/lib/supabase/client'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
-import { CheckCircle, Circle, Lock, BookOpen } from 'lucide-react'
+import { CheckCircle, Circle, Lock, BookOpen, LogOut } from 'lucide-react'
+import { useAuthStore } from '@/stores/auth-store'
 import Link from 'next/link'
 
 export default function ProgressTracker() {
   const { user } = useUser()
+  const { signOut } = useAuthStore()
   const {
     sections,
     allCompleted,
@@ -15,6 +17,10 @@ export default function ProgressTracker() {
     getCompletionPercentage,
     getNextSection
   } = useReadingProgress(user)
+
+  const handleLogout = async () => {
+    await signOut()
+  }
 
   if (loading) {
     return (
@@ -128,6 +134,17 @@ export default function ProgressTracker() {
               )}
             </div>
           </div>
+        </div>
+
+        {/* Logout button */}
+        <div className="mt-6 pt-6 border-t border-gray-200">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+          >
+            <LogOut className="h-4 w-4" />
+            Se déconnecter
+          </button>
         </div>
       </div>
     </div>
