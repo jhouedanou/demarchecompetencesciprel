@@ -7,11 +7,6 @@ import { useReadingProgress } from '@/hooks/useReadingProgress'
 import { Lock, BookOpen, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
-export const metadata = {
-  title: "Sondage d'Opinion | CIPREL",
-  description: "Partagez votre avis sur la démarche compétence CIPREL",
-}
-
 export default function SondagePage() {
   const { user } = useUser()
   const { canAccessQuiz, loading, sections, getNextSection } = useReadingProgress(user)

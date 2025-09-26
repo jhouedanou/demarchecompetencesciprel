@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, ReactNode } from 'react'
+import { useEffect, useRef, useState, ReactNode } from 'react'
 import { X, Check } from 'lucide-react'
 import { useUser } from '@/lib/supabase/client'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
@@ -26,6 +26,8 @@ export function SectionModal({
   const { markSectionCompleted, sections } = useReadingProgress(user)
   const startTime = useRef<number>(Date.now())
   const modalRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false)
 
   const section = sections.find(s => s.id === sectionId)
   const isAlreadyRead = section?.completed || false
@@ -34,12 +36,36 @@ export function SectionModal({
     if (isOpen) {
       startTime.current = Date.now()
       document.body.style.overflow = 'hidden'
+      setHasScrolledToBottom(false)
     } else {
       document.body.style.overflow = 'unset'
     }
 
     return () => {
       document.body.style.overflow = 'unset'
+    }
+  }, [isOpen])
+
+  // Détection du scroll pour activer le bouton
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!contentRef.current) return
+
+      const { scrollTop, scrollHeight, clientHeight } = contentRef.current
+      const scrollThreshold = 0.9 // 90% du contenu doit être scrollé
+
+      if (scrollTop + clientHeight >= scrollHeight * scrollThreshold) {
+        setHasScrolledToBottom(true)
+      }
+    }
+
+    const contentElement = contentRef.current
+    if (contentElement && isOpen) {
+      contentElement.addEventListener('scroll', handleScroll)
+      // Vérifier immédiatement si le contenu est assez court pour être visible entièrement
+      handleScroll()
+
+      return () => contentElement.removeEventListener('scroll', handleScroll)
     }
   }, [isOpen])
 
@@ -104,7 +130,7 @@ export function SectionModal({
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div ref={contentRef} className="flex-1 overflow-y-auto p-6">
           {children}
         </div>
 
@@ -113,8 +139,10 @@ export function SectionModal({
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-600">
               {isAlreadyRead
-                ? 'Vous avez déjà lu cette section'
-                : 'Lisez entièrement cette section pour débloquer les quiz'
+                ? 'Vous avez déjà validé cette étape de la démarche'
+                : hasScrolledToBottom
+                ? 'Vous pouvez maintenant valider cette étape'
+                : 'Scrollez jusqu\'en bas pour pouvoir valider cette étape'
               }
             </p>
 
@@ -129,10 +157,15 @@ export function SectionModal({
               {user && canMarkAsRead && !isAlreadyRead && (
                 <button
                   onClick={handleMarkAsRead}
-                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center"
+                  disabled={!hasScrolledToBottom}
+                  className={`px-6 py-2 rounded-lg transition-colors flex items-center font-medium ${
+                    hasScrolledToBottom
+                      ? 'bg-green-600 text-white hover:bg-green-700'
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  }`}
                 >
                   <Check className="h-4 w-4 mr-2" />
-                  Marquer comme lu
+                  J'ai compris cette étape de la démarche
                 </button>
               )}
             </div>
