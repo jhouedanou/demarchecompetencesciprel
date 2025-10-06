@@ -16,6 +16,23 @@ export default function SondagePage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const router = useRouter()
 
+  // Accès autorisé au sondage - Open modal automatically
+  useEffect(() => {
+    if (user && canAccessQuiz()) {
+      setIsModalOpen(true)
+    }
+  }, [user, canAccessQuiz])
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    router.push('/')
+  }
+
+  const handleSurveyNavigate = (path: string) => {
+    setIsModalOpen(false)
+    router.push(path)
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50 flex items-center justify-center">
@@ -144,23 +161,6 @@ export default function SondagePage() {
         </div>
       </div>
     )
-  }
-
-  // Accès autorisé au sondage - Open modal automatically
-  useEffect(() => {
-    if (user && canAccessQuiz()) {
-      setIsModalOpen(true)
-    }
-  }, [user, canAccessQuiz])
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false)
-    router.push('/')
-  }
-
-  const handleSurveyNavigate = (path: string) => {
-    setIsModalOpen(false)
-    router.push(path)
   }
 
   return (

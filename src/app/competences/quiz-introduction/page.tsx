@@ -16,6 +16,20 @@ export default function QuizIntroductionPage() {
   const resetQuiz = useQuizStore(state => state.resetQuiz)
   const router = useRouter()
 
+  // User has access to the quiz - Open modal automatically
+  useEffect(() => {
+    if (user && canAccessQuiz()) {
+      resetQuiz()
+      setIsModalOpen(true)
+    }
+  }, [user, canAccessQuiz, resetQuiz])
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    resetQuiz()
+    router.push('/')
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50 flex items-center justify-center">
@@ -152,20 +166,6 @@ export default function QuizIntroductionPage() {
         </div>
       </div>
     )
-  }
-
-  // User has access to the quiz - Open modal automatically
-  useEffect(() => {
-    if (user && canAccessQuiz()) {
-      resetQuiz()
-      setIsModalOpen(true)
-    }
-  }, [user, canAccessQuiz, resetQuiz])
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false)
-    resetQuiz()
-    router.push('/')
   }
 
   return (

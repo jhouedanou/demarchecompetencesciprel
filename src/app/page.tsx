@@ -36,9 +36,19 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
+import { VideoPlayerModal } from '@/components/modals/VideoPlayerModal'
 import { useRouter } from 'next/navigation'
 
 type SectionType = 'introduction' | 'dialectique' | 'synoptique' | 'leviers' | 'ressources' | null
+
+const SLIDE_TITLES = [
+  'Accueil',
+  'Guide',
+  'Objectifs',
+  'Modules',
+  'Vidéos',
+  'Plateforme'
+]
 
 const PRACTICE_VIDEOS = [
   {
@@ -69,12 +79,14 @@ const PRACTICE_VIDEOS = [
 
 export default function HomePage() {
   const { user } = useUser()
-  const { sections, canAccessQuiz } = useReadingProgress(user)
+  const { sections, canAccessQuiz, markSectionCompleted } = useReadingProgress(user)
   const [activeModal, setActiveModal] = useState<SectionType>(null)
   const [activeSlide, setActiveSlide] = useState(0)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [quizModalOpen, setQuizModalOpen] = useState(false)
   const [surveyModalOpen, setSurveyModalOpen] = useState(false)
+  const [videoModalOpen, setVideoModalOpen] = useState(false)
+  const [initialVideoIndex, setInitialVideoIndex] = useState(0)
   const swiperRef = useRef<SwiperType | null>(null)
   const totalSlides = 7
   const practiceVideos = PRACTICE_VIDEOS
@@ -121,6 +133,20 @@ export default function HomePage() {
   const handleSurveyNavigate = (path: string) => {
     setSurveyModalOpen(false)
     router.push(path)
+  }
+
+  const openVideoModal = async (videoIndex: number = 0) => {
+    setInitialVideoIndex(videoIndex)
+    setVideoModalOpen(true)
+    
+    // Marquer la section "videos" comme complétée
+    if (user && markSectionCompleted) {
+      await markSectionCompleted('videos', 0)
+    }
+  }
+
+  const closeVideoModal = () => {
+    setVideoModalOpen(false)
   }
 
   return (
@@ -197,7 +223,14 @@ export default function HomePage() {
           slidesPerView={1}
           speed={650}
           mousewheel={{ releaseOnEdges: true }}
-          pagination={{ clickable: true }}
+          pagination={{ 
+            clickable: true,
+            renderBullet: (index: number, className: string) => {
+              return `<span class="${className} swiper-pagination-bullet-custom group" data-slide-title="${SLIDE_TITLES[index] || ''}">
+                <span class="tooltip-slide">${SLIDE_TITLES[index] || ''}</span>
+              </span>`
+            }
+          }}
           modules={[Pagination, Mousewheel]}
           onSwiper={(swiper) => {
             swiperRef.current = swiper
@@ -636,30 +669,39 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {practiceVideos.map(video => (
-              <div
+            {practiceVideos.map((video, index) => (
+              <button
                 key={video.id}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-shadow duration-200"
+                onClick={() => openVideoModal(index)}
+                className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-200 hover:scale-105 cursor-pointer text-left group"
               >
-                <div className="relative aspect-video">
-                  <iframe
-                    src={`${video.url}?rel=0`}
-                    title={video.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    loading="lazy"
-                    className="absolute inset-0 h-full w-full"
-                  />
+                <div className="relative aspect-video bg-gradient-to-br from-ciprel-orange-100 to-ciprel-green-100">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="bg-white/90 rounded-full p-6 group-hover:bg-ciprel-orange-500 group-hover:scale-110 transition-all duration-300 shadow-lg">
+                      <svg className="h-12 w-12 text-ciprel-orange-500 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="absolute top-3 right-3 bg-ciprel-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                    Vidéo {video.id}
+                  </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold text-ciprel-black mb-2">
+                  <h3 className="text-xl font-semibold text-ciprel-black mb-2 group-hover:text-ciprel-orange-600 transition-colors">
                     {video.title}
                   </h3>
                   <p className="text-gray-600 text-sm">
                     {video.description}
                   </p>
+                  <div className="mt-4 text-ciprel-orange-600 font-semibold text-sm flex items-center">
+                    <span>Visionner</span>
+                    <svg className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>
@@ -1074,30 +1116,39 @@ export default function HomePage() {
               </div>
 
               <div className="grid gap-6">
-                {practiceVideos.map(video => (
-                  <div
+                {practiceVideos.map((video, index) => (
+                  <button
                     key={video.id}
-                    className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100"
+                    onClick={() => openVideoModal(index)}
+                    className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-200 cursor-pointer text-left group"
                   >
-                    <div className="relative aspect-video">
-                      <iframe
-                        src={`${video.url}?rel=0`}
-                        title={video.title}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                        loading="lazy"
-                        className="absolute inset-0 h-full w-full"
-                      />
+                    <div className="relative aspect-video bg-gradient-to-br from-ciprel-orange-100 to-ciprel-green-100">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="bg-white/90 rounded-full p-6 group-hover:bg-ciprel-orange-500 group-hover:scale-110 transition-all duration-300 shadow-lg">
+                          <svg className="h-12 w-12 text-ciprel-orange-500 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </div>
+                      </div>
+                      <div className="absolute top-3 right-3 bg-ciprel-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                        Vidéo {video.id}
+                      </div>
                     </div>
                     <div className="p-5">
-                      <h3 className="text-xl font-semibold text-ciprel-black mb-2">
+                      <h3 className="text-xl font-semibold text-ciprel-black mb-2 group-hover:text-ciprel-orange-600 transition-colors">
                         {video.title}
                       </h3>
-                      <p className="text-gray-600 text-sm">
+                      <p className="text-gray-600 text-sm mb-3">
                         {video.description}
                       </p>
+                      <div className="text-ciprel-orange-600 font-semibold text-sm flex items-center">
+                        <span>Visionner en mode TikTok</span>
+                        <svg className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
@@ -1223,15 +1274,55 @@ export default function HomePage() {
             flex-direction: column;
             gap: 0.75rem;
             transform: translateY(-50%);
+            z-index: 20;
           }
 
           .homepage-swiper .swiper-pagination-bullet {
             background: rgba(238, 127, 0, 0.35);
             opacity: 1;
+            position: relative;
           }
 
           .homepage-swiper .swiper-pagination-bullet-active {
             background: #ee7f00;
+          }
+
+          .swiper-pagination-bullet-custom {
+            position: relative;
+            cursor: pointer;
+          }
+
+          .tooltip-slide {
+            position: absolute;
+            right: 130%;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          }
+
+          .tooltip-slide::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            width: 8px;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.9);
+          }
+
+          .swiper-pagination-bullet-custom:hover .tooltip-slide {
+            opacity: 1;
           }
 
           @media (max-width: 768px) {
@@ -1334,6 +1425,13 @@ export default function HomePage() {
           />
         </DialogContent>
       </Dialog>
+
+      <VideoPlayerModal
+        isOpen={videoModalOpen}
+        onClose={closeVideoModal}
+        videos={practiceVideos}
+        initialVideoIndex={initialVideoIndex}
+      />
     </div>
   )
 }
