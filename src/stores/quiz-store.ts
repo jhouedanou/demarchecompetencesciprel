@@ -156,8 +156,17 @@ export const useQuizStore = create<QuizStore>()(
           })
 
           if (!response.ok) {
-            const error = await response.json()
-            throw new Error(error.message || 'Erreur lors de la sauvegarde')
+            const errorData = await response.json()
+            console.error('Erreur API:', errorData)
+            
+            // Message d'erreur personnalisé selon le code de statut
+            if (response.status === 401) {
+              throw new Error(errorData.message || 'Vous devez être connecté pour sauvegarder vos résultats.')
+            } else if (response.status === 400) {
+              throw new Error(errorData.message || 'Données invalides.')
+            } else {
+              throw new Error(errorData.message || 'Erreur lors de la sauvegarde')
+            }
           }
 
           // Mettre à jour l'état

@@ -42,7 +42,14 @@ export function QuizEngine({ quizType, className }: QuizEngineProps) {
     }
   }, [quizType, questions.length, isLoading, loadQuestions])
 
-  const handleStartQuiz = () => {
+  const handleStartQuiz = async () => {
+    // Vérifier si l'utilisateur est connecté
+    const { data: { session } } = await (await import('@/lib/supabase/client')).supabase.auth.getSession()
+    
+    if (!session) {
+      console.warn('Utilisateur non connecté - les résultats ne seront pas sauvegardés')
+    }
+    
     startQuiz()
     setIsStarted(true)
   }

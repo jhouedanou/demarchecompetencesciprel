@@ -44,10 +44,22 @@ export async function POST(request: NextRequest) {
     // Vérifier l'authentification
     const {
       data: { session },
+      error: sessionError
     } = await supabase.auth.getSession()
 
+    if (sessionError) {
+      console.error('Erreur de session:', sessionError)
+      return NextResponse.json({ 
+        error: 'Erreur d\'authentification',
+        message: 'Impossible de vérifier votre session. Veuillez vous reconnecter.' 
+      }, { status: 401 })
+    }
+
     if (!session) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+      return NextResponse.json({ 
+        error: 'Non autorisé',
+        message: 'Vous devez être connecté pour sauvegarder vos résultats.' 
+      }, { status: 401 })
     }
 
     const body = await request.json()
@@ -64,11 +76,31 @@ export async function POST(request: NextRequest) {
 
     // Validation des données
     if (!quiz_type || !['INTRODUCTION', 'SONDAGE'].includes(quiz_type)) {
-      return NextResponse.json({ error: 'Type de quiz invalide' }, { status: 400 })
+      return NextResponse.json({ 
+        error: 'Type de quiz invalide',
+        message: `Le type de quiz "${quiz_type}" n'est pas valide.` 
+      }, { status: 400 })
     }
 
     if (!responses || !Array.isArray(responses)) {
-      return NextResponse.json({ error: 'Réponses manquantes' }, { status: 400 })
+      return NextResponse.json({ 
+        error: 'Réponses manquantes',
+        message: 'Les réponses au quiz sont requises.' 
+      }, { status: 400 })
+    }
+
+    if (score === undefined || score === null) {
+      return NextResponse.json({ 
+        error: 'Score manquant',
+        message: 'Le score du quiz est requis.' 
+      }, { status: 400 })
+    }
+
+    if (!total_questions || total_questions <= 0) {
+      return NextResponse.json({ 
+        error: 'Nombre de questions invalide',
+        message: 'Le nombre total de questions doit être supérieur à 0.' 
+      }, { status: 400 })
     }
 
     // Calculer le pourcentage
@@ -86,35 +118,55 @@ export async function POST(request: NextRequest) {
     const attemptNumber = previousAttempts?.[0]?.attempt_number ? 
       previousAttempts[0].attempt_number + 1 : 1
 
+    // Préparer les données pour la sauvegarde
+    const quizData = {
+      user_id: session.user.id,
+      quiz_type,
+      score: score || 0,
+      max_score: max_score || total_questions,
+      total_questions,
+      correct_answers: correct_answers || 0,
+      responses: {
+        answers: responses,
+        metadata: {
+          started_at: started_at || new Date().toISOString(),
+          duration: duration || 0,
+          attempt_number: attemptNumber
+        }
+      },
+      duration: duration || 0,
+      percentage: parseFloat(percentage.toFixed(2)),
+      attempt_number: attemptNumber,
+      started_at: started_at || new Date().toISOString()
+    }
+
+    console.log('Tentative de sauvegarde des résultats:', {
+      user_id: session.user.id,
+      quiz_type,
+      attempt_number: attemptNumber
+    })
+
     // Sauvegarder le résultat
     const { data: result, error } = await supabase
       .from('quiz_results')
-      .insert({
-        user_id: session.user.id,
-        quiz_type,
-        score,
-        max_score,
-        total_questions,
-        correct_answers,
-        responses: {
-          answers: responses,
-          metadata: {
-            started_at: started_at || new Date().toISOString(),
-            duration,
-            attempt_number: attemptNumber
-          }
-        },
-        duration,
-        percentage: parseFloat(percentage.toFixed(2)),
-        attempt_number: attemptNumber,
-        started_at: started_at || new Date().toISOString()
-      })
+      .insert(quizData)
       .select()
       .single()
 
     if (error) {
       console.error('Erreur lors de la sauvegarde du résultat:', error)
-      return NextResponse.json({ error: 'Erreur lors de la sauvegarde' }, { status: 500 })
+      console.error('Détails de l\'erreur:', {
+        code: error.code,
+        message: error.message,
+        details: error.details,
+        hint: error.hint
+      })
+      
+      return NextResponse.json({ 
+        error: 'Erreur lors de la sauvegarde',
+        message: error.message || 'Impossible de sauvegarder vos résultats. Veuillez réessayer.',
+        details: error.details
+      }, { status: 500 })
     }
 
     // Log pour audit
