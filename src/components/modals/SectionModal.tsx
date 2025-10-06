@@ -101,12 +101,17 @@ export function SectionModal({
     }
 
     try {
-      const readingTime = Math.round((Date.now() - startTime.current) / 1000)
-
-      const success = await markSectionCompleted(sectionId, readingTime)
+      const success = await markSectionCompleted(sectionId, 0)
 
       if (success) {
-        toast.success('Étape validée avec succès !')
+        toast.success('✅ Vous avez bien compris cette étape de la démarche !', {
+          duration: 4000,
+          style: {
+            background: '#16a34a',
+            color: '#fff',
+            fontWeight: '600',
+          },
+        })
         onClose()
       } else {
         toast.error('Impossible de valider cette étape. Réessayez plus tard.')

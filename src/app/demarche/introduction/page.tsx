@@ -79,7 +79,7 @@ export default function IntroductionPage() {
           </div>
           <div>
             <h1 className="text-4xl font-bold text-gray-900">
-              Introduction à la Démarche Compétence
+              Introduction à la démarche compétence
             </h1>
             <p className="text-gray-600 mt-2">Section 1 - Fondamentaux et présentation générale</p>
           </div>
@@ -92,7 +92,7 @@ export default function IntroductionPage() {
           {/* Introduction */}
           <div className="prose prose-lg max-w-none mb-8">
             <h2 className="text-2xl font-semibold text-ciprel-green-700 mb-4">
-              Bienvenue dans la Démarche Compétence CIPREL
+              Bienvenue dans la démarche compétence CIPREL
             </h2>
             <p className="text-gray-700 leading-relaxed mb-4">
               La Démarche Compétence est une approche stratégique qui place le développement
@@ -156,10 +156,10 @@ export default function IntroductionPage() {
                 <a
                   href="/Guide_démarche_compétence.pdf"
                   download
-                  className="inline-flex items-center gap-2 bg-ciprel-orange-600 text-white px-6 py-3 rounded-lg hover:bg-ciprel-orange-700 transition-colors shadow-md hover:shadow-lg"
+                  className="inline-flex items-center gap-2 bg-ciprel-orange-600 text-white px-6 py-3 rounded-lg hover:bg-ciprel-orange-700 transition-colors shadow-md hover:shadow-lg font-semibold"
                 >
                   <Download className="h-5 w-5" />
-                  Télécharger le Guide Complet
+                  Télécharger le guide complet
                 </a>
               </div>
             </div>
@@ -168,7 +168,7 @@ export default function IntroductionPage() {
           {/* Key Concepts */}
           <div className="mb-8">
             <h3 className="text-2xl font-semibold text-gray-900 mb-6">
-              Concepts Clés
+              Concepts clés
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-ciprel-green-50 rounded-lg p-6 border border-ciprel-green-200">

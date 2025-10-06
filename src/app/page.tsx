@@ -157,7 +157,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* CTA Buttons */}
+          {/* CTA Button */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               type="button"
@@ -166,14 +166,6 @@ export default function HomePage() {
             >
               <BookOpen className="h-5 w-5 mr-2" />
               Découvrir le guide complet
-            </button>
-            <button
-              type="button"
-              onClick={() => handleSlideTo(4)}
-              className="bg-ciprel-orange-500 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-600 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
-            >
-              <Target className="h-5 w-5 mr-2" />
-              Commencer mon parcours
             </button>
           </div>
         </div>
@@ -340,6 +332,18 @@ export default function HomePage() {
                 </p>
               </div>
             </div>
+          </div>
+
+          {/* CTA Button - Commencer le parcours */}
+          <div className="flex justify-center mt-8">
+            <button
+              type="button"
+              onClick={() => handleSlideTo(3)}
+              className="bg-ciprel-orange-500 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-600 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+            >
+              <Target className="h-5 w-5 mr-2" />
+              Commencer mon parcours
+            </button>
           </div>
           </div>
         </section>
