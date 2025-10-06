@@ -50,15 +50,10 @@ export function QuizEngine({ quizType, className }: QuizEngineProps) {
   const handleAnswerSubmit = (questionId: string, selectedAnswers: string[]) => {
     submitAnswer(questionId, selectedAnswers)
     
-    // Passer à la question suivante automatiquement après 1 seconde
-    setTimeout(() => {
-      if (currentQuestionIndex < questions.length - 1) {
-        // Question suivante sera gérée par le store
-      } else {
-        // Dernier question, terminer le quiz
-        handleCompleteQuiz()
-      }
-    }, 1000)
+    // Si c'est la dernière question, terminer le quiz
+    if (currentQuestionIndex === questions.length - 1) {
+      handleCompleteQuiz()
+    }
   }
 
   const handleCompleteQuiz = async () => {
@@ -80,7 +75,8 @@ export function QuizEngine({ quizType, className }: QuizEngineProps) {
     handleCompleteQuiz()
   }
 
-  if (error) {
+  // Afficher l'erreur uniquement si le quiz n'est pas complété
+  if (error && !isCompleted) {
     return (
       <div className={`bg-white rounded-lg shadow-lg p-8 text-center ${className}`}>
         <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />

@@ -170,12 +170,13 @@ export const useQuizStore = create<QuizStore>()(
 
         } catch (error: any) {
           // Même en cas d'erreur de sauvegarde, on peut montrer les résultats localement
+          console.warn('Erreur lors de la sauvegarde des résultats:', error)
           set({
             isCompleted: true,
             score,
             percentage: Math.round(percentage * 100) / 100,
             completedAt,
-            error: `Résultats calculés mais non sauvegardés: ${error.message}`
+            // Ne pas définir error pour permettre l'affichage des résultats
           })
         }
       },

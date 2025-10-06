@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { QuizQuestion } from '@/types'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { CheckCircle, Circle, Clock, HelpCircle } from 'lucide-react'
+import { CheckCircle, Circle, Clock, HelpCircle, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 
 interface QuestionCardProps {
@@ -67,11 +67,10 @@ export function QuestionCard({
     const timeSpent = Math.floor((Date.now() - questionStartTime) / 1000)
     setHasAnswered(true)
     setShowFeedback(true)
-    
-    // Délai pour montrer le feedback avant de passer à la suite
-    setTimeout(() => {
-      onAnswer(question.id, selectedAnswers)
-    }, 2000)
+  }
+
+  const handleNext = () => {
+    onAnswer(question.id, selectedAnswers)
   }
 
   const isCorrect = hasAnswered && 
@@ -212,18 +211,26 @@ export function QuestionCard({
           </div>
         )}
 
-        {/* Bouton de soumission */}
-        {!hasAnswered && (
-          <div className="flex justify-center pt-4">
+        {/* Boutons de navigation */}
+        <div className="flex justify-center pt-4">
+          {!hasAnswered ? (
             <Button
               onClick={handleSubmit}
               disabled={selectedAnswers.length === 0}
               className="px-8 py-2 bg-ciprel-green-600 hover:bg-ciprel-green-700 disabled:bg-gray-300"
             >
-              {questionNumber === totalQuestions ? 'Terminer' : 'Valider'}
+              Valider
             </Button>
-          </div>
-        )}
+          ) : (
+            <Button
+              onClick={handleNext}
+              className="px-8 py-2 bg-ciprel-green-600 hover:bg-ciprel-green-700 flex items-center gap-2"
+            >
+              {questionNumber === totalQuestions ? 'Terminer' : 'Question suivante'}
+              {questionNumber < totalQuestions && <ArrowRight className="h-4 w-4" />}
+            </Button>
+          )}
+        </div>
       </CardContent>
     </Card>
   )

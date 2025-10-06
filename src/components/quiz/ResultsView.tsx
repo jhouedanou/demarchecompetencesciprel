@@ -277,32 +277,93 @@ export function ResultsView({ quizType, onRestart, className }: ResultsViewProps
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Book className="h-5 w-5" />
-            <span>Pour aller plus loin</span>
+            <span>Recommandations personnalisées</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
-            {(percentage || 0) < 70 && (
-              <div className="p-4 bg-ciprel-light-green/20 border border-ciprel-light-green rounded-lg">
-                <h4 className="font-semibold text-ciprel-green-700 mb-2">
-                  Recommandations d'amélioration :
+          <div className="space-y-4">
+            {/* Recommandations selon le score */}
+            {(percentage || 0) >= 90 && (
+              <div className="p-4 bg-ciprel-green-50 border border-ciprel-green-200 rounded-lg">
+                <h4 className="font-semibold text-ciprel-green-700 mb-2 flex items-center gap-2">
+                  <Trophy className="h-5 w-5" />
+                  Excellente maîtrise !
                 </h4>
-                <ul className="text-sm text-ciprel-green-700 space-y-1">
-                  <li>• Révisez les concepts fondamentaux de la démarche compétences</li>
-                  <li>• Consultez la documentation CIPREL</li>
-                  <li>• Regardez les vidéos de formation disponibles</li>
+                <p className="text-sm text-ciprel-green-700 mb-3">
+                  Vous démontrez une excellente compréhension de la démarche compétences. Vous êtes prêt(e) à devenir un acteur clé de sa mise en œuvre.
+                </p>
+                <ul className="text-sm text-ciprel-green-700 space-y-2">
+                  <li>✓ Partagez vos connaissances avec vos collègues</li>
+                  <li>✓ Proposez-vous comme ambassadeur de la démarche</li>
+                  <li>✓ Participez aux ateliers de perfectionnement</li>
                 </ul>
               </div>
             )}
 
+            {(percentage || 0) >= 70 && (percentage || 0) < 90 && (
+              <div className="p-4 bg-ciprel-orange-50 border border-ciprel-orange-200 rounded-lg">
+                <h4 className="font-semibold text-ciprel-orange-700 mb-2 flex items-center gap-2">
+                  <Award className="h-5 w-5" />
+                  Bonne compréhension
+                </h4>
+                <p className="text-sm text-ciprel-orange-700 mb-3">
+                  Vous avez acquis les bases essentielles. Quelques approfondissements vous permettront d'atteindre l'excellence.
+                </p>
+                <ul className="text-sm text-ciprel-orange-700 space-y-2">
+                  <li>• Approfondissez les concepts qui vous semblent moins clairs</li>
+                  <li>• Consultez le guide détaillé de la démarche compétences</li>
+                  <li>• Échangez avec les experts RH pour clarifier certains points</li>
+                </ul>
+              </div>
+            )}
+
+            {(percentage || 0) >= 50 && (percentage || 0) < 70 && (
+              <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <h4 className="font-semibold text-yellow-700 mb-2 flex items-center gap-2">
+                  <TrendingUp className="h-5 w-5" />
+                  Bases à consolider
+                </h4>
+                <p className="text-sm text-yellow-700 mb-3">
+                  Vous comprenez les grandes lignes mais certains aspects méritent d'être approfondis pour une meilleure maîtrise.
+                </p>
+                <ul className="text-sm text-yellow-700 space-y-2">
+                  <li>• Relisez attentivement le Guide de la démarche compétence</li>
+                  <li>• Participez aux sessions de formation disponibles</li>
+                  <li>• Regardez les vidéos explicatives dans la vidéothèque</li>
+                  <li>• N'hésitez pas à poser vos questions à l'équipe RH</li>
+                </ul>
+              </div>
+            )}
+
+            {(percentage || 0) < 50 && (
+              <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                <h4 className="font-semibold text-red-700 mb-2 flex items-center gap-2">
+                  <Book className="h-5 w-5" />
+                  Révision recommandée
+                </h4>
+                <p className="text-sm text-red-700 mb-3">
+                  La démarche compétences nécessite encore quelques apprentissages. Prenez le temps de vous familiariser avec les concepts clés.
+                </p>
+                <ul className="text-sm text-red-700 space-y-2">
+                  <li>📖 Commencez par le Guide d'introduction à la démarche compétence</li>
+                  <li>🎥 Visionnez les vidéos pédagogiques de la section Dialectique</li>
+                  <li>👥 Inscrivez-vous à une session de formation avec l'équipe RH</li>
+                  <li>🔄 Retentez le quiz après avoir révisé ces ressources</li>
+                  <li>💬 Participez au sondage pour exprimer vos besoins de formation</li>
+                </ul>
+              </div>
+            )}
+
+            {/* Prochaines étapes communes */}
             <div className="p-4 bg-ciprel-blue/10 border border-ciprel-blue rounded-lg">
               <h4 className="font-semibold text-ciprel-blue-dark mb-2">
-                Prochaines étapes :
+                📋 Prochaines étapes suggérées :
               </h4>
-              <ul className="text-sm text-ciprel-blue space-y-1">
-                <li>• Participez au sondage pour partager votre expérience</li>
-                <li>• Explorez la vidéothèque pour approfondir vos connaissances</li>
-                <li>• Suivez votre progression dans votre profil</li>
+              <ul className="text-sm text-ciprel-blue space-y-2">
+                <li>🗣️ Partagez votre avis via le sondage d'opinion</li>
+                <li>📚 Explorez la section "Facteurs Clés de Succès"</li>
+                <li>🎯 Consultez le référentiel des compétences CIPREL</li>
+                <li>📊 Suivez votre progression dans votre tableau de bord</li>
               </ul>
             </div>
           </div>
