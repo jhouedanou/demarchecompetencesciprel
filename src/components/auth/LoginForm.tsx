@@ -144,9 +144,19 @@ export function LoginForm() {
       <Button
         type="submit"
         disabled={isLoading}
-        className="w-full bg-ciprel-green-600 hover:bg-ciprel-green-700 text-white"
+        className="w-full bg-ciprel-green-600 hover:bg-ciprel-green-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+        onClick={(e) => {
+          console.log('🖱️ Clic sur le bouton de connexion')
+        }}
       >
-        {isLoading ? 'Connexion...' : 'Se connecter'}
+        {isLoading ? (
+          <span className="flex items-center justify-center gap-2">
+            <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
+            Connexion en cours...
+          </span>
+        ) : (
+          'Se connecter'
+        )}
       </Button>
 
       <div className="text-center">
