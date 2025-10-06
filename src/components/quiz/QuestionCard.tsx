@@ -27,7 +27,15 @@ export function QuestionCard({
   const [selectedAnswers, setSelectedAnswers] = useState<string[]>(userAnswer || [])
   const [hasAnswered, setHasAnswered] = useState(false)
   const [showFeedback, setShowFeedback] = useState(false)
-  const [questionStartTime] = useState(Date.now())
+  const [questionStartTime, setQuestionStartTime] = useState(Date.now())
+
+  // Réinitialiser l'état quand la question change
+  useEffect(() => {
+    setSelectedAnswers(userAnswer || [])
+    setHasAnswered(false)
+    setShowFeedback(false)
+    setQuestionStartTime(Date.now())
+  }, [question.id])
 
   useEffect(() => {
     if (userAnswer) {
