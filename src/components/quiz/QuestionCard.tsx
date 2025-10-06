@@ -24,26 +24,19 @@ export function QuestionCard({
   userAnswer,
   className
 }: QuestionCardProps) {
-  const [selectedAnswers, setSelectedAnswers] = useState<string[]>(userAnswer || [])
+  const [selectedAnswers, setSelectedAnswers] = useState<string[]>([])
   const [hasAnswered, setHasAnswered] = useState(false)
   const [showFeedback, setShowFeedback] = useState(false)
   const [questionStartTime, setQuestionStartTime] = useState(Date.now())
 
   // Réinitialiser l'état quand la question change
   useEffect(() => {
-    setSelectedAnswers(userAnswer || [])
+    // Réinitialiser complètement pour une nouvelle question
+    setSelectedAnswers([])
     setHasAnswered(false)
     setShowFeedback(false)
     setQuestionStartTime(Date.now())
   }, [question.id])
-
-  useEffect(() => {
-    if (userAnswer) {
-      setSelectedAnswers(userAnswer)
-      setHasAnswered(true)
-      setShowFeedback(true)
-    }
-  }, [userAnswer])
 
   const options = [
     { value: 'A', label: question.option_a },

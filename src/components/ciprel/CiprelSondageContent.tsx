@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   MessageCircle,
@@ -125,7 +125,7 @@ export function CiprelSondageContent({
 
     if (currentQuestion < sondageData.length - 1) {
       setCurrentQuestion(currentQuestion + 1)
-      resetCurrentState()
+      // Le useEffect s'occupera de réinitialiser ou restaurer l'état
     } else {
       // Soumettre le sondage
       setIsSubmitted(true)
@@ -135,17 +135,7 @@ export function CiprelSondageContent({
   const handlePrevious = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1)
-      
-      // Restaurer les réponses précédentes
-      const prevAnswer = answers.find(a => a.questionId === sondageData[currentQuestion - 1].id)
-      if (prevAnswer) {
-        setSelectedOptions(prevAnswer.selectedOptions || [])
-        setTextResponse(prevAnswer.textResponse || '')
-        setOtherText(prevAnswer.otherText || '')
-        setShowOtherInput(!!prevAnswer.otherText)
-      } else {
-        resetCurrentState()
-      }
+      // Le useEffect s'occupera de restaurer la réponse précédente ou réinitialiser
     }
   }
 
@@ -155,6 +145,23 @@ export function CiprelSondageContent({
     setOtherText('')
     setShowOtherInput(false)
   }
+
+  // Réinitialiser l'état quand la question change
+  useEffect(() => {
+    // Vérifier s'il y a une réponse sauvegardée pour cette question
+    const savedAnswer = answers.find(a => a.questionId === sondageData[currentQuestion].id)
+    
+    if (savedAnswer) {
+      // Restaurer la réponse sauvegardée
+      setSelectedOptions(savedAnswer.selectedOptions || [])
+      setTextResponse(savedAnswer.textResponse || '')
+      setOtherText(savedAnswer.otherText || '')
+      setShowOtherInput(!!savedAnswer.otherText)
+    } else {
+      // Réinitialiser pour une nouvelle question
+      resetCurrentState()
+    }
+  }, [currentQuestion, answers])
 
   const canProceed = () => {
     const question = sondageData[currentQuestion]
