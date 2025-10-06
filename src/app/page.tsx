@@ -26,7 +26,9 @@ import {
   Target,
   CheckCircle2,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Menu,
+  X
 } from 'lucide-react'
 import Link from 'next/link'
 
@@ -37,6 +39,7 @@ export default function HomePage() {
   const { markSectionCompleted, sections, canAccessQuiz } = useReadingProgress(user)
   const [activeModal, setActiveModal] = useState<SectionType>(null)
   const [activeSlide, setActiveSlide] = useState(0)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const startTime = useRef<number>(Date.now())
   const swiperRef = useRef<SwiperType | null>(null)
   const totalSlides = 6
@@ -80,8 +83,37 @@ export default function HomePage() {
 
   return (
     <div className="relative min-h-screen bg-gray-50 flex flex-row">
+      {/* Hamburger Button - Mobile/Tablet only */}
+      <button
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="fixed top-4 left-4 z-50 lg:hidden bg-ciprel-orange-600 text-white p-3 rounded-lg shadow-lg hover:bg-ciprel-orange-700 transition-colors"
+        aria-label="Toggle menu"
+      >
+        {sidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+      </button>
+
+      {/* Overlay - Mobile/Tablet only */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar - 30% à gauche */}
-      <aside className="w-[30%] min-h-screen border-r border-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 h-screen overflow-y-auto">
+      <aside className={`
+        w-[280px] lg:w-[30%]
+        min-h-screen
+        border-r border-gray-200
+        bg-white/95 backdrop-blur-sm
+        fixed lg:sticky
+        top-0
+        h-screen
+        overflow-y-auto
+        z-40
+        transition-transform duration-300 ease-in-out
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}>
         <div className="p-6">
           {user && <ProgressTracker />}
           {!user && (
@@ -107,10 +139,11 @@ export default function HomePage() {
         </div>
       </aside>
 
-      {/* Main Content - 70% */}
-      <div className="w-[70%]">
+      {/* Main Content - 70% - avec padding left sur mobile */}
+      <div className="w-full lg:w-[70%] lg:ml-0">
+        {/* Desktop: Swiper */}
         <Swiper
-          className="homepage-swiper h-screen"
+          className="homepage-swiper h-screen hidden lg:block"
           direction="vertical"
           slidesPerView={1}
           speed={650}
@@ -648,7 +681,85 @@ export default function HomePage() {
         </SwiperSlide>
         </Swiper>
 
-        <div className="absolute right-4 bottom-8 z-30 hidden sm:flex flex-col gap-2">
+        {/* Mobile: Scroll naturel */}
+        <div className="lg:hidden overflow-y-auto">
+          {/* HERO SECTION */}
+          <section id="hero" className="min-h-screen overflow-y-auto bg-gradient-to-br from-ciprel-green-50 via-white to-ciprel-orange-50 px-4 py-16">
+            <div className="max-w-7xl mx-auto flex flex-col justify-center">
+              <div className="flex items-center justify-center gap-8 mb-8 flex-wrap">
+                <img src="/images/logo.webp" alt="CIPREL" className="h-20 w-auto object-contain drop-shadow-lg" />
+                <img src="/images/30ans.png" alt="30 ans CIPREL" className="h-20 w-auto object-contain drop-shadow-lg" />
+              </div>
+              <h1 className="text-3xl md:text-4xl font-bold text-center text-ciprel-black mb-4">
+                La Démarche Compétence CIPREL
+              </h1>
+              <h2 className="text-lg md:text-xl text-center text-gray-700 mb-8 font-light">
+                Développez vos talents, construisez votre avenir professionnel
+              </h2>
+              <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-xl p-6 mb-8 border border-gray-100">
+                <div className="prose max-w-none">
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    Véritable <strong>boussole du management stratégique</strong>, la démarche compétence se veut être un outil d'alignement des besoins en compétences individuelles et collectives avec les objectifs organisationnels et d'apprentissage continu.
+                  </p>
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    Ainsi et conscient de l'importance de cette gestion dynamique et efficiente du capital humain, <strong>CIPREL s'est engagée dans une démarche compétence</strong> ayant pour objectif l'adéquation profil-poste et ce en parfait alignement avec la stratégie du groupe ERANOVE.
+                  </p>
+                  <p className="text-gray-700 leading-relaxed">
+                    C'est dans cette optique que la direction des ressources humaines a opté pour une démarche de déploiement basée sur <strong>la communication interne et l'animation</strong> afin d'assurer l'ancrage du contenu de la démarche compétence ainsi que son appropriation effective par toutes les parties prenantes internes.
+                  </p>
+                </div>
+              </div>
+              <div className="flex justify-center">
+                <a
+                  href="#guide"
+                  className="bg-ciprel-green-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                >
+                  <BookOpen className="h-5 w-5 mr-2" />
+                  Découvrir le guide complet
+                </a>
+              </div>
+            </div>
+          </section>
+
+          {/* Les autres sections suivront... */}
+          <section id="guide" className="min-h-screen bg-gradient-to-br from-gray-50 to-ciprel-green-50 px-4 py-16">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex justify-center mb-6">
+                <span className="bg-ciprel-green-100 text-ciprel-green-800 px-6 py-3 rounded-full font-bold text-lg flex items-center shadow-md">
+                  <Award className="h-6 w-6 mr-2" />
+                  Document essentiel
+                </span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-center text-ciprel-black mb-6">
+                Le Guide de la Démarche Compétence CIPREL
+              </h2>
+              <p className="text-center text-gray-600 text-lg mb-12 max-w-3xl mx-auto">
+                Fournir aux employés une <strong>vue d'ensemble</strong> sur le processus de gestion des compétences, son importance, ses objectifs et son déploiement.
+              </p>
+              <div className="bg-white rounded-2xl shadow-2xl overflow-hidden p-8">
+                <a
+                  href="/Guide_démarche_compétence.pdf"
+                  download
+                  className="bg-ciprel-green-600 text-white px-6 py-4 rounded-lg hover:bg-ciprel-green-700 font-bold text-lg w-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200"
+                >
+                  <Download className="h-6 w-6 mr-3" />
+                  Télécharger le guide complet (PDF)
+                </a>
+              </div>
+              <div className="flex justify-center mt-8">
+                <a
+                  href="#objectifs"
+                  className="bg-ciprel-orange-500 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-600 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                >
+                  <Target className="h-5 w-5 mr-2" />
+                  Commencer mon parcours
+                </a>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div className="absolute right-4 bottom-8 z-30 hidden lg:flex flex-col gap-2">
           <button
             type="button"
             onClick={goPrev}

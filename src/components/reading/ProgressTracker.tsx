@@ -46,10 +46,10 @@ export default function ProgressTracker() {
       <div>
         <h3 className="text-xl font-bold text-gray-900 flex items-center mb-2">
           <BookOpen className="h-6 w-6 mr-2 text-ciprel-orange-600" />
-          Votre progression
+          Navigation
         </h3>
         <p className="text-sm text-gray-600">
-          Complétez toutes les sections pour accéder aux quiz
+          Explorez le parcours de la démarche compétence
         </p>
       </div>
 
