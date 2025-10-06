@@ -8,9 +8,10 @@ import Link from 'next/link'
 
 interface ProgressTrackerProps {
   onLinkClick?: () => void
+  onSectionClick?: (sectionId: string) => void
 }
 
-export default function ProgressTracker({ onLinkClick }: ProgressTrackerProps = {}) {
+export default function ProgressTracker({ onLinkClick, onSectionClick }: ProgressTrackerProps = {}) {
   const { user } = useUser()
   const { signOut } = useAuthStore()
   const {
@@ -79,11 +80,17 @@ export default function ProgressTracker({ onLinkClick }: ProgressTrackerProps = 
           Sections
         </h4>
         {sections.map((section) => (
-          <Link
+          <button
             key={section.id}
-            href={`/demarche/${section.id}`}
-            onClick={onLinkClick}
-            className={`flex items-start p-3 rounded-lg border transition-all ${
+            onClick={() => {
+              if (onSectionClick) {
+                onSectionClick(section.id)
+              }
+              if (onLinkClick) {
+                onLinkClick()
+              }
+            }}
+            className={`w-full flex items-start p-3 rounded-lg border transition-all text-left ${
               section.completed
                 ? 'bg-ciprel-green-50 border-ciprel-green-200 hover:bg-ciprel-green-100'
                 : 'bg-white border-gray-200 hover:bg-gray-50 hover:border-gray-300'
@@ -108,7 +115,7 @@ export default function ProgressTracker({ onLinkClick }: ProgressTrackerProps = 
                 </p>
               )}
             </div>
-          </Link>
+          </button>
         ))}
       </div>
 

@@ -8,6 +8,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import ProgressTracker from '@/components/reading/ProgressTracker'
 import { SectionModal } from '@/components/modals/SectionModal'
+import { IntroductionContent } from '@/components/sections/IntroductionContent'
 import { DialectiqueContent } from '@/components/sections/DialectiqueContent'
 import { SynoptiqueContent } from '@/components/sections/SynoptiqueContent'
 import { LeviersContent } from '@/components/sections/LeviersContent'
@@ -32,7 +33,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 
-type SectionType = 'dialectique' | 'synoptique' | 'leviers' | 'ressources' | null
+type SectionType = 'introduction' | 'dialectique' | 'synoptique' | 'leviers' | 'ressources' | null
 
 export default function HomePage() {
   const { user } = useUser()
@@ -115,7 +116,14 @@ export default function HomePage() {
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         <div className="p-6">
-          {user && <ProgressTracker onLinkClick={() => setSidebarOpen(false)} />}
+          {user && (
+            <ProgressTracker
+              onLinkClick={() => setSidebarOpen(false)}
+              onSectionClick={(sectionId) => {
+                openModal(sectionId as SectionType)
+              }}
+            />
+          )}
           {!user && (
             <div className="bg-white rounded-lg shadow-lg border p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -1098,6 +1106,15 @@ export default function HomePage() {
       </div>
 
       {/* Modals */}
+      <SectionModal
+        isOpen={activeModal === 'introduction'}
+        onClose={closeModal}
+        title="Introduction à la démarche compétence"
+        sectionId="introduction"
+      >
+        <IntroductionContent />
+      </SectionModal>
+
       <SectionModal
         isOpen={activeModal === 'dialectique'}
         onClose={closeModal}
