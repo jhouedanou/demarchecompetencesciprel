@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Bell, Search, User, LogOut, Settings, Eye } from 'lucide-react'
 import { useAuthStore } from '@/stores/auth-store'
+import { LogoutModal } from '@/components/auth/LogoutModal'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -17,16 +18,10 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export function Navbar() {
-  const { user, signOut } = useAuthStore()
+  const { user } = useAuthStore()
   const router = useRouter()
   const [showNotifications, setShowNotifications] = useState(false)
-
-  const handleSignOut = async () => {
-    // Déconnecter l'admin aussi
-    localStorage.removeItem('ciprel-admin-auth')
-    await signOut()
-    router.push('/')
-  }
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false)
 
   const getInitials = (name: string | null) => {
     if (!name) return 'U'
@@ -144,7 +139,7 @@ export function Navbar() {
               
               <DropdownMenuItem
                 className="cursor-pointer text-red-600"
-                onClick={handleSignOut}
+                onClick={() => setLogoutModalOpen(true)}
               >
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Se déconnecter</span>
@@ -153,6 +148,12 @@ export function Navbar() {
           </DropdownMenu>
         </div>
       </div>
+
+      {/* Modal de déconnexion */}
+      <LogoutModal
+        isOpen={logoutModalOpen}
+        onClose={() => setLogoutModalOpen(false)}
+      />
     </header>
   )
 }

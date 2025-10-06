@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination, Mousewheel } from 'swiper/modules'
 import type { Swiper as SwiperType } from 'swiper'
@@ -18,6 +18,8 @@ import { CiprelSondageContent } from '@/components/ciprel/CiprelSondageContent'
 import { useUser } from '@/lib/supabase/client'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
 import { useQuizStore } from '@/stores/quiz-store'
+import { AuthModal } from '@/components/auth/AuthModal'
+import { LogoutModal } from '@/components/auth/LogoutModal'
 import {
   Building2,
   Users,
@@ -87,11 +89,27 @@ export default function HomePage() {
   const [surveyModalOpen, setSurveyModalOpen] = useState(false)
   const [videoModalOpen, setVideoModalOpen] = useState(false)
   const [initialVideoIndex, setInitialVideoIndex] = useState(0)
+  const [authModalOpen, setAuthModalOpen] = useState(false)
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false)
   const swiperRef = useRef<SwiperType | null>(null)
   const totalSlides = 7
   const practiceVideos = PRACTICE_VIDEOS
   const resetQuiz = useQuizStore(state => state.resetQuiz)
   const router = useRouter()
+
+  // Écouter les événements pour ouvrir les modaux
+  useEffect(() => {
+    const handleOpenLogin = () => setAuthModalOpen(true)
+    const handleOpenLogout = () => setLogoutModalOpen(true)
+
+    window.addEventListener('open-login', handleOpenLogin)
+    window.addEventListener('open-logout', handleOpenLogout)
+
+    return () => {
+      window.removeEventListener('open-login', handleOpenLogin)
+      window.removeEventListener('open-logout', handleOpenLogout)
+    }
+  }, [])
 
   const getSectionStatus = (sectionId: string) => {
     const section = sections.find(s => s.id === sectionId)
@@ -1431,6 +1449,18 @@ export default function HomePage() {
         onClose={closeVideoModal}
         videos={practiceVideos}
         initialVideoIndex={initialVideoIndex}
+      />
+
+      {/* Modaux d'authentification */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        defaultMode="login"
+      />
+
+      <LogoutModal
+        isOpen={logoutModalOpen}
+        onClose={() => setLogoutModalOpen(false)}
       />
     </div>
   )
