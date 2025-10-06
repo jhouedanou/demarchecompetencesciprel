@@ -115,7 +115,7 @@ export default function HomePage() {
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         <div className="p-6">
-          {user && <ProgressTracker />}
+          {user && <ProgressTracker onLinkClick={() => setSidebarOpen(false)} />}
           {!user && (
             <div className="bg-white rounded-lg shadow-lg border p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -721,7 +721,7 @@ export default function HomePage() {
             </div>
           </section>
 
-          {/* Les autres sections suivront... */}
+          {/* SECTION GUIDE */}
           <section id="guide" className="min-h-screen bg-gradient-to-br from-gray-50 to-ciprel-green-50 px-4 py-16">
             <div className="max-w-7xl mx-auto">
               <div className="flex justify-center mb-6">
@@ -736,7 +736,7 @@ export default function HomePage() {
               <p className="text-center text-gray-600 text-lg mb-12 max-w-3xl mx-auto">
                 Fournir aux employés une <strong>vue d'ensemble</strong> sur le processus de gestion des compétences, son importance, ses objectifs et son déploiement.
               </p>
-              <div className="bg-white rounded-2xl shadow-2xl overflow-hidden p-8">
+              <div className="bg-white rounded-2xl shadow-2xl overflow-hidden p-8 mb-8">
                 <a
                   href="/Guide_démarche_compétence.pdf"
                   download
@@ -746,7 +746,7 @@ export default function HomePage() {
                   Télécharger le guide complet (PDF)
                 </a>
               </div>
-              <div className="flex justify-center mt-8">
+              <div className="flex justify-center">
                 <a
                   href="#objectifs"
                   className="bg-ciprel-orange-500 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-600 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
@@ -754,6 +754,281 @@ export default function HomePage() {
                   <Target className="h-5 w-5 mr-2" />
                   Commencer mon parcours
                 </a>
+              </div>
+            </div>
+          </section>
+
+          {/* SECTION OBJECTIFS */}
+          <section id="objectifs" className="min-h-screen bg-white px-4 py-16">
+            <div className="max-w-7xl mx-auto">
+              <div className="text-center mb-12">
+                <span className="bg-ciprel-green-100 text-ciprel-green-800 px-4 py-2 rounded-full text-sm font-semibold inline-block mb-4">
+                  Objectifs stratégiques
+                </span>
+                <h2 className="text-3xl md:text-4xl font-bold text-ciprel-black mb-4">
+                  Objectifs de la démarche
+                </h2>
+                <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+                  Une vision commune pour l'entreprise et ses collaborateurs
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="bg-gradient-to-br from-ciprel-green-50 to-white rounded-xl shadow-lg p-8 border-t-4 border-ciprel-green-500">
+                  <div className="flex items-center mb-6">
+                    <div className="bg-ciprel-green-100 p-3 rounded-lg mr-4">
+                      <Building2 className="h-8 w-8 text-ciprel-green-600" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-ciprel-black">Pour CIPREL</h3>
+                  </div>
+                  <ul className="space-y-4">
+                    <li className="flex items-start">
+                      <CheckCircle2 className="h-6 w-6 text-ciprel-green-500 mr-3 flex-shrink-0 mt-1" />
+                      <span className="text-gray-700">Communiquer autour des compétences techniques et pratiques professionnelles fondamentales</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle2 className="h-6 w-6 text-ciprel-green-500 mr-3 flex-shrink-0 mt-1" />
+                      <span className="text-gray-700">Favoriser l'ancrage du contenu de la démarche compétence</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle2 className="h-6 w-6 text-ciprel-green-500 mr-3 flex-shrink-0 mt-1" />
+                      <span className="text-gray-700">Maintenir la dynamique autour des compétences, l'implication et la responsabilisation des salariés</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="bg-gradient-to-br from-ciprel-orange-50 to-white rounded-xl shadow-lg p-8 border-t-4 border-ciprel-orange-500">
+                  <div className="flex items-center mb-6">
+                    <div className="bg-ciprel-orange-100 p-3 rounded-lg mr-4">
+                      <Users className="h-8 w-8 text-ciprel-orange-600" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-ciprel-black">Pour le personnel</h3>
+                  </div>
+                  <ul className="space-y-4">
+                    <li className="flex items-start">
+                      <CheckCircle2 className="h-6 w-6 text-ciprel-orange-500 mr-3 flex-shrink-0 mt-1" />
+                      <span className="text-gray-700">Comprendre le contenu de la démarche compétence, ses objectifs et les gains attendus</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle2 className="h-6 w-6 text-ciprel-orange-500 mr-3 flex-shrink-0 mt-1" />
+                      <span className="text-gray-700">Maîtriser le requis en pratiques professionnelles et en compétences</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="flex justify-center mt-12">
+                <a
+                  href="#modules"
+                  className="bg-ciprel-orange-500 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-600 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                >
+                  Découvrir les modules
+                  <ChevronDown className="h-5 w-5 ml-2" />
+                </a>
+              </div>
+            </div>
+          </section>
+
+          {/* SECTION MODULES */}
+          <section id="modules" className="min-h-screen bg-white px-4 py-16">
+            <div className="max-w-7xl mx-auto">
+              <div className="text-center mb-12">
+                <span className="bg-ciprel-orange-100 text-ciprel-orange-800 px-4 py-2 rounded-full text-sm font-semibold inline-block mb-4">
+                  Parcours d'apprentissage
+                </span>
+                <h2 className="text-3xl md:text-4xl font-bold text-ciprel-black mb-4">
+                  Découvrir la démarche compétence
+                </h2>
+                <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+                  4 modules interactifs pour comprendre et maîtriser la démarche
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <button
+                  onClick={() => openModal('dialectique')}
+                  className={`block p-6 rounded-xl border-2 text-left transition-all duration-200 group ${
+                    getSectionStatus('dialectique')
+                      ? 'bg-ciprel-green-50 border-ciprel-green-400 shadow-lg'
+                      : 'bg-white border-gray-200 hover:border-ciprel-green-400 hover:shadow-lg'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center">
+                      <div className="bg-ciprel-green-100 p-3 rounded-lg mr-3 group-hover:bg-ciprel-green-200 transition-colors">
+                        <BookOpen className="h-6 w-6 text-ciprel-green-600" />
+                      </div>
+                      <h4 className="font-bold text-gray-900 text-lg">1. Dialectique de la démarche</h4>
+                    </div>
+                    {getSectionStatus('dialectique') && (
+                      <div className="w-8 h-8 bg-ciprel-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <CheckCircle2 className="w-5 h-5 text-white" />
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-gray-600">Découvrez la définition et les bénéfices</p>
+                </button>
+
+                <button
+                  onClick={() => openModal('synoptique')}
+                  className={`block p-6 rounded-xl border-2 text-left transition-all duration-200 group ${
+                    getSectionStatus('synoptique')
+                      ? 'bg-ciprel-green-50 border-ciprel-green-400 shadow-lg'
+                      : 'bg-white border-gray-200 hover:border-ciprel-green-400 hover:shadow-lg'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center">
+                      <div className="bg-ciprel-green-100 p-3 rounded-lg mr-3 group-hover:bg-ciprel-green-200 transition-colors">
+                        <Target className="h-6 w-6 text-ciprel-green-600" />
+                      </div>
+                      <h4 className="font-bold text-gray-900 text-lg">2. Synoptique des étapes</h4>
+                    </div>
+                    {getSectionStatus('synoptique') && (
+                      <div className="w-8 h-8 bg-ciprel-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <CheckCircle2 className="w-5 h-5 text-white" />
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-gray-600">Les 5 étapes cycliques détaillées</p>
+                </button>
+
+                <button
+                  onClick={() => openModal('leviers')}
+                  className={`block p-6 rounded-xl border-2 text-left transition-all duration-200 group ${
+                    getSectionStatus('leviers')
+                      ? 'bg-ciprel-green-50 border-ciprel-green-400 shadow-lg'
+                      : 'bg-white border-gray-200 hover:border-ciprel-green-400 hover:shadow-lg'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center">
+                      <div className="bg-ciprel-green-100 p-3 rounded-lg mr-3 group-hover:bg-ciprel-green-200 transition-colors">
+                        <TrendingUp className="h-6 w-6 text-ciprel-green-600" />
+                      </div>
+                      <h4 className="font-bold text-gray-900 text-lg">3. Facteurs clés de succès</h4>
+                    </div>
+                    {getSectionStatus('leviers') && (
+                      <div className="w-8 h-8 bg-ciprel-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <CheckCircle2 className="w-5 h-5 text-white" />
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-gray-600">Les 4 leviers essentiels</p>
+                </button>
+
+                <button
+                  onClick={() => openModal('ressources')}
+                  className={`block p-6 rounded-xl border-2 text-left transition-all duration-200 group ${
+                    getSectionStatus('ressources')
+                      ? 'bg-ciprel-green-50 border-ciprel-green-400 shadow-lg'
+                      : 'bg-white border-gray-200 hover:border-ciprel-green-400 hover:shadow-lg'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center">
+                      <div className="bg-ciprel-green-100 p-3 rounded-lg mr-3 group-hover:bg-ciprel-green-200 transition-colors">
+                        <Download className="h-6 w-6 text-ciprel-green-600" />
+                      </div>
+                      <h4 className="font-bold text-gray-900 text-lg">4. Ressources documentaires</h4>
+                    </div>
+                    {getSectionStatus('ressources') && (
+                      <div className="w-8 h-8 bg-ciprel-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <CheckCircle2 className="w-5 h-5 text-white" />
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-gray-600">Guides et documents téléchargeables</p>
+                </button>
+              </div>
+
+              <div className="bg-gradient-to-r from-ciprel-green-50 to-ciprel-orange-50 border-2 border-ciprel-green-200 rounded-xl p-6 text-center mb-8">
+                <p className="text-ciprel-black font-semibold text-lg">
+                  📚 <strong>Important :</strong> Vous devez lire toutes les sections pour débloquer l'accès aux quiz et sondages.
+                </p>
+              </div>
+
+              <div className="flex justify-center">
+                <a
+                  href="#plateforme"
+                  className="bg-ciprel-orange-500 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-600 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                >
+                  Accéder aux quiz
+                  <ChevronDown className="h-5 w-5 ml-2" />
+                </a>
+              </div>
+            </div>
+          </section>
+
+          {/* SECTION PLATEFORME */}
+          <section id="plateforme" className="min-h-screen bg-gray-50 px-4 py-16">
+            <div className="max-w-7xl mx-auto">
+              <div className="text-center mb-12">
+                <span className="bg-ciprel-green-100 text-ciprel-green-800 px-4 py-2 rounded-full text-sm font-semibold inline-block mb-4">
+                  Plateforme interactive
+                </span>
+                <h2 className="text-3xl md:text-4xl font-bold text-ciprel-black mb-4">
+                  Votre plateforme d'apprentissage et d'évaluation
+                </h2>
+                <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+                  Impliquer le personnel dans l'amélioration continue de la démarche compétence
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {user && canAccessQuiz() ? (
+                  <Link
+                    href="/competences/quiz-introduction"
+                    className="block p-6 bg-gradient-to-r from-ciprel-green-500 to-ciprel-green-600 text-white rounded-xl hover:from-ciprel-green-600 hover:to-ciprel-green-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-bold text-xl">Quiz d'introduction</h4>
+                      <BookOpen className="h-7 w-7" />
+                    </div>
+                    <p className="text-ciprel-green-100 mb-4">Testez vos connaissances sur la démarche compétence</p>
+                    <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
+                      ✓ Modules complétés - Accès débloqué
+                    </div>
+                  </Link>
+                ) : (
+                  <div className="block p-6 bg-gray-300 text-gray-500 rounded-xl cursor-not-allowed">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-bold text-xl">Quiz d'introduction</h4>
+                      <Lock className="h-7 w-7" />
+                    </div>
+                    <p className="text-gray-400 mb-4">Testez vos connaissances sur la démarche compétence</p>
+                    <div className="text-sm bg-gray-400 text-white rounded-lg px-3 py-2 inline-block">
+                      🔒 Lisez tous les modules pour débloquer
+                    </div>
+                  </div>
+                )}
+
+                {user && canAccessQuiz() ? (
+                  <Link
+                    href="/sondage"
+                    className="block p-6 bg-gradient-to-r from-ciprel-orange-500 to-ciprel-orange-600 text-white rounded-xl hover:from-ciprel-orange-600 hover:to-ciprel-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-bold text-xl">Sondage d'opinion</h4>
+                      <HelpCircle className="h-7 w-7" />
+                    </div>
+                    <p className="text-ciprel-orange-100 mb-4">Partagez votre avis et vos suggestions d'amélioration</p>
+                    <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
+                      ✓ Modules complétés - Accès débloqué
+                    </div>
+                  </Link>
+                ) : (
+                  <div className="block p-6 bg-gray-300 text-gray-500 rounded-xl cursor-not-allowed">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-bold text-xl">Sondage d'opinion</h4>
+                      <Lock className="h-7 w-7" />
+                    </div>
+                    <p className="text-gray-400 mb-4">Partagez votre avis et vos suggestions d'amélioration</p>
+                    <div className="text-sm bg-gray-400 text-white rounded-lg px-3 py-2 inline-block">
+                      🔒 Lisez tous les modules pour débloquer
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </section>
@@ -789,6 +1064,10 @@ export default function HomePage() {
         </div>
 
         <style jsx global>{`
+          html {
+            scroll-behavior: smooth;
+          }
+
           .homepage-swiper .swiper-pagination {
             position: absolute;
             top: 50%;

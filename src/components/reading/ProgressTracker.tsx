@@ -6,7 +6,11 @@ import { CheckCircle, Circle, Lock, BookOpen, LogOut } from 'lucide-react'
 import { useAuthStore } from '@/stores/auth-store'
 import Link from 'next/link'
 
-export default function ProgressTracker() {
+interface ProgressTrackerProps {
+  onLinkClick?: () => void
+}
+
+export default function ProgressTracker({ onLinkClick }: ProgressTrackerProps = {}) {
   const { user } = useUser()
   const { signOut } = useAuthStore()
   const {
@@ -78,6 +82,7 @@ export default function ProgressTracker() {
           <Link
             key={section.id}
             href={`/demarche/${section.id}`}
+            onClick={onLinkClick}
             className={`flex items-start p-3 rounded-lg border transition-all ${
               section.completed
                 ? 'bg-ciprel-green-50 border-ciprel-green-200 hover:bg-ciprel-green-100'
