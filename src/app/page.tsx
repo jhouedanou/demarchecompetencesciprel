@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination, Mousewheel } from 'swiper/modules'
 import type { Swiper as SwiperType } from 'swiper'
@@ -37,23 +37,12 @@ type SectionType = 'introduction' | 'dialectique' | 'synoptique' | 'leviers' | '
 
 export default function HomePage() {
   const { user } = useUser()
-  const { markSectionCompleted, sections, canAccessQuiz } = useReadingProgress(user)
+  const { sections, canAccessQuiz } = useReadingProgress(user)
   const [activeModal, setActiveModal] = useState<SectionType>(null)
   const [activeSlide, setActiveSlide] = useState(0)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const startTime = useRef<number>(Date.now())
   const swiperRef = useRef<SwiperType | null>(null)
   const totalSlides = 6
-
-  useEffect(() => {
-    startTime.current = Date.now()
-    return () => {
-      if (user) {
-        const readingTime = Math.round((Date.now() - startTime.current) / 1000)
-        markSectionCompleted('accueil', readingTime)
-      }
-    }
-  }, [user, markSectionCompleted])
 
   const getSectionStatus = (sectionId: string) => {
     const section = sections.find(s => s.id === sectionId)

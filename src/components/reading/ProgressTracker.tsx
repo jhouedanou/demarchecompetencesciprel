@@ -109,11 +109,6 @@ export default function ProgressTracker({ onLinkClick, onSectionClick }: Progres
               }`}>
                 {section.title}
               </p>
-              {section.reading_time && section.reading_time > 0 && (
-                <p className="text-xs text-gray-500 mt-1">
-                  {Math.round(section.reading_time / 60)} min
-                </p>
-              )}
             </div>
           </button>
         ))}

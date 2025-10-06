@@ -20,12 +20,24 @@ export interface ReadingSection {
 }
 
 const REQUIRED_SECTIONS: ReadingSection[] = [
-  { id: 'accueil', title: 'Page d\'accueil', required: true, completed: false },
+  { id: 'introduction', title: 'Introduction à la démarche compétence', required: true, completed: false },
   { id: 'dialectique', title: 'Dialectique de la démarche compétence', required: true, completed: false },
   { id: 'synoptique', title: 'Synoptique de la démarche compétence', required: true, completed: false },
   { id: 'leviers', title: 'Leviers et facteurs clés de succès', required: true, completed: false },
   { id: 'ressources', title: 'Ressources documentaires', required: true, completed: false }
 ]
+
+const areRequiredSectionsCompleted = (list: ReadingSection[]) =>
+  list.filter(section => section.required).every(section => section.completed)
+
+const calculateRequiredCompletionPercentage = (list: ReadingSection[]) => {
+  const requiredSections = list.filter(section => section.required)
+  if (requiredSections.length === 0) {
+    return 0
+  }
+  const completed = requiredSections.filter(section => section.completed).length
+  return Math.round((completed / requiredSections.length) * 100)
+}
 
 export function useReadingProgress(user: User | null) {
   const [sections, setSections] = useState<ReadingSection[]>(REQUIRED_SECTIONS)
@@ -81,7 +93,7 @@ export function useReadingProgress(user: User | null) {
       })
 
       setSections(updatedSections)
-      setAllCompleted(updatedSections.every(s => s.completed))
+      setAllCompleted(areRequiredSectionsCompleted(updatedSections))
     } catch (error) {
       console.error('Error in loadProgress:', error)
     } finally {
@@ -126,7 +138,7 @@ export function useReadingProgress(user: User | null) {
           s.id === sectionId ? { ...s, completed: true, reading_time: readingTimeSeconds } : s
         )
         setSections(updatedSections)
-        setAllCompleted(updatedSections.every(s => s.completed))
+        setAllCompleted(areRequiredSectionsCompleted(updatedSections))
 
         // Emit event for other components
         window.dispatchEvent(new CustomEvent('reading-progress-updated'))
@@ -151,7 +163,7 @@ export function useReadingProgress(user: User | null) {
         s.id === sectionId ? { ...s, completed: true, reading_time: readingTimeSeconds } : s
       )
       setSections(updatedSections)
-      setAllCompleted(updatedSections.every(s => s.completed))
+      setAllCompleted(areRequiredSectionsCompleted(updatedSections))
 
       // Emit event for other components
       window.dispatchEvent(new CustomEvent('reading-progress-updated'))
@@ -167,8 +179,7 @@ export function useReadingProgress(user: User | null) {
 
   // Get completion percentage
   const getCompletionPercentage = () => {
-    const completed = sections.filter(s => s.completed).length
-    return Math.round((completed / sections.length) * 100)
+    return calculateRequiredCompletionPercentage(sections)
   }
 
   // Get next section to complete
