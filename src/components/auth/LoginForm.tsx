@@ -35,6 +35,7 @@ export function LoginForm() {
   })
 
   const onSubmit = async (data: LoginFormData) => {
+    console.log('🔐 Tentative de connexion...', { email: data.email })
     setIsLoading(true)
 
     try {
@@ -47,10 +48,17 @@ export function LoginForm() {
       // Get user from store after successful sign in
       const currentUser = useAuthStore.getState().user
 
+      // Attendre un court instant pour que le state se propage
+      await new Promise(resolve => setTimeout(resolve, 100))
+
       // Redirection basée sur le rôle
       if (currentUser?.role === 'ADMIN') {
         router.push('/admin')
-      } // Les autres rôles restent sur la page courante; le portail se fermera automatiquement
+        router.refresh()
+      } else {
+        // Pour les autres rôles, rafraîchir la page pour fermer le modal
+        router.refresh()
+      }
     } catch (error: any) {
       console.error('Erreur de connexion:', error)
       
@@ -126,7 +134,7 @@ export function LoginForm() {
 
       <div className="flex items-center justify-between">
         <Link
-          href="/auth/forgot-password"
+          href="/forgot-password"
           className="text-sm text-ciprel-orange-600 hover:text-ciprel-orange-500"
         >
           Mot de passe oublié ?
