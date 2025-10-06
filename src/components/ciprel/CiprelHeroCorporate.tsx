@@ -189,17 +189,17 @@ export function CiprelHeroCorporate() {
 
               {/* Certifications */}
               <div className="mt-6 flex items-center justify-center gap-4">
-                <div className="flex items-center gap-2 px-3 py-1 bg-green-50 rounded-full">
-                  <Shield className="h-4 w-4 text-green-600" />
-                  <span className="text-xs font-medium text-green-700">ISO 45001</span>
+                <div className="flex items-center gap-2 px-3 py-1 bg-ciprel-green-50 rounded-full">
+                  <Shield className="h-4 w-4 text-ciprel-green-600" />
+                  <span className="text-xs font-medium text-ciprel-green-700">ISO 45001</span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 rounded-full">
-                  <Shield className="h-4 w-4 text-blue-600" />
-                  <span className="text-xs font-medium text-blue-700">ISO 14001</span>
+                <div className="flex items-center gap-2 px-3 py-1 bg-ciprel-blue/10 rounded-full">
+                  <Shield className="h-4 w-4 text-ciprel-blue" />
+                  <span className="text-xs font-medium text-ciprel-blue">ISO 14001</span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1 bg-orange-50 rounded-full">
-                  <Shield className="h-4 w-4 text-orange-600" />
-                  <span className="text-xs font-medium text-orange-700">ISO 9001</span>
+                <div className="flex items-center gap-2 px-3 py-1 bg-ciprel-orange-50 rounded-full">
+                  <Shield className="h-4 w-4 text-ciprel-orange-600" />
+                  <span className="text-xs font-medium text-ciprel-orange-700">ISO 9001</span>
                 </div>
               </div>
             </motion.div>

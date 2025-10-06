@@ -66,10 +66,18 @@ export function ResultsView({ quizType, onRestart, className }: ResultsViewProps
   }
 
   const getPerformanceLevel = (percentage: number) => {
-    if (percentage >= 90) return { level: 'Excellent', color: 'text-green-600', bg: 'bg-green-50', icon: Trophy }
-    if (percentage >= 80) return { level: 'Très bien', color: 'text-blue-600', bg: 'bg-blue-50', icon: Award }
-    if (percentage >= 70) return { level: 'Bien', color: 'text-purple-600', bg: 'bg-purple-50', icon: Target }
-    if (percentage >= 50) return { level: 'Passable', color: 'text-orange-600', bg: 'bg-orange-50', icon: TrendingUp }
+    if (percentage >= 90) {
+      return { level: 'Excellent', color: 'text-ciprel-green-600', bg: 'bg-ciprel-green-50', icon: Trophy }
+    }
+    if (percentage >= 80) {
+      return { level: 'Très bien', color: 'text-ciprel-orange-600', bg: 'bg-ciprel-orange-50', icon: Award }
+    }
+    if (percentage >= 70) {
+      return { level: 'Bien', color: 'text-ciprel-blue', bg: 'bg-ciprel-blue/10', icon: Target }
+    }
+    if (percentage >= 50) {
+      return { level: 'Passable', color: 'text-ciprel-light-green', bg: 'bg-ciprel-light-green/20', icon: TrendingUp }
+    }
     return { level: 'À améliorer', color: 'text-red-600', bg: 'bg-red-50', icon: Book }
   }
 
@@ -177,12 +185,12 @@ export function ResultsView({ quizType, onRestart, className }: ResultsViewProps
 
           {/* Statistiques détaillées */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-center p-4 bg-green-50 rounded-lg">
-              <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-green-900">
+            <div className="text-center p-4 bg-ciprel-green-50 rounded-lg">
+              <CheckCircle className="h-8 w-8 text-ciprel-green-600 mx-auto mb-2" />
+              <div className="text-2xl font-bold text-ciprel-green-900">
                 {correctAnswers}
               </div>
-              <div className="text-sm text-green-700">
+              <div className="text-sm text-ciprel-green-700">
                 Correctes
               </div>
             </div>
@@ -197,12 +205,12 @@ export function ResultsView({ quizType, onRestart, className }: ResultsViewProps
               </div>
             </div>
 
-            <div className="text-center p-4 bg-blue-50 rounded-lg">
-              <Clock className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-blue-900">
+            <div className="text-center p-4 bg-ciprel-blue/10 rounded-lg">
+              <Clock className="h-8 w-8 text-ciprel-blue mx-auto mb-2" />
+              <div className="text-2xl font-bold text-ciprel-blue-dark">
                 {formatDuration(duration)}
               </div>
-              <div className="text-sm text-blue-700">
+              <div className="text-sm text-ciprel-blue">
                 Temps total
               </div>
             </div>
@@ -275,11 +283,11 @@ export function ResultsView({ quizType, onRestart, className }: ResultsViewProps
         <CardContent>
           <div className="space-y-3">
             {(percentage || 0) < 70 && (
-              <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                <h4 className="font-semibold text-yellow-800 mb-2">
+              <div className="p-4 bg-ciprel-light-green/20 border border-ciprel-light-green rounded-lg">
+                <h4 className="font-semibold text-ciprel-green-700 mb-2">
                   Recommandations d'amélioration :
                 </h4>
-                <ul className="text-sm text-yellow-700 space-y-1">
+                <ul className="text-sm text-ciprel-green-700 space-y-1">
                   <li>• Révisez les concepts fondamentaux de la démarche compétences</li>
                   <li>• Consultez la documentation CIPREL</li>
                   <li>• Regardez les vidéos de formation disponibles</li>
@@ -287,11 +295,11 @@ export function ResultsView({ quizType, onRestart, className }: ResultsViewProps
               </div>
             )}
 
-            <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-              <h4 className="font-semibold text-blue-800 mb-2">
+            <div className="p-4 bg-ciprel-blue/10 border border-ciprel-blue rounded-lg">
+              <h4 className="font-semibold text-ciprel-blue-dark mb-2">
                 Prochaines étapes :
               </h4>
-              <ul className="text-sm text-blue-700 space-y-1">
+              <ul className="text-sm text-ciprel-blue space-y-1">
                 <li>• Participez au sondage pour partager votre expérience</li>
                 <li>• Explorez la vidéothèque pour approfondir vos connaissances</li>
                 <li>• Suivez votre progression dans votre profil</li>

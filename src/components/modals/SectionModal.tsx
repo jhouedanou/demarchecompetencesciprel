@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, ReactNode } from 'react'
 import { X, Check } from 'lucide-react'
+import { toast } from 'react-hot-toast'
 import { useUser } from '@/lib/supabase/client'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
 
@@ -89,33 +90,29 @@ export function SectionModal({
   }
 
   const handleMarkAsRead = async () => {
-    console.log('handleMarkAsRead called', { user: !!user, canMarkAsRead, sectionId })
-
     if (!user) {
-      console.error('No user found when trying to mark section as read')
+      toast.error('Connectez-vous pour valider cette étape.')
       return
     }
 
     if (!canMarkAsRead) {
-      console.error('Cannot mark as read - permission denied')
+      toast.error('Vous ne pouvez pas valider cette étape pour le moment.')
       return
     }
 
     try {
       const readingTime = Math.round((Date.now() - startTime.current) / 1000)
-      console.log(`Marking section ${sectionId} as read with reading time: ${readingTime}s`)
 
       const success = await markSectionCompleted(sectionId, readingTime)
-      console.log('Mark as read result:', success)
 
       if (success) {
-        console.log('Successfully marked section as read, closing modal')
+        toast.success('Étape validée avec succès !')
         onClose()
       } else {
-        console.error('Failed to mark section as read')
+        toast.error('Impossible de valider cette étape. Réessayez plus tard.')
       }
     } catch (error) {
-      console.error('Error in handleMarkAsRead:', error)
+      toast.error('Une erreur est survenue lors de la validation.')
     }
   }
 
@@ -128,15 +125,15 @@ export function SectionModal({
     >
       <div
         ref={modalRef}
-        className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+        className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col border border-ciprel-gray-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-900 to-blue-800 text-white p-6 flex items-center justify-between">
+        <div className="bg-gradient-to-r from-ciprel-green-600 to-ciprel-orange-500 text-white p-6 flex items-center justify-between">
           <div className="flex-1">
-            <h2 className="text-2xl font-bold">{title}</h2>
+            <h2 className="text-2xl font-bold text-white white-text">{title}</h2>
             {isAlreadyRead && (
-              <div className="flex items-center mt-2 text-green-200">
+              <div className="flex items-center mt-2 text-ciprel-green-100">
                 <Check className="h-4 w-4 mr-2" />
                 <span className="text-sm">Section déjà lue</span>
               </div>
@@ -144,7 +141,7 @@ export function SectionModal({
           </div>
           <button
             onClick={onClose}
-            className="text-white hover:text-gray-200 transition-colors p-1"
+            className="text-white hover:text-orange-100 transition-colors p-1"
           >
             <X className="h-6 w-6" />
           </button>
@@ -170,7 +167,7 @@ export function SectionModal({
             <div className="flex space-x-3">
               <button
                 onClick={onClose}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+                className="px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors"
               >
                 Fermer
               </button>
@@ -181,8 +178,8 @@ export function SectionModal({
                   disabled={!hasScrolledToBottom}
                   className={`px-6 py-2 rounded-lg transition-colors flex items-center font-medium ${
                     hasScrolledToBottom
-                      ? 'bg-green-600 text-white hover:bg-green-700'
-                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      ? 'bg-ciprel-green-600 text-white hover:bg-ciprel-green-700'
+                      : 'bg-ciprel-gray-200 text-gray-500 cursor-not-allowed'
                   }`}
                 >
                   <Check className="h-4 w-4 mr-2" />

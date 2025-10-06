@@ -127,7 +127,7 @@ export function LoginForm() {
       <div className="flex items-center justify-between">
         <Link
           href="/auth/forgot-password"
-          className="text-sm text-blue-600 hover:text-blue-500"
+          className="text-sm text-ciprel-orange-600 hover:text-ciprel-orange-500"
         >
           Mot de passe oublié ?
         </Link>
@@ -136,7 +136,7 @@ export function LoginForm() {
       <Button
         type="submit"
         disabled={isLoading}
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+        className="w-full bg-ciprel-green-600 hover:bg-ciprel-green-700 text-white"
       >
         {isLoading ? 'Connexion...' : 'Se connecter'}
       </Button>
@@ -146,7 +146,7 @@ export function LoginForm() {
           Pas encore de compte ?{' '}
           <Link
             href="/register"
-            className="text-blue-600 hover:text-blue-500 font-medium"
+            className="text-ciprel-orange-600 hover:text-ciprel-orange-500 font-medium"
           >
             Créer un compte
           </Link>

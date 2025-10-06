@@ -1,0 +1,390 @@
+/**
+ * CIPREL - Charte Graphique
+ * Variables CSS et guidelines pour l'identité visuelle
+ * Version: 1.0
+ */
+
+/* ========================================
+   COULEURS PRIMAIRES
+   ======================================== */
+
+:root {
+  /* Orange principal */
+  --ciprel-orange-primary: #EE7F00;
+  --ciprel-orange-primary-rgb: 238, 127, 0;
+
+  /* Orange dégradé */
+  --ciprel-orange-secondary: #E0832F;
+  --ciprel-orange-secondary-rgb: 224, 131, 47;
+
+  /* Vert principal */
+  --ciprel-green-primary: #58A636;
+  --ciprel-green-primary-rgb: 88, 166, 54;
+
+  /* Vert dégradé */
+  --ciprel-green-secondary: #6FA84A;
+  --ciprel-green-secondary-rgb: 111, 168, 74;
+
+
+  /* ========================================
+     COULEURS SECONDAIRES
+     ======================================== */
+
+  --ciprel-blue: #3A6FA2;
+  --ciprel-blue-dark: #2A436D;
+  --ciprel-turquoise: #60A9B3;
+  --ciprel-green-light: #BDC748;
+  --ciprel-yellow: #FAEA15;
+  --ciprel-gray-light: #D8D8D8;
+  --ciprel-gray-medium: #9E9E9E;
+
+  /* Noir et blanc */
+  --ciprel-black: #000000;
+  --ciprel-white: #FFFFFF;
+
+
+  /* ========================================
+     TYPOGRAPHIES
+     ======================================== */
+
+  /* Police principale pour le corps de texte */
+  --ciprel-font-body: 'Century Gothic', 'Montserrat', 'Avenir', sans-serif;
+
+  /* Police pour les titres et accroches */
+  --ciprel-font-heading: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+
+  /* Police du logo (à utiliser uniquement pour reproduction exacte) */
+  --ciprel-font-logo: 'Rapier Zero', sans-serif;
+
+
+  /* ========================================
+     TAILLES DE TYPOGRAPHIE
+     ======================================== */
+
+  --ciprel-font-size-h1: 2.5rem;      /* 40px */
+  --ciprel-font-size-h2: 2rem;        /* 32px */
+  --ciprel-font-size-h3: 1.75rem;     /* 28px */
+  --ciprel-font-size-h4: 1.5rem;      /* 24px */
+  --ciprel-font-size-h5: 1.25rem;     /* 20px */
+  --ciprel-font-size-h6: 1rem;        /* 16px */
+  --ciprel-font-size-body: 1rem;      /* 16px */
+  --ciprel-font-size-small: 0.875rem; /* 14px */
+
+
+  /* ========================================
+     ESPACEMENTS
+     ======================================== */
+
+  /* Espace vital du logo (H/2) */
+  --ciprel-logo-safe-space: 0.5em;
+
+  /* Espacements standardisés */
+  --ciprel-spacing-xs: 0.25rem;   /* 4px */
+  --ciprel-spacing-sm: 0.5rem;    /* 8px */
+  --ciprel-spacing-md: 1rem;      /* 16px */
+  --ciprel-spacing-lg: 1.5rem;    /* 24px */
+  --ciprel-spacing-xl: 2rem;      /* 32px */
+  --ciprel-spacing-xxl: 3rem;     /* 48px */
+
+
+  /* ========================================
+     LOGO - CONTRAINTES
+     ======================================== */
+
+  /* Taille minimale du logo: 15mm ≈ 57px à 96 DPI */
+  --ciprel-logo-min-width: 57px;
+  --ciprel-logo-min-height: 15mm;
+
+
+  /* ========================================
+     OMBRES ET EFFETS
+     ======================================== */
+
+  --ciprel-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --ciprel-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --ciprel-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+
+  /* ========================================
+     BORDURES ET RADIUS
+     ======================================== */
+
+  --ciprel-border-radius-sm: 4px;
+  --ciprel-border-radius-md: 8px;
+  --ciprel-border-radius-lg: 12px;
+
+  --ciprel-border-width: 1px;
+  --ciprel-border-color: var(--ciprel-gray-light);
+
+
+  /* ========================================
+     TRANSITIONS
+     ======================================== */
+
+  --ciprel-transition-fast: 150ms ease-in-out;
+  --ciprel-transition-medium: 300ms ease-in-out;
+  --ciprel-transition-slow: 500ms ease-in-out;
+}
+
+
+/* ========================================
+   CLASSES UTILITAIRES - COULEURS
+   ======================================== */
+
+/* Couleurs de texte */
+.ciprel-text-orange { color: var(--ciprel-orange-primary); }
+.ciprel-text-green { color: var(--ciprel-green-primary); }
+.ciprel-text-blue { color: var(--ciprel-blue); }
+.ciprel-text-gray { color: var(--ciprel-gray-medium); }
+
+/* Couleurs de fond */
+.ciprel-bg-orange { background-color: var(--ciprel-orange-primary); }
+.ciprel-bg-green { background-color: var(--ciprel-green-primary); }
+.ciprel-bg-blue { background-color: var(--ciprel-blue); }
+.ciprel-bg-gray-light { background-color: var(--ciprel-gray-light); }
+.ciprel-bg-white { background-color: var(--ciprel-white); }
+
+/* Dégradés officiels */
+.ciprel-gradient-orange {
+  background: linear-gradient(135deg,
+    var(--ciprel-orange-primary) 0%,
+    var(--ciprel-orange-secondary) 100%
+  );
+}
+
+.ciprel-gradient-green {
+  background: linear-gradient(135deg,
+    var(--ciprel-green-primary) 0%,
+    var(--ciprel-green-secondary) 100%
+  );
+}
+
+.ciprel-gradient-brand {
+  background: linear-gradient(135deg,
+    var(--ciprel-orange-primary) 0%,
+    var(--ciprel-green-primary) 100%
+  );
+}
+
+
+/* ========================================
+   TYPOGRAPHIE - CLASSES DE BASE
+   ======================================== */
+
+body {
+  font-family: var(--ciprel-font-body);
+  font-size: var(--ciprel-font-size-body);
+  line-height: 1.6;
+  color: var(--ciprel-black);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--ciprel-font-heading);
+  font-weight: 300;
+  line-height: 1.2;
+  margin-bottom: var(--ciprel-spacing-md);
+}
+
+h1 { font-size: var(--ciprel-font-size-h1); }
+h2 { font-size: var(--ciprel-font-size-h2); }
+h3 { font-size: var(--ciprel-font-size-h3); }
+h4 { font-size: var(--ciprel-font-size-h4); }
+h5 { font-size: var(--ciprel-font-size-h5); }
+h6 { font-size: var(--ciprel-font-size-h6); }
+
+p {
+  margin-bottom: var(--ciprel-spacing-md);
+}
+
+.ciprel-heading-light {
+  font-weight: 300;
+}
+
+.ciprel-heading-regular {
+  font-weight: 400;
+}
+
+.ciprel-text-small {
+  font-size: var(--ciprel-font-size-small);
+}
+
+
+/* ========================================
+   BOUTONS
+   ======================================== */
+
+.ciprel-btn {
+  display: inline-block;
+  padding: var(--ciprel-spacing-sm) var(--ciprel-spacing-lg);
+  font-family: var(--ciprel-font-heading);
+  font-size: var(--ciprel-font-size-body);
+  font-weight: 400;
+  text-align: center;
+  text-decoration: none;
+  border: var(--ciprel-border-width) solid transparent;
+  border-radius: var(--ciprel-border-radius-sm);
+  cursor: pointer;
+  transition: all var(--ciprel-transition-fast);
+}
+
+.ciprel-btn-primary {
+  background-color: var(--ciprel-orange-primary);
+  color: var(--ciprel-white);
+  border-color: var(--ciprel-orange-primary);
+}
+
+.ciprel-btn-primary:hover {
+  background-color: var(--ciprel-orange-secondary);
+  border-color: var(--ciprel-orange-secondary);
+}
+
+.ciprel-btn-secondary {
+  background-color: var(--ciprel-green-primary);
+  color: var(--ciprel-white);
+  border-color: var(--ciprel-green-primary);
+}
+
+.ciprel-btn-secondary:hover {
+  background-color: var(--ciprel-green-secondary);
+  border-color: var(--ciprel-green-secondary);
+}
+
+.ciprel-btn-outline {
+  background-color: transparent;
+  color: var(--ciprel-orange-primary);
+  border-color: var(--ciprel-orange-primary);
+}
+
+.ciprel-btn-outline:hover {
+  background-color: var(--ciprel-orange-primary);
+  color: var(--ciprel-white);
+}
+
+
+/* ========================================
+   LOGO - RÈGLES D'UTILISATION
+   ======================================== */
+
+.ciprel-logo {
+  min-width: var(--ciprel-logo-min-width);
+  /* Respecter l'espace vital autour du logo */
+  margin: var(--ciprel-logo-safe-space);
+}
+
+/* Logo sur fond clair (version couleur par défaut) */
+.ciprel-logo-color {
+  /* Utiliser l'image du logo en couleur */
+  /* content: url('/images/logo.webp'); */
+}
+
+/* Logo monochrome pour fonds colorés */
+.ciprel-logo-mono-white {
+  /* content: url('/images/logo-white.svg'); */
+}
+
+.ciprel-logo-mono-black {
+  /* content: url('/images/logo-black.svg'); */
+}
+
+/* Filigrane (opacité réduite) */
+.ciprel-logo-watermark {
+  opacity: 0.1;
+}
+
+
+/* ========================================
+   CARTES ET CONTENEURS
+   ======================================== */
+
+.ciprel-card {
+  background-color: var(--ciprel-white);
+  border-radius: var(--ciprel-border-radius-md);
+  box-shadow: var(--ciprel-shadow-md);
+  padding: var(--ciprel-spacing-lg);
+  margin-bottom: var(--ciprel-spacing-lg);
+}
+
+.ciprel-card-header {
+  border-bottom: var(--ciprel-border-width) solid var(--ciprel-gray-light);
+  padding-bottom: var(--ciprel-spacing-md);
+  margin-bottom: var(--ciprel-spacing-md);
+}
+
+
+/* ========================================
+   ACCESSIBILITÉ
+   ======================================== */
+
+/* Focus visible pour navigation au clavier */
+.ciprel-btn:focus,
+a:focus {
+  outline: 2px solid var(--ciprel-orange-primary);
+  outline-offset: 2px;
+}
+
+/* Contraste suffisant pour le texte */
+.ciprel-bg-orange,
+.ciprel-bg-green,
+.ciprel-bg-blue {
+  color: var(--ciprel-white);
+}
+
+
+/* ========================================
+   RESPONSIVE - BREAKPOINTS
+   ======================================== */
+
+/* Mobile first approach */
+@media (max-width: 768px) {
+  :root {
+    --ciprel-font-size-h1: 2rem;
+    --ciprel-font-size-h2: 1.75rem;
+    --ciprel-font-size-h3: 1.5rem;
+  }
+
+  .ciprel-logo {
+    /* S'assurer que le logo reste lisible sur mobile */
+    min-width: var(--ciprel-logo-min-width);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Tablette */
+}
+
+@media (min-width: 1025px) {
+  /* Desktop */
+}
+
+
+/* ========================================
+   NOTES D'UTILISATION
+   ======================================== */
+
+/*
+RÈGLES IMPORTANTES À RESPECTER:
+
+1. LOGO
+   - Taille minimale: 57px de largeur
+   - Toujours respecter l'espace vital (H/2)
+   - Version couleur sur fond clair uniquement
+   - Version monochrome pour fonds colorés/foncés
+   - Ne JAMAIS déformer, modifier les couleurs ou la typographie
+
+2. COULEURS
+   - Palette principale: Orange #EE7F00 et Vert #58A636
+   - Utiliser les couleurs secondaires avec parcimonie
+   - Assurer un contraste WCAG AA minimum
+
+3. TYPOGRAPHIE
+   - Corps de texte: Century Gothic (ou Montserrat en web)
+   - Titres: Helvetica Neue Light
+   - Ne pas mélanger trop de graisses différentes
+
+4. ACCESSIBILITÉ
+   - Toujours tester le contraste des couleurs
+   - Fournir des alternatives textuelles aux images
+   - Assurer la navigation au clavier
+
+Pour plus de détails, consulter la charte graphique complète.
+*/

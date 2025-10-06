@@ -92,7 +92,7 @@ export function QuizEngine({ quizType, className }: QuizEngineProps) {
         </p>
         <Button 
           onClick={() => loadQuestions(quizType)}
-          className="bg-blue-600 hover:bg-blue-700"
+          className="bg-ciprel-green-600 hover:bg-ciprel-green-700"
         >
           <RotateCcw className="h-4 w-4 mr-2" />
           Réessayer
@@ -151,7 +151,7 @@ export function QuizEngine({ quizType, className }: QuizEngineProps) {
         <Button
           onClick={handleStartQuiz}
           size="lg"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3"
+          className="bg-ciprel-green-600 hover:bg-ciprel-green-700 text-white px-8 py-3"
         >
           <Play className="h-5 w-5 mr-2" />
           Commencer le quiz

@@ -11,7 +11,7 @@ const quickActions = [
     description: 'Créer un nouveau compte utilisateur',
     href: '/admin/users',
     icon: Plus,
-    color: 'bg-blue-500 hover:bg-blue-600',
+    color: 'bg-blue-500 hover:bg-ciprel-green-600 ',
   },
   {
     title: 'Ajouter une vidéo',

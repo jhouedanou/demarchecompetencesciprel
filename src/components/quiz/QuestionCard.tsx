@@ -217,7 +217,7 @@ export function QuestionCard({
             <Button
               onClick={handleSubmit}
               disabled={selectedAnswers.length === 0}
-              className="px-8 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300"
+              className="px-8 py-2 bg-ciprel-green-600 hover:bg-ciprel-green-700 disabled:bg-gray-300"
             >
               {questionNumber === totalQuestions ? 'Terminer' : 'Valider'}
             </Button>

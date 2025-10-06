@@ -50,7 +50,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           </p>
           <button
             onClick={() => router.push('/competences')}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            className="px-4 py-2 bg-ciprel-green-600 text-white rounded-lg hover:bg-ciprel-green-700"
           >
             Retour à l'accueil
           </button>

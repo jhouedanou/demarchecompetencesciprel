@@ -96,7 +96,7 @@ export default function LoginPage() {
                     value={formData.email}
                     onChange={e => handleInputChange('email', e.target.value)}
                     placeholder="votre.email@ciprel.ci"
-                    className="h-12 rounded-xl border-gray-200 focus:border-ciprel-green-500 focus:ring-ciprel-green-500"
+                    className="h-12 rounded-xl border-gray-200 focus:border-ciprel-orange focus:ring-ciprel-orange"
                     required
                   />
                 </div>
@@ -113,14 +113,14 @@ export default function LoginPage() {
                       value={formData.password}
                       onChange={e => handleInputChange('password', e.target.value)}
                       placeholder="Votre mot de passe"
-                      className="h-12 rounded-xl border-gray-200 pr-12 focus:border-ciprel-green-500 focus:ring-ciprel-green-500"
+                      className="h-12 rounded-xl border-gray-200 pr-12 focus:border-ciprel-orange focus:ring-ciprel-orange"
                       required
                     />
                     <Button
                       type="button"
                       variant="ghost"
                       size="sm"
-                      className="absolute inset-y-0 right-0 flex h-12 items-center px-3 text-gray-400 hover:text-ciprel-green-600"
+                      className="absolute inset-y-0 right-0 flex h-12 items-center px-3 text-gray-400 hover:text-ciprel-orange"
                       onClick={() => setShowPassword(!showPassword)}
                     >
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -137,7 +137,7 @@ export default function LoginPage() {
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-ciprel-green-600 to-ciprel-green-700 text-sm font-semibold text-white shadow-lg transition hover:from-ciprel-green-700 hover:to-ciprel-green-800"
+                  className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-ciprel-orange to-ciprel-orange-secondary text-sm font-semibold text-white shadow-lg transition hover:shadow-xl hover:scale-[1.02]"
                 >
                   {isLoading ? (
                     <>
@@ -159,7 +159,7 @@ export default function LoginPage() {
                   Vous n'avez pas encore de compte ?{' '}
                   <Link
                     href="/register"
-                    className="font-semibold text-ciprel-green-600 hover:text-ciprel-green-700"
+                    className="font-semibold text-ciprel-orange hover:text-ciprel-orange-secondary transition-colors"
                   >
                     Créer un compte
                   </Link>
@@ -171,7 +171,7 @@ export default function LoginPage() {
               <span>Besoin d'aide ?</span>
               <a
                 href="mailto:support@ciprel.ci"
-                className="inline-flex items-center gap-1 font-semibold text-ciprel-green-600 hover:text-ciprel-green-700"
+                className="inline-flex items-center gap-1 font-semibold text-ciprel-green hover:text-ciprel-green-secondary transition-colors"
               >
                 support@ciprel.ci
                 <ArrowRight className="h-3.5 w-3.5" />

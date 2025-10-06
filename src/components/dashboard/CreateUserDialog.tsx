@@ -99,7 +99,7 @@ export function CreateUserDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-blue-600 hover:bg-blue-700">
+        <Button className="bg-ciprel-green-600 hover:bg-ciprel-green-700">
           <Plus className="h-4 w-4 mr-2" />
           Nouveau utilisateur
         </Button>
@@ -250,7 +250,7 @@ export function CreateUserDialog() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="bg-blue-600 hover:bg-blue-700"
+              className="bg-ciprel-green-600 hover:bg-ciprel-green-700"
             >
               {isLoading ? 'Création...' : 'Créer l\'utilisateur'}
             </Button>

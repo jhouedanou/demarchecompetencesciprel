@@ -13,8 +13,8 @@ export default function SondagePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
-        <div className="bg-white rounded-lg shadow-lg p-8">
+      <div className="min-h-screen bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50 flex items-center justify-center">
+        <div className="bg-white rounded-lg shadow-md border border-ciprel-gray-200 p-8">
           <div className="animate-pulse">
             <div className="h-6 bg-gray-200 rounded w-48 mb-4"></div>
             <div className="h-4 bg-gray-200 rounded w-32"></div>
@@ -26,8 +26,8 @@ export default function SondagePage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
-        <div className="bg-white rounded-lg shadow-lg p-8 max-w-md text-center">
+      <div className="min-h-screen bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50 flex items-center justify-center">
+        <div className="bg-white rounded-lg shadow-md border border-ciprel-gray-200 p-8 max-w-md text-center">
           <Lock className="h-16 w-16 text-gray-400 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Connexion requise</h2>
           <p className="text-gray-600 mb-6">
@@ -35,7 +35,7 @@ export default function SondagePage() {
           </p>
           <Link
             href="/auth/login"
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-ciprel-green-600 text-white px-6 py-2 rounded-lg hover:bg-ciprel-green-700 transition-colors"
           >
             Se connecter
           </Link>
@@ -50,14 +50,14 @@ export default function SondagePage() {
     const totalSections = sections.length
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      <div className="min-h-screen bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50">
         <CiprelNavigation />
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-8">
               <Link
                 href="/"
-                className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4 transition-colors"
+                className="inline-flex items-center text-ciprel-orange-600 hover:text-ciprel-orange-700 mb-4 transition-colors"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Retour à l'accueil
@@ -68,7 +68,7 @@ export default function SondagePage() {
               </h1>
             </div>
 
-            <div className="bg-white rounded-lg shadow-lg p-8">
+            <div className="bg-white rounded-lg shadow-md border border-ciprel-gray-200 p-8">
               <div className="text-center mb-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">
                   Lecture des sections requise
@@ -88,7 +88,7 @@ export default function SondagePage() {
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
-                    className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                    className="bg-ciprel-green-500 h-2 rounded-full transition-all duration-300"
                     style={{ width: `${(completedSections / totalSections) * 100}%` }}
                   ></div>
                 </div>
@@ -100,19 +100,19 @@ export default function SondagePage() {
                     key={section.id}
                     className={`flex items-center p-3 rounded-lg border ${
                       section.completed
-                        ? 'bg-green-50 border-green-200'
+                        ? 'bg-ciprel-green-50 border-ciprel-green-200'
                         : 'bg-gray-50 border-gray-200'
                     }`}
                   >
                     <div className="flex-shrink-0 mr-3">
                       {section.completed ? (
-                        <div className="w-5 h-5 bg-green-500 rounded-full"></div>
+                        <div className="w-5 h-5 bg-ciprel-green-500 rounded-full"></div>
                       ) : (
                         <div className="w-5 h-5 bg-gray-300 rounded-full"></div>
                       )}
                     </div>
                     <span className={`text-sm ${
-                      section.completed ? 'text-green-900' : 'text-gray-700'
+                      section.completed ? 'text-ciprel-green-700' : 'text-gray-700'
                     }`}>
                       {section.title}
                     </span>
@@ -127,7 +127,7 @@ export default function SondagePage() {
                   </p>
                   <Link
                     href={`/demarche/${nextSection.id}`}
-                    className="inline-flex items-center bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    className="inline-flex items-center bg-ciprel-orange-500 text-white px-6 py-2 rounded-lg hover:bg-ciprel-orange-600 transition-colors"
                   >
                     <BookOpen className="h-4 w-4 mr-2" />
                     Continuer la lecture

@@ -1,6 +1,5 @@
 'use client'
 
-import { Metadata } from 'next'
 import { QuizEngine } from '@/components/quiz/QuizEngine'
 import { useUser } from '@/lib/supabase/client'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
@@ -13,7 +12,7 @@ export default function QuizIntroductionPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50 flex items-center justify-center">
         <div className="bg-white rounded-lg shadow-lg p-8">
           <div className="animate-pulse">
             <div className="h-6 bg-gray-200 rounded w-48 mb-4"></div>
@@ -26,7 +25,7 @@ export default function QuizIntroductionPage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50 flex items-center justify-center">
         <div className="bg-white rounded-lg shadow-lg p-8 max-w-md text-center">
           <Lock className="h-16 w-16 text-gray-400 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Connexion requise</h2>
@@ -35,7 +34,7 @@ export default function QuizIntroductionPage() {
           </p>
           <Link
             href="/auth/login"
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-ciprel-green-600 text-white px-6 py-2 rounded-lg hover:bg-ciprel-green-700 transition-colors"
           >
             Se connecter
           </Link>
@@ -50,14 +49,14 @@ export default function QuizIntroductionPage() {
     const totalSections = sections.length
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      <div className="min-h-screen bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-2xl mx-auto">
             {/* Header */}
             <div className="text-center mb-8">
               <Link
                 href="/"
-                className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4 transition-colors"
+                className="inline-flex items-center text-ciprel-orange-600 hover:text-ciprel-orange-700 mb-4 transition-colors"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Retour à l'accueil
@@ -69,32 +68,32 @@ export default function QuizIntroductionPage() {
             </div>
 
             {/* Lock message */}
-            <div className="bg-white rounded-lg shadow-lg p-8">
-              <div className="text-center mb-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                  Lecture des sections requise
-                </h2>
-                <p className="text-gray-600 mb-6">
+              <div className="bg-white rounded-lg shadow-md p-8 border border-ciprel-gray-200">
+                <div className="text-center mb-6">
+                  <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                    Lecture des sections requise
+                  </h2>
+                  <p className="text-gray-600 mb-6">
                   Pour accéder au quiz d'introduction, vous devez d'abord lire toutes les sections
                   de la démarche compétence CIPREL.
                 </p>
               </div>
 
               {/* Progress */}
-              <div className="mb-6">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-700">Progression</span>
-                  <span className="text-sm text-gray-500">
-                    {completedSections}/{totalSections} sections complétées
-                  </span>
+                <div className="mb-6">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-gray-700">Progression</span>
+                    <span className="text-sm text-gray-500">
+                      {completedSections}/{totalSections} sections complétées
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      className="bg-ciprel-green-500 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${(completedSections / totalSections) * 100}%` }}
+                    ></div>
+                  </div>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${(completedSections / totalSections) * 100}%` }}
-                  ></div>
-                </div>
-              </div>
 
               {/* Sections list */}
               <div className="space-y-3 mb-6">
@@ -103,13 +102,13 @@ export default function QuizIntroductionPage() {
                     key={section.id}
                     className={`flex items-center p-3 rounded-lg border ${
                       section.completed
-                        ? 'bg-green-50 border-green-200'
+                        ? 'bg-ciprel-green-50 border-ciprel-green-200'
                         : 'bg-gray-50 border-gray-200'
                     }`}
                   >
                     <div className="flex-shrink-0 mr-3">
                       {section.completed ? (
-                        <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                        <div className="w-5 h-5 bg-ciprel-green-500 rounded-full flex items-center justify-center">
                           <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                           </svg>
@@ -118,8 +117,8 @@ export default function QuizIntroductionPage() {
                         <div className="w-5 h-5 bg-gray-300 rounded-full"></div>
                       )}
                     </div>
-                    <span className={`text-sm ${
-                      section.completed ? 'text-green-900' : 'text-gray-700'
+                      <span className={`text-sm ${
+                      section.completed ? 'text-ciprel-green-700' : 'text-gray-700'
                     }`}>
                       {section.title}
                     </span>
@@ -135,7 +134,7 @@ export default function QuizIntroductionPage() {
                   </p>
                   <Link
                     href={`/demarche/${nextSection.id}`}
-                    className="inline-flex items-center bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    className="inline-flex items-center bg-ciprel-orange-500 text-white px-6 py-2 rounded-lg hover:bg-ciprel-orange-600 transition-colors"
                   >
                     <BookOpen className="h-4 w-4 mr-2" />
                     Continuer la lecture
@@ -151,13 +150,13 @@ export default function QuizIntroductionPage() {
 
   // User has access to the quiz
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
             <Link
               href="/"
-              className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4 transition-colors"
+              className="inline-flex items-center text-ciprel-orange-600 hover:text-ciprel-orange-700 mb-4 transition-colors"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Retour à l'accueil
@@ -169,18 +168,18 @@ export default function QuizIntroductionPage() {
               Évaluez vos connaissances sur les concepts fondamentaux de la démarche compétences chez CIPREL.
             </p>
 
-            <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+            <div className="bg-white rounded-lg shadow-md border border-ciprel-gray-200 p-6 mb-8">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                 <div>
-                  <div className="text-2xl font-bold text-blue-600 mb-2">7</div>
+                  <div className="text-2xl font-semibold text-ciprel-orange-600 mb-2">7</div>
                   <div className="text-sm text-gray-600">Questions</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-green-600 mb-2">30</div>
+                  <div className="text-2xl font-semibold text-ciprel-green-600 mb-2">30</div>
                   <div className="text-sm text-gray-600">Minutes</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-purple-600 mb-2">70%</div>
+                  <div className="text-2xl font-semibold text-ciprel-blue mb-2">70%</div>
                   <div className="text-sm text-gray-600">Score requis</div>
                 </div>
               </div>

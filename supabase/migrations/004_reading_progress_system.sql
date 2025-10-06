@@ -33,7 +33,7 @@ SET search_path = public
 AS $$
 DECLARE
   required_sections TEXT[] := ARRAY[
-    'accueil',
+    'introduction',
     'dialectique',
     'synoptique',
     'leviers',

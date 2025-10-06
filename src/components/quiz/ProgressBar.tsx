@@ -27,7 +27,7 @@ export function ProgressBar({ current, total, className, showLabel = true }: Pro
       
       <div className="w-full bg-gray-200 rounded-full h-2.5">
         <div 
-          className="bg-gradient-to-r from-blue-500 to-purple-600 h-2.5 rounded-full transition-all duration-300 ease-out"
+          className="bg-gradient-to-r from-ciprel-orange-500 to-ciprel-green-500 h-2.5 rounded-full transition-all duration-300 ease-out"
           style={{ width: `${percentage}%` }}
         />
       </div>
@@ -40,9 +40,9 @@ export function ProgressBar({ current, total, className, showLabel = true }: Pro
             className={cn(
               'w-2 h-2 rounded-full transition-colors duration-200',
               index < current
-                ? 'bg-blue-500'
+                ? 'bg-ciprel-green-500'
                 : index === current - 1
-                ? 'bg-purple-500 animate-pulse'
+                ? 'bg-ciprel-orange-500 animate-pulse'
                 : 'bg-gray-300'
             )}
           />

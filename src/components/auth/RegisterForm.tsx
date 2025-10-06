@@ -219,7 +219,7 @@ export function RegisterForm() {
       <Button
         type="submit"
         disabled={isLoading}
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+        className="w-full bg-ciprel-green-600 hover:bg-ciprel-green-700 text-white"
       >
         {isLoading ? 'Création du compte...' : 'Créer mon compte'}
       </Button>
@@ -229,7 +229,7 @@ export function RegisterForm() {
           Déjà un compte ?{' '}
           <Link
             href="/login"
-            className="text-blue-600 hover:text-blue-500 font-medium"
+            className="text-ciprel-orange-600 hover:text-ciprel-orange-500 font-medium"
           >
             Se connecter
           </Link>

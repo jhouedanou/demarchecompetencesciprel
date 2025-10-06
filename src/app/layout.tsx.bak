@@ -7,9 +7,10 @@ import { GlobalLoginGate } from '@/components/auth/GlobalLoginGate'
 import { CookieBanner } from '@/components/gdpr/CookieBanner'
 import { ENV } from '@/lib/utils/constants'
 
+// CIPREL Typography - Century Gothic equivalent: Montserrat
 const montserrat = Montserrat({
   subsets: ['latin'],
-  variable: '--font-body',
+  variable: '--font-sans',
   weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
 })
@@ -89,7 +90,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="fr" className={montserrat.variable}>
+    <html lang="fr" className={`${montserrat.variable}`}>
       <head>
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
@@ -113,23 +114,23 @@ export default function RootLayout({ children }: RootLayoutProps) {
               toastOptions={{
                 duration: 4000,
                 style: {
-                  background: '#FFFFFF',
-                  color: '#0A0E12',
+                  background: '#fff',
+                  color: '#000',
                   border: '1px solid #D8D8D8',
-                  borderRadius: '12px',
+                  borderRadius: '8px',
                   fontSize: '14px',
-                  fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', 'Montserrat', sans-serif",
+                  fontFamily: 'var(--font-sans)',
                 },
                 success: {
                   iconTheme: {
-                    primary: '#58A636',
-                    secondary: '#ffffff',
+                    primary: '#58A636', // CIPREL Green
+                    secondary: '#fff',
                   },
                 },
                 error: {
                   iconTheme: {
-                    primary: '#EE7F00',
-                    secondary: '#ffffff',
+                    primary: '#EE7F00', // CIPREL Orange
+                    secondary: '#fff',
                   },
                 },
               }}

@@ -4,48 +4,62 @@
 
 @layer base {
   :root {
+    /* Couleurs de la charte CIPREL en HSL */
+    --ciprel-orange: 32 100% 46.7%;
+    --ciprel-orange-soft: 28 74.1% 53.1%;
+    --ciprel-green: 102 50.9% 43.1%;
+    --ciprel-green-soft: 96 38.8% 47.5%;
+    --ciprel-blue: 209 47.3% 43.1%;
+    --ciprel-blue-dark: 218 44.4% 29.6%;
+    --ciprel-turquoise: 187 35.3% 53.9%;
+    --ciprel-light-green: 65 53.1% 53.1%;
+    --ciprel-yellow: 56 95.8% 53.1%;
+    --ciprel-gray-light: 0 0% 84.7%;
+    --ciprel-gray-medium: 0 0% 62%;
+    --ciprel-black: 210 28.6% 5.5%;
+
     --background: 0 0% 100%;
-    --foreground: 204 47% 7%; /* ciprel-black converti en HSL */
+    --foreground: var(--ciprel-black);
     --card: 0 0% 100%;
-    --card-foreground: 204 47% 7%;
+    --card-foreground: var(--ciprel-black);
     --popover: 0 0% 100%;
-    --popover-foreground: 204 47% 7%;
-    --primary: 134 65% 42%; /* ciprel-green-500 en HSL */
+    --popover-foreground: var(--ciprel-black);
+    --primary: var(--ciprel-orange);
     --primary-foreground: 0 0% 100%;
-    --secondary: 24 93% 47%; /* ciprel-orange-500 en HSL */
+    --secondary: var(--ciprel-green);
     --secondary-foreground: 0 0% 100%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 204 47% 7%;
-    --destructive: 0 84.2% 60.2%;
+    --muted: 0 0% 95%;
+    --muted-foreground: var(--ciprel-gray-medium);
+    --accent: var(--ciprel-turquoise);
+    --accent-foreground: var(--ciprel-black);
+    --destructive: 0 75% 55%;
     --destructive-foreground: 0 0% 100%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 134 65% 42%; /* ciprel-green-500 */
+    --border: var(--ciprel-gray-light);
+    --input: var(--ciprel-gray-light);
+    --ring: var(--ciprel-orange);
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 204 47% 7%; /* ciprel-black */
-    --foreground: 0 0% 100%; /* ciprel-white */
-    --card: 204 47% 7%;
+    --background: var(--ciprel-black);
+    --foreground: 0 0% 100%;
+    --card: 215 19% 11%;
     --card-foreground: 0 0% 100%;
-    --popover: 204 47% 7%;
+    --popover: 215 19% 11%;
     --popover-foreground: 0 0% 100%;
-    --primary: 134 65% 42%; /* ciprel-green-500 */
+    --primary: var(--ciprel-orange);
     --primary-foreground: 0 0% 100%;
-    --secondary: 24 93% 47%; /* ciprel-orange-500 */
+    --secondary: var(--ciprel-green);
     --secondary-foreground: 0 0% 100%;
-    --muted: 204 30% 15%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 204 30% 15%;
+    --muted: 210 12% 19%;
+    --muted-foreground: 0 0% 85%;
+    --accent: var(--ciprel-blue);
     --accent-foreground: 0 0% 100%;
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 62% 45%;
     --destructive-foreground: 0 0% 100%;
-    --border: 204 30% 20%;
-    --input: 204 30% 20%;
-    --ring: 134 65% 42%;
+    --border: 210 15% 26%;
+    --input: 210 15% 26%;
+    --ring: var(--ciprel-green);
   }
 }
 
@@ -56,11 +70,29 @@
 
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: var(--font-body, 'Montserrat'), 'Century Gothic', 'Montserrat', 'Avenir', 'Helvetica Neue', 'Arial', sans-serif;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
   }
 
   html {
     scroll-behavior: smooth;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', var(--font-body, 'Montserrat'), sans-serif;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    color: hsl(var(--foreground));
+  }
+
+  strong,
+  b {
+    font-weight: 600;
   }
 
   /* Custom scrollbar */
