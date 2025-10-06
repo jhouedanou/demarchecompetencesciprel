@@ -1,14 +1,20 @@
 'use client'
 
-import { QuizEngine } from '@/components/quiz/QuizEngine'
+import { useState, useEffect } from 'react'
+import { QuizModal } from '@/components/modals/QuizModal'
 import { useUser } from '@/lib/supabase/client'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
+import { useQuizStore } from '@/stores/quiz-store'
 import { Lock, BookOpen, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export default function QuizIntroductionPage() {
   const { user } = useUser()
   const { canAccessQuiz, loading, sections, getNextSection } = useReadingProgress(user)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const resetQuiz = useQuizStore(state => state.resetQuiz)
+  const router = useRouter()
 
   if (loading) {
     return (
@@ -148,7 +154,20 @@ export default function QuizIntroductionPage() {
     )
   }
 
-  // User has access to the quiz
+  // User has access to the quiz - Open modal automatically
+  useEffect(() => {
+    if (user && canAccessQuiz()) {
+      resetQuiz()
+      setIsModalOpen(true)
+    }
+  }, [user, canAccessQuiz, resetQuiz])
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    resetQuiz()
+    router.push('/')
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50">
       <div className="container mx-auto px-4 py-8">
@@ -184,11 +203,28 @@ export default function QuizIntroductionPage() {
                 </div>
               </div>
             </div>
-          </div>
 
-          <QuizEngine quizType="INTRODUCTION" />
+            <button
+              onClick={() => {
+                resetQuiz()
+                setIsModalOpen(true)
+              }}
+              className="bg-ciprel-green-600 text-white px-8 py-3 rounded-lg hover:bg-ciprel-green-700 transition-colors font-semibold inline-flex items-center"
+            >
+              <BookOpen className="h-5 w-5 mr-2" />
+              Commencer le quiz
+            </button>
+          </div>
         </div>
       </div>
+
+      <QuizModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        quizType="INTRODUCTION"
+        title="Quiz d'introduction"
+        description="Validez vos connaissances sur les fondamentaux de la démarche compétences."
+      />
     </div>
   )
 }

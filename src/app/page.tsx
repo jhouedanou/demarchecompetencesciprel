@@ -13,8 +13,11 @@ import { DialectiqueContent } from '@/components/sections/DialectiqueContent'
 import { SynoptiqueContent } from '@/components/sections/SynoptiqueContent'
 import { LeviersContent } from '@/components/sections/LeviersContent'
 import { RessourcesContent } from '@/components/sections/RessourcesContent'
+import { QuizEngine } from '@/components/quiz/QuizEngine'
+import { CiprelSondageContent } from '@/components/ciprel/CiprelSondageContent'
 import { useUser } from '@/lib/supabase/client'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
+import { useQuizStore } from '@/stores/quiz-store'
 import {
   Building2,
   Users,
@@ -32,8 +35,37 @@ import {
   X
 } from 'lucide-react'
 import Link from 'next/link'
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
+import { useRouter } from 'next/navigation'
 
 type SectionType = 'introduction' | 'dialectique' | 'synoptique' | 'leviers' | 'ressources' | null
+
+const PRACTICE_VIDEOS = [
+  {
+    id: 1,
+    title: 'Étude de cas 1',
+    description: 'Découvrez une situation métier illustrant la mise en œuvre de la démarche compétences.',
+    url: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+  },
+  {
+    id: 2,
+    title: 'Étude de cas 2',
+    description: 'Découvrez une situation métier illustrant la mise en œuvre de la démarche compétences.',
+    url: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+  },
+  {
+    id: 3,
+    title: 'Étude de cas 3',
+    description: 'Découvrez une situation métier illustrant la mise en œuvre de la démarche compétences.',
+    url: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+  },
+  {
+    id: 4,
+    title: 'Étude de cas 4',
+    description: 'Découvrez une situation métier illustrant la mise en œuvre de la démarche compétences.',
+    url: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+  },
+]
 
 export default function HomePage() {
   const { user } = useUser()
@@ -41,8 +73,13 @@ export default function HomePage() {
   const [activeModal, setActiveModal] = useState<SectionType>(null)
   const [activeSlide, setActiveSlide] = useState(0)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [quizModalOpen, setQuizModalOpen] = useState(false)
+  const [surveyModalOpen, setSurveyModalOpen] = useState(false)
   const swiperRef = useRef<SwiperType | null>(null)
-  const totalSlides = 6
+  const totalSlides = 7
+  const practiceVideos = PRACTICE_VIDEOS
+  const resetQuiz = useQuizStore(state => state.resetQuiz)
+  const router = useRouter()
 
   const getSectionStatus = (sectionId: string) => {
     const section = sections.find(s => s.id === sectionId)
@@ -69,6 +106,21 @@ export default function HomePage() {
 
   const goNext = () => {
     swiperRef.current?.slideNext()
+  }
+
+  const openQuizModal = () => {
+    resetQuiz()
+    setQuizModalOpen(true)
+  }
+
+  const closeQuizModal = () => {
+    setQuizModalOpen(false)
+    resetQuiz()
+  }
+
+  const handleSurveyNavigate = (path: string) => {
+    setSurveyModalOpen(false)
+    router.push(path)
   }
 
   return (
@@ -568,7 +620,54 @@ export default function HomePage() {
         </SwiperSlide>
 
         <SwiperSlide>
-          {/* SECTION PLATEFORME - Slide 6 */}
+          {/* SECTION APPLICATION PRATIQUE - Slide 6 */}
+        <section className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50">
+          <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
+          <div className="text-center mb-12">
+            <span className="bg-ciprel-orange-100 text-ciprel-orange-800 px-4 py-2 rounded-full text-sm font-semibold inline-block mb-4">
+              Application pratique
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-ciprel-black mb-4">
+              Application pratique de votre démarche compétences
+            </h2>
+            <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+              Inspirez-vous de cas concrets pour déployer la démarche compétences sur le terrain.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {practiceVideos.map(video => (
+              <div
+                key={video.id}
+                className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-shadow duration-200"
+              >
+                <div className="relative aspect-video">
+                  <iframe
+                    src={`${video.url}?rel=0`}
+                    title={video.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-ciprel-black mb-2">
+                    {video.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm">
+                    {video.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        </section>
+        </SwiperSlide>
+
+        <SwiperSlide>
+          {/* SECTION PLATEFORME - Slide 7 */}
         <section className="h-full overflow-y-auto bg-gray-50">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
           <div className="text-center mb-12">
@@ -620,9 +719,10 @@ export default function HomePage() {
           {/* Quiz et Sondage */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {user && canAccessQuiz() ? (
-              <Link
-                href="/competences/quiz-introduction"
-                className="block p-6 bg-gradient-to-r from-ciprel-green-500 to-ciprel-green-600 text-white rounded-xl hover:from-ciprel-green-600 hover:to-ciprel-green-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+              <button
+                type="button"
+                onClick={openQuizModal}
+                className="block w-full text-left p-6 bg-gradient-to-r from-ciprel-green-500 to-ciprel-green-600 text-white rounded-xl hover:from-ciprel-green-600 hover:to-ciprel-green-700 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ciprel-green-500"
               >
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="font-bold text-xl">Quiz d'introduction</h4>
@@ -632,7 +732,7 @@ export default function HomePage() {
                 <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
                   ✓ Modules complétés - Accès débloqué
                 </div>
-              </Link>
+              </button>
             ) : (
               <div className="block p-6 bg-gray-300 text-gray-500 rounded-xl cursor-not-allowed">
                 <div className="flex items-center justify-between mb-3">
@@ -647,9 +747,10 @@ export default function HomePage() {
             )}
 
             {user && canAccessQuiz() ? (
-              <Link
-                href="/sondage"
-                className="block p-6 bg-gradient-to-r from-ciprel-orange-500 to-ciprel-orange-600 text-white rounded-xl hover:from-ciprel-orange-600 hover:to-ciprel-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+              <button
+                type="button"
+                onClick={() => setSurveyModalOpen(true)}
+                className="block w-full text-left p-6 bg-gradient-to-r from-ciprel-orange-500 to-ciprel-orange-600 text-white rounded-xl hover:from-ciprel-orange-600 hover:to-ciprel-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ciprel-orange-500"
               >
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="font-bold text-xl">Sondage d'opinion</h4>
@@ -659,7 +760,7 @@ export default function HomePage() {
                 <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
                   ✓ Modules complétés - Accès débloqué
                 </div>
-              </Link>
+              </button>
             ) : (
               <div className="block p-6 bg-gray-300 text-gray-500 rounded-xl cursor-not-allowed">
                 <div className="flex items-center justify-between mb-3">
@@ -957,6 +1058,51 @@ export default function HomePage() {
             </div>
           </section>
 
+          {/* SECTION APPLICATION PRATIQUE */}
+          <section id="application-pratique" className="min-h-screen bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50 px-4 py-16">
+            <div className="max-w-7xl mx-auto">
+              <div className="text-center mb-10">
+                <span className="bg-ciprel-orange-100 text-ciprel-orange-800 px-4 py-2 rounded-full text-sm font-semibold inline-block mb-4">
+                  Application pratique
+                </span>
+                <h2 className="text-3xl font-bold text-ciprel-black mb-3">
+                  Application pratique de votre démarche compétences
+                </h2>
+                <p className="text-gray-600">
+                  Inspirez-vous de ces mises en situation pour animer vos propres ateliers compétences.
+                </p>
+              </div>
+
+              <div className="grid gap-6">
+                {practiceVideos.map(video => (
+                  <div
+                    key={video.id}
+                    className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100"
+                  >
+                    <div className="relative aspect-video">
+                      <iframe
+                        src={`${video.url}?rel=0`}
+                        title={video.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full"
+                      />
+                    </div>
+                    <div className="p-5">
+                      <h3 className="text-xl font-semibold text-ciprel-black mb-2">
+                        {video.title}
+                      </h3>
+                      <p className="text-gray-600 text-sm">
+                        {video.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
           {/* SECTION PLATEFORME */}
           <section id="plateforme" className="min-h-screen bg-gray-50 px-4 py-16">
             <div className="max-w-7xl mx-auto">
@@ -974,9 +1120,10 @@ export default function HomePage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {user && canAccessQuiz() ? (
-                  <Link
-                    href="/competences/quiz-introduction"
-                    className="block p-6 bg-gradient-to-r from-ciprel-green-500 to-ciprel-green-600 text-white rounded-xl hover:from-ciprel-green-600 hover:to-ciprel-green-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+                  <button
+                    type="button"
+                    onClick={openQuizModal}
+                    className="block w-full text-left p-6 bg-gradient-to-r from-ciprel-green-500 to-ciprel-green-600 text-white rounded-xl hover:from-ciprel-green-600 hover:to-ciprel-green-700 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ciprel-green-500"
                   >
                     <div className="flex items-center justify-between mb-3">
                       <h4 className="font-bold text-xl">Quiz d'introduction</h4>
@@ -986,7 +1133,7 @@ export default function HomePage() {
                     <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
                       ✓ Modules complétés - Accès débloqué
                     </div>
-                  </Link>
+                  </button>
                 ) : (
                   <div className="block p-6 bg-gray-300 text-gray-500 rounded-xl cursor-not-allowed">
                     <div className="flex items-center justify-between mb-3">
@@ -1001,9 +1148,10 @@ export default function HomePage() {
                 )}
 
                 {user && canAccessQuiz() ? (
-                  <Link
-                    href="/sondage"
-                    className="block p-6 bg-gradient-to-r from-ciprel-orange-500 to-ciprel-orange-600 text-white rounded-xl hover:from-ciprel-orange-600 hover:to-ciprel-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+                  <button
+                    type="button"
+                    onClick={() => setSurveyModalOpen(true)}
+                    className="block w-full text-left p-6 bg-gradient-to-r from-ciprel-orange-500 to-ciprel-orange-600 text-white rounded-xl hover:from-ciprel-orange-600 hover:to-ciprel-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ciprel-orange-500"
                   >
                     <div className="flex items-center justify-between mb-3">
                       <h4 className="font-bold text-xl">Sondage d'opinion</h4>
@@ -1013,7 +1161,7 @@ export default function HomePage() {
                     <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
                       ✓ Modules complétés - Accès débloqué
                     </div>
-                  </Link>
+                  </button>
                 ) : (
                   <div className="block p-6 bg-gray-300 text-gray-500 rounded-xl cursor-not-allowed">
                     <div className="flex items-center justify-between mb-3">
@@ -1139,6 +1287,53 @@ export default function HomePage() {
       >
         <RessourcesContent />
       </SectionModal>
+
+      <Dialog
+        open={quizModalOpen}
+        onOpenChange={(open) => {
+          if (open) {
+            resetQuiz()
+            setQuizModalOpen(true)
+          } else {
+            closeQuizModal()
+          }
+        }}
+      >
+        <DialogContent className="max-w-4xl w-full">
+          <DialogTitle className="text-2xl font-semibold text-ciprel-black">
+            Quiz d&apos;introduction
+          </DialogTitle>
+          <DialogDescription className="text-sm text-gray-600">
+            Validez vos connaissances sur les fondamentaux de la démarche compétences.
+          </DialogDescription>
+          <QuizEngine quizType="INTRODUCTION" className="mt-6" />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={surveyModalOpen}
+        onOpenChange={(open) => {
+          if (open) {
+            setSurveyModalOpen(true)
+          } else {
+            setSurveyModalOpen(false)
+          }
+        }}
+      >
+        <DialogContent className="max-w-5xl w-full">
+          <DialogTitle className="text-2xl font-semibold text-ciprel-black">
+            Sondage d&apos;opinion
+          </DialogTitle>
+          <DialogDescription className="text-sm text-gray-600">
+            Partagez vos attentes et vos retours pour améliorer le déploiement de la démarche compétences.
+          </DialogDescription>
+          <CiprelSondageContent
+            variant="modal"
+            onClose={() => setSurveyModalOpen(false)}
+            onNavigate={handleSurveyNavigate}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

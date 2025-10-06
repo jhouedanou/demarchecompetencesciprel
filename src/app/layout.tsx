@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Montserrat } from 'next/font/google'
+import { Questrial } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
 import './globals.css'
 import { AuthProvider } from '@/components/auth/AuthProvider'
@@ -7,10 +7,10 @@ import { GlobalLoginGate } from '@/components/auth/GlobalLoginGate'
 import { CookieBanner } from '@/components/gdpr/CookieBanner'
 import { ENV } from '@/lib/utils/constants'
 
-const montserrat = Montserrat({
+const questrial = Questrial({
   subsets: ['latin'],
   variable: '--font-body',
-  weight: ['300', '400', '500', '600', '700'],
+  weight: '400',
   display: 'swap',
 })
 
@@ -89,7 +89,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="fr" className={montserrat.variable}>
+    <html lang="fr" className={questrial.variable}>
       <head>
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
@@ -118,7 +118,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                   border: '1px solid #D8D8D8',
                   borderRadius: '12px',
                   fontSize: '14px',
-                  fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', 'Montserrat', sans-serif",
+                  fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', 'Questrial', sans-serif",
                 },
                 success: {
                   iconTheme: {

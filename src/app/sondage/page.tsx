@@ -1,15 +1,20 @@
 "use client"
 
+import { useState, useEffect } from 'react'
 import { CiprelNavigation } from '@/components/ciprel/CiprelNavigation'
 import { CiprelSondageContent } from '@/components/ciprel/CiprelSondageContent'
 import { useUser } from '@/lib/supabase/client'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
-import { Lock, BookOpen, ArrowLeft } from 'lucide-react'
+import { Lock, BookOpen, ArrowLeft, HelpCircle } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
 
 export default function SondagePage() {
   const { user } = useUser()
   const { canAccessQuiz, loading, sections, getNextSection } = useReadingProgress(user)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const router = useRouter()
 
   if (loading) {
     return (
@@ -141,11 +146,70 @@ export default function SondagePage() {
     )
   }
 
-  // Accès autorisé au sondage
+  // Accès autorisé au sondage - Open modal automatically
+  useEffect(() => {
+    if (user && canAccessQuiz()) {
+      setIsModalOpen(true)
+    }
+  }, [user, canAccessQuiz])
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    router.push('/')
+  }
+
+  const handleSurveyNavigate = (path: string) => {
+    setIsModalOpen(false)
+    router.push(path)
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <CiprelNavigation />
-      <CiprelSondageContent />
+    <div className="min-h-screen bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50">
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <Link
+              href="/"
+              className="inline-flex items-center text-ciprel-orange-600 hover:text-ciprel-orange-700 mb-4 transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Retour à l'accueil
+            </Link>
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+              Sondage d&apos;opinion
+            </h1>
+            <p className="text-lg text-gray-600 mb-6">
+              Partagez vos attentes et vos retours pour améliorer le déploiement de la démarche compétences.
+            </p>
+
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="bg-ciprel-orange-600 text-white px-8 py-3 rounded-lg hover:bg-ciprel-orange-700 transition-colors font-semibold inline-flex items-center"
+            >
+              <HelpCircle className="h-5 w-5 mr-2" />
+              Commencer le sondage
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <Dialog open={isModalOpen} onOpenChange={(open) => !open && handleCloseModal()}>
+        <DialogContent className="max-w-5xl w-full max-h-[90vh] overflow-y-auto">
+          <DialogTitle className="text-2xl font-semibold text-ciprel-black">
+            Sondage d&apos;opinion
+          </DialogTitle>
+          <DialogDescription className="text-sm text-gray-600">
+            Partagez vos attentes et vos retours pour améliorer le déploiement de la démarche compétences.
+          </DialogDescription>
+          <div className="mt-6">
+            <CiprelSondageContent
+              variant="modal"
+              onClose={handleCloseModal}
+              onNavigate={handleSurveyNavigate}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

@@ -198,7 +198,7 @@ const config: Config = {
         sans: [
           'var(--font-body)',
           'Century Gothic',
-          'Montserrat',
+          'Questrial',
           'Avenir',
           'Helvetica Neue',
           'Helvetica',

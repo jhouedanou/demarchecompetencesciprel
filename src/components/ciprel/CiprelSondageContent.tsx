@@ -78,7 +78,17 @@ interface Answer {
   otherText?: string
 }
 
-export function CiprelSondageContent() {
+interface CiprelSondageContentProps {
+  variant?: 'page' | 'modal'
+  onClose?: () => void
+  onNavigate?: (path: string) => void
+}
+
+export function CiprelSondageContent({
+  variant = 'page',
+  onClose,
+  onNavigate,
+}: CiprelSondageContentProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState<Answer[]>([])
   const [selectedOptions, setSelectedOptions] = useState<number[]>([])
@@ -156,21 +166,38 @@ export function CiprelSondageContent() {
     }
   }
 
+  const handleNavigate = (path: string) => {
+    if (onNavigate) {
+      onNavigate(path)
+    } else {
+      window.location.href = path
+    }
+  }
+
+  const paddingClass = variant === 'modal' ? 'py-8' : 'py-16'
+  const containerSpacing = variant === 'modal' ? 'px-4 max-w-3xl' : 'px-6 max-w-4xl'
+  const cardPadding = variant === 'modal' ? 'p-6' : 'p-8'
+  const headingSize = variant === 'modal' ? 'text-2xl md:text-3xl' : 'text-3xl md:text-4xl'
+  const questionPadding = variant === 'modal' ? 'p-6' : 'p-8'
+  const actionsJustify = variant === 'modal'
+    ? 'justify-between items-center gap-4 flex-wrap sm:flex-nowrap'
+    : 'justify-between items-center'
+
   if (isSubmitted) {
     return (
-      <div className="py-16">
-        <div className="container mx-auto px-6 max-w-4xl">
+      <div className={paddingClass}>
+        <div className={`container mx-auto ${containerSpacing}`}>
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
           >
-            <Card className="p-8 text-center">
+            <Card className={`${cardPadding} text-center`}>
               <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <CheckCircle className="w-12 h-12 text-green-600" />
               </div>
               
-              <h2 className="text-3xl font-bold text-ciprel-black mb-4">
+              <h2 className={`${headingSize} font-bold text-ciprel-black mb-4`}>
                 Merci pour votre participation !
               </h2>
               
@@ -197,7 +224,7 @@ export function CiprelSondageContent() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button 
-                  onClick={() => window.location.href = '/dialectique'} 
+                  onClick={() => handleNavigate('/dialectique')} 
                   variant="outline"
                   className="flex items-center gap-2"
                 >
@@ -205,12 +232,22 @@ export function CiprelSondageContent() {
                 </Button>
                 
                 <Button 
-                  onClick={() => window.location.href = '/facteurs-cles'} 
+                  onClick={() => handleNavigate('/facteurs-cles')} 
                   className="flex items-center gap-2 bg-ciprel-green-600 hover:bg-ciprel-green-700"
                 >
                   Découvrir les facteurs clés
                   <ArrowRight className="w-4 h-4" />
                 </Button>
+
+                {onClose && (
+                  <Button
+                    onClick={onClose}
+                    variant="ghost"
+                    className="flex items-center gap-2"
+                  >
+                    Fermer
+                  </Button>
+                )}
               </div>
             </Card>
           </motion.div>
@@ -223,8 +260,8 @@ export function CiprelSondageContent() {
   const progress = ((currentQuestion + 1) / sondageData.length) * 100
 
   return (
-    <div className="py-16">
-      <div className="container mx-auto px-6 max-w-4xl">
+    <div className={paddingClass}>
+      <div className={`container mx-auto ${containerSpacing}`}>
         {/* En-tête et progression */}
         <motion.div 
           className="text-center mb-12"
@@ -237,7 +274,7 @@ export function CiprelSondageContent() {
             Sondage d'Opinion
           </div>
           
-          <h1 className="text-3xl md:text-4xl font-bold text-ciprel-black mb-6">
+          <h1 className={`${headingSize} font-bold text-ciprel-black mb-6`}>
             Question {currentQuestion + 1} sur {sondageData.length}
           </h1>
           
@@ -264,7 +301,7 @@ export function CiprelSondageContent() {
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.3 }}
           >
-            <Card className="p-8 mb-8">
+            <Card className={`${questionPadding} mb-8`}>
               <h2 className="text-xl md:text-2xl font-semibold text-ciprel-black mb-6">
                 {question.question}
               </h2>
@@ -362,7 +399,7 @@ export function CiprelSondageContent() {
         </AnimatePresence>
 
         {/* Navigation */}
-        <div className="flex justify-between items-center">
+        <div className={`flex ${actionsJustify}`}>
           <Button
             onClick={handlePrevious}
             variant="outline"

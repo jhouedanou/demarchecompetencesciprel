@@ -48,7 +48,7 @@
      ======================================== */
 
   /* Police principale pour le corps de texte */
-  --ciprel-font-body: 'Century Gothic', 'Montserrat', 'Avenir', sans-serif;
+  --ciprel-font-body: 'Century Gothic', 'Questrial', 'Avenir', sans-serif;
 
   /* Police pour les titres et accroches */
   --ciprel-font-heading: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
@@ -377,7 +377,7 @@ RÈGLES IMPORTANTES À RESPECTER:
    - Assurer un contraste WCAG AA minimum
 
 3. TYPOGRAPHIE
-   - Corps de texte: Century Gothic (ou Montserrat en web)
+   - Corps de texte: Century Gothic (ou Questrial en web)
    - Titres: Helvetica Neue Light
    - Ne pas mélanger trop de graisses différentes
 

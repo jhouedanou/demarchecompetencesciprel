@@ -24,7 +24,8 @@ const REQUIRED_SECTIONS: ReadingSection[] = [
   { id: 'dialectique', title: 'Dialectique de la démarche compétence', required: true, completed: false },
   { id: 'synoptique', title: 'Synoptique de la démarche compétence', required: true, completed: false },
   { id: 'leviers', title: 'Leviers et facteurs clés de succès', required: true, completed: false },
-  { id: 'ressources', title: 'Ressources documentaires', required: true, completed: false }
+  { id: 'ressources', title: 'Ressources documentaires', required: true, completed: false },
+  { id: 'videos', title: 'Vidéos de formation', required: true, completed: false }
 ]
 
 const areRequiredSectionsCompleted = (list: ReadingSection[]) =>
