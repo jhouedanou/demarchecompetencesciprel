@@ -180,6 +180,23 @@ export const useQuizStore = create<QuizStore>()(
         } catch (error: any) {
           // Même en cas d'erreur de sauvegarde, on peut montrer les résultats localement
           console.warn('Erreur lors de la sauvegarde des résultats:', error)
+          
+          // Importer et afficher un toast d'avertissement
+          if (typeof window !== 'undefined') {
+            import('react-hot-toast').then(({ default: toast }) => {
+              if (error.message.includes('connecté')) {
+                toast.error('⚠️ Résultats non sauvegardés : vous n\'êtes pas connecté', {
+                  duration: 5000,
+                  position: 'top-center'
+                })
+              } else {
+                toast.error('⚠️ Impossible de sauvegarder vos résultats', {
+                  duration: 4000
+                })
+              }
+            })
+          }
+          
           set({
             isCompleted: true,
             score,
