@@ -12,7 +12,7 @@ interface RouteParams {
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const supabase = createUserServerClient()
+    const supabase = await createUserServerClient()
     
     // Vérifier l'authentification et les permissions
     const {
@@ -54,7 +54,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
-    const supabase = createUserServerClient()
+    const supabase = await createUserServerClient()
     
     // Vérifier l'authentification et les permissions
     const {
@@ -127,7 +127,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
-    const supabase = createUserServerClient()
+    const supabase = await createUserServerClient()
     
     // Vérifier l'authentification et les permissions
     const {

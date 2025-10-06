@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createUserServerClient()
+    const supabase = await createUserServerClient()
 
     // Vérifier l'authentification et les permissions
     const {
@@ -79,7 +79,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createUserServerClient()
+    const supabase = await createUserServerClient()
 
     // Vérifier l'authentification et les permissions
     const {

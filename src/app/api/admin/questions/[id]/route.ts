@@ -9,7 +9,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = createUserServerClient()
+    const supabase = await createUserServerClient()
 
     // Vérifier l'authentification et les permissions
     const {
@@ -57,7 +57,7 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = createUserServerClient()
+    const supabase = await createUserServerClient()
 
     // Vérifier l'authentification et les permissions
     const {
@@ -157,7 +157,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = createUserServerClient()
+    const supabase = await createUserServerClient()
 
     // Vérifier l'authentification et les permissions
     const {

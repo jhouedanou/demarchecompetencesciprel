@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createUserServerClient()
+    const supabase = await createUserServerClient()
     const { searchParams } = new URL(request.url)
     const period = searchParams.get('period') || '7d'
     
