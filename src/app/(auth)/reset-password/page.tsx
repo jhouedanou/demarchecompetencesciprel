@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -27,8 +27,8 @@ export default function ResetPasswordPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isValidToken, setIsValidToken] = useState<boolean | null>(null)
+  const [isMounted, setIsMounted] = useState(false)
   const router = useRouter()
-  const searchParams = useSearchParams()
 
   const {
     register,
@@ -39,20 +39,31 @@ export default function ResetPasswordPage() {
   })
 
   useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!isMounted) return
+
     // Vérifier si nous avons un token de réinitialisation valide
     const checkSession = async () => {
-      const { data: { session }, error } = await supabase.auth.getSession()
-      
-      if (error || !session) {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession()
+        
+        if (error || !session) {
+          setIsValidToken(false)
+          toast.error('Lien de réinitialisation invalide ou expiré')
+        } else {
+          setIsValidToken(true)
+        }
+      } catch (error) {
+        console.error('Error checking session:', error)
         setIsValidToken(false)
-        toast.error('Lien de réinitialisation invalide ou expiré')
-      } else {
-        setIsValidToken(true)
       }
     }
 
     checkSession()
-  }, [])
+  }, [isMounted])
 
   const onSubmit = async (data: ResetPasswordFormData) => {
     setIsLoading(true)
