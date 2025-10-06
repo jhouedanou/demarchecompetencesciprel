@@ -123,8 +123,11 @@ export const useQuizStore = create<QuizStore>()(
       completeQuiz: async (quizType: 'INTRODUCTION' | 'SONDAGE') => {
         const { questions, answers, startTime } = get()
         
+        // If startTime is missing, use current time as fallback to avoid blocking users
+        const effectiveStartTime = startTime || Date.now()
+        
         if (!startTime) {
-          throw new Error('Quiz non démarré')
+          console.warn('Quiz startTime was missing, using current time as fallback')
         }
 
         // Calculer le score
@@ -135,7 +138,7 @@ export const useQuizStore = create<QuizStore>()(
           return total + (answer.isCorrect ? (question?.points || 1) : 0)
         }, 0)
         const percentage = totalPossiblePoints > 0 ? (score / totalPossiblePoints) * 100 : 0
-        const duration = Math.floor((Date.now() - startTime) / 1000)
+        const duration = Math.floor((Date.now() - effectiveStartTime) / 1000)
         const completedAt = Date.now()
 
         try {
@@ -151,7 +154,7 @@ export const useQuizStore = create<QuizStore>()(
               total_questions: questions.length,
               correct_answers: correctAnswers,
               duration,
-              started_at: new Date(startTime).toISOString()
+              started_at: new Date(effectiveStartTime).toISOString()
             })
           })
 
@@ -229,7 +232,8 @@ export const useQuizStore = create<QuizStore>()(
     {
       name: 'ciprel-quiz-store',
       partialize: (state) => ({
-        // Ne persister que les données essentielles
+        // Only persist questions to avoid stale state issues
+        questions: state.questions,
       }),
     }
   )
