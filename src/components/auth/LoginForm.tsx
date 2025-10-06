@@ -35,7 +35,6 @@ export function LoginForm() {
   })
 
   const onSubmit = async (data: LoginFormData) => {
-    console.log('🔐 Tentative de connexion...', { email: data.email })
     setIsLoading(true)
 
     try {
@@ -54,10 +53,9 @@ export function LoginForm() {
       // Redirection basée sur le rôle
       if (currentUser?.role === 'ADMIN') {
         router.push('/admin')
-        router.refresh()
       } else {
-        // Pour les autres rôles, rafraîchir la page pour fermer le modal
-        router.refresh()
+        // Rediriger vers l'accueil
+        router.push('/')
       }
     } catch (error: any) {
       console.error('Erreur de connexion:', error)
@@ -145,9 +143,6 @@ export function LoginForm() {
         type="submit"
         disabled={isLoading}
         className="w-full bg-ciprel-green-600 hover:bg-ciprel-green-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
-        onClick={(e) => {
-          console.log('🖱️ Clic sur le bouton de connexion')
-        }}
       >
         {isLoading ? (
           <span className="flex items-center justify-center gap-2">

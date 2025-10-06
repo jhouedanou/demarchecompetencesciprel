@@ -10,10 +10,10 @@ export function GlobalLoginGate() {
   const isAuthenticated = useAuthStore(state => state.isAuthenticated)
   const isLoading = useAuthStore(state => state.isLoading)
   const initialize = useAuthStore(state => state.initialize)
-  const [dismissed, setDismissed] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   // Pages où la modale ne doit pas s'afficher
-  const excludedPages = ['/register', '/login']
+  const excludedPages = ['/register', '/login', '/reset-password', '/forgot-password']
   const shouldHideModal = excludedPages.includes(pathname)
 
   useEffect(() => {
@@ -22,17 +22,17 @@ export function GlobalLoginGate() {
   }, [initialize])
 
   useEffect(() => {
-    const handler = () => setDismissed(false)
+    const handler = () => setShowModal(true)
     window.addEventListener('open-login', handler as EventListener)
     return () => window.removeEventListener('open-login', handler as EventListener)
   }, [])
 
   // When user becomes authenticated, ensure modal is hidden
   useEffect(() => {
-    if (isAuthenticated) setDismissed(true)
+    if (isAuthenticated) setShowModal(false)
   }, [isAuthenticated])
 
-  if (isLoading || isAuthenticated || dismissed || shouldHideModal) return null
+  if (isLoading || isAuthenticated || !showModal || shouldHideModal) return null
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm">
@@ -40,7 +40,7 @@ export function GlobalLoginGate() {
         <button
           aria-label="Fermer"
           className="absolute right-3 top-3 rounded-full p-2 text-gray-500 hover:bg-gray-100"
-          onClick={() => setDismissed(true)}
+          onClick={() => setShowModal(false)}
         >
           ✕
         </button>

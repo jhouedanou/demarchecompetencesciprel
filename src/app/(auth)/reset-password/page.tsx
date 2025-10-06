@@ -78,9 +78,9 @@ export default function ResetPasswordPage() {
       setIsSuccess(true)
       toast.success('Mot de passe réinitialisé avec succès !')
       
-      // Rediriger vers la page de connexion après 3 secondes
+      // Rediriger vers l'accueil après 3 secondes
       setTimeout(() => {
-        router.push('/login')
+        router.push('/')
       }, 3000)
     } catch (error: any) {
       console.error('Erreur:', error)
@@ -141,7 +141,7 @@ export default function ResetPasswordPage() {
               Mot de passe réinitialisé !
             </h1>
             <p className="text-gray-600 mb-6">
-              Votre mot de passe a été changé avec succès. Vous allez être redirigé vers la page de connexion...
+              Votre mot de passe a été changé avec succès. Vous allez être redirigé vers l'accueil...
             </p>
             <div className="flex items-center justify-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ciprel-green-600"></div>
