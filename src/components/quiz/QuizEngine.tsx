@@ -15,9 +15,10 @@ import { QuizQuestion } from '@/types'
 interface QuizEngineProps {
   quizType: 'INTRODUCTION' | 'SONDAGE'
   className?: string
+  onClose?: () => void
 }
 
-export function QuizEngine({ quizType, className }: QuizEngineProps) {
+export function QuizEngine({ quizType, className, onClose }: QuizEngineProps) {
   const [isStarted, setIsStarted] = useState(false)
   const [showResults, setShowResults] = useState(false)
   
@@ -129,9 +130,10 @@ export function QuizEngine({ quizType, className }: QuizEngineProps) {
   if (showResults || isCompleted) {
     return (
       <div className={className}>
-        <ResultsView 
+        <ResultsView
           quizType={quizType}
           onRestart={handleRestartQuiz}
+          onClose={onClose}
         />
       </div>
     )

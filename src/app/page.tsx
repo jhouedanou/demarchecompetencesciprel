@@ -824,6 +824,7 @@ export default function HomePage() {
               <button
                 type="button"
                 onClick={() => setSurveyModalOpen(true)}
+                data-survey-trigger
                 className="block w-full text-left p-6 bg-gradient-to-r from-ciprel-orange-500 to-ciprel-orange-600 text-white rounded-xl hover:from-ciprel-orange-600 hover:to-ciprel-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ciprel-orange-500"
               >
                 <div className="flex items-center justify-between mb-3">
@@ -1234,6 +1235,7 @@ export default function HomePage() {
                   <button
                     type="button"
                     onClick={() => setSurveyModalOpen(true)}
+                    data-survey-trigger
                     className="block w-full text-left p-6 bg-gradient-to-r from-ciprel-orange-500 to-ciprel-orange-600 text-white rounded-xl hover:from-ciprel-orange-600 hover:to-ciprel-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ciprel-orange-500"
                   >
                     <div className="flex items-center justify-between mb-3">
@@ -1429,7 +1431,7 @@ export default function HomePage() {
           <DialogDescription className="text-sm text-gray-600">
             Validez vos connaissances sur les fondamentaux de la démarche compétences.
           </DialogDescription>
-          <QuizEngine quizType="INTRODUCTION" className="mt-6" />
+          <QuizEngine quizType="INTRODUCTION" className="mt-6" onClose={closeQuizModal} />
         </DialogContent>
       </Dialog>
 

@@ -34,7 +34,11 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push('/competences')
+      router.push('/')
+      // Recharger la page pour synchroniser l'état
+      setTimeout(() => {
+        window.location.reload()
+      }, 100)
     }
   }, [isAuthenticated, router])
 

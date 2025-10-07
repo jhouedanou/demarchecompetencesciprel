@@ -1,22 +1,24 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useQuizStore } from '@/stores/quiz-store'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
-import { 
-  Trophy, 
-  Target, 
-  Clock, 
-  RotateCcw, 
-  Share2, 
+import {
+  Trophy,
+  Target,
+  Clock,
+  RotateCcw,
+  Share2,
   Download,
   CheckCircle,
   XCircle,
   Award,
   TrendingUp,
-  Book
+  Book,
+  ArrowRight
 } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 import confetti from 'canvas-confetti'
@@ -24,10 +26,11 @@ import confetti from 'canvas-confetti'
 interface ResultsViewProps {
   quizType: 'INTRODUCTION' | 'SONDAGE'
   onRestart: () => void
+  onClose?: () => void
   className?: string
 }
 
-export function ResultsView({ quizType, onRestart, className }: ResultsViewProps) {
+export function ResultsView({ quizType, onRestart, onClose, className }: ResultsViewProps) {
   const {
     questions,
     answers,
@@ -37,7 +40,44 @@ export function ResultsView({ quizType, onRestart, className }: ResultsViewProps
     completedAt,
   } = useQuizStore()
 
+  const router = useRouter()
   const [showConfetti, setShowConfetti] = useState(false)
+
+  const handleNavigateToSection = (sectionId: string) => {
+    // Fermer le modal si la fonction onClose est fournie
+    if (onClose) {
+      onClose()
+    }
+
+    // Naviguer vers la page d'accueil avec le hash de la section
+    router.push(`/#${sectionId}`)
+
+    // Attendre un peu pour que la navigation se fasse, puis scroller
+    setTimeout(() => {
+      const element = document.getElementById(sectionId)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    }, 300)
+  }
+
+  const openSurveyModal = () => {
+    if (onClose) {
+      onClose()
+    }
+
+    // Attendre que le modal de quiz se ferme
+    setTimeout(() => {
+      // Déclencher l'ouverture du sondage via un événement ou un state global
+      router.push('/')
+      setTimeout(() => {
+        const surveyButton = document.querySelector('[data-survey-trigger]') as HTMLButtonElement
+        if (surveyButton) {
+          surveyButton.click()
+        }
+      }, 500)
+    }, 100)
+  }
 
   useEffect(() => {
     if (percentage && percentage >= 70) {
@@ -292,11 +332,29 @@ export function ResultsView({ quizType, onRestart, className }: ResultsViewProps
                 <p className="text-sm text-ciprel-green-700 mb-3">
                   Vous démontrez une excellente compréhension de la démarche compétences. Vous êtes prêt(e) à devenir un acteur clé de sa mise en œuvre.
                 </p>
-                <ul className="text-sm text-ciprel-green-700 space-y-2">
+                <ul className="text-sm text-ciprel-green-700 space-y-2 mb-4">
                   <li>✓ Partagez vos connaissances avec vos collègues</li>
                   <li>✓ Proposez-vous comme ambassadeur de la démarche</li>
                   <li>✓ Participez aux ateliers de perfectionnement</li>
                 </ul>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={openSurveyModal}
+                    size="sm"
+                    className="bg-ciprel-green-600 hover:bg-ciprel-green-700 text-white"
+                  >
+                    Donnez votre avis
+                    <ArrowRight className="h-4 w-4 ml-1" />
+                  </Button>
+                  <Button
+                    onClick={() => handleNavigateToSection('modules')}
+                    size="sm"
+                    variant="outline"
+                    className="border-ciprel-green-600 text-ciprel-green-700 hover:bg-ciprel-green-50"
+                  >
+                    Revoir les modules
+                  </Button>
+                </div>
               </div>
             )}
 
@@ -309,11 +367,29 @@ export function ResultsView({ quizType, onRestart, className }: ResultsViewProps
                 <p className="text-sm text-ciprel-orange-700 mb-3">
                   Vous avez acquis les bases essentielles. Quelques approfondissements vous permettront d'atteindre l'excellence.
                 </p>
-                <ul className="text-sm text-ciprel-orange-700 space-y-2">
+                <ul className="text-sm text-ciprel-orange-700 space-y-2 mb-4">
                   <li>• Approfondissez les concepts qui vous semblent moins clairs</li>
                   <li>• Consultez le guide détaillé de la démarche compétences</li>
                   <li>• Échangez avec les experts RH pour clarifier certains points</li>
                 </ul>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => handleNavigateToSection('guide')}
+                    size="sm"
+                    className="bg-ciprel-orange-600 hover:bg-ciprel-orange-700 text-white"
+                  >
+                    Télécharger le guide
+                    <ArrowRight className="h-4 w-4 ml-1" />
+                  </Button>
+                  <Button
+                    onClick={() => handleNavigateToSection('modules')}
+                    size="sm"
+                    variant="outline"
+                    className="border-ciprel-orange-600 text-ciprel-orange-700 hover:bg-ciprel-orange-50"
+                  >
+                    Revoir les modules
+                  </Button>
+                </div>
               </div>
             )}
 
@@ -326,12 +402,38 @@ export function ResultsView({ quizType, onRestart, className }: ResultsViewProps
                 <p className="text-sm text-yellow-700 mb-3">
                   Vous comprenez les grandes lignes mais certains aspects méritent d'être approfondis pour une meilleure maîtrise.
                 </p>
-                <ul className="text-sm text-yellow-700 space-y-2">
+                <ul className="text-sm text-yellow-700 space-y-2 mb-4">
                   <li>• Relisez attentivement le Guide de la démarche compétence</li>
                   <li>• Participez aux sessions de formation disponibles</li>
                   <li>• Regardez les vidéos explicatives dans la vidéothèque</li>
                   <li>• N'hésitez pas à poser vos questions à l'équipe RH</li>
                 </ul>
+                <div className="flex gap-2 flex-wrap">
+                  <Button
+                    onClick={() => handleNavigateToSection('guide')}
+                    size="sm"
+                    className="bg-yellow-600 hover:bg-yellow-700 text-white"
+                  >
+                    Consulter le guide
+                    <ArrowRight className="h-4 w-4 ml-1" />
+                  </Button>
+                  <Button
+                    onClick={() => handleNavigateToSection('application-pratique')}
+                    size="sm"
+                    variant="outline"
+                    className="border-yellow-600 text-yellow-700 hover:bg-yellow-50"
+                  >
+                    Voir les vidéos
+                  </Button>
+                  <Button
+                    onClick={() => handleNavigateToSection('modules')}
+                    size="sm"
+                    variant="outline"
+                    className="border-yellow-600 text-yellow-700 hover:bg-yellow-50"
+                  >
+                    Revoir les modules
+                  </Button>
+                </div>
               </div>
             )}
 
@@ -344,27 +446,71 @@ export function ResultsView({ quizType, onRestart, className }: ResultsViewProps
                 <p className="text-sm text-red-700 mb-3">
                   La démarche compétences nécessite encore quelques apprentissages. Prenez le temps de vous familiariser avec les concepts clés.
                 </p>
-                <ul className="text-sm text-red-700 space-y-2">
+                <ul className="text-sm text-red-700 space-y-2 mb-4">
                   <li>📖 Commencez par le Guide d'introduction à la démarche compétence</li>
                   <li>🎥 Visionnez les vidéos pédagogiques de la section Dialectique</li>
                   <li>👥 Inscrivez-vous à une session de formation avec l'équipe RH</li>
                   <li>🔄 Retentez le quiz après avoir révisé ces ressources</li>
                   <li>💬 Participez au sondage pour exprimer vos besoins de formation</li>
                 </ul>
+                <div className="flex gap-2 flex-wrap">
+                  <Button
+                    onClick={() => handleNavigateToSection('guide')}
+                    size="sm"
+                    className="bg-red-600 hover:bg-red-700 text-white"
+                  >
+                    Télécharger le guide
+                    <ArrowRight className="h-4 w-4 ml-1" />
+                  </Button>
+                  <Button
+                    onClick={() => handleNavigateToSection('modules')}
+                    size="sm"
+                    variant="outline"
+                    className="border-red-600 text-red-700 hover:bg-red-50"
+                  >
+                    Commencer les modules
+                  </Button>
+                  <Button
+                    onClick={() => handleNavigateToSection('application-pratique')}
+                    size="sm"
+                    variant="outline"
+                    className="border-red-600 text-red-700 hover:bg-red-50"
+                  >
+                    Regarder les vidéos
+                  </Button>
+                </div>
               </div>
             )}
 
             {/* Prochaines étapes communes */}
             <div className="p-4 bg-ciprel-blue/10 border border-ciprel-blue rounded-lg">
-              <h4 className="font-semibold text-ciprel-blue-dark mb-2">
+              <h4 className="font-semibold text-ciprel-blue-dark mb-3">
                 📋 Prochaines étapes suggérées :
               </h4>
-              <ul className="text-sm text-ciprel-blue space-y-2">
+              <ul className="text-sm text-ciprel-blue space-y-2 mb-4">
                 <li>🗣️ Partagez votre avis via le sondage d'opinion</li>
                 <li>📚 Explorez la section "Facteurs Clés de Succès"</li>
                 <li>🎯 Consultez le référentiel des compétences CIPREL</li>
                 <li>📊 Suivez votre progression dans votre tableau de bord</li>
               </ul>
+              <div className="flex gap-2 flex-wrap">
+                <Button
+                  onClick={openSurveyModal}
+                  size="sm"
+                  className="bg-ciprel-blue hover:bg-ciprel-blue-dark text-white"
+                >
+                  Participer au sondage
+                  <ArrowRight className="h-4 w-4 ml-1" />
+                </Button>
+                <Button
+                  onClick={() => handleNavigateToSection('modules')}
+                  size="sm"
+                  variant="outline"
+                  className="border-ciprel-blue text-ciprel-blue hover:bg-ciprel-blue/10"
+                >
+                  Explorer les modules
+                </Button>
+              </div>
             </div>
           </div>
         </CardContent>

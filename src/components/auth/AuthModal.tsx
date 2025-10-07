@@ -93,7 +93,11 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
           setError(signInError)
         } else {
           onClose()
-          router.push('/competences')
+          router.push('/')
+          // Recharger la page pour synchroniser l'état
+          setTimeout(() => {
+            window.location.reload()
+          }, 100)
         }
       } else {
         // Validation pour l'inscription
@@ -119,7 +123,11 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
         } else {
           onClose()
           // Afficher un message de succès
-          router.push('/competences')
+          router.push('/')
+          // Recharger la page pour synchroniser l'état
+          setTimeout(() => {
+            window.location.reload()
+          }, 100)
         }
       }
     } finally {

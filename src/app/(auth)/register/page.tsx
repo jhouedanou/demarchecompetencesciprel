@@ -37,7 +37,7 @@ export default function RegisterPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push('/competences')
+      router.push('/')
     }
   }, [isAuthenticated, router])
 
