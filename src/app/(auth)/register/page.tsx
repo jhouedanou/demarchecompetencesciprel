@@ -38,6 +38,10 @@ export default function RegisterPage() {
   useEffect(() => {
     if (isAuthenticated) {
       router.push('/')
+      // Recharger la page pour synchroniser l'état
+      setTimeout(() => {
+        window.location.reload()
+      }, 100)
     }
   }, [isAuthenticated, router])
 
