@@ -91,23 +91,25 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
 
         if (signInError) {
           setError(signInError)
+          setIsLoading(false)
         } else {
-          onClose()
+          // Ne pas fermer le modal ni arrêter le loading car on va recharger la page
+          // Cela évite que le modal "clignote" pendant le rechargement
           router.push('/')
-          // Recharger la page pour synchroniser l'état
-          setTimeout(() => {
-            window.location.reload()
-          }, 100)
+          // Recharger la page immédiatement pour synchroniser l'état
+          window.location.href = '/'
         }
       } else {
         // Validation pour l'inscription
         if (formData.password !== formData.confirmPassword) {
           setError('Les mots de passe ne correspondent pas')
+          setIsLoading(false)
           return
         }
 
         if (formData.password.length < 8) {
           setError('Le mot de passe doit contenir au moins 8 caractères')
+          setIsLoading(false)
           return
         }
 
@@ -120,17 +122,16 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
 
         if (signUpError) {
           setError(signUpError)
+          setIsLoading(false)
         } else {
-          onClose()
-          // Afficher un message de succès
+          // Ne pas fermer le modal ni arrêter le loading car on va recharger la page
           router.push('/')
-          // Recharger la page pour synchroniser l'état
-          setTimeout(() => {
-            window.location.reload()
-          }, 100)
+          // Recharger la page immédiatement pour synchroniser l'état
+          window.location.href = '/'
         }
       }
-    } finally {
+    } catch (error) {
+      console.error('Auth error:', error)
       setIsLoading(false)
     }
   }
