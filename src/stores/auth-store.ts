@@ -228,11 +228,14 @@ export const useAuthStore = create<AuthState>()(
       signOut: async () => {
         try {
           set({ isLoading: true })
-          await supabase.auth.signOut()
-          set({ user: null, isAuthenticated: false, isLoading: false })
+          // Use local scope to avoid 403 errors when session is invalid
+          // This clears the client-side session without making a server call
+          await supabase.auth.signOut({ scope: 'local' })
         } catch (error) {
           console.error('Sign out error:', error)
-          set({ isLoading: false })
+        } finally {
+          // Always clear local state regardless of API call success
+          set({ user: null, isAuthenticated: false, isLoading: false })
         }
       },
 

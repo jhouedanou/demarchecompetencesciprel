@@ -11,6 +11,7 @@ import { useUser } from '@/lib/supabase/client'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
 import { useQuizStore } from '@/stores/quiz-store'
 import { LoadingScreen } from '@/components/ui/loading-screen'
+import { ContentSkeleton } from '@/components/ui/content-skeleton'
 
 // Lazy loading des composants lourds
 const SectionModal = lazy(() => import('@/components/modals/SectionModal').then(m => ({ default: m.SectionModal })))
@@ -1375,14 +1376,16 @@ export default function HomePage() {
       </div>
 
       {/* Modals */}
-      <Suspense fallback={<LoadingScreen message="Chargement du contenu..." />}>
+      <Suspense fallback={null}>
         <SectionModal
           isOpen={activeModal === 'introduction'}
           onClose={closeModal}
           title="Introduction à la démarche compétence"
           sectionId="introduction"
         >
-          <IntroductionContent />
+          <Suspense fallback={<ContentSkeleton />}>
+            <IntroductionContent />
+          </Suspense>
         </SectionModal>
 
         <SectionModal
@@ -1391,7 +1394,9 @@ export default function HomePage() {
           title="Dialectique de la démarche compétence"
           sectionId="dialectique"
         >
-          <DialectiqueContent />
+          <Suspense fallback={<ContentSkeleton />}>
+            <DialectiqueContent />
+          </Suspense>
         </SectionModal>
 
         <SectionModal
@@ -1400,7 +1405,9 @@ export default function HomePage() {
           title="Synoptique de la démarche compétence"
           sectionId="synoptique"
         >
-          <SynoptiqueContent />
+          <Suspense fallback={<ContentSkeleton />}>
+            <SynoptiqueContent />
+          </Suspense>
         </SectionModal>
 
         <SectionModal
@@ -1409,7 +1416,9 @@ export default function HomePage() {
           title="Leviers et facteurs clés de succès"
           sectionId="leviers"
         >
-          <LeviersContent />
+          <Suspense fallback={<ContentSkeleton />}>
+            <LeviersContent />
+          </Suspense>
         </SectionModal>
 
         <SectionModal
@@ -1418,75 +1427,89 @@ export default function HomePage() {
           title="Ressources documentaires"
           sectionId="ressources"
         >
-          <RessourcesContent />
+          <Suspense fallback={<ContentSkeleton />}>
+            <RessourcesContent />
+          </Suspense>
         </SectionModal>
       </Suspense>
 
-      <Dialog
-        open={quizModalOpen}
-        onOpenChange={(open) => {
-          if (open) {
-            resetQuiz()
-            setQuizModalOpen(true)
-          } else {
-            closeQuizModal()
-          }
-        }}
-      >
-        <DialogContent className="max-w-4xl w-full">
-          <DialogTitle className="text-2xl font-semibold text-ciprel-black">
-            Quiz d&apos;introduction
-          </DialogTitle>
-          <DialogDescription className="text-sm text-gray-600">
-            Validez vos connaissances sur les fondamentaux de la démarche compétences.
-          </DialogDescription>
-          <QuizEngine quizType="INTRODUCTION" onClose={closeQuizModal} />
-        </DialogContent>
-      </Dialog>
+      <Suspense fallback={null}>
+        <Dialog
+          open={quizModalOpen}
+          onOpenChange={(open) => {
+            if (open) {
+              resetQuiz()
+              setQuizModalOpen(true)
+            } else {
+              closeQuizModal()
+            }
+          }}
+        >
+          <DialogContent className="max-w-4xl w-full">
+            <DialogTitle className="text-2xl font-semibold text-ciprel-black">
+              Quiz d&apos;introduction
+            </DialogTitle>
+            <DialogDescription className="text-sm text-gray-600">
+              Validez vos connaissances sur les fondamentaux de la démarche compétences.
+            </DialogDescription>
+            <Suspense fallback={<LoadingScreen message="Chargement du quiz..." />}>
+              <QuizEngine quizType="INTRODUCTION" onClose={closeQuizModal} />
+            </Suspense>
+          </DialogContent>
+        </Dialog>
+      </Suspense>
 
-      <Dialog
-        open={surveyModalOpen}
-        onOpenChange={(open) => {
-          if (open) {
-            setSurveyModalOpen(true)
-          } else {
-            setSurveyModalOpen(false)
-          }
-        }}
-      >
-        <DialogContent className="max-w-5xl w-full">
-          <DialogTitle className="text-2xl font-semibold text-ciprel-black">
-            Sondage d&apos;opinion
-          </DialogTitle>
-          <DialogDescription className="text-sm text-gray-600">
-            Partagez vos attentes et vos retours pour améliorer le déploiement de la démarche compétences.
-          </DialogDescription>
-          <CiprelSondageContent
-            variant="modal"
-            onClose={() => setSurveyModalOpen(false)}
-            onNavigate={handleSurveyNavigate}
-          />
-        </DialogContent>
-      </Dialog>
+      <Suspense fallback={null}>
+        <Dialog
+          open={surveyModalOpen}
+          onOpenChange={(open) => {
+            if (open) {
+              setSurveyModalOpen(true)
+            } else {
+              setSurveyModalOpen(false)
+            }
+          }}
+        >
+          <DialogContent className="max-w-5xl w-full">
+            <DialogTitle className="text-2xl font-semibold text-ciprel-black">
+              Sondage d&apos;opinion
+            </DialogTitle>
+            <DialogDescription className="text-sm text-gray-600">
+              Partagez vos attentes et vos retours pour améliorer le déploiement de la démarche compétences.
+            </DialogDescription>
+            <Suspense fallback={<LoadingScreen message="Chargement du sondage..." />}>
+              <CiprelSondageContent
+                variant="modal"
+                onClose={() => setSurveyModalOpen(false)}
+                onNavigate={handleSurveyNavigate}
+              />
+            </Suspense>
+          </DialogContent>
+        </Dialog>
+      </Suspense>
 
-      <VideoPlayerModal
-        isOpen={videoModalOpen}
-        onClose={closeVideoModal}
-        videos={practiceVideos}
-        initialVideoIndex={initialVideoIndex}
-      />
+      <Suspense fallback={null}>
+        <VideoPlayerModal
+          isOpen={videoModalOpen}
+          onClose={closeVideoModal}
+          videos={practiceVideos}
+          initialVideoIndex={initialVideoIndex}
+        />
+      </Suspense>
 
       {/* Modaux d'authentification */}
-      <AuthModal
-        isOpen={authModalOpen}
-        onClose={() => setAuthModalOpen(false)}
-        defaultMode="login"
-      />
+      <Suspense fallback={null}>
+        <AuthModal
+          isOpen={authModalOpen}
+          onClose={() => setAuthModalOpen(false)}
+          defaultMode="login"
+        />
 
-      <LogoutModal
-        isOpen={logoutModalOpen}
-        onClose={() => setLogoutModalOpen(false)}
-      />
+        <LogoutModal
+          isOpen={logoutModalOpen}
+          onClose={() => setLogoutModalOpen(false)}
+        />
+      </Suspense>
     </div>
   )
 }

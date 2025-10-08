@@ -108,7 +108,8 @@ export async function checkPermission(requiredRoles: ('USER' | 'ADMIN' | 'MANAGE
  */
 export async function signOut() {
   const supabase = createServerClient()
-  await supabase.auth.signOut()
+  // Use local scope to avoid 403 errors when session is invalid
+  await supabase.auth.signOut({ scope: 'local' })
   redirect('/login')
 }
 

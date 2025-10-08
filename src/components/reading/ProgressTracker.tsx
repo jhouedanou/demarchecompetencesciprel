@@ -24,7 +24,12 @@ export default function ProgressTracker({ onLinkClick, onSectionClick }: Progres
   } = useReadingProgress(user)
 
   const handleLogout = async () => {
-    await signOut()
+    try {
+      await signOut()
+    } catch (error) {
+      console.error('Sign out error:', error)
+      // Error is already handled in the store
+    }
   }
 
   if (loading) {

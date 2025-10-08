@@ -35,8 +35,14 @@ export function CompetencesNavbar() {
   const pathname = usePathname()
 
   const handleSignOut = async () => {
-    await signOut()
-    router.push('/')
+    try {
+      await signOut()
+      router.push('/')
+    } catch (error) {
+      console.error('Sign out error:', error)
+      // Still redirect even if sign out fails
+      router.push('/')
+    }
   }
 
   const getInitials = (name: string | null) => {
