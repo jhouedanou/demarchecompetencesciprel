@@ -2,9 +2,11 @@
 
 import { useUser } from '@/lib/supabase/client'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
-import { CheckCircle, Circle, Lock, BookOpen, LogOut } from 'lucide-react'
+import { CheckCircle, Circle, Lock, BookOpen, LogOut, RotateCcw, HelpCircle } from 'lucide-react'
 import { useAuthStore } from '@/stores/auth-store'
 import Link from 'next/link'
+import { supabase } from '@/lib/supabase/client'
+import { useState } from 'react'
 
 interface ProgressTrackerProps {
   onLinkClick?: () => void
@@ -20,8 +22,10 @@ export default function ProgressTracker({ onLinkClick, onSectionClick }: Progres
     loading,
     canAccessQuiz,
     getCompletionPercentage,
-    getNextSection
+    getNextSection,
+    refreshProgress
   } = useReadingProgress(user)
+  const [isResetting, setIsResetting] = useState(false)
 
   const handleLogout = async () => {
     try {
@@ -29,6 +33,41 @@ export default function ProgressTracker({ onLinkClick, onSectionClick }: Progres
     } catch (error) {
       console.error('Sign out error:', error)
       // Error is already handled in the store
+    }
+  }
+
+  const handleResetProgress = async () => {
+    if (!user) return
+
+    const confirmed = window.confirm(
+      'Êtes-vous sûr de vouloir réinitialiser votre progression ? Toutes les sections complétées seront marquées comme non terminées.'
+    )
+
+    if (!confirmed) return
+
+    setIsResetting(true)
+    try {
+      const { error } = await supabase
+        .from('user_reading_progress')
+        .delete()
+        .eq('user_id', user.id)
+
+      if (error) {
+        console.error('Error resetting progress:', error)
+        alert('Erreur lors de la réinitialisation de la progression')
+      } else {
+        // Rafraîchir la progression après la réinitialisation
+        if (refreshProgress) {
+          await refreshProgress()
+        }
+        // Émettre un événement pour notifier les autres composants
+        window.dispatchEvent(new CustomEvent('reading-progress-updated'))
+      }
+    } catch (error) {
+      console.error('Error in handleResetProgress:', error)
+      alert('Erreur lors de la réinitialisation de la progression')
+    } finally {
+      setIsResetting(false)
     }
   }
 
@@ -88,7 +127,20 @@ export default function ProgressTracker({ onLinkClick, onSectionClick }: Progres
           <button
             key={section.id}
             onClick={() => {
-              if (onSectionClick) {
+              // Gérer le scroll vers la section vidéos
+              if (section.id === 'videos') {
+                // Scroll smooth vers la section vidéos (slide 6 ou section #application-pratique)
+                const videoSection = document.querySelector('#application-pratique')
+                if (videoSection) {
+                  videoSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                } else {
+                  // Pour la version desktop avec Swiper, aller à la slide 5 (index 5)
+                  const swiperEl = document.querySelector('.homepage-swiper')
+                  if (swiperEl && (swiperEl as any).swiper) {
+                    (swiperEl as any).swiper.slideTo(5)
+                  }
+                }
+              } else if (onSectionClick) {
                 onSectionClick(section.id)
               }
               if (onLinkClick) {
@@ -131,12 +183,12 @@ export default function ProgressTracker({ onLinkClick, onSectionClick }: Progres
         </div>
       )}
 
-      {/* Quiz access status */}
+      {/* Quiz and Survey access */}
       <div className="pt-4 border-t border-gray-200">
         <div className="space-y-3">
           <div>
             <p className="text-sm font-semibold text-gray-900 mb-1">
-              Accès aux quiz
+              Accès aux activités
             </p>
             <p className="text-xs text-gray-600">
               {allCompleted
@@ -145,11 +197,14 @@ export default function ProgressTracker({ onLinkClick, onSectionClick }: Progres
               }
             </p>
           </div>
+
+          {/* Quiz Button */}
           {allCompleted ? (
             <Link
               href="/competences/quiz-introduction"
               className="w-full flex items-center justify-center gap-2 bg-ciprel-green-600 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-ciprel-green-700 transition-colors shadow-md"
             >
+              <BookOpen className="h-4 w-4" />
               Commencer le quiz
             </Link>
           ) : (
@@ -158,17 +213,49 @@ export default function ProgressTracker({ onLinkClick, onSectionClick }: Progres
               Quiz verrouillé
             </div>
           )}
+
+          {/* Survey Button */}
+          {allCompleted ? (
+            <button
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new Event('open-survey'))
+                }
+                if (onLinkClick) {
+                  onLinkClick()
+                }
+              }}
+              className="w-full flex items-center justify-center gap-2 bg-ciprel-orange-600 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-ciprel-orange-700 transition-colors shadow-md"
+            >
+              <HelpCircle className="h-4 w-4" />
+              Sondage d'opinion
+            </button>
+          ) : (
+            <div className="w-full flex items-center justify-center gap-2 bg-gray-100 text-gray-400 px-4 py-3 rounded-lg text-sm font-medium cursor-not-allowed">
+              <Lock className="h-4 w-4" />
+              Sondage verrouillé
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Logout button */}
-      <div className="pt-4 border-t border-gray-200">
+      {/* Logout and Reset buttons */}
+      <div className="pt-4 border-t border-gray-200 space-y-2">
         <button
           onClick={handleLogout}
           className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
         >
           <LogOut className="h-4 w-4" />
           Se déconnecter
+        </button>
+
+        <button
+          onClick={handleResetProgress}
+          disabled={isResetting || loading}
+          className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <RotateCcw className={`h-4 w-4 ${isResetting ? 'animate-spin' : ''}`} />
+          {isResetting ? 'Réinitialisation...' : 'Réinitialiser la progression'}
         </button>
       </div>
     </div>
