@@ -22,7 +22,6 @@ const LeviersContent = lazy(() => import('@/components/sections/LeviersContent')
 const RessourcesContent = lazy(() => import('@/components/sections/RessourcesContent').then(m => ({ default: m.RessourcesContent })))
 const QuizEngine = lazy(() => import('@/components/quiz/QuizEngine').then(m => ({ default: m.QuizEngine })))
 const CiprelSondageContent = lazy(() => import('@/components/ciprel/CiprelSondageContent').then(m => ({ default: m.CiprelSondageContent })))
-const AuthModal = lazy(() => import('@/components/auth/AuthModal').then(m => ({ default: m.AuthModal })))
 const LogoutModal = lazy(() => import('@/components/auth/LogoutModal').then(m => ({ default: m.LogoutModal })))
 const VideoPlayerModal = lazy(() => import('@/components/modals/VideoPlayerModal').then(m => ({ default: m.VideoPlayerModal })))
 import {
@@ -93,7 +92,6 @@ export default function HomePage() {
   const [surveyModalOpen, setSurveyModalOpen] = useState(false)
   const [videoModalOpen, setVideoModalOpen] = useState(false)
   const [initialVideoIndex, setInitialVideoIndex] = useState(0)
-  const [authModalOpen, setAuthModalOpen] = useState(false)
   const [logoutModalOpen, setLogoutModalOpen] = useState(false)
   const [videoSectionMarked, setVideoSectionMarked] = useState(false)
   const swiperRef = useRef<SwiperType | null>(null)
@@ -104,7 +102,6 @@ export default function HomePage() {
 
   // Écouter les événements pour ouvrir les modaux
   useEffect(() => {
-    const handleOpenLogin = () => setAuthModalOpen(true)
     const handleOpenLogout = () => setLogoutModalOpen(true)
     const handleOpenSurvey = () => setSurveyModalOpen(true)
     const handleAuthChanged = () => {
@@ -113,13 +110,11 @@ export default function HomePage() {
       // React va automatiquement re-fetch les données grâce à useUser()
     }
 
-    window.addEventListener('open-login', handleOpenLogin)
     window.addEventListener('open-logout', handleOpenLogout)
     window.addEventListener('open-survey', handleOpenSurvey)
     window.addEventListener('auth-changed', handleAuthChanged)
 
     return () => {
-      window.removeEventListener('open-login', handleOpenLogin)
       window.removeEventListener('open-logout', handleOpenLogout)
       window.removeEventListener('open-survey', handleOpenSurvey)
       window.removeEventListener('auth-changed', handleAuthChanged)
@@ -1515,11 +1510,8 @@ export default function HomePage() {
 
       {/* Modaux d'authentification */}
       <Suspense fallback={null}>
-        <AuthModal
-          isOpen={authModalOpen}
-          onClose={() => setAuthModalOpen(false)}
-          defaultMode="login"
-        />
+        {/* AuthModal est géré globalement par GlobalLoginGate dans layout.tsx */}
+        {/* Pas besoin de dupliquer ici */}
 
         <LogoutModal
           isOpen={logoutModalOpen}
