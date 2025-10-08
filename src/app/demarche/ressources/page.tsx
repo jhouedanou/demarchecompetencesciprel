@@ -348,7 +348,6 @@ export default function RessourcesPage() {
             </div>
           </div>
         </div>
-      </div>
 
       <div className="flex items-center justify-between bg-white rounded-xl shadow-lg border border-gray-200 p-6">
         <Link
