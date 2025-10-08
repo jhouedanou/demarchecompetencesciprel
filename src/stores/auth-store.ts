@@ -107,32 +107,62 @@ export const useAuthStore = create<AuthState>()(
       },
 
       signIn: async (credentials) => {
+        const startTime = performance.now()
+        console.log('🔐 [signIn] Starting login for:', credentials.email)
+
         try {
           set({ isLoading: true })
 
-          console.log('🔐 Tentative de connexion pour:', credentials.email)
-          console.log('🔑 Supabase client configured:', !!supabase)
+          // Étape 1: Authentification
+          console.log('📡 [signIn] Step 1/2: Calling signInWithPassword...')
+          const authStartTime = performance.now()
 
           const { data, error } = await supabase.auth.signInWithPassword({
             email: credentials.email,
             password: credentials.password,
           })
 
+          const authElapsed = performance.now() - authStartTime
+          console.log(`✅ [signIn] Auth completed in ${authElapsed.toFixed(0)}ms`)
+
           if (error) {
-            console.error('❌ Erreur de connexion:', error)
+            const totalElapsed = performance.now() - startTime
+            console.error(`❌ [signIn] Login failed after ${totalElapsed.toFixed(0)}ms:`, error.message)
             set({ isLoading: false })
-            return { error: error.message }
+
+            // Traduire les erreurs courantes en français
+            let errorMessage = error.message
+            if (error.message.includes('Invalid login credentials')) {
+              errorMessage = 'Email ou mot de passe incorrect. Veuillez vérifier vos identifiants.'
+            } else if (error.message.includes('Email not confirmed')) {
+              errorMessage = 'Veuillez confirmer votre email avant de vous connecter. Vérifiez votre boîte de réception.'
+            } else if (error.message.includes('User not found')) {
+              errorMessage = 'Aucun compte trouvé avec cet email.'
+            } else if (error.message.includes('Too many requests')) {
+              errorMessage = 'Trop de tentatives de connexion. Veuillez réessayer dans quelques minutes.'
+            }
+
+            return { error: errorMessage }
           }
 
-          console.log('✅ Connexion réussie')
-
-          // Get profile after successful sign in
+          // Étape 2: Récupération du profil
           if (data.user) {
-            const { data: profile } = await supabase
+            console.log('📡 [signIn] Step 2/2: Fetching user profile...')
+            const profileStartTime = performance.now()
+
+            // Optimisation: Utiliser select avec moins de champs si possible
+            const { data: profile, error: profileError } = await supabase
               .from('profiles')
-              .select('*')
+              .select('id, name, role, avatar_url, phone, created_at, updated_at')
               .eq('id', data.user.id)
               .single()
+
+            const profileElapsed = performance.now() - profileStartTime
+            console.log(`✅ [signIn] Profile fetched in ${profileElapsed.toFixed(0)}ms`)
+
+            if (profileError) {
+              console.error('❌ [signIn] Profile fetch error:', profileError)
+            }
 
             if (profile) {
               const authUser: AuthUser = {
@@ -147,11 +177,24 @@ export const useAuthStore = create<AuthState>()(
               }
 
               set({ user: authUser, isAuthenticated: true, isLoading: false })
+
+              // Cache le profil localement pour éviter de refetch
+              if (typeof window !== 'undefined') {
+                localStorage.setItem('cached_profile', JSON.stringify(authUser))
+              }
+
+              const totalElapsed = performance.now() - startTime
+              console.log(`✨ [signIn] Login complete in ${totalElapsed.toFixed(0)}ms`)
+              console.log(`👤 [signIn] Logged in as: ${authUser.name} (${authUser.role})`)
+            } else {
+              console.warn('⚠️ [signIn] No profile found for user')
             }
           }
 
           return {}
         } catch (error: any) {
+          const totalElapsed = performance.now() - startTime
+          console.error(`❌ [signIn] Exception after ${totalElapsed.toFixed(0)}ms:`, error)
           set({ isLoading: false })
           return { error: error.message }
         }

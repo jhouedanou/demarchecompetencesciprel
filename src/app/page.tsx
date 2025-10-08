@@ -107,15 +107,22 @@ export default function HomePage() {
     const handleOpenLogin = () => setAuthModalOpen(true)
     const handleOpenLogout = () => setLogoutModalOpen(true)
     const handleOpenSurvey = () => setSurveyModalOpen(true)
+    const handleAuthChanged = () => {
+      console.log('🔄 [HomePage] Auth changed, reloading page data...')
+      // Pas besoin de window.location.reload(), juste forcer un re-render
+      // React va automatiquement re-fetch les données grâce à useUser()
+    }
 
     window.addEventListener('open-login', handleOpenLogin)
     window.addEventListener('open-logout', handleOpenLogout)
     window.addEventListener('open-survey', handleOpenSurvey)
+    window.addEventListener('auth-changed', handleAuthChanged)
 
     return () => {
       window.removeEventListener('open-login', handleOpenLogin)
       window.removeEventListener('open-logout', handleOpenLogout)
       window.removeEventListener('open-survey', handleOpenSurvey)
+      window.removeEventListener('auth-changed', handleAuthChanged)
     }
   }, [])
 

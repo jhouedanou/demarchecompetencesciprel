@@ -9,6 +9,7 @@ import {
   User,
   Mail,
   X,
+  AlertCircle,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -83,28 +84,44 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
+    const submitStartTime = performance.now()
+    console.log('📝 [AuthModal] Form submitted, mode:', mode)
+
     // Prévenir les doubles clics
     if (isLoading) return
-    
+
     setIsLoading(true)
     setError('')
 
     try {
       if (mode === 'login') {
+        console.log('🔐 [AuthModal] Calling signIn...')
+        const signInStartTime = performance.now()
+
         const { error: signInError } = await signIn({
           email: formData.email,
           password: formData.password,
         })
 
+        const signInElapsed = performance.now() - signInStartTime
+        console.log(`✅ [AuthModal] signIn returned in ${signInElapsed.toFixed(0)}ms`)
+
         if (signInError) {
+          console.error('❌ [AuthModal] Login error:', signInError)
           setError(signInError)
           setIsLoading(false)
         } else {
+          console.log('✨ [AuthModal] Login successful, closing modal')
           // Fermer le modal
           onClose()
-          // Recharger la page immédiatement pour synchroniser l'état
-          window.location.reload()
+
+          // OPTIMISATION: Pas de reload, juste émettre un événement pour rafraîchir l'UI
+          console.log('🔄 [AuthModal] Dispatching auth-changed event')
+          window.dispatchEvent(new CustomEvent('auth-changed'))
+
+          const totalElapsed = performance.now() - submitStartTime
+          console.log(`✨ [AuthModal] Total login flow completed in ${totalElapsed.toFixed(0)}ms`)
         }
       } else {
         // Validation pour l'inscription
@@ -225,8 +242,14 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
             </div>
 
             {error && (
-              <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600">
-                {error}
+              <div className="rounded-lg border-2 border-red-300 bg-red-50 p-4 shadow-sm animate-shake">
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-red-800 mb-1">Erreur</p>
+                    <p className="text-sm text-red-700">{error}</p>
+                  </div>
+                </div>
               </div>
             )}
 
@@ -348,8 +371,14 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
           )}
 
           {error && (
-            <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600">
-              {error}
+            <div className="rounded-lg border-2 border-red-300 bg-red-50 p-4 shadow-sm animate-shake">
+              <div className="flex items-start gap-3">
+                <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-red-800 mb-1">Erreur de connexion</p>
+                  <p className="text-sm text-red-700">{error}</p>
+                </div>
+              </div>
             </div>
           )}
 
