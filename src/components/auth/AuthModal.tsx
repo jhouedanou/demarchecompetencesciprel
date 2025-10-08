@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Eye,
@@ -39,6 +39,7 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
   const [isLoading, setIsLoading] = useState(false)
   const [resetPasswordMode, setResetPasswordMode] = useState(false)
   const [resetSuccess, setResetSuccess] = useState(false)
+  const passwordInputRef = useRef<HTMLInputElement>(null)
 
   const { signIn, signUp, resetPassword } = useAuthStore()
   const router = useRouter()
@@ -111,6 +112,17 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
           console.error('❌ [AuthModal] Login error:', signInError)
           setError(signInError)
           setIsLoading(false)
+
+          // Vider le champ mot de passe pour permettre une nouvelle tentative
+          setFormData(prev => ({ ...prev, password: '' }))
+
+          // Focus sur le champ mot de passe après une courte pause
+          setTimeout(() => {
+            passwordInputRef.current?.focus()
+          }, 100)
+
+          // Garder le message d'erreur visible et ne pas fermer le modal
+          return
         } else {
           console.log('✨ [AuthModal] Login successful, closing modal')
           // Fermer le modal
@@ -162,7 +174,8 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
-    if (error) setError('')
+    // Ne pas effacer l'erreur immédiatement pour laisser le temps à l'utilisateur de lire
+    // L'erreur sera effacée lors du prochain submit
   }
 
   const switchMode = () => {
@@ -321,6 +334,7 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
             </Label>
             <div className="relative">
               <Input
+                ref={passwordInputRef}
                 id="password"
                 type={showPassword ? 'text' : 'password'}
                 value={formData.password}
