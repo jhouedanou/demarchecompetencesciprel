@@ -110,15 +110,21 @@ export const useAuthStore = create<AuthState>()(
         try {
           set({ isLoading: true })
 
+          console.log('🔐 Tentative de connexion pour:', credentials.email)
+          console.log('🔑 Supabase client configured:', !!supabase)
+
           const { data, error } = await supabase.auth.signInWithPassword({
             email: credentials.email,
             password: credentials.password,
           })
 
           if (error) {
+            console.error('❌ Erreur de connexion:', error)
             set({ isLoading: false })
             return { error: error.message }
           }
+
+          console.log('✅ Connexion réussie')
 
           // Get profile after successful sign in
           if (data.user) {
