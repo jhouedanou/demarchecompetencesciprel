@@ -65,3 +65,7 @@ build/
 # Temporary files
 *.tmp
 *.temp
+
+# SQLite Database
+/data/*.db
+/data/*.db-*

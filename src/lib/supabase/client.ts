@@ -41,33 +41,32 @@ export function useUser() {
     console.log('🔄 [useUser] Starting session check...')
 
     // Essayer de charger depuis le cache localStorage en premier
-    const cachedSession = typeof window !== 'undefined'
-      ? localStorage.getItem('supabase.auth.token')
-      : null
-
-    if (cachedSession) {
-      console.log('💾 [useUser] Found cached session, using it immediately')
-      // Charger immédiatement depuis le cache pour une UX plus rapide
+    if (typeof window !== 'undefined') {
       try {
-        const parsed = JSON.parse(cachedSession)
-        if (parsed?.currentSession?.user) {
-          setUser(parsed.currentSession.user)
-          setLoading(false)
-          console.log('⚡ [useUser] Loaded from cache in <1ms')
+        const cachedSession = localStorage.getItem('supabase.auth.token')
+
+        if (cachedSession) {
+          console.log('💾 [useUser] Found cached session, using it immediately')
+          const parsed = JSON.parse(cachedSession)
+          if (parsed?.currentSession?.user) {
+            setUser(parsed.currentSession.user)
+            // Ne pas mettre loading à false immédiatement, on valide d'abord avec Supabase
+            console.log('⚡ [useUser] Loaded from cache in <1ms (validating in background...)')
+          }
         }
       } catch (e) {
-        console.warn('⚠️ [useUser] Failed to parse cached session')
+        console.warn('⚠️ [useUser] Failed to parse cached session:', e)
       }
     }
 
     // Timeout de sécurité pour éviter un loading infini
     const timeoutId = setTimeout(() => {
-      if (isMounted && loading) {
+      if (isMounted) {
         const elapsed = performance.now() - startTime
         console.warn(`⚠️ [useUser] Session check timeout after ${elapsed.toFixed(0)}ms - forcing loading to false`)
         setLoading(false)
       }
-    }, 3000) // 3 secondes max (réduit de 5s)
+    }, 10000) // 10 secondes max pour les connexions lentes
 
     // Get initial session
     const getSession = async () => {
@@ -75,8 +74,14 @@ export function useUser() {
         console.log('📡 [useUser] Calling supabase.auth.getSession()...')
         const sessionStartTime = performance.now()
 
+        // Avertir si la connexion prend trop de temps
+        const slowWarningTimeout = setTimeout(() => {
+          console.warn('⏳ [useUser] Supabase connection is slow (>2s)... Still waiting...')
+        }, 2000)
+
         const { data: { session }, error } = await supabase.auth.getSession()
 
+        clearTimeout(slowWarningTimeout)
         const sessionElapsed = performance.now() - sessionStartTime
         console.log(`✅ [useUser] getSession() completed in ${sessionElapsed.toFixed(0)}ms`)
 
