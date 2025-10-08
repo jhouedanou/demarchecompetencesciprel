@@ -60,6 +60,10 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
 
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Prévenir les doubles clics
+    if (isLoading) return
+    
     setIsLoading(true)
     setError('')
     setResetSuccess(false)
@@ -79,6 +83,10 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Prévenir les doubles clics
+    if (isLoading) return
+    
     setIsLoading(true)
     setError('')
 
@@ -93,11 +101,10 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
           setError(signInError)
           setIsLoading(false)
         } else {
-          // Ne pas fermer le modal ni arrêter le loading car on va recharger la page
-          // Cela évite que le modal "clignote" pendant le rechargement
-          router.push('/')
+          // Fermer le modal
+          onClose()
           // Recharger la page immédiatement pour synchroniser l'état
-          window.location.href = '/'
+          window.location.reload()
         }
       } else {
         // Validation pour l'inscription
@@ -124,10 +131,10 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
           setError(signUpError)
           setIsLoading(false)
         } else {
-          // Ne pas fermer le modal ni arrêter le loading car on va recharger la page
-          router.push('/')
+          // Fermer le modal
+          onClose()
           // Recharger la page immédiatement pour synchroniser l'état
-          window.location.href = '/'
+          window.location.reload()
         }
       }
     } catch (error) {

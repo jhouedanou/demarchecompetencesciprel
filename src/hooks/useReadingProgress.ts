@@ -73,19 +73,24 @@ export function useReadingProgress(user: User | null) {
     if (!user) return
 
     try {
-      const { data, error } = await supabase
-        .from('user_reading_progress')
-        .select('*')
-        .eq('user_id', user.id)
+      // Utiliser l'API au lieu d'appeler Supabase directement
+      const response = await fetch(`/api/reading-progress?user_id=${user.id}`, {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
 
-      if (error) {
-        console.error('Error loading reading progress:', error)
+      if (!response.ok) {
+        console.error('Error loading reading progress:', await response.text())
         return
       }
 
+      const data = await response.json()
+
       // Update sections with completed status
       const updatedSections = REQUIRED_SECTIONS.map(section => {
-        const progress = data?.find(p => p.section_id === section.id)
+        const progress = data?.find((p: any) => p.section_id === section.id)
         return {
           ...section,
           completed: !!progress,
@@ -118,21 +123,25 @@ export function useReadingProgress(user: User | null) {
 
       console.log(`Attempting to mark section as completed: ${sectionId}`)
 
-      const { data, error } = await supabase
-        .from('user_reading_progress')
-        .upsert({
+      // Utiliser l'API au lieu d'appeler Supabase directement
+      const response = await fetch('/api/reading-progress', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           user_id: user.id,
           section_id: sectionId,
           section_title: section.title,
           reading_time_seconds: readingTimeSeconds,
           completed_at: new Date().toISOString()
-        }, {
-          onConflict: 'user_id,section_id'
         })
-        .select()
+      })
 
-      if (error) {
-        console.error('Supabase error marking section as completed:', error)
+      if (!response.ok) {
+        const error = await response.text()
+        console.error('API error marking section as completed:', error)
 
         // Fallback: Update local state even if DB fails
         const updatedSections = sections.map(s =>
@@ -147,6 +156,7 @@ export function useReadingProgress(user: User | null) {
         return true // Return true for UX, even if DB failed
       }
 
+      const data = await response.json()
       console.log('Section marked as completed successfully:', data)
 
       // Reload progress from database

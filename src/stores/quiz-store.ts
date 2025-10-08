@@ -45,7 +45,12 @@ export const useQuizStore = create<QuizStore>()(
         try {
           set({ isLoading: true, error: null })
 
-          const response = await fetch(`/api/quiz?type=${quizType}`)
+          const response = await fetch(`/api/quiz?type=${quizType}`, {
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
           
           if (!response.ok) {
             throw new Error('Erreur lors du chargement des questions')
@@ -145,6 +150,7 @@ export const useQuizStore = create<QuizStore>()(
           // Sauvegarder le résultat
           const response = await fetch('/api/quiz', {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               quiz_type: quizType,

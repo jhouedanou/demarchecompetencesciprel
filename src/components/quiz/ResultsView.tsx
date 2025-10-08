@@ -18,7 +18,8 @@ import {
   Award,
   TrendingUp,
   Book,
-  ArrowRight
+  ArrowRight,
+  LayoutDashboard
 } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 import confetti from 'canvas-confetti'
@@ -144,37 +145,59 @@ export function ResultsView({ quizType, onRestart, onClose, className }: Results
     }
   }
 
-  const handleDownload = () => {
-    const results = {
-      quiz_type: quizType,
-      score: `${score}/${questions.length}`,
-      percentage: `${percentage}%`,
-      duration: formatDuration(duration),
-      completed_at: new Date().toLocaleString('fr-FR'),
-      answers: answers.map((answer, index) => ({
-        question: questions[index]?.question || '',
-        selected_answers: answer.selectedAnswers,
-        is_correct: answer.isCorrect,
-        time_spent: answer.timeSpent
-      }))
+  const handleDownload = async () => {
+    try {
+      // Importer html2canvas et jspdf dynamiquement
+      const html2canvas = (await import('html2canvas')).default
+      const { jsPDF } = await import('jspdf')
+      
+      // Sélectionner l'élément à capturer
+      const element = document.querySelector('.results-container') as HTMLElement
+      if (!element) {
+        console.error('Élément de résultats non trouvé')
+        return
+      }
+      
+      // Capturer l'élément en canvas
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        logging: false,
+        useCORS: true,
+        backgroundColor: '#ffffff'
+      })
+      
+      // Créer le PDF
+      const imgData = canvas.toDataURL('image/png')
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      })
+      
+      const imgWidth = 210 // A4 width in mm
+      const pageHeight = 297 // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width
+      let heightLeft = imgHeight
+      let position = 0
+      
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
+      heightLeft -= pageHeight
+      
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight
+        pdf.addPage()
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
+        heightLeft -= pageHeight
+      }
+      
+      pdf.save(`quiz-results-${quizType.toLowerCase()}-${Date.now()}.pdf`)
+    } catch (error) {
+      console.error('Erreur lors de la génération du PDF:', error)
     }
-    
-    const blob = new Blob([JSON.stringify(results, null, 2)], {
-      type: 'application/json'
-    })
-    
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `quiz-results-${quizType.toLowerCase()}-${Date.now()}.json`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
   }
 
   return (
-    <div className={cn('max-w-4xl mx-auto space-y-6', className)}>
+    <div className={cn('max-w-4xl mx-auto space-y-6 results-container', className)}>
       {/* Résultat principal */}
       <Card className="overflow-hidden">
         <CardHeader className={cn(
@@ -207,7 +230,7 @@ export function ResultsView({ quizType, onRestart, onClose, className }: Results
               {percentage}%
             </div>
             <p className="text-xl text-gray-600">
-              {score} bonnes réponses sur {questions.length}
+              Score : {score}/{questions.length}
             </p>
           </div>
 
@@ -282,6 +305,15 @@ export function ResultsView({ quizType, onRestart, onClose, className }: Results
       {/* Actions */}
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <Button
+          onClick={() => router.push('/competences')}
+          size="lg"
+          className="flex items-center space-x-2 bg-ciprel-blue hover:bg-ciprel-blue-dark text-white"
+        >
+          <LayoutDashboard className="h-5 w-5" />
+          <span>Tableau de bord</span>
+        </Button>
+
+        <Button
           onClick={onRestart}
           size="lg"
           variant="outline"
@@ -308,7 +340,7 @@ export function ResultsView({ quizType, onRestart, onClose, className }: Results
           className="flex items-center space-x-2"
         >
           <Download className="h-5 w-5" />
-          <span>Télécharger</span>
+          <span>Télécharger PDF</span>
         </Button>
       </div>
 

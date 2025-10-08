@@ -35,6 +35,9 @@ export function LoginForm() {
   })
 
   const onSubmit = async (data: LoginFormData) => {
+    // Prévenir les doubles clics
+    if (isLoading) return
+    
     setIsLoading(true)
 
     try {
