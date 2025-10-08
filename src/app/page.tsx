@@ -1,25 +1,29 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, lazy, Suspense } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination, Mousewheel } from 'swiper/modules'
 import type { Swiper as SwiperType } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import ProgressTracker from '@/components/reading/ProgressTracker'
-import { SectionModal } from '@/components/modals/SectionModal'
-import { IntroductionContent } from '@/components/sections/IntroductionContent'
-import { DialectiqueContent } from '@/components/sections/DialectiqueContent'
-import { SynoptiqueContent } from '@/components/sections/SynoptiqueContent'
-import { LeviersContent } from '@/components/sections/LeviersContent'
-import { RessourcesContent } from '@/components/sections/RessourcesContent'
-import { QuizEngine } from '@/components/quiz/QuizEngine'
-import { CiprelSondageContent } from '@/components/ciprel/CiprelSondageContent'
 import { useUser } from '@/lib/supabase/client'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
 import { useQuizStore } from '@/stores/quiz-store'
-import { AuthModal } from '@/components/auth/AuthModal'
-import { LogoutModal } from '@/components/auth/LogoutModal'
+import { LoadingScreen } from '@/components/ui/loading-screen'
+
+// Lazy loading des composants lourds
+const SectionModal = lazy(() => import('@/components/modals/SectionModal').then(m => ({ default: m.SectionModal })))
+const IntroductionContent = lazy(() => import('@/components/sections/IntroductionContent').then(m => ({ default: m.IntroductionContent })))
+const DialectiqueContent = lazy(() => import('@/components/sections/DialectiqueContent').then(m => ({ default: m.DialectiqueContent })))
+const SynoptiqueContent = lazy(() => import('@/components/sections/SynoptiqueContent').then(m => ({ default: m.SynoptiqueContent })))
+const LeviersContent = lazy(() => import('@/components/sections/LeviersContent').then(m => ({ default: m.LeviersContent })))
+const RessourcesContent = lazy(() => import('@/components/sections/RessourcesContent').then(m => ({ default: m.RessourcesContent })))
+const QuizEngine = lazy(() => import('@/components/quiz/QuizEngine').then(m => ({ default: m.QuizEngine })))
+const CiprelSondageContent = lazy(() => import('@/components/ciprel/CiprelSondageContent').then(m => ({ default: m.CiprelSondageContent })))
+const AuthModal = lazy(() => import('@/components/auth/AuthModal').then(m => ({ default: m.AuthModal })))
+const LogoutModal = lazy(() => import('@/components/auth/LogoutModal').then(m => ({ default: m.LogoutModal })))
+const VideoPlayerModal = lazy(() => import('@/components/modals/VideoPlayerModal').then(m => ({ default: m.VideoPlayerModal })))
 import {
   Building2,
   Users,
@@ -36,9 +40,7 @@ import {
   Menu,
   X
 } from 'lucide-react'
-import Link from 'next/link'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
-import { VideoPlayerModal } from '@/components/modals/VideoPlayerModal'
 import { useRouter } from 'next/navigation'
 
 type SectionType = 'introduction' | 'dialectique' | 'synoptique' | 'leviers' | 'ressources' | null
@@ -81,7 +83,7 @@ const PRACTICE_VIDEOS = [
 ]
 
 export default function HomePage() {
-  const { user } = useUser()
+  const { user, loading } = useUser()
   const { sections, canAccessQuiz, markSectionCompleted } = useReadingProgress(user)
   const [activeModal, setActiveModal] = useState<SectionType>(null)
   const [activeSlide, setActiveSlide] = useState(0)
@@ -166,6 +168,11 @@ export default function HomePage() {
 
   const closeVideoModal = () => {
     setVideoModalOpen(false)
+  }
+
+  // Afficher l'écran de chargement pendant la vérification de l'authentification
+  if (loading) {
+    return <LoadingScreen message="Vérification de votre session..." />
   }
 
   return (
@@ -1368,50 +1375,52 @@ export default function HomePage() {
       </div>
 
       {/* Modals */}
-      <SectionModal
-        isOpen={activeModal === 'introduction'}
-        onClose={closeModal}
-        title="Introduction à la démarche compétence"
-        sectionId="introduction"
-      >
-        <IntroductionContent />
-      </SectionModal>
+      <Suspense fallback={<LoadingScreen message="Chargement du contenu..." />}>
+        <SectionModal
+          isOpen={activeModal === 'introduction'}
+          onClose={closeModal}
+          title="Introduction à la démarche compétence"
+          sectionId="introduction"
+        >
+          <IntroductionContent />
+        </SectionModal>
 
-      <SectionModal
-        isOpen={activeModal === 'dialectique'}
-        onClose={closeModal}
-        title="Dialectique de la démarche compétence"
-        sectionId="dialectique"
-      >
-        <DialectiqueContent />
-      </SectionModal>
+        <SectionModal
+          isOpen={activeModal === 'dialectique'}
+          onClose={closeModal}
+          title="Dialectique de la démarche compétence"
+          sectionId="dialectique"
+        >
+          <DialectiqueContent />
+        </SectionModal>
 
-      <SectionModal
-        isOpen={activeModal === 'synoptique'}
-        onClose={closeModal}
-        title="Synoptique de la démarche compétence"
-        sectionId="synoptique"
-      >
-        <SynoptiqueContent />
-      </SectionModal>
+        <SectionModal
+          isOpen={activeModal === 'synoptique'}
+          onClose={closeModal}
+          title="Synoptique de la démarche compétence"
+          sectionId="synoptique"
+        >
+          <SynoptiqueContent />
+        </SectionModal>
 
-      <SectionModal
-        isOpen={activeModal === 'leviers'}
-        onClose={closeModal}
-        title="Leviers et facteurs clés de succès"
-        sectionId="leviers"
-      >
-        <LeviersContent />
-      </SectionModal>
+        <SectionModal
+          isOpen={activeModal === 'leviers'}
+          onClose={closeModal}
+          title="Leviers et facteurs clés de succès"
+          sectionId="leviers"
+        >
+          <LeviersContent />
+        </SectionModal>
 
-      <SectionModal
-        isOpen={activeModal === 'ressources'}
-        onClose={closeModal}
-        title="Ressources documentaires"
-        sectionId="ressources"
-      >
-        <RessourcesContent />
-      </SectionModal>
+        <SectionModal
+          isOpen={activeModal === 'ressources'}
+          onClose={closeModal}
+          title="Ressources documentaires"
+          sectionId="ressources"
+        >
+          <RessourcesContent />
+        </SectionModal>
+      </Suspense>
 
       <Dialog
         open={quizModalOpen}
@@ -1431,7 +1440,7 @@ export default function HomePage() {
           <DialogDescription className="text-sm text-gray-600">
             Validez vos connaissances sur les fondamentaux de la démarche compétences.
           </DialogDescription>
-          <QuizEngine quizType="INTRODUCTION" className="mt-6" onClose={closeQuizModal} />
+          <QuizEngine quizType="INTRODUCTION" onClose={closeQuizModal} />
         </DialogContent>
       </Dialog>
 
