@@ -121,35 +121,41 @@ export default function HomePage() {
 
   // Détecter quand la section vidéos est visible et la marquer comme terminée
   useEffect(() => {
-    if (!user || videoSectionMarked) return
+    if (!user || videoSectionMarked || loading) return
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-            // La section vidéos est visible à plus de 50%
-            if (markSectionCompleted && !videoSectionMarked) {
-              markSectionCompleted('videos', 0)
-              setVideoSectionMarked(true)
+    // Utiliser un timeout pour s'assurer que le DOM est prêt
+    const timeoutId = setTimeout(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+              // La section vidéos est visible à plus de 50%
+              if (markSectionCompleted && !videoSectionMarked) {
+                markSectionCompleted('videos', 0)
+                setVideoSectionMarked(true)
+              }
             }
-          }
-        })
-      },
-      { threshold: 0.5 }
-    )
+          })
+        },
+        { threshold: 0.5 }
+      )
 
-    // Observer les deux versions de la section vidéos (desktop et mobile)
-    const videoSectionDesktop = document.querySelector('#videos-section')
-    const videoSectionMobile = document.querySelector('#application-pratique')
+      // Observer les deux versions de la section vidéos (desktop et mobile)
+      const videoSectionDesktop = document.querySelector('#videos-section')
+      const videoSectionMobile = document.querySelector('#application-pratique')
 
-    if (videoSectionDesktop) observer.observe(videoSectionDesktop)
-    if (videoSectionMobile) observer.observe(videoSectionMobile)
+      if (videoSectionDesktop) observer.observe(videoSectionDesktop)
+      if (videoSectionMobile) observer.observe(videoSectionMobile)
+
+      return () => {
+        observer.disconnect()
+      }
+    }, 500)
 
     return () => {
-      if (videoSectionDesktop) observer.unobserve(videoSectionDesktop)
-      if (videoSectionMobile) observer.unobserve(videoSectionMobile)
+      clearTimeout(timeoutId)
     }
-  }, [user, videoSectionMarked, markSectionCompleted])
+  }, [user, videoSectionMarked, markSectionCompleted, loading])
 
   const getSectionStatus = (sectionId: string) => {
     const section = sections.find(s => s.id === sectionId)
