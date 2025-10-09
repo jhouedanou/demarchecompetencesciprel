@@ -56,8 +56,8 @@ export async function authenticateUser(email: string, password: string): Promise
       email: profile.email,
       name: profile.name,
       role: profile.role,
-      avatar_url: profile.avatar_url || undefined,
-      phone: profile.phone || undefined,
+      avatar_url: profile.avatar_url || null,
+      phone: profile.phone || null,
       created_at: profile.created_at,
       updated_at: profile.updated_at,
     }
@@ -106,6 +106,8 @@ export async function createUser(
       email,
       name,
       role: 'USER',
+      avatar_url: null,
+      phone: null,
       created_at: now,
       updated_at: now,
     }
@@ -133,8 +135,8 @@ export async function getUserById(userId: string): Promise<AuthUser | null> {
       email: profile.email,
       name: profile.name,
       role: profile.role,
-      avatar_url: profile.avatar_url || undefined,
-      phone: profile.phone || undefined,
+      avatar_url: profile.avatar_url || null,
+      phone: profile.phone || null,
       created_at: profile.created_at,
       updated_at: profile.updated_at,
     }
