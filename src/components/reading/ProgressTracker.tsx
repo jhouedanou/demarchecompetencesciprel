@@ -23,7 +23,8 @@ export default function ProgressTracker({ onLinkClick, onSectionClick }: Progres
     canAccessQuiz,
     getCompletionPercentage,
     getNextSection,
-    refreshProgress
+    refreshProgress,
+    markSectionCompleted
   } = useReadingProgress(user)
   const [isResetting, setIsResetting] = useState(false)
 
@@ -129,7 +130,7 @@ export default function ProgressTracker({ onLinkClick, onSectionClick }: Progres
             onClick={() => {
               // Gérer le scroll vers la section vidéos
               if (section.id === 'videos') {
-                // Scroll smooth vers la section vidéos (slide 6 ou section #application-pratique)
+                // Scroll smooth immédiat vers la section vidéos (slide 6 ou section #application-pratique)
                 const videoSection = document.querySelector('#application-pratique')
                 if (videoSection) {
                   videoSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -139,6 +140,11 @@ export default function ProgressTracker({ onLinkClick, onSectionClick }: Progres
                   if (swiperEl && (swiperEl as any).swiper) {
                     (swiperEl as any).swiper.slideTo(5)
                   }
+                }
+                
+                // Marquer la section vidéos comme complétée (en parallèle, sans bloquer le scroll)
+                if (markSectionCompleted && user) {
+                  markSectionCompleted('videos', 0)
                 }
               } else if (onSectionClick) {
                 onSectionClick(section.id)
