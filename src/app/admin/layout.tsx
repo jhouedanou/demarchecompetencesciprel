@@ -12,7 +12,7 @@ interface AdminLayoutProps {
 
 const ADMIN_CREDENTIALS = {
   username: 'admin',
-  password: 'ù4:hatev12d>'
+  password: 'admin123'
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {

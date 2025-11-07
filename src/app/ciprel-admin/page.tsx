@@ -9,8 +9,8 @@ import { Label } from '@/components/ui/label'
 
 // Identifiants administrateur
 const ADMIN_CREDENTIALS = {
-  username: 'admin-ciprel',
-  password: 'CiprelAdmin2024!'
+  username: 'admin',
+  password: 'admin123'
 }
 
 export default function AdminAccessPage() {
@@ -105,7 +105,7 @@ export default function AdminAccessPage() {
                 type="text"
                 value={credentials.username}
                 onChange={(e) => setCredentials(prev => ({ ...prev, username: e.target.value }))}
-                placeholder="admin-ciprel"
+                placeholder="admin"
                 className="h-12 border-gray-300 focus:border-ciprel-green-500 focus:ring-ciprel-green-500"
                 required
               />
