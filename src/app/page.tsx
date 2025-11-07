@@ -264,6 +264,11 @@ export default function HomePage() {
               onSectionClick={(sectionId) => {
                 openModal(sectionId as SectionType)
               }}
+              onSlideClick={(slideIndex) => {
+                handleSlideTo(slideIndex)
+              }}
+              slideNames={SLIDE_TITLES}
+              currentSlide={activeSlide}
               isMetierActive={!!activeMetier}
             />
           )}
@@ -856,7 +861,7 @@ export default function HomePage() {
                 </div>
                 <p className="text-ciprel-green-100 mb-4">Testez vos connaissances sur la démarche compétence</p>
                 <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
-                  ✓ Accès débloqué
+                  Afficher le questionnaire
                 </div>
               </button>
             ) : (
@@ -885,7 +890,7 @@ export default function HomePage() {
                 </div>
                 <p className="text-ciprel-orange-100 mb-4">Partagez votre avis et vos suggestions d'amélioration</p>
                 <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
-                  ✓ Accès débloqué
+                  Afficher le questionnaire
                 </div>
               </button>
             ) : (
@@ -1273,7 +1278,7 @@ export default function HomePage() {
                     </div>
                     <p className="text-ciprel-green-100 mb-4">Testez vos connaissances sur la démarche compétence</p>
                     <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
-                      ✓ Accès débloqué
+                      Afficher le questionnaire
                     </div>
                   </button>
                 ) : (
@@ -1302,7 +1307,7 @@ export default function HomePage() {
                     </div>
                     <p className="text-ciprel-orange-100 mb-4">Partagez votre avis et vos suggestions d'amélioration</p>
                     <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
-                      ✓ Accès débloqué
+                      Afficher le questionnaire
                     </div>
                   </button>
                 ) : (

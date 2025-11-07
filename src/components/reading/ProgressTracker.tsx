@@ -11,10 +11,20 @@ import { useState } from 'react'
 interface ProgressTrackerProps {
   onLinkClick?: () => void
   onSectionClick?: (sectionId: string) => void
+  onSlideClick?: (slideIndex: number) => void
   isMetierActive?: boolean
+  slideNames?: string[]
+  currentSlide?: number
 }
 
-export default function ProgressTracker({ onLinkClick, onSectionClick, isMetierActive = false }: ProgressTrackerProps = {}) {
+export default function ProgressTracker({
+  onLinkClick,
+  onSectionClick,
+  onSlideClick,
+  isMetierActive = false,
+  slideNames = [],
+  currentSlide = 0
+}: ProgressTrackerProps = {}) {
   const { user } = useUser()
   const { signOut } = useAuthStore()
   const {
@@ -119,6 +129,37 @@ export default function ProgressTracker({ onLinkClick, onSectionClick, isMetierA
           ></div>
         </div>
       </div>
+
+      {/* Slides Navigation */}
+      {slideNames && slideNames.length > 0 && (
+        <div className="space-y-2 pb-4 border-b border-gray-200">
+          <h4 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">
+            Slides
+          </h4>
+          <div className="space-y-2">
+            {slideNames.map((slideName, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  if (onSlideClick) {
+                    onSlideClick(index)
+                  }
+                  if (onLinkClick) {
+                    onLinkClick()
+                  }
+                }}
+                className={`w-full px-3 py-2 rounded-lg text-sm text-left transition-all ${
+                  currentSlide === index
+                    ? 'bg-ciprel-orange-100 border-l-4 border-ciprel-orange-600 text-ciprel-orange-900 font-medium'
+                    : 'bg-white border-l-4 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300'
+                }`}
+              >
+                {index + 1}. {slideName}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Section list */}
       <div className="space-y-2">
