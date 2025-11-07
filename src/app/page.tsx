@@ -310,9 +310,20 @@ export default function HomePage() {
             </div>
           )}
 
-          {/* Logout Button pour utilisateurs connectés */}
+          {/* Actions pour utilisateurs connectés */}
           {user && (
-            <div className="pt-4 border-t border-gray-200">
+            <div className="pt-4 border-t border-gray-200 space-y-2">
+              {/* Lien vers les questionnaires */}
+              <a
+                href="/competences/quiz-introduction"
+                onClick={() => setSidebarOpen(false)}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-ciprel-green-600 hover:bg-ciprel-green-700 rounded-lg transition-colors"
+              >
+                <BookOpen className="h-4 w-4" />
+                Accéder aux questionnaires
+              </a>
+
+              {/* Logout Button */}
               <button
                 onClick={async () => {
                   await signOut()
