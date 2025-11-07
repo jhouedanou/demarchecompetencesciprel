@@ -1,0 +1,330 @@
+{
+  "metiers": [
+    {
+      "id": 1,
+      "slug": "introduction-generale-juillet-2025",
+      "titre": "Introduction Générale à la Démarche Compétence",
+      "periode": "Juillet 2025",
+      "phase": "Introductive",
+      "description": "La démarche compétence de CIPREL est présentée comme une véritable boussole du management stratégique, visant à aligner les besoins en compétences individuelles et collectives avec les objectifs organisationnels et l'apprentissage continu.",
+      "mission": null,
+      "definitionEtObjectifs": "La démarche compétence est un processus structuré et continu engagé par CIPREL pour identifier, évaluer, développer et mobiliser l'ensemble des compétences (savoirs, savoir-faire et savoir-être). Son objectif principal est l'adéquation profil poste, en parfait alignement avec la stratégie du groupe ERANOVE.",
+      "beneficesPourCiprel": "Accroître la performance économique et sociale en préservant les compétences et l'expertise interne. Optimisation des ressources et meilleure adéquation entre les besoins de l'entreprise et les compétences disponibles.",
+      "beneficesPourPersonnel": "Accroître et entretenir leur capital compétences, les valoriser dans le cadre d'un plan de développement professionnel, et développer l'employabilité et l'engagement.",
+      "laCompetence": {
+        "definition": "La compétence (technique ou comportementale) est définie comme une capacité démontrée à appliquer des connaissances, des aptitudes et du savoir-être, dans le but d'obtenir des résultats observables.",
+        "savoir": "L'ensemble des connaissances cumulées grâce aux études, à l'expérience et à la formation.",
+        "savoirFaire": "La capacité à assurer des tâches techniques ou managériales.",
+        "savoirEtre": "Les capacités cognitives et relationnelles (esprit d'analyse, objectivité, réactivité, sens du service, etc.). Il est considéré comme le ciment qui réunit les aptitudes et les connaissances."
+      },
+      "slogans": [],
+      "competencesCles": null,
+      "outils": [
+        "Vidéo 2D référentiel",
+        "Landing Page (Plateforme Démarche Compétence)"
+      ],
+      "statut": true,
+      "ordre": 1
+    },
+    {
+      "id": 2,
+      "slug": "production-aout-2025",
+      "titre": "Métiers de la Production",
+      "periode": "Août 2025",
+      "phase": 1,
+      "description": null,
+      "mission": "Être le chef d'orchestre de la centrale, s'assurer que tout fonctionne 24H/24H. Produire de l'électricité en toute sécurité, en permanence et en répondant aux besoins du pays. Piloter chaque paramètre de l'installation et ajuster la production en temps réel.",
+      "definitionEtObjectifs": null,
+      "beneficesPourCiprel": null,
+      "beneficesPourPersonnel": null,
+      "laCompetence": null,
+      "slogans": [
+        "L'excellence opérationnelle passe par des compétences solides !",
+        "Chaque geste compte pour garantir une production fiable et performante",
+        "Maîtriser nos compétences, c'est assurer l'énergie de demain",
+        "Produire mieux, produire sûr !"
+      ],
+      "competencesCles": {
+        "savoir": "Maîtriser les procédures et pratiques professionnelles",
+        "savoirFaire": "Pilotage des installations, rigueur dans l'exécution, réactivité",
+        "savoirEtre": "Sens aigu de la responsabilité et les valeurs FEERIC"
+      },
+      "outils": [
+        "Vidéo 2D explicative des référentiels techniques",
+        "Quiz intégré dans la landing page",
+        "Séance de formation avec les managers"
+      ],
+      "statut": true,
+      "ordre": 2
+    },
+    {
+      "id": 3,
+      "slug": "sidt-septembre-2025",
+      "titre": "Métiers du SIDT (Systèmes d'Information)",
+      "periode": "Septembre 2025",
+      "phase": 1,
+      "description": null,
+      "mission": null,
+      "definitionEtObjectifs": null,
+      "beneficesPourCiprel": null,
+      "beneficesPourPersonnel": null,
+      "laCompetence": null,
+      "slogans": [
+        "Mettre à disposition des systèmes d'information fiables, accessibles et sécurisés",
+        "Des systèmes d'information efficaces et sécurisés pour une performance sereine",
+        "L'efficacité au service de votre croissance, la sécurité au cœur de votre confiance"
+      ],
+      "competencesCles": null,
+      "outils": [
+        "Vidéo 2D explicative des référentiels techniques",
+        "Quiz intégré dans la landing page",
+        "Séance de formation avec les managers"
+      ],
+      "statut": true,
+      "ordre": 3
+    },
+    {
+      "id": 4,
+      "slug": "maintenance-octobre-2025",
+      "titre": "Métiers de la Maintenance",
+      "periode": "Octobre 2025",
+      "phase": 1,
+      "description": null,
+      "mission": "Le travail est à 80 % de la prévention. Anticiper les problèmes pour éviter un incident majeur et assurer que la Centrale ne s'arrête jamais de manière imprévue.",
+      "definitionEtObjectifs": null,
+      "beneficesPourCiprel": null,
+      "beneficesPourPersonnel": null,
+      "laCompetence": null,
+      "slogans": [
+        "Prévenir, Anticiper, réparer, innover : la compétence au service de la performance !",
+        "Un bon entretien, c'est une production sans interruption",
+        "Chaque intervention préserve la performance"
+      ],
+      "competencesCles": {
+        "savoir": "Maîtrise des procédures, des gammes, des normes et des fiches techniques",
+        "savoirFaire": "Rigueur, rapidité de diagnostic, précision",
+        "savoirEtre": "Minutie, responsabilité et innovation"
+      },
+      "outils": [
+        "Vidéo 2D explicative des référentiels techniques",
+        "Quiz intégré dans la landing page",
+        "Séance de formation avec les managers"
+      ],
+      "statut": true,
+      "ordre": 4
+    },
+    {
+      "id": 5,
+      "slug": "qse-rse-surete-novembre-2025",
+      "titre": "Métiers des QSE-RSE et de la Sûreté",
+      "periode": "Novembre 2025",
+      "phase": 1,
+      "description": null,
+      "mission": "Faire de la qualité, de la sécurité et de la sûreté une valeur fondamentale et un avantage compétitif. Assurer la protection du personnel et des actifs (rôle de la Sûreté).",
+      "definitionEtObjectifs": null,
+      "beneficesPourCiprel": null,
+      "beneficesPourPersonnel": null,
+      "laCompetence": null,
+      "slogans": [
+        "Agir responsable, opérer en sécurité, exceller en qualité : la clé de votre prospérité durable",
+        "Excellence, Responsabilité, Sûreté : L'équation de notre performance",
+        "Des processus sécurisés et sûrs, une énergie fiable"
+      ],
+      "competencesCles": {
+        "savoir": "Maîtriser les procédures, pratiques professionnelles, normes et règles applicables en matière de QSE, RSE et Sûreté",
+        "savoirFaire": "Grande rigueur, sens aigu de la responsabilité",
+        "savoirEtre": "Capacité à anticiper les risques"
+      },
+      "outils": [
+        "Vidéo 2D explicative des référentiels techniques",
+        "Quiz intégré dans la landing page",
+        "Séance de formation avec les managers"
+      ],
+      "statut": true,
+      "ordre": 5
+    },
+    {
+      "id": 6,
+      "slug": "controle-interne-janvier-2026",
+      "titre": "Métiers du Contrôle Interne",
+      "periode": "Janvier 2026",
+      "phase": 2,
+      "description": null,
+      "mission": null,
+      "definitionEtObjectifs": null,
+      "beneficesPourCiprel": null,
+      "beneficesPourPersonnel": null,
+      "laCompetence": null,
+      "slogans": [
+        "Sécurité, Qualité, Gestion de risque : nos compétences protègent notre Activité",
+        "Sans contrôle, le risque prend le contrôle !",
+        "Gérer les risques aujourd'hui, protéger la performance de demain !"
+      ],
+      "competencesCles": null,
+      "outils": [
+        "Vidéo 2D explicative des référentiels techniques",
+        "Quiz intégré dans la landing page",
+        "Séance de formation avec les managers"
+      ],
+      "statut": true,
+      "ordre": 6
+    },
+    {
+      "id": 7,
+      "slug": "gestion-stocks-fevrier-2026",
+      "titre": "Métiers de la Gestion des Stocks",
+      "periode": "Février 2026",
+      "phase": 2,
+      "description": null,
+      "mission": null,
+      "definitionEtObjectifs": null,
+      "beneficesPourCiprel": null,
+      "beneficesPourPersonnel": null,
+      "laCompetence": null,
+      "slogans": [
+        "Optimiser les ressources, fluidifier l'activité : notre expertise fait la différence !",
+        "Stock biens gérés, temps d'arrêt écourté",
+        "Ensemble pour un stock justes, propres et prêts"
+      ],
+      "competencesCles": null,
+      "outils": [
+        "Vidéo 2D explicative des référentiels techniques",
+        "Quiz intégré dans la landing page",
+        "Séance de formation avec les managers"
+      ],
+      "statut": true,
+      "ordre": 7
+    },
+    {
+      "id": 8,
+      "slug": "rh-juridique-mars-2026",
+      "titre": "Métiers des RH et du Service Juridique",
+      "periode": "Mars 2026",
+      "phase": 2,
+      "description": null,
+      "mission": null,
+      "definitionEtObjectifs": null,
+      "beneficesPourCiprel": null,
+      "beneficesPourPersonnel": null,
+      "laCompetence": null,
+      "slogans": [
+        "L'humain, et la maîtrise des règles : nos compétences garantissent la cohésion !",
+        "Des talents bien gérés, une entreprise bien protégée",
+        "Respect des normes, équité et engagement : la base d'une croissance durable"
+      ],
+      "competencesCles": null,
+      "outils": [
+        "Vidéo 2D explicative des référentiels techniques",
+        "Quiz intégré dans la landing page",
+        "Séance de formation avec les managers"
+      ],
+      "statut": true,
+      "ordre": 8
+    },
+    {
+      "id": 9,
+      "slug": "services-generaux-avril-2026",
+      "titre": "Métiers des Services Généraux",
+      "periode": "Avril 2026",
+      "phase": 2,
+      "description": null,
+      "mission": null,
+      "definitionEtObjectifs": null,
+      "beneficesPourCiprel": null,
+      "beneficesPourPersonnel": null,
+      "laCompetence": null,
+      "slogans": [
+        "Faciliter, entretenir, protéger : nous créons les conditions de la performance",
+        "Les Services Généraux, ce sont les coulisses qui font briller le quotidien",
+        "Un cadre de travail propre, sûr et fonctionnel, c'est l'affaire de tous"
+      ],
+      "competencesCles": null,
+      "outils": [
+        "Vidéo 2D explicative des référentiels techniques",
+        "Quiz intégré dans la landing page",
+        "Séance de formation avec les managers"
+      ],
+      "statut": true,
+      "ordre": 9
+    },
+    {
+      "id": 10,
+      "slug": "dfc-mai-2026",
+      "titre": "Métiers de la DFC (Direction Financière et Comptable)",
+      "periode": "Mai 2026",
+      "phase": 2,
+      "description": null,
+      "mission": null,
+      "definitionEtObjectifs": null,
+      "beneficesPourCiprel": null,
+      "beneficesPourPersonnel": null,
+      "laCompetence": null,
+      "slogans": [
+        "Gouvernance, Gestion, Stratégie, Fiabilité : la compétence au cœur de la performance !",
+        "Rigueur, anticipation et engagement : les piliers d'une gestion efficace",
+        "Des chiffres fiables pour des décisions solides"
+      ],
+      "competencesCles": null,
+      "outils": [
+        "Vidéo 2D explicative des référentiels techniques",
+        "Quiz intégré dans la landing page",
+        "Séance de formation avec les managers"
+      ],
+      "statut": true,
+      "ordre": 10
+    },
+    {
+      "id": 11,
+      "slug": "projets-juin-2026",
+      "titre": "Métiers PROJETS",
+      "periode": "Juin 2026",
+      "phase": 2,
+      "description": null,
+      "mission": null,
+      "definitionEtObjectifs": null,
+      "beneficesPourCiprel": null,
+      "beneficesPourPersonnel": null,
+      "laCompetence": null,
+      "slogans": [
+        "Imaginer, concevoir, bâtir : les compétences qui construisent l'activité !",
+        "Chaque défi est une opportunité d'agrandir et d'innover pour notre activité"
+      ],
+      "competencesCles": null,
+      "outils": [
+        "Vidéo 2D explicative des référentiels techniques",
+        "Quiz intégré dans la landing page",
+        "Séance de formation avec les managers"
+      ],
+      "statut": true,
+      "ordre": 11
+    },
+    {
+      "id": 12,
+      "slug": "achats-logistique-juillet-2026",
+      "titre": "Métiers des Achats & Logistique",
+      "periode": "Juillet 2026",
+      "phase": 2,
+      "description": null,
+      "mission": null,
+      "definitionEtObjectifs": null,
+      "beneficesPourCiprel": null,
+      "beneficesPourPersonnel": null,
+      "laCompetence": null,
+      "slogans": [
+        "Anticiper, approvisionner, livrer : chaque ressource compte !",
+        "Bien acheter, c'est produire avec qualité et maîtrise",
+        "Le bon produit, au bon moment, au bon endroit"
+      ],
+      "competencesCles": null,
+      "outils": [
+        "Vidéo 2D explicative des référentiels techniques",
+        "Quiz intégré dans la landing page",
+        "Séance de formation avec les managers",
+        "Affiches",
+        "Quiz interactif et plateforme d'évaluation"
+      ],
+      "statut": true,
+      "ordre": 12
+    }
+  ]
+}

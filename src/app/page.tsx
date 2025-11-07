@@ -51,7 +51,6 @@ const SLIDE_TITLES = [
   'Guide',
   'Objectifs',
   'Modules',
-  'Vidéos',
   'Plateforme'
 ]
 
@@ -95,7 +94,7 @@ export default function HomePage() {
   const [logoutModalOpen, setLogoutModalOpen] = useState(false)
   const [videoSectionMarked, setVideoSectionMarked] = useState(false)
   const swiperRef = useRef<SwiperType | null>(null)
-  const totalSlides = 7
+  const totalSlides = 6
   const practiceVideos = PRACTICE_VIDEOS
   const resetQuiz = useQuizStore(state => state.resetQuiz)
   const router = useRouter()
@@ -142,12 +141,7 @@ export default function HomePage() {
         { threshold: 0.5 }
       )
 
-      // Observer les deux versions de la section vidéos (desktop et mobile)
-      const videoSectionDesktop = document.querySelector('#videos-section')
-      const videoSectionMobile = document.querySelector('#application-pratique')
-
-      if (videoSectionDesktop) observer.observe(videoSectionDesktop)
-      if (videoSectionMobile) observer.observe(videoSectionMobile)
+      // La section vidéos a été supprimée, ce code n'est plus nécessaire
 
       return () => {
         observer.disconnect()
@@ -312,46 +306,94 @@ export default function HomePage() {
           {/* HERO SECTION */}
         <section className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-green-50 via-white to-ciprel-orange-50">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
-          {/* Logo CIPREL + Badge 30 ans */}
-          <div className="flex items-center justify-center gap-8 mb-8 flex-wrap">
-            <img src="/images/logo.webp" alt="CIPREL" className="h-20 w-auto object-contain drop-shadow-lg" />
-            <img src="/images/30ans.png" alt="30 ans CIPREL" className="h-20 w-auto object-contain drop-shadow-lg" />
+
+          {/* Hero Header with logos on sides */}
+          <div className="flex items-center justify-center gap-6 mb-6 flex-wrap">
+            <img src="/images/logo.webp" alt="CIPREL" className="h-12 w-auto object-contain drop-shadow-lg" />
+            <h1 className="text-3xl md:text-4xl font-bold text-ciprel-orange-600 whitespace-nowrap">
+              Bienvenue sur la Démarche Compétence
+            </h1>
+            <img src="/images/30ans.png" alt="30 ans CIPREL" className="h-12 w-auto object-contain drop-shadow-lg" />
           </div>
 
-          {/* Titre principal */}
-          <h1 className="text-4xl md:text-5xl font-bold text-center text-ciprel-black mb-4">
-            La Démarche Compétence CIPREL
-          </h1>
+          <p className="text-center text-gray-700 text-lg mb-8 max-w-3xl mx-auto">
+            <strong>Développer nos compétences, c'est nourrir notre énergie collective.</strong>
+          </p>
 
-          {/* Sous-titre */}
-          <h2 className="text-xl md:text-2xl text-center text-gray-700 mb-8 font-light">
-            Développez vos talents, construisez votre avenir professionnel
-          </h2>
+          {/* Two Columns Content */}
+          <div className="grid md:grid-cols-2 gap-8 mb-8">
 
-          {/* Contexte et enjeux - Slide 3 */}
-          <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-xl p-8 md:p-10 mb-8 border border-gray-100">
-            <div className="prose prose-lg max-w-none">
-              <p className="text-gray-700 leading-relaxed mb-4">
-                Véritable <strong>boussole du management stratégique</strong>, la démarche compétence se veut être un outil d'alignement des besoins en compétences individuelles et collectives avec les objectifs organisationnels et d'apprentissage continu.
-              </p>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                Ainsi et conscient de l'importance de cette gestion dynamique et efficiente du capital humain, <strong>CIPREL s'est engagée dans une démarche compétence</strong> ayant pour objectif l'adéquation profil-poste et ce en parfait alignement avec la stratégie du groupe ERANOVE.
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                C'est dans cette optique que la direction des ressources humaines a opté pour une démarche de déploiement basée sur <strong>la communication interne et l'animation</strong> afin d'assurer l'ancrage du contenu de la démarche compétence ainsi que son appropriation effective par toutes les parties prenantes internes.
-              </p>
+            {/* Left Column - La Démarche */}
+            <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 border border-gray-100">
+              <h3 className="text-xl font-bold text-ciprel-orange-600 mb-4 flex items-center">
+                <Target className="h-6 w-6 mr-3 text-ciprel-orange-600" />
+                La Démarche Compétence
+              </h3>
+
+              <div className="space-y-4">
+                <p className="text-gray-700 leading-relaxed">
+                  Chez CIPREL, nous sommes convaincus que la <strong>performance durable repose sur la force des compétences collectives</strong>.
+                </p>
+
+                <p className="text-gray-700 leading-relaxed">
+                  La Démarche Compétence est un <strong>projet stratégique</strong> qui vise à identifier, développer et valoriser les savoirs, savoir-faire et savoir-être de chacun.
+                </p>
+
+                <p className="text-gray-700 leading-relaxed">
+                  Elle illustre notre volonté de faire grandir à la fois l'entreprise et ses collaborateurs, dans l'esprit de nos valeurs <strong>FEERIC</strong> : Force du collectif, Engagement, Équité, Respect, Innovation et Convivialité.
+                </p>
+
+                <div className="bg-ciprel-orange-50 border-l-4 border-ciprel-orange-600 p-4 mt-4">
+                  <p className="text-gray-800 italic font-semibold">
+                    Plus qu'un simple projet, cette démarche est un <strong>voyage collectif</strong> : comprendre ce que nous faisons, pourquoi nous le faisons et comment nous pouvons le faire encore mieux, ensemble.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Contents */}
+            <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 border border-gray-100">
+              <h3 className="text-xl font-bold text-ciprel-green-600 mb-4 flex items-center">
+                <BookOpen className="h-6 w-6 mr-3 text-ciprel-green-600" />
+                Sur cette page
+              </h3>
+
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-semibold text-ciprel-black mb-2">Nos axes de communication :</h4>
+                  <ul className="space-y-2 ml-4">
+                    <li className="text-gray-700">
+                      <span className="font-semibold text-ciprel-orange-600">•</span> La valorisation des métiers
+                    </li>
+                    <li className="text-gray-700">
+                      <span className="font-semibold text-ciprel-orange-600">•</span> Les valeurs FEERIC en action
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="border-t pt-4">
+                  <h4 className="font-semibold text-ciprel-black mb-2">Vous découvrirez :</h4>
+                  <ul className="space-y-2 ml-4 text-sm">
+                    <li className="text-gray-700"><span className="font-semibold text-ciprel-green-600">•</span> Des workshops métiers interactifs</li>
+                    <li className="text-gray-700"><span className="font-semibold text-ciprel-green-600">•</span> Des newsletters</li>
+                    <li className="text-gray-700"><span className="font-semibold text-ciprel-green-600">•</span> Des capsules vidéo métiers</li>
+                    <li className="text-gray-700"><span className="font-semibold text-ciprel-green-600">•</span> Des quiz et témoignages</li>
+                    <li className="text-gray-700"><span className="font-semibold text-ciprel-green-600">•</span> Tous les supports et outils à télécharger</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* CTA Button */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex justify-center">
             <button
               type="button"
-              onClick={() => handleSlideTo(2)}
+              onClick={() => openModal('introduction')}
               className="bg-ciprel-green-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
             >
-              <BookOpen className="h-5 w-5 mr-2" />
-              Découvrir le guide complet
+              <ChevronDown className="h-5 w-5 mr-2" />
+              Accéder à l'introduction
             </button>
           </div>
         </div>
@@ -701,63 +743,6 @@ export default function HomePage() {
         </section>
         </SwiperSlide>
 
-        <SwiperSlide>
-          {/* SECTION APPLICATION PRATIQUE - Slide 6 (Vidéos) */}
-        <section
-          id="videos-section"
-          className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50">
-          <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
-          <div className="text-center mb-12">
-            <span className="bg-ciprel-orange-100 text-ciprel-orange-800 px-4 py-2 rounded-full text-sm font-semibold inline-block mb-4">
-              Application pratique
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-ciprel-black mb-4">
-              Application pratique de votre démarche compétences
-            </h2>
-            <p className="text-gray-600 text-lg max-w-3xl mx-auto">
-              Inspirez-vous de cas concrets pour déployer la démarche compétences sur le terrain.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {practiceVideos.map((video, index) => (
-              <button
-                key={video.id}
-                onClick={() => openVideoModal(index)}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-200 hover:scale-105 cursor-pointer text-left group"
-              >
-                <div className="relative aspect-video bg-gradient-to-br from-ciprel-orange-100 to-ciprel-green-100">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="bg-white/90 rounded-full p-6 group-hover:bg-ciprel-orange-500 group-hover:scale-110 transition-all duration-300 shadow-lg">
-                      <svg className="h-12 w-12 text-ciprel-orange-500 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="absolute top-3 right-3 bg-ciprel-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                    Vidéo {video.id}
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-ciprel-black mb-2 group-hover:text-ciprel-orange-600 transition-colors">
-                    {video.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm">
-                    {video.description}
-                  </p>
-                  <div className="mt-4 text-ciprel-orange-600 font-semibold text-sm flex items-center">
-                    <span>Visionner</span>
-                    <svg className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </div>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-        </section>
-        </SwiperSlide>
 
         <SwiperSlide>
           {/* SECTION PLATEFORME - Slide 7 (Plateforme) */}
