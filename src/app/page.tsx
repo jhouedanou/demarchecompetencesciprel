@@ -51,8 +51,6 @@ type SectionType = 'introduction' | 'dialectique' | 'synoptique' | 'leviers' | '
 const SLIDE_TITLES = [
   'Bienvenue',
   'Définition',
-  'Valeurs FEERIC',
-  'Métiers',
   'Guide',
   'Objectifs',
   'Modules',
