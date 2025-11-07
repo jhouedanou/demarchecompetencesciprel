@@ -88,8 +88,16 @@ export async function middleware(req: NextRequest) {
     return supabaseResponse
   }
 
-  // Rediriger vers login si pas authentifié sur route protégée
+  // Vérifier l'authentification admin locale pour les routes /admin
+  const isAdminRoute = adminRoutes.some(route => pathname.startsWith(route))
+  const hasLocalAdminAuth = typeof window !== 'undefined' ? false : true // Note: Pas d'accès window côté serveur
+
+  // Rediriger vers login si pas authentifié sur route protégée (sauf /admin qui a sa propre auth)
   if (protectedRoutes.some(route => pathname.startsWith(route)) && !session) {
+    // Pour /admin, on peut accéder sans session Supabase (auth admin locale)
+    if (isAdminRoute) {
+      return supabaseResponse
+    }
     url.pathname = '/login'
     url.searchParams.set('redirect', pathname)
     const redirectResponse = NextResponse.redirect(url)
@@ -97,7 +105,7 @@ export async function middleware(req: NextRequest) {
     return redirectResponse
   }
 
-  // Vérifier les permissions admin
+  // Vérifier les permissions admin (seulement si session Supabase existe)
   if (adminRoutes.some(route => pathname.startsWith(route)) && session) {
     // Récupérer le profil utilisateur pour vérifier le rôle
     const { data: profile } = await supabase
@@ -107,7 +115,7 @@ export async function middleware(req: NextRequest) {
       .single()
 
     if (!profile || !['ADMIN', 'MANAGER'].includes(profile.role)) {
-      // Rediriger vers la porte d'accès admin si pas les bonnes permissions
+      // Rediriger vers la porte d'accès admin si pas les bonnes permissions Supabase
       url.pathname = '/ciprel-admin'
       const redirectResponse = NextResponse.redirect(url)
       mergeSupabaseCookies(supabaseResponse, redirectResponse)
