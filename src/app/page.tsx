@@ -768,12 +768,6 @@ export default function HomePage() {
               </button>
             </div>
 
-            <div className="bg-gradient-to-r from-ciprel-green-50 to-ciprel-orange-50 border-2 border-ciprel-green-200 rounded-xl p-6 text-center mb-8">
-              <p className="text-ciprel-black font-semibold text-lg">
-                📚 <strong>Important :</strong> Vous devez lire toutes les sections pour débloquer l'accès aux quiz et sondages.
-              </p>
-            </div>
-
             {/* Navigation Buttons */}
             <div className="flex justify-center gap-4">
               <button
@@ -850,7 +844,7 @@ export default function HomePage() {
 
           {/* Quiz et Sondage */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {user && canAccessQuiz() ? (
+            {user ? (
               <button
                 type="button"
                 onClick={openQuizModal}
@@ -862,7 +856,7 @@ export default function HomePage() {
                 </div>
                 <p className="text-ciprel-green-100 mb-4">Testez vos connaissances sur la démarche compétence</p>
                 <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
-                  ✓ Modules complétés - Accès débloqué
+                  ✓ Accès débloqué
                 </div>
               </button>
             ) : (
@@ -873,12 +867,12 @@ export default function HomePage() {
                 </div>
                 <p className="text-gray-400 mb-4">Testez vos connaissances sur la démarche compétence</p>
                 <div className="text-sm bg-gray-400 text-white rounded-lg px-3 py-2 inline-block">
-                  🔒 Lisez tous les modules pour débloquer
+                  🔒 Connectez-vous pour accéder
                 </div>
               </div>
             )}
 
-            {user && canAccessQuiz() ? (
+            {user ? (
               <button
                 type="button"
                 onClick={() => setSurveyModalOpen(true)}
@@ -891,7 +885,7 @@ export default function HomePage() {
                 </div>
                 <p className="text-ciprel-orange-100 mb-4">Partagez votre avis et vos suggestions d'amélioration</p>
                 <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
-                  ✓ Modules complétés - Accès débloqué
+                  ✓ Accès débloqué
                 </div>
               </button>
             ) : (
@@ -902,7 +896,7 @@ export default function HomePage() {
                 </div>
                 <p className="text-gray-400 mb-4">Partagez votre avis et vos suggestions d'amélioration</p>
                 <div className="text-sm bg-gray-400 text-white rounded-lg px-3 py-2 inline-block">
-                  🔒 Lisez tous les modules pour débloquer
+                  🔒 Connectez-vous pour accéder
                 </div>
               </div>
             )}
@@ -1185,12 +1179,6 @@ export default function HomePage() {
                 </button>
               </div>
 
-              <div className="bg-gradient-to-r from-ciprel-green-50 to-ciprel-orange-50 border-2 border-ciprel-green-200 rounded-xl p-6 text-center mb-8">
-                <p className="text-ciprel-black font-semibold text-lg">
-                  📚 <strong>Important :</strong> Vous devez lire toutes les sections pour débloquer l'accès aux quiz et sondages.
-                </p>
-              </div>
-
               <div className="flex justify-center">
                 <a
                   href="#plateforme"
@@ -1273,7 +1261,7 @@ export default function HomePage() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {user && canAccessQuiz() ? (
+                {user ? (
                   <button
                     type="button"
                     onClick={openQuizModal}
@@ -1285,7 +1273,7 @@ export default function HomePage() {
                     </div>
                     <p className="text-ciprel-green-100 mb-4">Testez vos connaissances sur la démarche compétence</p>
                     <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
-                      ✓ Modules complétés - Accès débloqué
+                      ✓ Accès débloqué
                     </div>
                   </button>
                 ) : (
@@ -1296,12 +1284,12 @@ export default function HomePage() {
                     </div>
                     <p className="text-gray-400 mb-4">Testez vos connaissances sur la démarche compétence</p>
                     <div className="text-sm bg-gray-400 text-white rounded-lg px-3 py-2 inline-block">
-                      🔒 Lisez tous les modules pour débloquer
+                      🔒 Connectez-vous pour accéder
                     </div>
                   </div>
                 )}
 
-                {user && canAccessQuiz() ? (
+                {user ? (
                   <button
                     type="button"
                     onClick={() => setSurveyModalOpen(true)}
@@ -1314,7 +1302,7 @@ export default function HomePage() {
                     </div>
                     <p className="text-ciprel-orange-100 mb-4">Partagez votre avis et vos suggestions d'amélioration</p>
                     <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
-                      ✓ Modules complétés - Accès débloqué
+                      ✓ Accès débloqué
                     </div>
                   </button>
                 ) : (
@@ -1325,7 +1313,7 @@ export default function HomePage() {
                     </div>
                     <p className="text-gray-400 mb-4">Partagez votre avis et vos suggestions d'amélioration</p>
                     <div className="text-sm bg-gray-400 text-white rounded-lg px-3 py-2 inline-block">
-                      🔒 Lisez tous les modules pour débloquer
+                      🔒 Connectez-vous pour accéder
                     </div>
                   </div>
                 )}
