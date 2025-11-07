@@ -10,6 +10,7 @@ import ProgressTracker from '@/components/reading/ProgressTracker'
 import { useUser } from '@/lib/supabase/client'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
 import { useQuizStore } from '@/stores/quiz-store'
+import { useAuthStore } from '@/stores/auth-store'
 import { LoadingScreen } from '@/components/ui/loading-screen'
 import { ContentSkeleton } from '@/components/ui/content-skeleton'
 
@@ -41,7 +42,8 @@ import {
   ChevronDown,
   ChevronUp,
   Menu,
-  X
+  X,
+  LogOut
 } from 'lucide-react'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
 import { useRouter } from 'next/navigation'
@@ -92,6 +94,7 @@ interface ActiveMetier {
 export default function HomePage() {
   const { user, loading } = useUser()
   const { sections, canAccessQuiz, markSectionCompleted } = useReadingProgress(user)
+  const { signOut } = useAuthStore()
   const [activeModal, setActiveModal] = useState<SectionType>(null)
   const [activeSlide, setActiveSlide] = useState(0)
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -304,6 +307,21 @@ export default function HomePage() {
                   Se connecter
                 </button>
               </div>
+            </div>
+          )}
+
+          {/* Logout Button pour utilisateurs connectés */}
+          {user && (
+            <div className="pt-4 border-t border-gray-200">
+              <button
+                onClick={async () => {
+                  await signOut()
+                }}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+              >
+                <LogOut className="h-4 w-4" />
+                Se déconnecter
+              </button>
             </div>
           )}
         </div>
