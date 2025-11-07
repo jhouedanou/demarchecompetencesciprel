@@ -260,9 +260,7 @@ export default function HomePage() {
         <div className="p-6 space-y-8">
           {/* Navigation des Slides - Affichée pour tous */}
           <div className="space-y-2">
-            <h4 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">
-              Slides
-            </h4>
+          
             <div className="space-y-2">
               {SLIDE_TITLES.map((slideName, index) => (
                 <button
