@@ -17,13 +17,18 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   useEffect(() => {
     if (!isLoading) {
-      if (!isAuthenticated) {
+      // Vérifier si l'utilisateur est authentifié localement (admin)
+      const hasLocalAdminAuth = typeof window !== 'undefined'
+        ? localStorage.getItem('ciprel-admin-auth') === 'authenticated'
+        : false
+
+      if (!isAuthenticated && !hasLocalAdminAuth) {
         router.push('/login')
         return
       }
 
-      // Vérifier si l'utilisateur a les permissions admin
-      if (user && !['ADMIN', 'MANAGER'].includes(user.role)) {
+      // Vérifier si l'utilisateur a les permissions admin (seulement si authentifié via Supabase)
+      if (isAuthenticated && user && !['ADMIN', 'MANAGER'].includes(user.role)) {
         router.push('/competences')
         return
       }
@@ -38,7 +43,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     )
   }
 
-  if (!isAuthenticated || !user || !['ADMIN', 'MANAGER'].includes(user.role)) {
+  // Vérifier si l'utilisateur est authentifié (Supabase ou localement)
+  const hasLocalAdminAuth = typeof window !== 'undefined'
+    ? localStorage.getItem('ciprel-admin-auth') === 'authenticated'
+    : false
+
+  const isAuthorized = hasLocalAdminAuth || (isAuthenticated && user && ['ADMIN', 'MANAGER'].includes(user.role))
+
+  if (!isAuthorized) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
