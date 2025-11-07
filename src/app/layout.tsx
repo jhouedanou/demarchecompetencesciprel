@@ -5,6 +5,7 @@ import './globals.css'
 import { AuthProvider } from '@/components/auth/AuthProvider'
 import { GlobalLoginGate } from '@/components/auth/GlobalLoginGate'
 import { CookieBanner } from '@/components/gdpr/CookieBanner'
+import { AdminProvider } from '@/contexts/AdminContext'
 import { ENV } from '@/lib/utils/constants'
 
 const questrial = Questrial({
@@ -98,14 +99,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <meta name="apple-mobile-web-app-title" content={ENV.SITE_NAME} />
       </head>
       <body className="font-sans antialiased">
-        <AuthProvider>
-          <div className="relative min-h-screen bg-background">
-            <main className="relative z-0">
-              {children}
-            </main>
+        <AdminProvider>
+          <AuthProvider>
+            <div className="relative min-h-screen bg-background">
+              <main className="relative z-0">
+                {children}
+              </main>
 
-            {/* Global login modal gate */}
-            <GlobalLoginGate />
+              {/* Global login modal gate */}
+              <GlobalLoginGate />
 
             {/* Toast Notifications */}
             <Toaster
@@ -135,10 +137,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
               }}
             />
 
-            {/* GDPR Cookie Banner */}
-            {ENV.GDPR_ENABLED && <CookieBanner />}
-          </div>
-        </AuthProvider>
+              {/* GDPR Cookie Banner */}
+              {ENV.GDPR_ENABLED && <CookieBanner />}
+            </div>
+          </AuthProvider>
+        </AdminProvider>
 
         {/* Structured Data */}
         <script

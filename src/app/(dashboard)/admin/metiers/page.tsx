@@ -1,7 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Loader2, Save, AlertCircle, CheckCircle } from 'lucide-react'
+import { Loader2, AlertCircle, CheckCircle, LogOut } from 'lucide-react'
+import { useAdmin } from '@/contexts/AdminContext'
+import { useRouter } from 'next/navigation'
 
 interface Metier {
   id: number
@@ -29,11 +31,20 @@ interface ApiResponse {
 }
 
 export default function AdminMetiersPage() {
+  const { isAdminAuthenticated, adminUsername, logoutAdmin } = useAdmin()
+  const router = useRouter()
   const [metiers, setMetiers] = useState<Metier[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
   const [expandedId, setExpandedId] = useState<number | null>(null)
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!isAdminAuthenticated) {
+      router.push('/admin')
+    }
+  }, [isAdminAuthenticated, router])
 
   // Fetch metiers on mount
   useEffect(() => {
@@ -128,6 +139,10 @@ export default function AdminMetiersPage() {
     }
   }
 
+  if (!isAdminAuthenticated) {
+    return null
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -144,8 +159,27 @@ export default function AdminMetiersPage() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">Gestion des Métiers</h1>
-          <p className="text-gray-600 mt-2">Gérez l'activation et l'ordre d'affichage des blocs métiers</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Gestion des Métiers</h1>
+              <p className="text-gray-600 mt-2">Gérez l'activation et l'ordre d'affichage des blocs métiers</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-gray-700">
+                Connecté en tant que: <strong>{adminUsername}</strong>
+              </span>
+              <button
+                onClick={() => {
+                  logoutAdmin()
+                  router.push('/admin')
+                }}
+                className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+                Déconnexion
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
