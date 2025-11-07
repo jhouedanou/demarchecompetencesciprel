@@ -258,9 +258,11 @@ export default function HomePage() {
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         <div className="p-6 space-y-8">
-          {/* Navigation des Slides - Affichée pour tous */}
+          {/* Navigation des Slides - UNE SEULE NAVIGATION pour tous */}
           <div className="space-y-2">
-          
+            <h4 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">
+              Slides
+            </h4>
             <div className="space-y-2">
               {SLIDE_TITLES.map((slideName, index) => (
                 <button
@@ -303,25 +305,6 @@ export default function HomePage() {
                 </button>
               </div>
             </div>
-          )}
-
-          {/* ProgressTracker pour utilisateurs connectés */}
-          {user && (
-            <>
-              <div className="border-t border-gray-200" />
-              <ProgressTracker
-                onLinkClick={() => setSidebarOpen(false)}
-                onSectionClick={(sectionId) => {
-                  openModal(sectionId as SectionType)
-                }}
-                onSlideClick={(slideIndex) => {
-                  handleSlideTo(slideIndex)
-                }}
-                slideNames={SLIDE_TITLES}
-                currentSlide={activeSlide}
-                isMetierActive={!!activeMetier}
-              />
-            </>
           )}
         </div>
       </aside>
