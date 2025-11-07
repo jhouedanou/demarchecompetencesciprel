@@ -8,7 +8,6 @@ import {
   LayoutDashboard,
   Users,
   Brain,
-  Video,
   BarChart3,
   Settings,
   Shield,
@@ -32,11 +31,6 @@ const navigation = [
     name: 'Questions Quiz',
     href: '/admin/questions',
     icon: Brain,
-  },
-  {
-    name: 'Vidéos',
-    href: '/admin/videos',
-    icon: Video,
   },
   {
     name: 'Résultats',

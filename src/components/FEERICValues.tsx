@@ -1,6 +1,12 @@
 'use client'
 
-import { Heart, Users, Scale, Hand, Lightbulb, Smile } from 'lucide-react'
+import { Heart, Users, Scale, Hand, Lightbulb, Smile, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useRef } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation } from 'swiper/modules'
+import type { Swiper as SwiperType } from 'swiper'
+import 'swiper/css'
+import 'swiper/css/navigation'
 
 const FEERIC_VALUES = [
   {
@@ -54,6 +60,8 @@ const FEERIC_VALUES = [
 ]
 
 export function FEERICValues() {
+  const swiperRef = useRef<any>(null)
+
   return (
     <div className="space-y-10">
       {/* Header */}
@@ -69,29 +77,63 @@ export function FEERICValues() {
         </p>
       </div>
 
-      {/* Values Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {FEERIC_VALUES.map((value, idx) => {
-          const Icon = value.icon
-          return (
-            <div key={idx} className={`${value.color} border rounded-xl p-8 transition-transform hover:scale-105`}>
-              <div className="flex items-start gap-4 mb-4">
-                <div className="flex-shrink-0">
-                  <div className={`w-12 h-12 rounded-lg bg-white flex items-center justify-center`}>
-                    <Icon className={`w-6 h-6 ${value.textColor}`} />
+      {/* Values Slider */}
+      <div className="relative">
+        <Swiper
+          ref={swiperRef}
+          modules={[Navigation]}
+          spaceBetween={24}
+          slidesPerView={1}
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+            },
+            1024: {
+              slidesPerView: 3,
+            },
+          }}
+          className="feeric-swiper"
+        >
+          {FEERIC_VALUES.map((value, idx) => {
+            const Icon = value.icon
+            return (
+              <SwiperSlide key={idx}>
+                <div className={`${value.color} border rounded-xl p-8 transition-transform hover:scale-105 h-full`}>
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="flex-shrink-0">
+                      <div className={`w-12 h-12 rounded-lg bg-white flex items-center justify-center`}>
+                        <Icon className={`w-6 h-6 ${value.textColor}`} />
+                      </div>
+                    </div>
+                    <div>
+                      <div className={`text-3xl font-bold ${value.textColor}`}>{value.letter}</div>
+                      <h3 className={`text-xl font-bold ${value.textColor}`}>{value.title}</h3>
+                    </div>
                   </div>
+                  <p className={`${value.textColor} opacity-85 leading-relaxed`}>
+                    {value.description}
+                  </p>
                 </div>
-                <div>
-                  <div className={`text-3xl font-bold ${value.textColor}`}>{value.letter}</div>
-                  <h3 className={`text-xl font-bold ${value.textColor}`}>{value.title}</h3>
-                </div>
-              </div>
-              <p className={`${value.textColor} opacity-85 leading-relaxed`}>
-                {value.description}
-              </p>
-            </div>
-          )
-        })}
+              </SwiperSlide>
+            )
+          })}
+        </Swiper>
+
+        {/* Navigation Buttons */}
+        <button
+          onClick={() => swiperRef.current?.slidePrev()}
+          className="absolute -left-14 top-1/2 -translate-y-1/2 z-10 bg-ciprel-orange-500 text-white p-3 rounded-full hover:bg-ciprel-orange-600 transition-colors shadow-lg hidden lg:flex items-center justify-center"
+          aria-label="Précédent"
+        >
+          <ChevronLeft className="h-6 w-6" />
+        </button>
+        <button
+          onClick={() => swiperRef.current?.slideNext()}
+          className="absolute -right-14 top-1/2 -translate-y-1/2 z-10 bg-ciprel-orange-500 text-white p-3 rounded-full hover:bg-ciprel-orange-600 transition-colors shadow-lg hidden lg:flex items-center justify-center"
+          aria-label="Suivant"
+        >
+          <ChevronRight className="h-6 w-6" />
+        </button>
       </div>
 
       {/* Context and Application */}

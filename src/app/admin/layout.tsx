@@ -11,8 +11,8 @@ interface AdminLayoutProps {
 }
 
 const ADMIN_CREDENTIALS = {
-  username: 'admin-ciprel',
-  password: 'CiprelAdmin2024!'
+  username: 'admin',
+  password: 'ù4:hatev12d>'
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
@@ -89,7 +89,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="admin-ciprel"
+                  placeholder="admin"
                   className="h-12 border-gray-300 focus:border-ciprel-green-500 focus:ring-ciprel-green-500"
                   required
                 />

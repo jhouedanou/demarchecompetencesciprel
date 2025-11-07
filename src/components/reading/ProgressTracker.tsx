@@ -11,9 +11,10 @@ import { useState } from 'react'
 interface ProgressTrackerProps {
   onLinkClick?: () => void
   onSectionClick?: (sectionId: string) => void
+  isMetierActive?: boolean
 }
 
-export default function ProgressTracker({ onLinkClick, onSectionClick }: ProgressTrackerProps = {}) {
+export default function ProgressTracker({ onLinkClick, onSectionClick, isMetierActive = false }: ProgressTrackerProps = {}) {
   const { user } = useUser()
   const { signOut } = useAuthStore()
   const {
@@ -124,7 +125,7 @@ export default function ProgressTracker({ onLinkClick, onSectionClick }: Progres
         <h4 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">
           Sections
         </h4>
-        {sections.map((section) => (
+        {sections.filter(section => !(isMetierActive && section.id === 'videos')).map((section) => (
           <button
             key={section.id}
             onClick={() => {

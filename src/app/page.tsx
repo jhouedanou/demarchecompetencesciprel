@@ -49,9 +49,10 @@ import { useRouter } from 'next/navigation'
 type SectionType = 'introduction' | 'dialectique' | 'synoptique' | 'leviers' | 'ressources' | null
 
 const SLIDE_TITLES = [
-  'Accueil',
-  'Valeurs FEERIC',
+  'Bienvenue',
   'Définition',
+  'Valeurs FEERIC',
+  'Métiers',
   'Guide',
   'Objectifs',
   'Modules',
@@ -105,7 +106,7 @@ export default function HomePage() {
   const [activeMetier, setActiveMetier] = useState<ActiveMetier | null>(null)
   const [showMetiersQuiz, setShowMetiersQuiz] = useState(false)
   const swiperRef = useRef<SwiperType | null>(null)
-  const totalSlides = 7
+  const totalSlides = 8
   const practiceVideos = PRACTICE_VIDEOS
   const resetQuiz = useQuizStore(state => state.resetQuiz)
   const router = useRouter()
@@ -246,7 +247,7 @@ export default function HomePage() {
 
       {/* Sidebar - 30% à gauche */}
       <aside className={`
-        w-[280px] lg:w-[30%]
+        w-[280px] lg:w-[20%]
         min-h-screen
         border-r border-gray-200
         bg-white/95 backdrop-blur-sm
@@ -265,6 +266,7 @@ export default function HomePage() {
               onSectionClick={(sectionId) => {
                 openModal(sectionId as SectionType)
               }}
+              isMetierActive={!!activeMetier}
             />
           )}
           {!user && (
@@ -291,7 +293,7 @@ export default function HomePage() {
       </aside>
 
       {/* Main Content - 70% - avec padding left sur mobile */}
-      <div className="w-full lg:w-[70%] lg:ml-0">
+      <div className="w-full lg:w-[80%] lg:ml-0">
         {/* Desktop: Swiper */}
         <Swiper
           className="homepage-swiper h-screen hidden lg:block"
@@ -314,55 +316,105 @@ export default function HomePage() {
           onSlideChange={(swiper) => setActiveSlide(swiper.activeIndex)}
         >
         <SwiperSlide>
-          {/* METIER CONTENT SLIDE */}
+          {/* HERO SECTION - Slide 1 - Bienvenue */}
         <section className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-green-50 via-white to-ciprel-orange-50">
-          <div className="max-w-5xl mx-auto flex h-full flex-col justify-center px-4 py-16">
-            {/* Display MetiersHome component */}
-            <Suspense fallback={<ContentSkeleton />}>
-              <MetiersHome />
-            </Suspense>
+          <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
 
-            {/* Quiz Section */}
-            <div className="mt-12 pt-8 border-t border-gray-300">
-              <Suspense fallback={<ContentSkeleton />}>
-                {activeMetier ? (
-                  <MetiersQuiz metierId={activeMetier.id} metierTitre={activeMetier.titre} />
-                ) : (
-                  <div className="text-center py-8 text-gray-600">
-                    <p>Le quiz sera disponible une fois le contenu chargé</p>
-                  </div>
-                )}
-              </Suspense>
+          {/* Hero Header with logos on sides */}
+          <div className="flex items-center justify-center gap-6 mb-6 flex-wrap">
+            <img src="/images/logo.webp" alt="CIPREL" className="h-12 w-auto object-contain drop-shadow-lg" />
+            <h1 className="text-3xl md:text-4xl font-bold text-ciprel-orange-600 whitespace-nowrap">
+              Bienvenue sur la Démarche Compétence
+            </h1>
+            <img src="/images/30ans.png" alt="30 ans CIPREL" className="h-12 w-auto object-contain drop-shadow-lg" />
+          </div>
+
+          <p className="text-center text-gray-700 text-lg mb-8 max-w-3xl mx-auto">
+            <strong>Développer nos compétences, c'est nourrir notre énergie collective.</strong>
+          </p>
+
+          {/* Two Columns Content */}
+          <div className="grid md:grid-cols-2 gap-8 mb-8">
+
+            {/* Left Column - La Démarche */}
+            <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 border border-gray-100">
+              <h3 className="text-xl font-bold text-ciprel-orange-600 mb-4 flex items-center">
+                <Target className="h-6 w-6 mr-3 text-ciprel-orange-600" />
+                La Démarche Compétence
+              </h3>
+
+              <div className="space-y-4">
+                <p className="text-gray-700 leading-relaxed">
+                  Chez CIPREL, nous sommes convaincus que la <strong>performance durable repose sur la force des compétences collectives</strong>.
+                </p>
+
+                <p className="text-gray-700 leading-relaxed">
+                  La Démarche Compétence est un <strong>projet stratégique</strong> qui vise à identifier, développer et valoriser les savoirs, savoir-faire et savoir-être de chacun.
+                </p>
+
+                <p className="text-gray-700 leading-relaxed">
+                  Elle illustre notre volonté de faire grandir à la fois l'entreprise et ses collaborateurs, dans l'esprit de nos valeurs <strong>FEERIC</strong> : Force du collectif, Engagement, Équité, Respect, Innovation et Convivialité.
+                </p>
+
+                <div className="bg-ciprel-orange-50 border-l-4 border-ciprel-orange-600 p-4 mt-4">
+                  <p className="text-gray-800 italic font-semibold">
+                    Plus qu'un simple projet, cette démarche est un <strong>voyage collectif</strong> : comprendre ce que nous faisons, pourquoi nous le faisons et comment nous pouvons le faire encore mieux, ensemble.
+                  </p>
+                </div>
+              </div>
             </div>
 
-            {/* Navigation Button */}
-            <div className="mt-12 flex justify-center">
-              <button
-                type="button"
-                onClick={() => openModal('introduction')}
-                className="bg-ciprel-green-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
-              >
-                <ChevronDown className="h-5 w-5 mr-2" />
-                Continuer vers l'introduction
-              </button>
+            {/* Right Column - Contents */}
+            <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 border border-gray-100">
+              <h3 className="text-xl font-bold text-ciprel-green-600 mb-4 flex items-center">
+                <BookOpen className="h-6 w-6 mr-3 text-ciprel-green-600" />
+                Sur cette page
+              </h3>
+
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-semibold text-ciprel-black mb-2">Nos axes de communication :</h4>
+                  <ul className="space-y-2 ml-4">
+                    <li className="text-gray-700">
+                      <span className="font-semibold text-ciprel-orange-600">•</span> La valorisation des métiers
+                    </li>
+                    <li className="text-gray-700">
+                      <span className="font-semibold text-ciprel-orange-600">•</span> Les valeurs FEERIC en action
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="border-t pt-4">
+                  <h4 className="font-semibold text-ciprel-black mb-2">Vous découvrirez :</h4>
+                  <ul className="space-y-2 ml-4 text-sm">
+                    <li className="text-gray-700"><span className="font-semibold text-ciprel-green-600">•</span> Des workshops métiers interactifs</li>
+                    <li className="text-gray-700"><span className="font-semibold text-ciprel-green-600">•</span> Des newsletters</li>
+                    <li className="text-gray-700"><span className="font-semibold text-ciprel-green-600">•</span> Des capsules vidéo métiers</li>
+                    <li className="text-gray-700"><span className="font-semibold text-ciprel-green-600">•</span> Des quiz et témoignages</li>
+                    <li className="text-gray-700"><span className="font-semibold text-ciprel-green-600">•</span> Tous les supports et outils à télécharger</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
+
+          {/* CTA Button */}
+          <div className="flex justify-center">
+            <button
+              type="button"
+              onClick={goNext}
+              className="bg-ciprel-green-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+            >
+              <ChevronDown className="h-5 w-5 mr-2" />
+              Accéder à l'introduction
+            </button>
+          </div>
+        </div>
         </section>
         </SwiperSlide>
 
         <SwiperSlide>
-          {/* FEERIC VALUES SLIDE */}
-        <section className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50">
-          <div className="max-w-6xl mx-auto flex h-full flex-col justify-center px-4 py-12">
-            <Suspense fallback={<ContentSkeleton />}>
-              <FEERICValues />
-            </Suspense>
-          </div>
-        </section>
-        </SwiperSlide>
-
-        <SwiperSlide>
-          {/* SECTION DÉFINITION - Slide 3 */}
+          {/* ACCUEIL SLIDE - Slide 2 - Qu'est-ce que la démarche compétence? */}
         <section className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-green-50 via-white to-gray-50">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
               {/* Définition */}
@@ -417,8 +469,10 @@ export default function HomePage() {
         </section>
         </SwiperSlide>
 
+     
+
         <SwiperSlide>
-          {/* SECTION GUIDE - Slide 3 */}
+          {/* SECTION GUIDE - Slide 5 */}
         <section className="h-full overflow-y-auto bg-gradient-to-br from-gray-50 to-ciprel-green-50">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-20">
           {/* Badge Document essentiel */}
@@ -469,36 +523,9 @@ export default function HomePage() {
                       Télécharger le guide complet (PDF)
                     </a>
 
-                    <div className="mt-4 text-center">
-                      <p className="text-sm text-gray-500">
-                        📧 Également disponible par email et sur l'intranet
-                      </p>
-                    </div>
-                    <div className="space-y-4 mb-8 prose prose-lg max-w-none">
-                      <p className="text-gray-700 leading-relaxed">
-                        <strong className="text-gray-900">1. Présentation du concept :</strong> Définition et enjeux de la démarche compétence.
-                      </p>
-                      <p className="text-gray-700 leading-relaxed">
-                        <strong className="text-gray-900">2. Objectifs de la démarche :</strong> Bénéfices pour CIPREL et les collaborateurs.
-                      </p>
-                      <p className="text-gray-700 leading-relaxed">
-                        <strong className="text-gray-900">3. Étapes de la démarche :</strong> Processus complet étape par étape.
-                      </p>
-                      <p className="text-gray-700 leading-relaxed">
-                        <strong className="text-gray-900">4. Rôles et responsabilités :</strong> Qui fait quoi dans l'organisation.
-                      </p>
-                      <p className="text-gray-700 leading-relaxed">
-                        <strong className="text-gray-900">5. Foire aux questions (FAQ) :</strong> Réponses aux questions fréquentes.
-                      </p>
-                    </div>
-
-                
-
-                    
                   </div>
                 </div>
               </div>
-
              
 
           {/* CTA Button - Commencer le parcours */}
@@ -517,7 +544,7 @@ export default function HomePage() {
         </SwiperSlide>
 
         <SwiperSlide>
-          {/* SECTION OBJECTIFS - Slide 4 */}
+          {/* SECTION OBJECTIFS - Slide 6 */}
         <section className="h-full overflow-y-auto bg-white">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
           <div className="text-center mb-12">
@@ -582,7 +609,7 @@ export default function HomePage() {
         </SwiperSlide>
 
         <SwiperSlide>
-          {/* SECTION MODULES - Slide 5 */}
+          {/* SECTION MODULES - Slide 7 */}
         <section id="modules-section" className="h-full overflow-y-auto bg-white">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
             <div className="text-center mb-12">
@@ -706,7 +733,7 @@ export default function HomePage() {
 
 
         <SwiperSlide>
-          {/* SECTION PLATEFORME - Slide 7 (Plateforme) */}
+          {/* SECTION PLATEFORME - Slide 8 */}
         <section className="h-full overflow-y-auto bg-gray-50">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
           <div className="text-center mb-12">
