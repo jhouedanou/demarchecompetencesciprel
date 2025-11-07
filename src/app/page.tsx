@@ -106,7 +106,7 @@ export default function HomePage() {
   const [activeMetier, setActiveMetier] = useState<ActiveMetier | null>(null)
   const [showMetiersQuiz, setShowMetiersQuiz] = useState(false)
   const swiperRef = useRef<SwiperType | null>(null)
-  const totalSlides = 8
+  const totalSlides = 6
   const practiceVideos = PRACTICE_VIDEOS
   const resetQuiz = useQuizStore(state => state.resetQuiz)
   const router = useRouter()
@@ -316,7 +316,7 @@ export default function HomePage() {
           onSlideChange={(swiper) => setActiveSlide(swiper.activeIndex)}
         >
         <SwiperSlide>
-          {/* HERO SECTION - Slide 1 - Bienvenue */}
+          {/* HERO SECTION - Slide 0 - Bienvenue */}
         <section className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-green-50 via-white to-ciprel-orange-50">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
 
@@ -399,7 +399,7 @@ export default function HomePage() {
           </div>
 
           {/* CTA Button */}
-          <div className="flex justify-center">
+          <div className="flex justify-center gap-4">
             <button
               type="button"
               onClick={goNext}
@@ -414,7 +414,7 @@ export default function HomePage() {
         </SwiperSlide>
 
         <SwiperSlide>
-          {/* ACCUEIL SLIDE - Slide 2 - Qu'est-ce que la démarche compétence? */}
+          {/* DEFINITION SLIDE - Slide 1 - Qu'est-ce que la démarche compétence? */}
         <section className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-green-50 via-white to-gray-50">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
               {/* Définition */}
@@ -465,14 +465,34 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
+
+              {/* Navigation Buttons */}
+              <div className="flex justify-center gap-4 mt-4">
+                <button
+                  type="button"
+                  onClick={goPrev}
+                  className="bg-ciprel-orange-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                >
+                  <ChevronUp className="h-5 w-5 mr-2" />
+                  Précédent
+                </button>
+                <button
+                  type="button"
+                  onClick={goNext}
+                  className="bg-ciprel-green-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                >
+                  Suivant
+                  <ChevronDown className="h-5 w-5 ml-2" />
+                </button>
+              </div>
           </div>
         </section>
         </SwiperSlide>
 
-     
+
 
         <SwiperSlide>
-          {/* SECTION GUIDE - Slide 5 */}
+          {/* SECTION GUIDE - Slide 2 */}
         <section className="h-full overflow-y-auto bg-gradient-to-br from-gray-50 to-ciprel-green-50">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-20">
           {/* Badge Document essentiel */}
@@ -529,14 +549,22 @@ export default function HomePage() {
              
 
           {/* CTA Button - Commencer le parcours */}
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center gap-4 mt-8">
             <button
               type="button"
-              onClick={() => handleSlideTo(4)}
-              className="bg-ciprel-orange-500 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-600 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+              onClick={goPrev}
+              className="bg-ciprel-orange-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
             >
-              <Target className="h-5 w-5 mr-2" />
-              Commencer mon parcours
+              <ChevronUp className="h-5 w-5 mr-2" />
+              Précédent
+            </button>
+            <button
+              type="button"
+              onClick={goNext}
+              className="bg-ciprel-green-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+            >
+              Suivant
+              <ChevronDown className="h-5 w-5 ml-2" />
             </button>
           </div>
           </div>
@@ -544,7 +572,7 @@ export default function HomePage() {
         </SwiperSlide>
 
         <SwiperSlide>
-          {/* SECTION OBJECTIFS - Slide 6 */}
+          {/* SECTION OBJECTIFS - Slide 3 */}
         <section className="h-full overflow-y-auto bg-white">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
           <div className="text-center mb-12">
@@ -604,12 +632,32 @@ export default function HomePage() {
               </ul>
             </div>
           </div>
+
+          {/* Navigation Buttons */}
+          <div className="flex justify-center gap-4 mt-12">
+            <button
+              type="button"
+              onClick={goPrev}
+              className="bg-ciprel-orange-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+            >
+              <ChevronUp className="h-5 w-5 mr-2" />
+              Précédent
+            </button>
+            <button
+              type="button"
+              onClick={goNext}
+              className="bg-ciprel-green-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+            >
+              Suivant
+              <ChevronDown className="h-5 w-5 ml-2" />
+            </button>
+          </div>
           </div>
         </section>
         </SwiperSlide>
 
         <SwiperSlide>
-          {/* SECTION MODULES - Slide 7 */}
+          {/* SECTION MODULES - Slide 4 */}
         <section id="modules-section" className="h-full overflow-y-auto bg-white">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
             <div className="text-center mb-12">
@@ -722,10 +770,30 @@ export default function HomePage() {
               </button>
             </div>
 
-            <div className="bg-gradient-to-r from-ciprel-green-50 to-ciprel-orange-50 border-2 border-ciprel-green-200 rounded-xl p-6 text-center">
+            <div className="bg-gradient-to-r from-ciprel-green-50 to-ciprel-orange-50 border-2 border-ciprel-green-200 rounded-xl p-6 text-center mb-8">
               <p className="text-ciprel-black font-semibold text-lg">
                 📚 <strong>Important :</strong> Vous devez lire toutes les sections pour débloquer l'accès aux quiz et sondages.
               </p>
+            </div>
+
+            {/* Navigation Buttons */}
+            <div className="flex justify-center gap-4">
+              <button
+                type="button"
+                onClick={goPrev}
+                className="bg-ciprel-orange-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+              >
+                <ChevronUp className="h-5 w-5 mr-2" />
+                Précédent
+              </button>
+              <button
+                type="button"
+                onClick={goNext}
+                className="bg-ciprel-green-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+              >
+                Suivant
+                <ChevronDown className="h-5 w-5 ml-2" />
+              </button>
             </div>
         </div>
         </section>
@@ -733,7 +801,7 @@ export default function HomePage() {
 
 
         <SwiperSlide>
-          {/* SECTION PLATEFORME - Slide 8 */}
+          {/* SECTION PLATEFORME - Slide 5 (dernier slide) */}
         <section className="h-full overflow-y-auto bg-gray-50">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
           <div className="text-center mb-12">
@@ -840,6 +908,18 @@ export default function HomePage() {
                 </div>
               </div>
             )}
+
+            {/* Navigation Buttons */}
+            <div className="flex justify-center gap-4 mt-12">
+              <button
+                type="button"
+                onClick={goPrev}
+                className="bg-ciprel-orange-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+              >
+                <ChevronUp className="h-5 w-5 mr-2" />
+                Précédent
+              </button>
+            </div>
           </div>
         </div>
       </section>
