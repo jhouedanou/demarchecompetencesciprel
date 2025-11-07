@@ -257,40 +257,73 @@ export default function HomePage() {
         transition-transform duration-300 ease-in-out
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
-        <div className="p-6">
-          {user && (
-            <ProgressTracker
-              onLinkClick={() => setSidebarOpen(false)}
-              onSectionClick={(sectionId) => {
-                openModal(sectionId as SectionType)
-              }}
-              onSlideClick={(slideIndex) => {
-                handleSlideTo(slideIndex)
-              }}
-              slideNames={SLIDE_TITLES}
-              currentSlide={activeSlide}
-              isMetierActive={!!activeMetier}
-            />
-          )}
-          {!user && (
-            <div className="bg-white rounded-lg shadow-lg border p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Connectez-vous pour suivre votre progression
-              </h3>
-              <p className="text-gray-600 text-sm mb-4">
-                Créez un compte pour accéder aux quiz et suivre votre progression.
-              </p>
-              <button
-                onClick={() => {
-                  if (typeof window !== 'undefined') {
-                    window.dispatchEvent(new Event('open-login'))
-                  }
-                }}
-                className="w-full text-center bg-ciprel-green-600 text-white px-4 py-2 rounded-lg hover:bg-ciprel-green-700 transition-colors font-semibold"
-              >
-                Se connecter
-              </button>
+        <div className="p-6 space-y-8">
+          {/* Navigation des Slides - Affichée pour tous */}
+          <div className="space-y-2">
+            <h4 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">
+              Slides
+            </h4>
+            <div className="space-y-2">
+              {SLIDE_TITLES.map((slideName, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    handleSlideTo(index)
+                    setSidebarOpen(false)
+                  }}
+                  className={`w-full px-3 py-2 rounded-lg text-sm text-left transition-all ${
+                    activeSlide === index
+                      ? 'bg-ciprel-orange-100 border-l-4 border-ciprel-orange-600 text-ciprel-orange-900 font-medium'
+                      : 'bg-white border-l-4 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300'
+                  }`}
+                >
+                  {index + 1}. {slideName}
+                </button>
+              ))}
             </div>
+          </div>
+
+          {/* Login Call-to-Action pour utilisateurs non connectés */}
+          {!user && (
+            <div className="pt-4 border-t border-gray-200">
+              <div className="bg-white rounded-lg shadow-lg border p-4">
+                <h3 className="text-sm font-semibold text-gray-900 mb-2">
+                  Connectez-vous
+                </h3>
+                <p className="text-gray-600 text-xs mb-4">
+                  Créez un compte pour accéder aux quiz et suivre votre progression.
+                </p>
+                <button
+                  onClick={() => {
+                    if (typeof window !== 'undefined') {
+                      window.dispatchEvent(new Event('open-login'))
+                    }
+                  }}
+                  className="w-full text-center bg-ciprel-green-600 text-white px-4 py-2 rounded-lg hover:bg-ciprel-green-700 transition-colors font-semibold text-sm"
+                >
+                  Se connecter
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ProgressTracker pour utilisateurs connectés */}
+          {user && (
+            <>
+              <div className="border-t border-gray-200" />
+              <ProgressTracker
+                onLinkClick={() => setSidebarOpen(false)}
+                onSectionClick={(sectionId) => {
+                  openModal(sectionId as SectionType)
+                }}
+                onSlideClick={(slideIndex) => {
+                  handleSlideTo(slideIndex)
+                }}
+                slideNames={SLIDE_TITLES}
+                currentSlide={activeSlide}
+                isMetierActive={!!activeMetier}
+              />
+            </>
           )}
         </div>
       </aside>
