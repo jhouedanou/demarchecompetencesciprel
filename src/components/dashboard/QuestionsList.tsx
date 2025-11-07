@@ -27,9 +27,9 @@ export default function QuestionsList() {
   const [questions, setQuestions] = useState<QuizQuestion[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
-  const [filterCategory, setFilterCategory] = useState<string>('')
-  const [filterQuizType, setFilterQuizType] = useState<string>('')
-  const [filterActive, setFilterActive] = useState<string>('')
+  const [filterCategory, setFilterCategory] = useState<string>('all')
+  const [filterQuizType, setFilterQuizType] = useState<string>('all')
+  const [filterActive, setFilterActive] = useState<string>('all')
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [total, setTotal] = useState(0)
@@ -46,9 +46,9 @@ export default function QuestionsList() {
         limit: '10'
       })
 
-      if (filterCategory) params.append('category', filterCategory)
-      if (filterQuizType) params.append('quiz_type', filterQuizType)
-      if (filterActive) params.append('active', filterActive)
+      if (filterCategory && filterCategory !== 'all') params.append('category', filterCategory)
+      if (filterQuizType && filterQuizType !== 'all') params.append('quiz_type', filterQuizType)
+      if (filterActive && filterActive !== 'all') params.append('active', filterActive)
 
       const response = await fetch(`/api/admin/questions?${params}`)
 
@@ -172,7 +172,7 @@ export default function QuestionsList() {
               <SelectValue placeholder="Catégorie" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Toutes</SelectItem>
+              <SelectItem value="all">Toutes</SelectItem>
               {Object.entries(QUIZ_CATEGORIES).map(([key, value]) => (
                 <SelectItem key={key} value={key}>
                   {value}
@@ -186,7 +186,7 @@ export default function QuestionsList() {
               <SelectValue placeholder="Type" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Tous</SelectItem>
+              <SelectItem value="all">Tous</SelectItem>
               <SelectItem value="INTRODUCTION">Introduction</SelectItem>
               <SelectItem value="SONDAGE">Sondage</SelectItem>
             </SelectContent>
@@ -197,7 +197,7 @@ export default function QuestionsList() {
               <SelectValue placeholder="Statut" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Tous</SelectItem>
+              <SelectItem value="all">Tous</SelectItem>
               <SelectItem value="true">Actif</SelectItem>
               <SelectItem value="false">Inactif</SelectItem>
             </SelectContent>
@@ -313,11 +313,11 @@ export default function QuestionsList() {
               Aucune question trouvée
             </h3>
             <p className="text-gray-600 mb-6">
-              {searchTerm || filterCategory || filterQuizType || filterActive
+              {searchTerm || (filterCategory !== 'all') || (filterQuizType !== 'all') || (filterActive !== 'all')
                 ? 'Aucune question ne correspond aux critères de filtrage.'
                 : 'Commencez par créer votre première question.'}
             </p>
-            {!searchTerm && !filterCategory && !filterQuizType && !filterActive && (
+            {!searchTerm && filterCategory === 'all' && filterQuizType === 'all' && filterActive === 'all' && (
               <Button
                 onClick={() => router.push('/admin/questions/new')}
                 className="bg-ciprel-600 hover:bg-ciprel-700"
