@@ -13,7 +13,8 @@ import {
   Shield,
   FileText,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Presentation
 } from 'lucide-react'
 
 const navigation = [
@@ -31,6 +32,11 @@ const navigation = [
     name: 'Questions Quiz',
     href: '/admin/questions',
     icon: Brain,
+  },
+  {
+    name: 'Workshops Métiers',
+    href: '/admin/workshops',
+    icon: Presentation,
   },
   {
     name: 'Résultats',

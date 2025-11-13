@@ -24,7 +24,9 @@
         "Landing Page (Plateforme Démarche Compétence)"
       ],
       "statut": true,
-      "ordre": 1
+      "ordre": 1,
+      "onedrive_url": "https://example.onedrive.com/workshop-introduction",
+      "publication_date": "2025-07-01"
     },
     {
       "id": 2,
@@ -55,7 +57,9 @@
         "Séance de formation avec les managers"
       ],
       "statut": true,
-      "ordre": 2
+      "ordre": 2,
+      "onedrive_url": "https://example.onedrive.com/workshop-production",
+      "publication_date": "2025-08-01"
     },
     {
       "id": 3,
@@ -81,7 +85,9 @@
         "Séance de formation avec les managers"
       ],
       "statut": true,
-      "ordre": 3
+      "ordre": 3,
+      "onedrive_url": "https://example.onedrive.com/workshop-sidt",
+      "publication_date": "2025-09-01"
     },
     {
       "id": 4,
@@ -111,7 +117,9 @@
         "Séance de formation avec les managers"
       ],
       "statut": true,
-      "ordre": 4
+      "ordre": 4,
+      "onedrive_url": "https://example.onedrive.com/workshop-maintenance",
+      "publication_date": "2025-10-01"
     },
     {
       "id": 5,
@@ -141,7 +149,9 @@
         "Séance de formation avec les managers"
       ],
       "statut": true,
-      "ordre": 5
+      "ordre": 5,
+      "onedrive_url": "https://example.onedrive.com/workshop-qse",
+      "publication_date": "2025-11-01"
     },
     {
       "id": 6,
@@ -167,7 +177,9 @@
         "Séance de formation avec les managers"
       ],
       "statut": true,
-      "ordre": 6
+      "ordre": 6,
+      "onedrive_url": "https://example.onedrive.com/workshop-controle",
+      "publication_date": "2026-01-01"
     },
     {
       "id": 7,
@@ -193,7 +205,9 @@
         "Séance de formation avec les managers"
       ],
       "statut": true,
-      "ordre": 7
+      "ordre": 7,
+      "onedrive_url": "https://example.onedrive.com/workshop-stocks",
+      "publication_date": "2026-02-01"
     },
     {
       "id": 8,
@@ -219,7 +233,9 @@
         "Séance de formation avec les managers"
       ],
       "statut": true,
-      "ordre": 8
+      "ordre": 8,
+      "onedrive_url": "https://example.onedrive.com/workshop-rh",
+      "publication_date": "2026-03-01"
     },
     {
       "id": 9,
@@ -245,7 +261,9 @@
         "Séance de formation avec les managers"
       ],
       "statut": true,
-      "ordre": 9
+      "ordre": 9,
+      "onedrive_url": "https://example.onedrive.com/workshop-services",
+      "publication_date": "2026-04-01"
     },
     {
       "id": 10,
@@ -271,7 +289,9 @@
         "Séance de formation avec les managers"
       ],
       "statut": true,
-      "ordre": 10
+      "ordre": 10,
+      "onedrive_url": "https://example.onedrive.com/workshop-dfc",
+      "publication_date": "2026-05-01"
     },
     {
       "id": 11,
@@ -296,7 +316,9 @@
         "Séance de formation avec les managers"
       ],
       "statut": true,
-      "ordre": 11
+      "ordre": 11,
+      "onedrive_url": "https://example.onedrive.com/workshop-projets",
+      "publication_date": "2026-06-01"
     },
     {
       "id": 12,

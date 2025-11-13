@@ -15,7 +15,7 @@ export default function AdminLoginPage() {
 
   // Redirect if already authenticated
   if (isAdminAuthenticated) {
-    router.push('/(dashboard)/admin/metiers')
+    router.push('/admin')
     return null
   }
 
@@ -27,7 +27,7 @@ export default function AdminLoginPage() {
     // Simulate a small delay for security
     setTimeout(() => {
       if (loginAdmin(username, password)) {
-        router.push('/(dashboard)/admin/metiers')
+        router.push('/admin')
       } else {
         setError('Identifiant ou mot de passe incorrect')
         setPassword('')
@@ -66,7 +66,7 @@ export default function AdminLoginPage() {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="admin"
+                placeholder="Votre identifiant"
                 disabled={isLoading}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ciprel-orange-600 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                 autoFocus
@@ -98,13 +98,6 @@ export default function AdminLoginPage() {
               {isLoading ? 'Connexion...' : 'Se connecter'}
             </button>
           </form>
-
-          {/* Info message */}
-          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-sm text-blue-800">
-              <strong>Identifiant par défaut:</strong> admin
-            </p>
-          </div>
         </div>
 
         {/* Footer */}

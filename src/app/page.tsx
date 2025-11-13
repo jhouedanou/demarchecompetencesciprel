@@ -2,15 +2,17 @@
 
 import { useState, useRef, useEffect, lazy, Suspense } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination, Mousewheel } from 'swiper/modules'
+import { Pagination, Mousewheel, Navigation } from 'swiper/modules'
 import type { Swiper as SwiperType } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/pagination'
+import 'swiper/css/navigation'
 import ProgressTracker from '@/components/reading/ProgressTracker'
 import { useUser } from '@/lib/supabase/client'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
 import { useQuizStore } from '@/stores/quiz-store'
 import { useAuthStore } from '@/stores/auth-store'
+import { useWorkshops, type Workshop } from '@/hooks/useWorkshops'
 import { LoadingScreen } from '@/components/ui/loading-screen'
 import { ContentSkeleton } from '@/components/ui/content-skeleton'
 
@@ -22,7 +24,7 @@ const SynoptiqueContent = lazy(() => import('@/components/sections/SynoptiqueCon
 const LeviersContent = lazy(() => import('@/components/sections/LeviersContent').then(m => ({ default: m.LeviersContent })))
 const RessourcesContent = lazy(() => import('@/components/sections/RessourcesContent').then(m => ({ default: m.RessourcesContent })))
 const QuizEngine = lazy(() => import('@/components/quiz/QuizEngine').then(m => ({ default: m.QuizEngine })))
-const CiprelSondageContent = lazy(() => import('@/components/ciprel/CiprelSondageContent').then(m => ({ default: m.CiprelSondageContent })))
+const SurveySelector = lazy(() => import('@/components/ciprel/SurveySelector').then(m => ({ default: m.SurveySelector })))
 const LogoutModal = lazy(() => import('@/components/auth/LogoutModal').then(m => ({ default: m.LogoutModal })))
 const VideoPlayerModal = lazy(() => import('@/components/modals/VideoPlayerModal').then(m => ({ default: m.VideoPlayerModal })))
 const MetiersHome = lazy(() => import('@/components/MetiersHome').then(m => ({ default: m.MetiersHome })))
@@ -43,7 +45,11 @@ import {
   ChevronUp,
   Menu,
   X,
-  LogOut
+  LogOut,
+  Briefcase,
+  Presentation,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
 import { useRouter } from 'next/navigation'
@@ -51,12 +57,28 @@ import { useRouter } from 'next/navigation'
 type SectionType = 'introduction' | 'dialectique' | 'synoptique' | 'leviers' | 'ressources' | null
 
 const SLIDE_TITLES = [
-  'Bienvenue',
-  'Définition',
-  'Guide',
+  'Présentation',
+  'Définitions, concepts',
   'Objectifs',
-  'Modules',
-  'Plateforme'
+  'Workshops métiers',
+  'Vidéo',
+  'Quiz',
+  'Guide et ressources'
+]
+
+const METIERS = [
+  { id: 1, nom: 'Production', icon: '⚡', color: 'from-blue-500 to-blue-600' },
+  { id: 2, nom: 'SIDT', icon: '💻', color: 'from-purple-500 to-purple-600' },
+  { id: 3, nom: 'Maintenance', icon: '🔧', color: 'from-orange-500 to-orange-600' },
+  { id: 4, nom: 'QSE-RSE/Sûreté', icon: '🛡️', color: 'from-green-500 to-green-600' },
+  { id: 5, nom: 'Contrôle Interne', icon: '📊', color: 'from-red-500 to-red-600' },
+  { id: 6, nom: 'Stocks', icon: '📦', color: 'from-yellow-500 to-yellow-600' },
+  { id: 7, nom: 'RH/Juridique', icon: '⚖️', color: 'from-indigo-500 to-indigo-600' },
+  { id: 8, nom: 'Services Généraux', icon: '🏢', color: 'from-pink-500 to-pink-600' },
+  { id: 9, nom: 'DFC', icon: '💰', color: 'from-teal-500 to-teal-600' },
+  { id: 10, nom: 'Projets', icon: '🎯', color: 'from-cyan-500 to-cyan-600' },
+  { id: 11, nom: 'Achats & Logistique', icon: '🚚', color: 'from-lime-500 to-lime-600' },
+  { id: 12, nom: 'Direction', icon: '👔', color: 'from-gray-500 to-gray-600' }
 ]
 
 const PRACTICE_VIDEOS = [
@@ -95,6 +117,7 @@ export default function HomePage() {
   const { user, loading } = useUser()
   const { sections, canAccessQuiz, markSectionCompleted } = useReadingProgress(user)
   const { signOut } = useAuthStore()
+  const { workshops, loading: workshopsLoading } = useWorkshops()
   const [activeModal, setActiveModal] = useState<SectionType>(null)
   const [activeSlide, setActiveSlide] = useState(0)
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -105,9 +128,12 @@ export default function HomePage() {
   const [logoutModalOpen, setLogoutModalOpen] = useState(false)
   const [videoSectionMarked, setVideoSectionMarked] = useState(false)
   const [activeMetier, setActiveMetier] = useState<ActiveMetier | null>(null)
+  const [selectedWorkshop, setSelectedWorkshop] = useState<Workshop | null>(null)
   const [showMetiersQuiz, setShowMetiersQuiz] = useState(false)
+  const [workshopModalOpen, setWorkshopModalOpen] = useState(false)
   const swiperRef = useRef<SwiperType | null>(null)
-  const totalSlides = 6
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+  const totalSlides = 7 // Structure finale avec 7 slides
   const practiceVideos = PRACTICE_VIDEOS
   const resetQuiz = useQuizStore(state => state.resetQuiz)
   const router = useRouter()
@@ -165,6 +191,13 @@ export default function HomePage() {
       clearTimeout(timeoutId)
     }
   }, [user, videoSectionMarked, markSectionCompleted, loading])
+
+  // Arrêter la vidéo si on sort de la slide vidéo (index 4)
+  useEffect(() => {
+    if (videoRef.current && activeSlide !== 4) {
+      videoRef.current.pause()
+    }
+  }, [activeSlide])
 
   const getSectionStatus = (sectionId: string) => {
     const section = sections.find(s => s.id === sectionId)
@@ -261,10 +294,10 @@ export default function HomePage() {
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         <div className="p-6 space-y-8">
-          {/* Navigation des Slides - UNE SEULE NAVIGATION pour tous */}
+          {/* Navigation Menu - UNE SEULE NAVIGATION pour tous */}
           <div className="space-y-2">
             <h4 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">
-              Slides
+              Menu
             </h4>
             <div className="space-y-2">
               {SLIDE_TITLES.map((slideName, index) => (
@@ -314,14 +347,19 @@ export default function HomePage() {
           {user && (
             <div className="pt-4 border-t border-gray-200 space-y-2">
               {/* Lien vers les questionnaires */}
-              <a
-                href="/competences/quiz-introduction"
-                onClick={() => setSidebarOpen(false)}
+              <button
+                onClick={() => {
+                  setSidebarOpen(false)
+                  swiperRef.current?.slideTo(5, 800)
+                  setTimeout(() => {
+                    document.getElementById('slide-quiz')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  }, 100)
+                }}
                 className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-ciprel-green-600 hover:bg-ciprel-green-700 rounded-lg transition-colors"
               >
                 <BookOpen className="h-4 w-4" />
                 Accéder aux questionnaires
-              </a>
+              </button>
 
               {/* Logout Button */}
               <button
@@ -361,7 +399,7 @@ export default function HomePage() {
           }}
           onSlideChange={(swiper) => setActiveSlide(swiper.activeIndex)}
         >
-        <SwiperSlide>
+        <SwiperSlide id="slide-presentation">
           {/* HERO SECTION - Slide 0 - Bienvenue */}
         <section className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-green-50 via-white to-ciprel-orange-50">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
@@ -459,8 +497,8 @@ export default function HomePage() {
         </section>
         </SwiperSlide>
 
-        <SwiperSlide>
-          {/* DEFINITION SLIDE - Slide 1 - Qu'est-ce que la démarche compétence? */}
+        <SwiperSlide id="slide-definitions">
+          {/* DEFINITION SLIDE - Slide 1 - Définitions, concepts */}
         <section className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-green-50 via-white to-gray-50">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
               {/* Définition */}
@@ -537,88 +575,8 @@ export default function HomePage() {
 
 
 
-        <SwiperSlide>
-          {/* SECTION GUIDE - Slide 2 */}
-        <section className="h-full overflow-y-auto bg-gradient-to-br from-gray-50 to-ciprel-green-50">
-          <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-20">
-          {/* Badge Document essentiel */}
-          <div className="flex justify-center mb-6">
-            <span className="bg-ciprel-green-100 text-ciprel-green-800 px-6 py-3 rounded-full font-bold text-lg flex items-center shadow-md">
-              <Award className="h-6 w-6 mr-2" />
-              Document essentiel
-            </span>
-          </div>
-
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-ciprel-black mb-6">
-            Le Guide de la Démarche Compétence CIPREL
-          </h2>
-
-          <p className="text-center text-gray-600 text-lg mb-12 max-w-3xl mx-auto">
-            Fournir aux employés une <strong>vue d'ensemble</strong> sur le processus de gestion des compétences,
-            son importance, ses objectifs et son déploiement.
-          </p>
-
-              {/* Carte principale du guide */}
-              <div className="bg-white rounded-2xl shadow-2xl overflow-hidden mb-12">
-                <div className="grid gap-8 items-start p-8 md:p-12">
-                  {/* Visuel du guide (gauche) */}
-                  {/* <div className="flex justify-center md:justify-start">
-                    <div className="relative">
-                      <div className="w-72 h-96 bg-gradient-to-br from-ciprel-green-500 to-ciprel-green-700 rounded-xl shadow-2xl border-4 border-white flex flex-col items-center justify-center p-8 transform hover:scale-105 transition-transform duration-300">
-                        <BookOpen className="h-32 w-32 text-white mb-6" />
-                        <div className="text-white text-center">
-                          <h3 className="text-2xl font-bold mb-2">Guide Complet</h3>
-                          <p className="text-ciprel-green-100">Démarche Compétence CIPREL</p>
-                        </div>
-                      </div>
-                      <div className="absolute -top-4 -right-4 bg-ciprel-orange-500 text-white px-5 py-3 rounded-full font-bold shadow-lg text-lg">
-                        📘 PDF
-                      </div>
-                    </div>
-                  </div> */}
-
-                  {/* Contenu du guide (droite) */}
-                  <div className="listeetelechargementduguide">
-              
-                  <a
-                      href="/Guide_démarche_compétence.pdf"
-                      download
-                      className="bg-ciprel-green-600 text-white px-6 py-4 rounded-lg hover:bg-ciprel-green-700 font-bold text-lg w-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200"
-                    >
-                      <Download className="h-6 w-6 mr-3" />
-                      Télécharger le guide complet (PDF)
-                    </a>
-
-                  </div>
-                </div>
-              </div>
-             
-
-          {/* CTA Button - Commencer le parcours */}
-          <div className="flex justify-center gap-4 mt-8">
-            <button
-              type="button"
-              onClick={goPrev}
-              className="bg-ciprel-orange-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
-            >
-              <ChevronUp className="h-5 w-5 mr-2" />
-              Précédent
-            </button>
-            <button
-              type="button"
-              onClick={goNext}
-              className="bg-ciprel-green-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
-            >
-              Suivant
-              <ChevronDown className="h-5 w-5 ml-2" />
-            </button>
-          </div>
-          </div>
-        </section>
-        </SwiperSlide>
-
-        <SwiperSlide>
-          {/* SECTION OBJECTIFS - Slide 3 */}
+        <SwiperSlide id="slide-objectifs">
+          {/* SECTION OBJECTIFS - Slide 2 */}
         <section className="h-full overflow-y-auto bg-white">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
           <div className="text-center mb-12">
@@ -702,118 +660,240 @@ export default function HomePage() {
         </section>
         </SwiperSlide>
 
-        <SwiperSlide>
-          {/* SECTION MODULES - Slide 4 */}
-        <section id="modules-section" className="h-full overflow-y-auto bg-white">
+        <SwiperSlide id="slide-workshops">
+          {/* WORKSHOPS MÉTIERS - Slide 3 */}
+        <section className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-green-50 via-white to-ciprel-orange-50">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
-            <div className="text-center mb-12">
-              <span className="bg-ciprel-orange-100 text-ciprel-orange-800 px-4 py-2 rounded-full text-sm font-semibold inline-block mb-4">
-                Parcours d'apprentissage
-              </span>
+
+            {/* En-tête */}
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-ciprel-orange-100 to-ciprel-green-100 text-ciprel-black rounded-full text-sm font-semibold mb-4">
+                <Briefcase className="h-4 w-4" />
+                {METIERS.length} Métiers CIPREL
+              </div>
               <h2 className="text-3xl md:text-4xl font-bold text-ciprel-black mb-4">
-                Découvrir la démarche compétence
+                La déclinaison de la DC dans nos métiers
               </h2>
-              <p className="text-gray-600 text-lg max-w-3xl mx-auto">
-                4 modules interactifs pour comprendre et maîtriser la démarche
+              <p className="text-gray-600 text-lg max-w-3xl mx-auto mb-6">
+                Découvrez comment la démarche compétence s'applique à chaque métier de CIPREL
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <button
-                onClick={() => openModal('dialectique')}
-                className={`block p-6 rounded-xl border-2 text-left transition-all duration-200 group ${
-                  getSectionStatus('dialectique')
-                    ? 'bg-ciprel-green-50 border-ciprel-green-400 shadow-lg'
-                    : 'bg-white border-gray-200 hover:border-ciprel-green-400 hover:shadow-lg'
-                }`}
+            {/* Swiper horizontal des métiers avec navigation */}
+            <div className="relative px-12">
+              <Swiper
+                slidesPerView={1}
+                spaceBetween={30}
+                breakpoints={{
+                  640: { slidesPerView: 2, spaceBetween: 20 },
+                  768: { slidesPerView: 3, spaceBetween: 24 },
+                  1024: { slidesPerView: 4, spaceBetween: 28 }
+                }}
+                navigation={{
+                  prevEl: '.swiper-button-prev-workshops',
+                  nextEl: '.swiper-button-next-workshops',
+                }}
+                pagination={{
+                  clickable: true,
+                  dynamicBullets: true,
+                }}
+                modules={[Pagination, Navigation]}
+                className="w-full mb-8 workshops-swiper"
+                style={{
+                  '--swiper-pagination-color': '#EE7F00',
+                  '--swiper-pagination-bullet-inactive-color': '#58A636',
+                  '--swiper-pagination-bullet-inactive-opacity': '0.4',
+                } as React.CSSProperties}
               >
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center">
-                    <div className="bg-ciprel-green-100 p-3 rounded-lg mr-3 group-hover:bg-ciprel-green-200 transition-colors">
-                      <BookOpen className="h-6 w-6 text-ciprel-green-600" />
-                    </div>
-                    <h4 className="font-bold text-gray-900 text-lg">1. Dialectique de la démarche</h4>
-                  </div>
-                  {getSectionStatus('dialectique') && (
-                    <div className="w-8 h-8 bg-ciprel-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                      <CheckCircle2 className="w-5 h-5 text-white" />
-                    </div>
-                  )}
-                </div>
-                <p className="text-gray-600">Découvrez la définition et les bénéfices</p>
-              </button>
+                {METIERS.map((metier) => {
+                  // Extraire les couleurs du gradient pour la bordure
+                  const gradientColors = metier.color.match(/from-(\S+)\s+to-(\S+)/)
+                  const fromColor = gradientColors ? gradientColors[1] : 'blue-500'
+                  const toColor = gradientColors ? gradientColors[2] : 'blue-600'
 
-              <button
-                onClick={() => openModal('synoptique')}
-                className={`block p-6 rounded-xl border-2 text-left transition-all duration-200 group ${
-                  getSectionStatus('synoptique')
-                    ? 'bg-ciprel-green-50 border-ciprel-green-400 shadow-lg'
-                    : 'bg-white border-gray-200 hover:border-ciprel-green-400 hover:shadow-lg'
-                }`}
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center">
-                    <div className="bg-ciprel-green-100 p-3 rounded-lg mr-3 group-hover:bg-ciprel-green-200 transition-colors">
-                      <Target className="h-6 w-6 text-ciprel-green-600" />
-                    </div>
-                    <h4 className="font-bold text-gray-900 text-lg">2. Synoptique des étapes</h4>
-                  </div>
-                  {getSectionStatus('synoptique') && (
-                    <div className="w-8 h-8 bg-ciprel-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                      <CheckCircle2 className="w-5 h-5 text-white" />
-                    </div>
-                  )}
-                </div>
-                <p className="text-gray-600">Les 5 étapes cycliques détaillées</p>
-              </button>
+                  // Récupérer le workshop correspondant
+                  const workshop = workshops.find(w => w.metier_id === metier.id)
+                  const isActive = workshop?.is_active ?? false
+                  const hasLink = workshop?.onedrive_link && workshop.onedrive_link.trim() !== ''
 
-              <button
-                onClick={() => openModal('leviers')}
-                className={`block p-6 rounded-xl border-2 text-left transition-all duration-200 group ${
-                  getSectionStatus('leviers')
-                    ? 'bg-ciprel-green-50 border-ciprel-green-400 shadow-lg'
-                    : 'bg-white border-gray-200 hover:border-ciprel-green-400 hover:shadow-lg'
-                }`}
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center">
-                    <div className="bg-ciprel-green-100 p-3 rounded-lg mr-3 group-hover:bg-ciprel-green-200 transition-colors">
-                      <TrendingUp className="h-6 w-6 text-ciprel-green-600" />
-                    </div>
-                    <h4 className="font-bold text-gray-900 text-lg">3. Facteurs clés de succès</h4>
-                  </div>
-                  {getSectionStatus('leviers') && (
-                    <div className="w-8 h-8 bg-ciprel-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                      <CheckCircle2 className="w-5 h-5 text-white" />
-                    </div>
-                  )}
-                </div>
-                <p className="text-gray-600">Les 4 leviers essentiels</p>
-              </button>
+                  return (
+                    <SwiperSlide key={metier.id}>
+                      <button
+                        onClick={() => {
+                          if (isActive && hasLink) {
+                            setSelectedWorkshop(workshop)
+                            setWorkshopModalOpen(true)
+                          }
+                        }}
+                        disabled={!isActive || !hasLink}
+                        className={`group relative bg-white rounded-2xl shadow-md transition-all duration-300 p-6 h-80 w-full flex flex-col items-center justify-center border-4 border-transparent ${
+                          isActive && hasLink
+                            ? 'hover:shadow-2xl transform hover:-translate-y-2 hover:border-opacity-100 cursor-pointer'
+                            : 'opacity-50 cursor-not-allowed'
+                        }`}
+                        style={{
+                          borderImage: `linear-gradient(135deg, var(--tw-gradient-stops)) 1`,
+                          borderImageSlice: 1,
+                        }}
+                      >
+                        {/* Bordure colorée avec gradient */}
+                        <div
+                          className={`absolute inset-0 rounded-2xl opacity-100 group-hover:opacity-100 transition-opacity duration-300 -z-10`}
+                          style={{
+                            background: `linear-gradient(white, white) padding-box, linear-gradient(135deg, var(--tw-gradient-stops)) border-box`,
+                            border: '4px solid transparent',
+                            borderRadius: '1rem',
+                          }}
+                        >
+                          <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${metier.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
+                        </div>
 
+                        {/* Badge numéro et statut */}
+                        <div className="absolute top-4 right-4 flex flex-col gap-2">
+                          <div className={`bg-gradient-to-r ${metier.color} text-white px-3 py-1 rounded-full text-xs font-bold shadow-md`}>
+                            #{metier.id}
+                          </div>
+                          {!isActive && (
+                            <div className="bg-gray-400 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md">
+                              Bientôt
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Icône avec effet */}
+                        <div className="relative mb-4">
+                          <div className={`absolute inset-0 bg-gradient-to-br ${metier.color} opacity-10 rounded-full blur-2xl scale-150`} />
+                          <div className="text-7xl transition-transform group-hover:scale-110 duration-300 relative z-10">
+                            {metier.icon}
+                          </div>
+                        </div>
+
+                        {/* Nom du métier */}
+                        <h3 className="text-2xl font-bold text-center mb-4 text-ciprel-black group-hover:text-ciprel-orange-600 transition-colors duration-300">
+                          {metier.nom}
+                        </h3>
+
+                        {/* Bouton d'action */}
+                        <div className={`mt-auto px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 flex items-center gap-2 ${
+                          isActive && hasLink
+                            ? `bg-gradient-to-r ${metier.color} text-white shadow-lg group-hover:shadow-xl`
+                            : 'bg-gray-300 text-gray-500'
+                        }`}>
+                          <Presentation className="h-4 w-4" />
+                          {isActive && hasLink ? 'Voir le workshop' : 'Prochainement'}
+                        </div>
+                      </button>
+                    </SwiperSlide>
+                  )
+                })}
+              </Swiper>
+
+              {/* Flèches de navigation personnalisées */}
               <button
-                onClick={() => openModal('ressources')}
-                className={`block p-6 rounded-xl border-2 text-left transition-all duration-200 group ${
-                  getSectionStatus('ressources')
-                    ? 'bg-ciprel-green-50 border-ciprel-green-400 shadow-lg'
-                    : 'bg-white border-gray-200 hover:border-ciprel-green-400 hover:shadow-lg'
-                }`}
+                className="swiper-button-prev-workshops absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-ciprel-orange-600 hover:bg-ciprel-orange-600 hover:text-white transition-all duration-300 hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed"
+                aria-label="Précédent"
               >
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center">
-                    <div className="bg-ciprel-green-100 p-3 rounded-lg mr-3 group-hover:bg-ciprel-green-200 transition-colors">
-                      <Download className="h-6 w-6 text-ciprel-green-600" />
-                    </div>
-                    <h4 className="font-bold text-gray-900 text-lg">4. Ressources documentaires</h4>
-                  </div>
-                  {getSectionStatus('ressources') && (
-                    <div className="w-8 h-8 bg-ciprel-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                      <CheckCircle2 className="w-5 h-5 text-white" />
-                    </div>
-                  )}
-                </div>
-                <p className="text-gray-600">Guides et documents téléchargeables</p>
+                <ChevronLeft className="h-6 w-6" />
               </button>
+              <button
+                className="swiper-button-next-workshops absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-ciprel-orange-600 hover:bg-ciprel-orange-600 hover:text-white transition-all duration-300 hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed"
+                aria-label="Suivant"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            </div>
+
+            {/* Légende */}
+            <div className="text-center text-sm text-gray-500 mb-8 mt-4">
+              <p className="flex items-center justify-center gap-2">
+                <span>Utilisez les flèches</span>
+                <span className="inline-flex items-center gap-1">
+                  <ChevronLeft className="h-4 w-4" />
+                  <ChevronRight className="h-4 w-4" />
+                </span>
+                <span>ou faites glisser pour découvrir tous les métiers</span>
+              </p>
+            </div>
+
+            {/* Navigation */}
+            <div className="flex justify-center gap-4">
+              <button
+                type="button"
+                onClick={goPrev}
+                className="bg-ciprel-orange-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+              >
+                <ChevronUp className="h-5 w-5 mr-2" />
+                Précédent
+              </button>
+              <button
+                type="button"
+                onClick={goNext}
+                className="bg-ciprel-green-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+              >
+                Suivant
+                <ChevronDown className="h-5 w-5 ml-2" />
+              </button>
+            </div>
+          </div>
+        </section>
+        </SwiperSlide>
+
+        <SwiperSlide id="slide-video">
+          {/* VIDÉO INTRO - Slide 4 - Vidéo d'introduction (2 min) */}
+        <section className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50">
+          <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
+            
+            <div className="text-center mb-8">
+              <span className="bg-ciprel-orange-100 text-ciprel-orange-800 px-4 py-2 rounded-full text-sm font-semibold inline-block mb-4">
+                📹 Vidéo d'introduction
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-ciprel-black mb-4">
+                Découvrez la Démarche Compétence en 2 minutes
+              </h2>
+              <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+                Une présentation vidéo pour comprendre rapidement les enjeux et objectifs de notre démarche
+              </p>
+            </div>
+
+            {/* Lecteur vidéo */}
+            <div className="max-w-4xl mx-auto w-full mb-8">
+              <div className="relative aspect-video bg-black rounded-2xl shadow-2xl overflow-hidden">
+                <video
+                  ref={videoRef}
+                  controls
+                  className="absolute inset-0 w-full h-full"
+                  poster="/images/poster.jpg"
+                >
+                  <source src="/videos/video1.mp4" type="video/mp4" />
+                  Votre navigateur ne supporte pas la lecture de vidéos HTML5.
+                </video>
+              </div>
+            </div>
+
+            {/* Points clés */}
+            <div className="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+              <h3 className="text-xl font-bold text-ciprel-black mb-4 flex items-center">
+                <CheckCircle2 className="h-6 w-6 text-ciprel-green-600 mr-3" />
+                Ce que vous allez découvrir
+              </h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="flex items-start">
+                  <span className="text-ciprel-orange-600 font-bold mr-2">•</span>
+                  <p className="text-gray-700">Les enjeux de la démarche compétence</p>
+                </div>
+                <div className="flex items-start">
+                  <span className="text-ciprel-orange-600 font-bold mr-2">•</span>
+                  <p className="text-gray-700">Les bénéfices pour CIPREL et les collaborateurs</p>
+                </div>
+                <div className="flex items-start">
+                  <span className="text-ciprel-orange-600 font-bold mr-2">•</span>
+                  <p className="text-gray-700">Le parcours de développement des compétences</p>
+                </div>
+                <div className="flex items-start">
+                  <span className="text-ciprel-orange-600 font-bold mr-2">•</span>
+                  <p className="text-gray-700">Les outils et ressources disponibles</p>
+                </div>
+              </div>
             </div>
 
             {/* Navigation Buttons */}
@@ -835,21 +915,20 @@ export default function HomePage() {
                 <ChevronDown className="h-5 w-5 ml-2" />
               </button>
             </div>
-        </div>
+          </div>
         </section>
         </SwiperSlide>
 
-
-        <SwiperSlide>
-          {/* SECTION PLATEFORME - Slide 5 (dernier slide) */}
+        <SwiperSlide id="slide-quiz">
+          {/* SECTION QUIZ - Slide 5 - Quiz et sondages */}
         <section className="h-full overflow-y-auto bg-gray-50">
           <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
           <div className="text-center mb-12">
             <span className="bg-ciprel-green-100 text-ciprel-green-800 px-4 py-2 rounded-full text-sm font-semibold inline-block mb-4">
-              Plateforme interactive
+              Quiz et évaluation
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-ciprel-black mb-4">
-              Votre plateforme d'apprentissage et d'évaluation
+              Testez vos connaissances
             </h2>
             <p className="text-gray-600 text-lg max-w-3xl mx-auto">
               Impliquer le personnel dans l'amélioration continue de la démarche compétence,
@@ -959,10 +1038,98 @@ export default function HomePage() {
                 <ChevronUp className="h-5 w-5 mr-2" />
                 Précédent
               </button>
+              <button
+                type="button"
+                onClick={goNext}
+                className="bg-ciprel-green-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+              >
+                Suivant
+                <ChevronDown className="h-5 w-5 ml-2" />
+              </button>
             </div>
           </div>
         </div>
       </section>
+        </SwiperSlide>
+
+        <SwiperSlide id="slide-guide">
+          {/* SECTION GUIDE - Slide 6 - Guide et ressources */}
+        <section className="h-full overflow-y-auto bg-gradient-to-br from-gray-50 to-ciprel-green-50">
+          <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-20">
+          {/* Badge Document essentiel */}
+          <div className="flex justify-center mb-6">
+            <span className="bg-ciprel-green-100 text-ciprel-green-800 px-6 py-3 rounded-full font-bold text-lg flex items-center shadow-md">
+              <Award className="h-6 w-6 mr-2" />
+              Document essentiel
+            </span>
+          </div>
+
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-ciprel-black mb-6">
+            Le Guide de la Démarche Compétence CIPREL
+          </h2>
+
+          <p className="text-center text-gray-600 text-lg mb-12 max-w-3xl mx-auto">
+            Fournir aux employés une <strong>vue d'ensemble</strong> sur le processus de gestion des compétences,
+            son importance, ses objectifs et son déploiement.
+          </p>
+
+              {/* Carte principale du guide */}
+              <div className="bg-white rounded-2xl shadow-2xl overflow-hidden mb-12">
+                <div className="grid gap-8 items-start p-8 md:p-12">
+                  {/* Visuel du guide (gauche) */}
+                  {/* <div className="flex justify-center md:justify-start">
+                    <div className="relative">
+                      <div className="w-72 h-96 bg-gradient-to-br from-ciprel-green-500 to-ciprel-green-700 rounded-xl shadow-2xl border-4 border-white flex flex-col items-center justify-center p-8 transform hover:scale-105 transition-transform duration-300">
+                        <BookOpen className="h-32 w-32 text-white mb-6" />
+                        <div className="text-white text-center">
+                          <h3 className="text-2xl font-bold mb-2">Guide Complet</h3>
+                          <p className="text-ciprel-green-100">Démarche Compétence CIPREL</p>
+                        </div>
+                      </div>
+                      <div className="absolute -top-4 -right-4 bg-ciprel-orange-500 text-white px-5 py-3 rounded-full font-bold shadow-lg text-lg">
+                        📘 PDF
+                      </div>
+                    </div>
+                  </div> */}
+
+                  {/* Contenu du guide (droite) */}
+                  <div className="listeetelechargementduguide">
+
+                  <a
+                      href="/Guide_démarche_compétence.pdf"
+                      download
+                      className="bg-ciprel-green-600 text-white px-6 py-4 rounded-lg hover:bg-ciprel-green-700 font-bold text-lg w-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200"
+                    >
+                      <Download className="h-6 w-6 mr-3" />
+                      Télécharger le guide complet (PDF)
+                    </a>
+
+                  </div>
+                </div>
+              </div>
+
+
+          {/* CTA Button - Commencer le parcours */}
+          <div className="flex justify-center gap-4 mt-8">
+            <button
+              type="button"
+              onClick={goPrev}
+              className="bg-ciprel-orange-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+            >
+              <ChevronUp className="h-5 w-5 mr-2" />
+              Précédent
+            </button>
+            <button
+              type="button"
+              onClick={goNext}
+              className="bg-ciprel-green-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+            >
+              Suivant
+              <ChevronDown className="h-5 w-5 ml-2" />
+            </button>
+          </div>
+          </div>
+        </section>
         </SwiperSlide>
         </Swiper>
 
@@ -1473,6 +1640,17 @@ export default function HomePage() {
         `}</style>
       </div>
 
+      {/* Bouton sondage fixe en bas à gauche - visible sur toutes les pages */}
+      {user && (
+        <button
+          onClick={() => setSurveyModalOpen(true)}
+          className="fixed bottom-8 left-8 z-50 bg-ciprel-orange-500 text-white px-6 py-3 rounded-full shadow-2xl hover:bg-ciprel-orange-600 hover:shadow-xl transition-all duration-200 flex items-center gap-2 group"
+        >
+          <HelpCircle className="h-5 w-5 group-hover:rotate-12 transition-transform" />
+          <span className="font-semibold">Sondages</span>
+        </button>
+      )}
+
       {/* Modals */}
       <Suspense fallback={null}>
         <SectionModal
@@ -1568,20 +1746,96 @@ export default function HomePage() {
             }
           }}
         >
-          <DialogContent className="max-w-5xl w-full">
+          <DialogContent className="max-w-5xl w-full max-h-[90vh] overflow-y-auto">
             <DialogTitle className="text-2xl font-semibold text-ciprel-black">
-              Sondage d&apos;opinion
+              Sondages CIPREL
             </DialogTitle>
             <DialogDescription className="text-sm text-gray-600">
-              Partagez vos attentes et vos retours pour améliorer le déploiement de la démarche compétences.
+              Choisissez le sondage que vous souhaitez remplir pour nous aider à améliorer la plateforme.
             </DialogDescription>
-            <Suspense fallback={<LoadingScreen message="Chargement du sondage..." />}>
-              <CiprelSondageContent
+            <Suspense fallback={<LoadingScreen message="Chargement des sondages..." />}>
+              <SurveySelector
                 variant="modal"
                 onClose={() => setSurveyModalOpen(false)}
                 onNavigate={handleSurveyNavigate}
               />
             </Suspense>
+          </DialogContent>
+        </Dialog>
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <Dialog
+          open={workshopModalOpen}
+          onOpenChange={(open) => {
+            if (!open) {
+              setWorkshopModalOpen(false)
+              setSelectedWorkshop(null)
+            }
+          }}
+        >
+          <DialogContent className="max-w-2xl w-full">
+            <DialogTitle className="text-2xl font-semibold text-ciprel-black">
+              {selectedWorkshop?.metier_nom && `Workshop - ${selectedWorkshop.metier_nom}`}
+            </DialogTitle>
+            <DialogDescription className="text-sm text-gray-600">
+              Accédez aux ressources et documents pour le workshop
+            </DialogDescription>
+            <div className="space-y-6 py-4">
+              <p className="text-gray-700">
+                Bienvenue au workshop du métier <strong>{selectedWorkshop?.metier_nom}</strong>.
+              </p>
+
+              {selectedWorkshop?.publication_date && (
+                <div className="bg-ciprel-green-50 border border-ciprel-green-200 rounded-lg p-4">
+                  <p className="text-sm text-ciprel-green-800 flex items-center">
+                    <CheckCircle2 className="h-4 w-4 mr-2" />
+                    Publié le {new Date(selectedWorkshop.publication_date).toLocaleDateString('fr-FR', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </p>
+                </div>
+              )}
+
+              <div className="bg-white border-2 border-ciprel-orange-200 rounded-xl p-6">
+                <h4 className="font-bold text-ciprel-black mb-3 flex items-center">
+                  <Briefcase className="h-5 w-5 mr-2 text-ciprel-orange-600" />
+                  Ressources du workshop
+                </h4>
+                <p className="text-gray-600 mb-4">
+                  Retrouvez tous les supports, documents et ressources nécessaires pour ce workshop sur notre espace OneDrive.
+                </p>
+                {selectedWorkshop?.onedrive_link ? (
+                  <a
+                    href={selectedWorkshop.onedrive_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-ciprel-green-600 text-white px-6 py-3 rounded-lg hover:bg-ciprel-green-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl"
+                  >
+                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M13.8 12.4c-.8-.7-1.9-1.1-3-1.1-2.5 0-4.5 2-4.5 4.5s2 4.5 4.5 4.5c1.1 0 2.2-.4 3-1.1.2-.2.2-.5 0-.7l-1.4-1.4c-.2-.2-.5-.2-.7 0-.4.3-.8.5-1.3.5-1.2 0-2.2-1-2.2-2.2s1-2.2 2.2-2.2c.5 0 .9.2 1.3.5.2.2.5.2.7 0l1.4-1.4c.2-.2.2-.5 0-.7z"/>
+                    </svg>
+                    Ouvrir sur OneDrive
+                  </a>
+                ) : (
+                  <div className="bg-gray-100 text-gray-500 px-6 py-3 rounded-lg inline-block">
+                    Lien OneDrive non disponible
+                  </div>
+                )}
+              </div>
+
+              <button
+                onClick={() => {
+                  setWorkshopModalOpen(false)
+                  setSelectedWorkshop(null)
+                }}
+                className="w-full bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
+              >
+                Fermer
+              </button>
+            </div>
           </DialogContent>
         </Dialog>
       </Suspense>

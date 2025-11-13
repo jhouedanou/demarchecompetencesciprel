@@ -13,7 +13,7 @@ const AdminContext = createContext<AdminContextType | undefined>(undefined)
 
 const ADMIN_CREDENTIALS = {
   username: 'admin',
-  password: 'ù4:hatev12d>'
+  password: 'admin2014!'
 }
 
 const STORAGE_KEY = 'ciprel_admin_auth'

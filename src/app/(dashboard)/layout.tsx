@@ -22,13 +22,19 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         ? localStorage.getItem('ciprel-admin-auth') === 'authenticated'
         : false
 
-      if (!isAuthenticated && !hasLocalAdminAuth) {
+      // Si authentification locale, c'est OK, on ne vérifie pas plus
+      if (hasLocalAdminAuth) {
+        return
+      }
+
+      // Sinon, vérifier l'authentification Supabase
+      if (!isAuthenticated) {
         router.push('/login')
         return
       }
 
       // Vérifier si l'utilisateur a les permissions admin (seulement si authentifié via Supabase)
-      if (isAuthenticated && user && !['ADMIN', 'MANAGER'].includes(user.role)) {
+      if (user && !['ADMIN', 'MANAGER'].includes(user.role)) {
         router.push('/competences')
         return
       }
@@ -51,24 +57,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const isAuthorized = hasLocalAdminAuth || (isAuthenticated && user && ['ADMIN', 'MANAGER'].includes(user.role))
 
   if (!isAuthorized) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">
-            Accès non autorisé
-          </h1>
-          <p className="text-gray-600 mb-8">
-            Vous n'avez pas les permissions nécessaires pour accéder à cette section.
-          </p>
-          <button
-            onClick={() => router.push('/competences')}
-            className="px-4 py-2 bg-ciprel-green-600 text-white rounded-lg hover:bg-ciprel-green-700"
-          >
-            Retour à l'accueil
-          </button>
-        </div>
-      </div>
-    )
+    // Rediriger vers la page de connexion admin
+    if (typeof window !== 'undefined') {
+      router.push('/admin-login')
+    }
+    return null
   }
 
   return (

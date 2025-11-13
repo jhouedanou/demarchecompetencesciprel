@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Plus, Upload, FileText, Users, Settings, BarChart3 } from 'lucide-react'
+import { Plus, Upload, FileText, Users, Settings, BarChart3, Presentation } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
@@ -14,11 +14,11 @@ const quickActions = [
     color: 'bg-blue-500 hover:bg-ciprel-green-600 ',
   },
   {
-    title: 'Ajouter une vidéo',
-    description: 'Télécharger une nouvelle vidéo de formation',
-    href: '/admin/videos/upload',
-    icon: Upload,
-    color: 'bg-green-500 hover:bg-green-600',
+    title: 'Gérer les workshops',
+    description: 'Configurer les workshops métiers',
+    href: '/admin/workshops',
+    icon: Presentation,
+    color: 'bg-ciprel-orange-500 hover:bg-ciprel-orange-600',
   },
   {
     title: 'Créer une question',
@@ -32,7 +32,7 @@ const quickActions = [
     description: 'Consulter les demandes et consentements',
     href: '/admin/gdpr',
     icon: Settings,
-    color: 'bg-orange-500 hover:bg-orange-600',
+    color: 'bg-gray-500 hover:bg-gray-600',
   },
 ]
 
