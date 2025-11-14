@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Créer l'utilisateur avec Supabase Auth
-    const { data: authData, error: authError } = await supabase.auth.admin.createUser({
+    const { data: authData, error: createUserError } = await supabase.auth.admin.createUser({
       email,
       password,
       email_confirm: true,
@@ -63,14 +63,14 @@ export async function POST(request: NextRequest) {
       }
     })
 
-    if (authError) {
-      console.error('Erreur lors de la création de l\'utilisateur:', authError)
-      
-      if (authError.message.includes('already exists')) {
+    if (createUserError) {
+      console.error('Erreur lors de la création de l\'utilisateur:', createUserError)
+
+      if (createUserError.message.includes('already exists')) {
         return NextResponse.json({ error: 'Un utilisateur avec cet email existe déjà' }, { status: 400 })
       }
-      
-      return NextResponse.json({ error: authError.message }, { status: 400 })
+
+      return NextResponse.json({ error: createUserError.message }, { status: 400 })
     }
 
     if (!authData.user) {
