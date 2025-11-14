@@ -26,44 +26,53 @@ function getLocalAdminAuth(): boolean {
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const { user, isLoading, isAuthenticated } = useAuthStore()
   const router = useRouter()
-  const [redirectChecked, setRedirectChecked] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    // Don't do redirect checks until we're done loading
-    if (isLoading) {
-      return
-    }
+    setMounted(true)
+  }, [])
 
-    // Check if user has local admin auth
-    const hasLocalAdminAuth = getLocalAdminAuth()
+  // Check authorization - don't wait for isLoading to be false
+  // Use locally available data first
+  const hasLocalAdminAuth = mounted && getLocalAdminAuth()
+  const isSupabaseAuthorized = isAuthenticated && user && ['ADMIN', 'MANAGER'].includes(user.role)
+  const isAuthorized = hasLocalAdminAuth || isSupabaseAuthorized
 
-    // If locally authenticated, we're good
+  // Redirect logic
+  useEffect(() => {
+    if (!mounted) return
+
+    // If we have local auth, we're good
     if (hasLocalAdminAuth) {
-      setRedirectChecked(true)
+      console.log('[Dashboard] User has local admin auth')
       return
     }
 
-    // Otherwise, must be authenticated via Supabase
-    if (!isAuthenticated) {
-      console.log('[Dashboard] User not authenticated, redirecting to login')
-      router.push('/login')
-      return
+    // If Supabase auth is done loading, check it
+    if (!isLoading) {
+      if (!isAuthenticated) {
+        console.log('[Dashboard] User not authenticated via Supabase, redirecting to login')
+        router.push('/login')
+        return
+      }
+
+      if (user && !['ADMIN', 'MANAGER'].includes(user.role)) {
+        console.log('[Dashboard] User is not admin/manager, redirecting to competences')
+        router.push('/competences')
+        return
+      }
+
+      console.log('[Dashboard] User authorized via Supabase')
     }
+  }, [mounted, hasLocalAdminAuth, isLoading, isAuthenticated, user, router])
 
-    // Must have admin or manager role
-    if (user && !['ADMIN', 'MANAGER'].includes(user.role)) {
-      console.log('[Dashboard] User is not admin/manager, redirecting to competences')
-      router.push('/competences')
-      return
-    }
+  // Don't render anything until mounted to avoid hydration mismatch
+  if (!mounted) {
+    return null
+  }
 
-    // All checks passed
-    console.log('[Dashboard] User authorized')
-    setRedirectChecked(true)
-  }, [isLoading, isAuthenticated, user, router])
-
-  // Show loading state while checking auth
-  if (isLoading || !redirectChecked) {
+  // Show loading if not authorized yet and still checking Supabase auth
+  if (!isAuthorized && isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <LoadingSpinner />
@@ -71,16 +80,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     )
   }
 
-  // Final check before rendering - make sure we're authorized
-  const hasLocalAdminAuth = getLocalAdminAuth()
-  const isAuthorized = hasLocalAdminAuth || (isAuthenticated && user && ['ADMIN', 'MANAGER'].includes(user.role))
-
+  // If not authorized and done loading, return null (redirect will happen)
   if (!isAuthorized) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    )
+    return null
   }
 
   return (
