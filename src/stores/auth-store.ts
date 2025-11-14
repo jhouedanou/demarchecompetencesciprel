@@ -27,31 +27,50 @@ export const useAuthStore = create<AuthState>()(
 
       initialize: async () => {
         try {
+          console.log('[Auth] Starting initialization...')
           set({ isLoading: true })
 
           // Vérifier si Supabase est configuré
           if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-            console.warn('Supabase not configured - skipping auth initialization')
+            console.warn('[Auth] Supabase not configured - skipping initialization')
             set({ user: null, isAuthenticated: false, isLoading: false })
             return
           }
 
-          // Get current session
-          const { data: { session }, error } = await supabase.auth.getSession()
+          console.log('[Auth] Fetching session...')
+          // Add timeout to prevent hanging
+          const sessionPromise = supabase.auth.getSession()
+          const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Session fetch timeout')), 5000)
+          )
+
+          const { data: { session }, error } = await Promise.race([
+            sessionPromise,
+            timeoutPromise
+          ]) as any
 
           if (error) {
-            console.error('Auth session error:', error)
+            console.error('[Auth] Session error:', error)
             set({ user: null, isAuthenticated: false, isLoading: false })
             return
           }
 
+          console.log('[Auth] Session fetched:', session ? 'authenticated' : 'not authenticated')
+
           if (session?.user) {
+            console.log('[Auth] Fetching profile for user:', session.user.id)
             // Get profile data
-            const { data: profile } = await supabase
+            const { data: profile, error: profileError } = await supabase
               .from('profiles')
               .select('*')
               .eq('id', session.user.id)
               .single()
+
+            if (profileError) {
+              console.error('[Auth] Profile fetch error:', profileError)
+              set({ user: null, isAuthenticated: false, isLoading: false })
+              return
+            }
 
             if (profile) {
               const authUser: AuthUser = {
@@ -65,16 +84,21 @@ export const useAuthStore = create<AuthState>()(
                 updated_at: profile.updated_at!,
               }
 
+              console.log('[Auth] User authenticated:', authUser.name)
               set({ user: authUser, isAuthenticated: true, isLoading: false })
             } else {
+              console.log('[Auth] Profile not found')
               set({ user: null, isAuthenticated: false, isLoading: false })
             }
           } else {
+            console.log('[Auth] No session, user not authenticated')
             set({ user: null, isAuthenticated: false, isLoading: false })
           }
 
-          // Listen for auth changes
+          console.log('[Auth] Setting up auth state listener...')
+          // Listen for auth changes (but don't await - just register the listener)
           supabase.auth.onAuthStateChange(async (event, session) => {
+            console.log('[Auth] State change event:', event)
             if (event === 'SIGNED_IN' && session?.user) {
               const { data: profile } = await supabase
                 .from('profiles')
@@ -100,8 +124,9 @@ export const useAuthStore = create<AuthState>()(
               set({ user: null, isAuthenticated: false, isLoading: false })
             }
           })
+          console.log('[Auth] Initialization complete!')
         } catch (error) {
-          console.error('Auth initialization error:', error)
+          console.error('[Auth] Initialization error:', error)
           set({ user: null, isAuthenticated: false, isLoading: false })
         }
       },
