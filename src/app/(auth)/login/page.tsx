@@ -33,10 +33,11 @@ export default function LoginPage() {
   const router = useRouter()
 
   useEffect(() => {
-    if (isAuthenticated) {
+    // Only redirect after auth initialization is complete
+    if (!authLoading && isAuthenticated) {
       router.push('/')
     }
-  }, [isAuthenticated, router])
+  }, [isAuthenticated, authLoading, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
