@@ -7,13 +7,17 @@ export const dynamic = 'force-dynamic'
 export async function GET(request: NextRequest) {
   try {
     const supabase = await createUserServerClient()
-    
+
+    console.log('[API] stats - Checking session...')
     // Vérifier l'authentification et les permissions
     const {
       data: { session },
     } = await supabase.auth.getSession()
 
+    console.log('[API] stats - Session:', session ? `authenticated as ${session.user.email}` : 'not authenticated')
+
     if (!session) {
+      console.warn('[API] stats - No session, returning 401')
       return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
     }
 
