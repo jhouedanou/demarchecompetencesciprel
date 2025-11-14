@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useWorkshops, type Workshop } from '@/hooks/useWorkshops'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -23,26 +23,13 @@ const METIERS = [
 ]
 
 export default function WorkshopsAdminPage() {
-  const { workshops, loading, error, createWorkshop, updateWorkshop, toggleWorkshopActive } = useWorkshops()
+  const { workshops, loading, error, updateWorkshop, toggleWorkshopActive } = useWorkshops()
   const [editingId, setEditingId] = useState<number | null>(null)
   const [editData, setEditData] = useState<Partial<Workshop> | null>(null)
   const [successMessage, setSuccessMessage] = useState('')
 
-  // Initialiser les workshops vides pour tous les métiers
-  useEffect(() => {
-    const existingIds = new Set(workshops.map(w => w.metier_id))
-    METIERS.forEach(metier => {
-      if (!existingIds.has(metier.id)) {
-        createWorkshop({
-          metier_id: metier.id,
-          metier_nom: metier.nom,
-          is_active: false,
-          publication_date: null,
-          onedrive_link: null
-        })
-      }
-    })
-  }, [workshops.length, createWorkshop])
+  // Note: Les workshops doivent être initialisés depuis Supabase Dashboard
+  // Voir ADMIN_WORKSHOPS_GUIDE.md pour les instructions
 
   const handleEdit = (workshop: Workshop) => {
     setEditingId(workshop.id)
@@ -98,6 +85,13 @@ export default function WorkshopsAdminPage() {
               <Check className="h-5 w-5 text-green-600 mr-2" />
               <p className="text-green-700">{successMessage}</p>
             </div>
+          </div>
+        )}
+
+        {/* Message d'erreur */}
+        {error && (
+          <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+            <p className="text-red-700">Erreur: {error}</p>
           </div>
         )}
 
@@ -235,12 +229,6 @@ export default function WorkshopsAdminPage() {
             </table>
           </div>
         </div>
-
-        {error && (
-          <div className="mt-6 bg-red-50 border border-red-200 rounded-lg p-4">
-            <p className="text-red-700">{error}</p>
-          </div>
-        )}
       </div>
     </div>
   )

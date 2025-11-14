@@ -3,24 +3,30 @@ import { useState, useEffect } from 'react'
 import type { Database } from '@/types/database'
 import type { User } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 
-// Vérification silencieuse en développement
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables')
-}
+// Vérifier si Supabase est configuré
+const isSupabaseConfigured = supabaseUrl && supabaseAnonKey
 
-// Client-side Supabase client
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true,
-    flowType: 'pkce',
-    storage: typeof window !== 'undefined' ? window.localStorage : undefined,
-  },
-})
+// Client-side Supabase client (ou client factice si non configuré)
+export const supabase = isSupabaseConfigured
+  ? createClient<Database>(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: true,
+        flowType: 'pkce',
+        storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+      },
+    })
+  : createClient<Database>('https://placeholder.supabase.co', 'placeholder-key', {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+        detectSessionInUrl: false,
+      },
+    })
 
 // Hook to get current user avec cache
 export function useUser() {
@@ -28,16 +34,30 @@ export function useUser() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    // Si Supabase n'est pas configuré, terminer immédiatement le chargement
+    if (!isSupabaseConfigured) {
+      console.warn('Supabase not configured - user will be null')
+      setUser(null)
+      setLoading(false)
+      return
+    }
+
     let isMounted = true
+    // Réduire le timeout à 5 secondes au lieu de 10
     const timeoutId = setTimeout(() => {
       if (isMounted) {
+        console.warn('Auth session check timed out after 5s')
         setLoading(false)
       }
-    }, 10000)
+    }, 5000)
 
     const getSession = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession()
+
+        if (error) {
+          console.error('Error getting session:', error.message)
+        }
 
         if (isMounted) {
           setUser(session?.user ?? null)
@@ -45,7 +65,9 @@ export function useUser() {
           clearTimeout(timeoutId)
         }
       } catch (error) {
+        console.error('Exception getting session:', error)
         if (isMounted) {
+          setUser(null)
           setLoading(false)
           clearTimeout(timeoutId)
         }

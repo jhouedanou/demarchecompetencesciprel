@@ -38,68 +38,28 @@ export const useAuthStore = create<AuthState>()(
           }
 
           console.log('[Auth] Fetching session...')
-          // Add timeout to prevent hanging
-          const sessionPromise = supabase.auth.getSession()
-          const timeoutPromise = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error('Session fetch timeout')), 5000)
-          )
 
-          const { data: { session }, error } = await Promise.race([
-            sessionPromise,
-            timeoutPromise
-          ]) as any
+          // Ajouter un timeout de 5 secondes pour l'initialisation
+          const initTimeout = new Promise<void>((resolve) => {
+            setTimeout(() => {
+              console.warn('Auth initialization timed out after 5s')
+              set({ user: null, isAuthenticated: false, isLoading: false })
+              resolve()
+            }, 5000)
+          })
 
-          if (error) {
-            console.error('[Auth] Session error:', error)
-            set({ user: null, isAuthenticated: false, isLoading: false })
-            return
-          }
+          const initAuth = async () => {
+            // Get current session
+            const { data: { session }, error } = await supabase.auth.getSession()
 
-          console.log('[Auth] Session fetched:', session ? 'authenticated' : 'not authenticated')
-
-          if (session?.user) {
-            console.log('[Auth] Fetching profile for user:', session.user.id)
-            // Get profile data
-            const { data: profile, error: profileError } = await supabase
-              .from('profiles')
-              .select('*')
-              .eq('id', session.user.id)
-              .single()
-
-            if (profileError) {
-              console.error('[Auth] Profile fetch error:', profileError)
+            if (error) {
+              console.error('Auth session error:', error)
               set({ user: null, isAuthenticated: false, isLoading: false })
               return
             }
 
-            if (profile) {
-              const authUser: AuthUser = {
-                id: session.user.id,
-                email: session.user.email!,
-                name: profile.name,
-                role: profile.role as 'USER' | 'ADMIN' | 'MANAGER',
-                avatar_url: profile.avatar_url,
-                phone: profile.phone,
-                created_at: profile.created_at!,
-                updated_at: profile.updated_at!,
-              }
-
-              console.log('[Auth] User authenticated:', authUser.name)
-              set({ user: authUser, isAuthenticated: true, isLoading: false })
-            } else {
-              console.log('[Auth] Profile not found')
-              set({ user: null, isAuthenticated: false, isLoading: false })
-            }
-          } else {
-            console.log('[Auth] No session, user not authenticated')
-            set({ user: null, isAuthenticated: false, isLoading: false })
-          }
-
-          console.log('[Auth] Setting up auth state listener...')
-          // Listen for auth changes (but don't await - just register the listener)
-          supabase.auth.onAuthStateChange(async (event, session) => {
-            console.log('[Auth] State change event:', event)
-            if (event === 'SIGNED_IN' && session?.user) {
+            if (session?.user) {
+              // Get profile data
               const { data: profile } = await supabase
                 .from('profiles')
                 .select('*')
@@ -119,14 +79,46 @@ export const useAuthStore = create<AuthState>()(
                 }
 
                 set({ user: authUser, isAuthenticated: true, isLoading: false })
+              } else {
+                set({ user: null, isAuthenticated: false, isLoading: false })
               }
-            } else if (event === 'SIGNED_OUT') {
+            } else {
               set({ user: null, isAuthenticated: false, isLoading: false })
             }
-          })
-          console.log('[Auth] Initialization complete!')
+
+            // Listen for auth changes
+            supabase.auth.onAuthStateChange(async (event, session) => {
+              if (event === 'SIGNED_IN' && session?.user) {
+                const { data: profile } = await supabase
+                  .from('profiles')
+                  .select('*')
+                  .eq('id', session.user.id)
+                  .single()
+
+                if (profile) {
+                  const authUser: AuthUser = {
+                    id: session.user.id,
+                    email: session.user.email!,
+                    name: profile.name,
+                    role: profile.role as 'USER' | 'ADMIN' | 'MANAGER',
+                    avatar_url: profile.avatar_url,
+                    phone: profile.phone,
+                    created_at: profile.created_at!,
+                    updated_at: profile.updated_at!,
+                  }
+
+                  set({ user: authUser, isAuthenticated: true, isLoading: false })
+                }
+              } else if (event === 'SIGNED_OUT') {
+                set({ user: null, isAuthenticated: false, isLoading: false })
+              }
+            })
+          }
+
+          // Exécuter l'initialisation avec timeout
+          await Promise.race([initAuth(), initTimeout])
         } catch (error) {
-          console.error('[Auth] Initialization error:', error)
+          console.error('Auth initialization error:', error)
           set({ user: null, isAuthenticated: false, isLoading: false })
         }
       },

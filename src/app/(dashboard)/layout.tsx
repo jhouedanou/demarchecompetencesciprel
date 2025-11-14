@@ -19,7 +19,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     if (!isLoading) {
       // Vérifier si l'utilisateur est authentifié localement (admin)
       const hasLocalAdminAuth = typeof window !== 'undefined'
-        ? localStorage.getItem('ciprel-admin-auth') === 'authenticated'
+        ? (() => {
+            try {
+              const authData = localStorage.getItem('ciprel_admin_auth')
+              if (!authData) return false
+              const parsed = JSON.parse(authData)
+              return parsed.isAuthenticated === true
+            } catch {
+              return false
+            }
+          })()
         : false
 
       // Si authentification locale, c'est OK, on ne vérifie pas plus
@@ -51,7 +60,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   // Vérifier si l'utilisateur est authentifié (Supabase ou localement)
   const hasLocalAdminAuth = typeof window !== 'undefined'
-    ? localStorage.getItem('ciprel-admin-auth') === 'authenticated'
+    ? (() => {
+        try {
+          const authData = localStorage.getItem('ciprel_admin_auth')
+          if (!authData) return false
+          const parsed = JSON.parse(authData)
+          return parsed.isAuthenticated === true
+        } catch {
+          return false
+        }
+      })()
     : false
 
   const isAuthorized = hasLocalAdminAuth || (isAuthenticated && user && ['ADMIN', 'MANAGER'].includes(user.role))

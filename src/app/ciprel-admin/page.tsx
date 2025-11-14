@@ -22,9 +22,16 @@ export default function AdminAccessPage() {
 
   useEffect(() => {
     // Vérifier si déjà connecté en tant qu'admin
-    const adminAuth = localStorage.getItem('ciprel-admin-auth')
-    if (adminAuth === 'authenticated') {
-      router.push('/admin')
+    try {
+      const adminAuth = localStorage.getItem('ciprel_admin_auth')
+      if (adminAuth) {
+        const parsed = JSON.parse(adminAuth)
+        if (parsed.isAuthenticated === true) {
+          router.push('/admin')
+        }
+      }
+    } catch (e) {
+      // Ignore JSON parse errors
     }
   }, [router])
 
@@ -38,7 +45,7 @@ export default function AdminAccessPage() {
 
     if (credentials.username === ADMIN_CREDENTIALS.username &&
         credentials.password === ADMIN_CREDENTIALS.password) {
-      localStorage.setItem('ciprel-admin-auth', 'authenticated')
+      localStorage.setItem('ciprel_admin_auth', JSON.stringify({ isAuthenticated: true, username: credentials.username }))
       router.push('/admin')
     } else {
       setError('Identifiants incorrects')

@@ -21,7 +21,7 @@ export function LogoutModal({ isOpen, onClose }: LogoutModalProps) {
     setIsLoading(true)
     try {
       // Déconnecter l'admin aussi si nécessaire
-      localStorage.removeItem('ciprel-admin-auth')
+      localStorage.removeItem('ciprel_admin_auth')
       await signOut()
       onClose()
       router.push('/')
