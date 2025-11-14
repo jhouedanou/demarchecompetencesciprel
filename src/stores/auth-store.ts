@@ -39,27 +39,60 @@ export const useAuthStore = create<AuthState>()(
 
           console.log('[Auth] Fetching session...')
 
-          // Ajouter un timeout de 5 secondes pour l'initialisation
-          const initTimeout = new Promise<void>((resolve) => {
-            setTimeout(() => {
-              console.warn('Auth initialization timed out after 5s')
-              set({ user: null, isAuthenticated: false, isLoading: false })
-              resolve()
-            }, 5000)
-          })
+          // Get current session
+          const { data: { session }, error } = await supabase.auth.getSession()
 
-          const initAuth = async () => {
-            // Get current session
-            const { data: { session }, error } = await supabase.auth.getSession()
+          if (error) {
+            console.error('[Auth] Session error:', error)
+            set({ user: null, isAuthenticated: false, isLoading: false })
+            return
+          }
 
-            if (error) {
-              console.error('Auth session error:', error)
+          console.log('[Auth] Session retrieved:', session ? 'authenticated' : 'not authenticated')
+
+          if (session?.user) {
+            console.log('[Auth] Fetching profile for user:', session.user.id)
+            // Get profile data
+            const { data: profile, error: profileError } = await supabase
+              .from('profiles')
+              .select('*')
+              .eq('id', session.user.id)
+              .single()
+
+            if (profileError) {
+              console.error('[Auth] Profile fetch error:', profileError)
               set({ user: null, isAuthenticated: false, isLoading: false })
               return
             }
 
-            if (session?.user) {
-              // Get profile data
+            if (profile) {
+              const authUser: AuthUser = {
+                id: session.user.id,
+                email: session.user.email!,
+                name: profile.name,
+                role: profile.role as 'USER' | 'ADMIN' | 'MANAGER',
+                avatar_url: profile.avatar_url,
+                phone: profile.phone,
+                created_at: profile.created_at!,
+                updated_at: profile.updated_at!,
+              }
+
+              console.log('[Auth] User authenticated:', authUser.name, 'Role:', authUser.role)
+              set({ user: authUser, isAuthenticated: true, isLoading: false })
+            } else {
+              console.log('[Auth] Profile not found')
+              set({ user: null, isAuthenticated: false, isLoading: false })
+            }
+          } else {
+            console.log('[Auth] No session, user not authenticated')
+            set({ user: null, isAuthenticated: false, isLoading: false })
+          }
+
+          console.log('[Auth] Setting up auth state listener...')
+          // Listen for auth changes
+          supabase.auth.onAuthStateChange(async (event, session) => {
+            console.log('[Auth] Auth state change event:', event)
+            if (event === 'SIGNED_IN' && session?.user) {
               const { data: profile } = await supabase
                 .from('profiles')
                 .select('*')
@@ -79,44 +112,12 @@ export const useAuthStore = create<AuthState>()(
                 }
 
                 set({ user: authUser, isAuthenticated: true, isLoading: false })
-              } else {
-                set({ user: null, isAuthenticated: false, isLoading: false })
               }
-            } else {
+            } else if (event === 'SIGNED_OUT') {
               set({ user: null, isAuthenticated: false, isLoading: false })
             }
-
-            // Listen for auth changes
-            supabase.auth.onAuthStateChange(async (event, session) => {
-              if (event === 'SIGNED_IN' && session?.user) {
-                const { data: profile } = await supabase
-                  .from('profiles')
-                  .select('*')
-                  .eq('id', session.user.id)
-                  .single()
-
-                if (profile) {
-                  const authUser: AuthUser = {
-                    id: session.user.id,
-                    email: session.user.email!,
-                    name: profile.name,
-                    role: profile.role as 'USER' | 'ADMIN' | 'MANAGER',
-                    avatar_url: profile.avatar_url,
-                    phone: profile.phone,
-                    created_at: profile.created_at!,
-                    updated_at: profile.updated_at!,
-                  }
-
-                  set({ user: authUser, isAuthenticated: true, isLoading: false })
-                }
-              } else if (event === 'SIGNED_OUT') {
-                set({ user: null, isAuthenticated: false, isLoading: false })
-              }
-            })
-          }
-
-          // Exécuter l'initialisation avec timeout
-          await Promise.race([initAuth(), initTimeout])
+          })
+          console.log('[Auth] Initialization complete!')
         } catch (error) {
           console.error('Auth initialization error:', error)
           set({ user: null, isAuthenticated: false, isLoading: false })
