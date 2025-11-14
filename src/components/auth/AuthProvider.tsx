@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useAuthStore } from '@/stores/auth-store'
 
 interface AuthProviderProps {
@@ -9,10 +9,15 @@ interface AuthProviderProps {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const initialize = useAuthStore(state => state.initialize)
+  const initRef = useRef(false)
 
   useEffect(() => {
-    initialize()
-  }, [initialize])
+    // Ensure initialize is only called once
+    if (!initRef.current) {
+      initRef.current = true
+      initialize()
+    }
+  }, [])
 
   return <>{children}</>
 }
