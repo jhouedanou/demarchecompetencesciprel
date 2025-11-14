@@ -56,8 +56,8 @@ export async function GET(request: NextRequest) {
 
     // Calculer le score moyen
     const scores = averageScoreResult.data || []
-    const averageScore = scores.length > 0 
-      ? scores.reduce((sum, result) => sum + (result.percentage || 0), 0) / scores.length 
+    const averageScore = scores.length > 0
+      ? scores.reduce((sum: number, result: any) => sum + (result.percentage || 0), 0) / scores.length
       : 0
 
     // Calculer le taux de complétion (approximation)

@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
       .limit(10)
 
     if (newUsers) {
-      newUsers.forEach(user => {
+      newUsers.forEach((user: any) => {
         activities.push({
           id: `signup_${user.id}`,
           type: 'user_signup',
@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
       .limit(10)
 
     if (recentQuiz) {
-      recentQuiz.forEach(quiz => {
+      recentQuiz.forEach((quiz: any) => {
         const profile = (quiz as any).profiles
         activities.push({
           id: `quiz_${quiz.id}`,
@@ -96,7 +96,7 @@ export async function GET(request: NextRequest) {
       .limit(10)
 
     if (recentVideoViews) {
-      recentVideoViews.forEach(view => {
+      recentVideoViews.forEach((view: any) => {
         const profile = (view as any).profiles
         const video = (view as any).videos
         activities.push({

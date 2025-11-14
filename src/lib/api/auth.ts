@@ -108,13 +108,13 @@ export async function checkAdminPermissions(
       return { allowed: false }
     }
 
-    const allowed = ['ADMIN', 'MANAGER'].includes(profile.role)
+    const isAllowed = profile.role && ['ADMIN', 'MANAGER'].includes(profile.role)
 
-    if (!allowed) {
+    if (!isAllowed) {
       console.warn('[API Auth] User does not have admin permissions:', userId, 'Role:', profile.role)
     }
 
-    return { allowed, role: profile.role }
+    return { allowed: isAllowed || false, role: profile.role || undefined }
   } catch (error) {
     console.error('[API Auth] Exception checking permissions:', error)
     return { allowed: false }

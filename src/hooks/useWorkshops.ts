@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import { supabase } from '@/lib/supabase/client'
+import { authFetch } from '@/lib/api/client'
 
 export interface Workshop {
   id: number
@@ -23,6 +24,20 @@ export const useWorkshops = () => {
       setLoading(true)
       setError(null)
 
+      // Try API endpoint first (for admins with JWT auth)
+      try {
+        const response = await authFetch('/api/admin/workshops')
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`)
+        }
+        const data = await response.json()
+        setWorkshops(data.workshops || [])
+        return
+      } catch (apiErr) {
+        console.warn('API endpoint failed, falling back to direct Supabase query:', apiErr)
+      }
+
+      // Fallback: Direct Supabase query (for non-admin users viewing active workshops)
       const { data, error: fetchError } = await (supabase
         .from('workshops' as any)
         .select('*')
@@ -90,23 +105,31 @@ export const useWorkshops = () => {
     try {
       setError(null)
 
-      const { data, error: updateError } = await (supabase
-        .from('workshops' as any)
-        .update(updates)
-        .eq('id', id)
-        .select()
-        .single() as any)
+      // Use API endpoint for authenticated requests
+      const response = await authFetch('/api/admin/workshops', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id, ...updates }),
+      })
 
-      if (updateError) throw updateError
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || `HTTP ${response.status}`)
+      }
+
+      const data = await response.json()
+      const workshop = data.workshop
 
       // Mettre à jour la liste locale
-      if (data) {
+      if (workshop) {
         setWorkshops(prev =>
-          prev.map(w => w.id === id ? data : w)
+          prev.map(w => w.id === id ? workshop : w)
         )
       }
 
-      return data
+      return workshop
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Erreur lors de la mise à jour du workshop'
       setError(errorMessage)
