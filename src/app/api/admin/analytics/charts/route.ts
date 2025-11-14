@@ -1,34 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createUserServerClient } from '@/lib/supabase/server'
+import { requireAdmin } from '@/lib/api/auth'
 
 // Force dynamic rendering for this route
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await createUserServerClient()
+    // Authenticate and check admin permissions
+    const { user, supabase, error: authError } = await requireAdmin(request)
+
+    if (authError) {
+      return NextResponse.json({ error: authError.message }, { status: authError.status })
+    }
+
     const { searchParams } = new URL(request.url)
     const period = searchParams.get('period') || '7d'
-    
-    // Vérifier l'authentification et les permissions
-    const {
-      data: { session },
-    } = await supabase.auth.getSession()
-
-    if (!session) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
-    }
-
-    // Vérifier les permissions admin
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', session.user.id)
-      .single()
-
-    if (!profile || !['ADMIN', 'MANAGER'].includes(profile.role)) {
-      return NextResponse.json({ error: 'Permissions insuffisantes' }, { status: 403 })
-    }
 
     // Calculer la date de début selon la période
     const now = new Date()

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createUserServerClient } from '@/lib/supabase/server'
+import { requireAdmin } from '@/lib/api/auth'
 
 // Force dynamic rendering for this route
 export const dynamic = 'force-dynamic'
@@ -12,36 +12,21 @@ interface RouteParams {
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const supabase = await createUserServerClient()
-    
-    // Vérifier l'authentification et les permissions
-    const {
-      data: { session },
-    } = await supabase.auth.getSession()
+    // Authenticate and check admin permissions
+    const { user: currentUser, supabase, error: authError } = await requireAdmin(request)
 
-    if (!session) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
-    }
-
-    // Vérifier les permissions admin
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', session.user.id)
-      .single()
-
-    if (!profile || !['ADMIN', 'MANAGER'].includes(profile.role)) {
-      return NextResponse.json({ error: 'Permissions insuffisantes' }, { status: 403 })
+    if (authError) {
+      return NextResponse.json({ error: authError.message }, { status: authError.status })
     }
 
     // Récupérer l'utilisateur
-    const { data: user, error } = await supabase
+    const { data: user, error: dbError } = await supabase
       .from('profiles')
       .select('*')
       .eq('id', params.id)
       .single()
 
-    if (error) {
+    if (dbError) {
       return NextResponse.json({ error: 'Utilisateur non trouvé' }, { status: 404 })
     }
 
@@ -54,26 +39,11 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
-    const supabase = await createUserServerClient()
-    
-    // Vérifier l'authentification et les permissions
-    const {
-      data: { session },
-    } = await supabase.auth.getSession()
+    // Authenticate and check admin permissions
+    const { user, supabase, error: authError } = await requireAdmin(request)
 
-    if (!session) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
-    }
-
-    // Vérifier les permissions admin
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', session.user.id)
-      .single()
-
-    if (!profile || !['ADMIN', 'MANAGER'].includes(profile.role)) {
-      return NextResponse.json({ error: 'Permissions insuffisantes' }, { status: 403 })
+    if (authError) {
+      return NextResponse.json({ error: authError.message }, { status: authError.status })
     }
 
     const body = await request.json()
@@ -85,7 +55,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     }
 
     // Mettre à jour le profil
-    const { data: updatedUser, error } = await supabase
+    const { data: updatedUser, error: dbError } = await supabase
       .from('profiles')
       .update({
         name,
@@ -98,8 +68,8 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       .select()
       .single()
 
-    if (error) {
-      console.error('Erreur lors de la mise à jour:', error)
+    if (dbError) {
+      console.error('Erreur lors de la mise à jour:', dbError)
       return NextResponse.json({ error: 'Erreur lors de la mise à jour' }, { status: 500 })
     }
 
@@ -112,7 +82,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         action: 'UPDATE',
         purpose: 'User profile update by admin',
         legal_basis: 'LEGITIMATE_INTEREST',
-        processed_by: session.user.id,
+        processed_by: user.id,
       })
 
     return NextResponse.json({
@@ -127,30 +97,26 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
-    const supabase = await createUserServerClient()
-    
-    // Vérifier l'authentification et les permissions
-    const {
-      data: { session },
-    } = await supabase.auth.getSession()
+    // Authenticate and check admin permissions
+    const { user, supabase, error: authError } = await requireAdmin(request)
 
-    if (!session) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+    if (authError) {
+      return NextResponse.json({ error: authError.message }, { status: authError.status })
     }
 
-    // Vérifier les permissions admin
+    // Additional check: Only ADMIN can delete users
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
-      .eq('id', session.user.id)
+      .eq('id', user.id)
       .single()
 
-    if (!profile || !['ADMIN'].includes(profile.role)) {
+    if (!profile || profile.role !== 'ADMIN') {
       return NextResponse.json({ error: 'Seuls les administrateurs peuvent supprimer des utilisateurs' }, { status: 403 })
     }
 
     // Empêcher la suppression de son propre compte
-    if (params.id === session.user.id) {
+    if (params.id === user.id) {
       return NextResponse.json({ error: 'Impossible de supprimer votre propre compte' }, { status: 400 })
     }
 
@@ -163,7 +129,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
         action: 'DELETE',
         purpose: 'User account deletion by admin',
         legal_basis: 'LEGITIMATE_INTEREST',
-        processed_by: session.user.id,
+        processed_by: user.id,
       })
 
     // Supprimer l'utilisateur de Supabase Auth (cela supprimera automatiquement le profil grâce à la cascade)

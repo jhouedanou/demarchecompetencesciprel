@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Plus, User, Mail, Phone, Shield } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { authPost } from '@/lib/api/client'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -58,15 +59,9 @@ export function CreateUserDialog() {
 
   const onSubmit = async (data: CreateUserFormData) => {
     setIsLoading(true)
-    
+
     try {
-      const response = await fetch('/api/admin/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
+      const response = await authPost('/api/admin/users', data)
 
       if (response.ok) {
         const result = await response.json()
@@ -77,7 +72,7 @@ export function CreateUserDialog() {
         window.location.reload()
       } else {
         const error = await response.json()
-        toast.error(error.message || 'Erreur lors de la création')
+        toast.error(error.error || 'Erreur lors de la création')
       }
     } catch (error) {
       console.error('Erreur lors de la création:', error)

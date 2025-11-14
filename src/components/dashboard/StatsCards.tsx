@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Users, Brain, Video, TrendingUp, Clock, Award } from 'lucide-react'
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner'
+import { authFetch } from '@/lib/api/client'
 
 interface StatsData {
   totalUsers: number
@@ -22,11 +23,14 @@ export function StatsCards() {
     const fetchStats = async () => {
       try {
         setIsLoading(true)
-        const response = await fetch('/api/admin/analytics/stats')
-        
+        const response = await authFetch('/api/admin/analytics/stats')
+
         if (response.ok) {
           const data = await response.json()
           setStats(data)
+        } else {
+          const error = await response.json()
+          console.error('Erreur lors du chargement des statistiques:', error)
         }
       } catch (error) {
         console.error('Erreur lors du chargement des statistiques:', error)

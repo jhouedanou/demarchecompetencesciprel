@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createUserServerClient } from '@/lib/supabase/server'
+import { requireAdmin } from '@/lib/api/auth'
 
 // Force dynamic rendering for this route
 export const dynamic = 'force-dynamic'
@@ -9,26 +9,11 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = await createUserServerClient()
+    // Authenticate and check admin permissions
+    const { user, supabase, error: authError } = await requireAdmin(request)
 
-    // Vérifier l'authentification et les permissions
-    const {
-      data: { session },
-    } = await supabase.auth.getSession()
-
-    if (!session) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
-    }
-
-    // Vérifier les permissions admin
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', session.user.id)
-      .single()
-
-    if (!profile || !['ADMIN', 'MANAGER'].includes(profile.role)) {
-      return NextResponse.json({ error: 'Permissions insuffisantes' }, { status: 403 })
+    if (authError) {
+      return NextResponse.json({ error: authError.message }, { status: authError.status })
     }
 
     const { data: question, error } = await supabase
@@ -57,26 +42,11 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = await createUserServerClient()
+    // Authenticate and check admin permissions
+    const { user, supabase, error: authError } = await requireAdmin(request)
 
-    // Vérifier l'authentification et les permissions
-    const {
-      data: { session },
-    } = await supabase.auth.getSession()
-
-    if (!session) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
-    }
-
-    // Vérifier les permissions admin
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', session.user.id)
-      .single()
-
-    if (!profile || !['ADMIN', 'MANAGER'].includes(profile.role)) {
-      return NextResponse.json({ error: 'Permissions insuffisantes' }, { status: 403 })
+    if (authError) {
+      return NextResponse.json({ error: authError.message }, { status: authError.status })
     }
 
     const body = await request.json()
@@ -157,26 +127,11 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = await createUserServerClient()
+    // Authenticate and check admin permissions
+    const { user, supabase, error: authError } = await requireAdmin(request)
 
-    // Vérifier l'authentification et les permissions
-    const {
-      data: { session },
-    } = await supabase.auth.getSession()
-
-    if (!session) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
-    }
-
-    // Vérifier les permissions admin
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', session.user.id)
-      .single()
-
-    if (!profile || !['ADMIN', 'MANAGER'].includes(profile.role)) {
-      return NextResponse.json({ error: 'Permissions insuffisantes' }, { status: 403 })
+    if (authError) {
+      return NextResponse.json({ error: authError.message }, { status: authError.status })
     }
 
     // Vérifier que la question existe

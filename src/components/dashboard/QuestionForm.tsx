@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import toast from 'react-hot-toast'
 import { Save, Eye } from 'lucide-react'
+import { authFetch } from '@/lib/api/client'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -73,10 +74,11 @@ export default function QuestionForm({ mode, questionId }: QuestionFormProps) {
       const fetchQuestion = async () => {
         try {
           setLoading(true)
-          const response = await fetch(`/api/admin/questions/${questionId}`)
+          const response = await authFetch(`/api/admin/questions/${questionId}`)
 
           if (!response.ok) {
-            throw new Error('Question non trouvée')
+            const error = await response.json()
+            throw new Error(error.error || 'Question non trouvée')
           }
 
           const { question } = await response.json()
@@ -117,7 +119,7 @@ export default function QuestionForm({ mode, questionId }: QuestionFormProps) {
         ? '/api/admin/questions'
         : `/api/admin/questions/${questionId}`
 
-      const response = await fetch(url, {
+      const response = await authFetch(url, {
         method: mode === 'create' ? 'POST' : 'PUT',
         headers: {
           'Content-Type': 'application/json'

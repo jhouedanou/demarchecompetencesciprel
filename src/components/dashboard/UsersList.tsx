@@ -5,6 +5,7 @@ import { Search, Filter, MoreHorizontal, Edit, Trash2, Shield, User, Crown } fro
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { authFetch } from '@/lib/api/client'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,11 +43,14 @@ export function UsersList({ className }: UsersListProps) {
     const fetchUsers = async () => {
       try {
         setIsLoading(true)
-        const response = await fetch('/api/admin/users')
-        
+        const response = await authFetch('/api/admin/users')
+
         if (response.ok) {
           const data = await response.json()
           setUsers(data.users || [])
+        } else {
+          const error = await response.json()
+          console.error('Erreur lors du chargement des utilisateurs:', error)
         }
       } catch (error) {
         console.error('Erreur lors du chargement des utilisateurs:', error)
@@ -95,12 +99,15 @@ export function UsersList({ className }: UsersListProps) {
     }
 
     try {
-      const response = await fetch(`/api/admin/users/${userId}`, {
+      const response = await authFetch(`/api/admin/users/${userId}`, {
         method: 'DELETE'
       })
 
       if (response.ok) {
         setUsers(users.filter(user => user.id !== userId))
+      } else {
+        const error = await response.json()
+        console.error('Erreur lors de la suppression:', error)
       }
     } catch (error) {
       console.error('Erreur lors de la suppression:', error)

@@ -4,17 +4,18 @@ import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner'
-import { 
-  User, 
-  Brain, 
-  Video, 
-  Clock, 
-  CheckCircle, 
+import {
+  User,
+  Brain,
+  Video,
+  Clock,
+  CheckCircle,
   AlertCircle,
   Play
 } from 'lucide-react'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
+import { authFetch } from '@/lib/api/client'
 
 interface ActivityItem {
   id: string
@@ -35,11 +36,14 @@ export function RecentActivity() {
     const fetchRecentActivity = async () => {
       try {
         setIsLoading(true)
-        const response = await fetch('/api/admin/analytics/activity')
-        
+        const response = await authFetch('/api/admin/analytics/activity')
+
         if (response.ok) {
           const data = await response.json()
           setActivities(data.activities || [])
+        } else {
+          const error = await response.json()
+          console.error('Erreur lors du chargement de l\'activité récente:', error)
         }
       } catch (error) {
         console.error('Erreur lors du chargement de l\'activité récente:', error)
@@ -49,10 +53,10 @@ export function RecentActivity() {
     }
 
     fetchRecentActivity()
-    
+
     // Actualiser toutes les 30 secondes
     const interval = setInterval(fetchRecentActivity, 30000)
-    
+
     return () => clearInterval(interval)
   }, [])
 

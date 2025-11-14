@@ -1,41 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createUserServerClient } from '@/lib/supabase/server'
+import { requireAdmin } from '@/lib/api/auth'
 
 // Force dynamic rendering for this route
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await createUserServerClient()
-    
-    // Vérifier l'authentification et les permissions
-    const {
-      data: { session },
-    } = await supabase.auth.getSession()
+    // Authenticate and check admin permissions
+    const { user, supabase, error: authError } = await requireAdmin(request)
 
-    if (!session) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
-    }
-
-    // Vérifier les permissions admin
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', session.user.id)
-      .single()
-
-    if (!profile || !['ADMIN', 'MANAGER'].includes(profile.role)) {
-      return NextResponse.json({ error: 'Permissions insuffisantes' }, { status: 403 })
+    if (authError) {
+      return NextResponse.json({ error: authError.message }, { status: authError.status })
     }
 
     // Récupérer la liste des utilisateurs
-    const { data: users, error } = await supabase
+    const { data: users, error: dbError } = await supabase
       .from('profiles')
       .select('*')
       .order('created_at', { ascending: false })
 
-    if (error) {
-      console.error('Erreur lors de la récupération des utilisateurs:', error)
+    if (dbError) {
+      console.error('Erreur lors de la récupération des utilisateurs:', dbError)
       return NextResponse.json({ error: 'Erreur de base de données' }, { status: 500 })
     }
 
@@ -48,26 +33,11 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createUserServerClient()
-    
-    // Vérifier l'authentification et les permissions
-    const {
-      data: { session },
-    } = await supabase.auth.getSession()
+    // Authenticate and check admin permissions
+    const { user, supabase, error: authError } = await requireAdmin(request)
 
-    if (!session) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
-    }
-
-    // Vérifier les permissions admin
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', session.user.id)
-      .single()
-
-    if (!profile || !['ADMIN', 'MANAGER'].includes(profile.role)) {
-      return NextResponse.json({ error: 'Permissions insuffisantes' }, { status: 403 })
+    if (authError) {
+      return NextResponse.json({ error: authError.message }, { status: authError.status })
     }
 
     const body = await request.json()
@@ -136,7 +106,7 @@ export async function POST(request: NextRequest) {
         action: 'CREATE',
         purpose: 'User account creation by admin',
         legal_basis: 'LEGITIMATE_INTEREST',
-        processed_by: session.user.id,
+        processed_by: user.id,
       })
 
     return NextResponse.json({

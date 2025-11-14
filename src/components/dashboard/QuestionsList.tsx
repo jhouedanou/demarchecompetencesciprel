@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import QuestionPreview from './QuestionPreview'
+import { authFetch } from '@/lib/api/client'
 
 import type { QuizQuestion } from '@/types'
 import { QUIZ_CATEGORIES } from '@/lib/utils/constants'
@@ -50,10 +51,11 @@ export default function QuestionsList() {
       if (filterQuizType && filterQuizType !== 'all') params.append('quiz_type', filterQuizType)
       if (filterActive && filterActive !== 'all') params.append('active', filterActive)
 
-      const response = await fetch(`/api/admin/questions?${params}`)
+      const response = await authFetch(`/api/admin/questions?${params}`)
 
       if (!response.ok) {
-        throw new Error('Erreur lors du chargement des questions')
+        const error = await response.json()
+        throw new Error(error.error || 'Erreur lors du chargement des questions')
       }
 
       const data: QuestionsListResponse = await response.json()
@@ -61,9 +63,9 @@ export default function QuestionsList() {
       setTotal(data.total)
       setTotalPages(data.totalPages)
       setCurrentPage(data.page)
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erreur:', error)
-      toast.error('Erreur lors du chargement des questions')
+      toast.error(error.message || 'Erreur lors du chargement des questions')
     } finally {
       setLoading(false)
     }
@@ -79,19 +81,20 @@ export default function QuestionsList() {
     }
 
     try {
-      const response = await fetch(`/api/admin/questions/${questionId}`, {
+      const response = await authFetch(`/api/admin/questions/${questionId}`, {
         method: 'DELETE'
       })
 
       if (!response.ok) {
-        throw new Error('Erreur lors de la suppression')
+        const error = await response.json()
+        throw new Error(error.error || 'Erreur lors de la suppression')
       }
 
       toast.success('Question supprimée avec succès')
       fetchQuestions(currentPage)
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erreur:', error)
-      toast.error('Erreur lors de la suppression de la question')
+      toast.error(error.message || 'Erreur lors de la suppression de la question')
     }
   }
 

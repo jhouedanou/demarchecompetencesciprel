@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner'
+import { authFetch } from '@/lib/api/client'
 import {
   AreaChart,
   Area,
@@ -46,11 +47,14 @@ export function AnalyticsCharts() {
     const fetchChartData = async () => {
       try {
         setIsLoading(true)
-        const response = await fetch(`/api/admin/analytics/charts?period=${selectedPeriod}`)
-        
+        const response = await authFetch(`/api/admin/analytics/charts?period=${selectedPeriod}`)
+
         if (response.ok) {
           const data = await response.json()
           setChartData(data)
+        } else {
+          const error = await response.json()
+          console.error('Erreur lors du chargement des graphiques:', error)
         }
       } catch (error) {
         console.error('Erreur lors du chargement des graphiques:', error)
