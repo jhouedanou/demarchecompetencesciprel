@@ -1,10 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
-// Initialize Supabase client
+// Initialize Supabase client with service role key (bypasses RLS)
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error('❌ [API /api/metiers] Missing Supabase credentials')
+}
+
+const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+  auth: {
+    autoRefreshToken: false,
+    persistSession: false
+  }
+})
 
 export async function GET(request: NextRequest) {
   try {
@@ -72,9 +82,12 @@ export async function PUT(request: NextRequest) {
     console.log('✏️ [API /api/metiers] Update metier in workshops table')
 
     const body = await request.json()
-    const { id, statut, ordre, ...otherData } = body
+    console.log('📝 [API /api/metiers] Received body:', JSON.stringify(body, null, 2))
+
+    const { id, statut, ordre, onedrive_url, publication_date, ...otherData } = body
 
     if (!id) {
+      console.error('❌ [API /api/metiers] Missing ID in request body')
       return NextResponse.json(
         { error: 'ID is required' },
         { status: 400 }
@@ -90,32 +103,68 @@ export async function PUT(request: NextRequest) {
       updateData.is_active = statut
     }
 
-    console.log(`🔄 [API /api/metiers] Updating metier_id ${id} with:`, updateData)
+    if (onedrive_url !== undefined) {
+      updateData.onedrive_link = onedrive_url
+    }
+
+    if (publication_date !== undefined) {
+      console.log(`🔍 [API /api/metiers] publication_date value: "${publication_date}", type: ${typeof publication_date}`)
+      updateData.publication_date = (publication_date === '' || publication_date === null) ? null : publication_date
+      console.log(`🔍 [API /api/metiers] Converted to: ${updateData.publication_date}`)
+    }
+
+    console.log(`🔄 [API /api/metiers] Updating metier_id ${id} with:`, JSON.stringify(updateData, null, 2))
+
+    // First check if the workshop exists
+    const { data: existingWorkshop, error: fetchError } = await supabase
+      .from('workshops')
+      .select('*')
+      .eq('metier_id', id)
+      .maybeSingle()
+
+    if (fetchError) {
+      console.error('❌ [API /api/metiers] Error fetching workshop:', fetchError)
+      return NextResponse.json(
+        { error: `Database error: ${fetchError.message}` },
+        { status: 500 }
+      )
+    }
+
+    if (!existingWorkshop) {
+      console.error(`❌ [API /api/metiers] Workshop with metier_id ${id} not found`)
+      return NextResponse.json(
+        { error: `Metier with ID ${id} not found` },
+        { status: 404 }
+      )
+    }
+
+    console.log(`📦 [API /api/metiers] Found existing workshop:`, existingWorkshop.metier_nom)
 
     // Update the workshop
-    const { data: updatedWorkshop, error } = await supabase
+    const { data: updatedWorkshop, error: updateError } = await supabase
       .from('workshops')
       .update(updateData)
       .eq('metier_id', id)
       .select()
       .single()
 
-    if (error) {
-      console.error('❌ [API /api/metiers] Supabase error:', error)
+    if (updateError) {
+      console.error('❌ [API /api/metiers] Supabase update error:', updateError)
       return NextResponse.json(
-        { error: error.message },
+        { error: `Update failed: ${updateError.message}` },
         { status: 500 }
       )
     }
 
     if (!updatedWorkshop) {
+      console.error('❌ [API /api/metiers] Update returned no data')
       return NextResponse.json(
-        { error: 'Metier not found' },
-        { status: 404 }
+        { error: 'Update failed: no data returned' },
+        { status: 500 }
       )
     }
 
-    console.log(`✅ [API /api/metiers] Metier ${id} updated successfully`)
+    console.log(`✅ [API /api/metiers] Metier ${id} updated successfully:`, updatedWorkshop.metier_nom)
 
     // Return in metiers format
     return NextResponse.json({
@@ -142,10 +191,11 @@ export async function PUT(request: NextRequest) {
         publication_date: updatedWorkshop.publication_date || ''
       }
     })
-  } catch (error) {
-    console.error('❌ [API /api/metiers] Error:', error)
+  } catch (error: any) {
+    console.error('❌ [API /api/metiers] Unexpected error:', error)
+    console.error('❌ [API /api/metiers] Error stack:', error.stack)
     return NextResponse.json(
-      { error: 'Failed to update metier block' },
+      { error: `Failed to update metier block: ${error.message || 'Unknown error'}` },
       { status: 500 }
     )
   }
