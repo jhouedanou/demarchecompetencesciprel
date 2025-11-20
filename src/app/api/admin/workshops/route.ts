@@ -41,6 +41,8 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json()
+    console.log('🔧 [API /admin/workshops PUT] Received body:', JSON.stringify(body, null, 2))
+
     const { id, ...updates } = body
 
     // Validation
@@ -48,29 +50,39 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'ID du workshop manquant' }, { status: 400 })
     }
 
+    console.log('🔧 [API /admin/workshops PUT] Workshop ID:', id)
+    console.log('🔧 [API /admin/workshops PUT] Updates to apply:', JSON.stringify(updates, null, 2))
+
     // Mettre à jour le workshop
+    const updatePayload = {
+      ...updates,
+      updated_at: new Date().toISOString(),
+    }
+
+    console.log('🔧 [API /admin/workshops PUT] Full payload for DB:', JSON.stringify(updatePayload, null, 2))
+
     const { data: updatedWorkshop, error: updateError } = await supabase
       .from('workshops')
-      .update({
-        ...updates,
-        updated_at: new Date().toISOString(),
-      })
+      .update(updatePayload)
       .eq('id', id)
       .select()
       .single()
 
     if (updateError) {
-      console.error('Erreur lors de la mise à jour du workshop:', updateError)
+      console.error('❌ [API /admin/workshops PUT] Database error:', updateError)
       return NextResponse.json({ error: updateError.message }, { status: 500 })
     }
 
     if (!updatedWorkshop) {
+      console.error('❌ [API /admin/workshops PUT] Workshop not found for id:', id)
       return NextResponse.json({ error: 'Workshop non trouvé' }, { status: 404 })
     }
 
+    console.log('✅ [API /admin/workshops PUT] Workshop updated successfully:', JSON.stringify(updatedWorkshop, null, 2))
+
     return NextResponse.json({ workshop: updatedWorkshop })
   } catch (error) {
-    console.error('Erreur dans PUT /api/admin/workshops:', error)
+    console.error('❌ [API /admin/workshops PUT] Server error:', error)
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
   }
 }

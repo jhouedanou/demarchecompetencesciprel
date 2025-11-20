@@ -18,10 +18,10 @@ interface QuizStore {
   percentage?: number
 
   // Actions
-  loadQuestions: (quizType: 'INTRODUCTION' | 'SONDAGE') => Promise<void>
+  loadQuestions: (quizType: string, metierId?: number) => Promise<void>
   startQuiz: () => void
   submitAnswer: (questionId: string, selectedAnswers: string[]) => void
-  completeQuiz: (quizType: 'INTRODUCTION' | 'SONDAGE') => Promise<void>
+  completeQuiz: (quizType: string) => Promise<void>
   resetQuiz: () => void
   setError: (error: string | null) => void
 }
@@ -41,26 +41,41 @@ export const useQuizStore = create<QuizStore>()(
       score: undefined,
       percentage: undefined,
 
-      loadQuestions: async (quizType: 'INTRODUCTION' | 'SONDAGE') => {
+      loadQuestions: async (quizType: string, metierId?: number) => {
         try {
           set({ isLoading: true, error: null })
 
-          const response = await fetch(`/api/quiz?type=${quizType}`, {
+          // Build URL with appropriate parameters
+          const params = new URLSearchParams()
+
+          // For WORKSHOP quizzes, prefer metier_id if provided
+          if (metierId) {
+            params.append('metier_id', metierId.toString())
+            console.log(`🎯 [QuizStore] Loading WORKSHOP questions for metier_id: ${metierId}`)
+          } else {
+            // Fallback to type for INTRODUCTION/SONDAGE
+            params.append('type', quizType)
+            console.log(`🎯 [QuizStore] Loading questions for quiz_type: ${quizType}`)
+          }
+
+          const response = await fetch(`/api/quiz?${params.toString()}`, {
             credentials: 'include',
             headers: {
               'Content-Type': 'application/json',
             },
           })
-          
+
           if (!response.ok) {
             throw new Error('Erreur lors du chargement des questions')
           }
 
           const data = await response.json()
-          
+
           if (!data.questions || data.questions.length === 0) {
             throw new Error('Aucune question trouvée pour ce quiz')
           }
+
+          console.log(`✅ [QuizStore] Loaded ${data.questions.length} questions`)
 
           set({
             questions: data.questions,
@@ -68,6 +83,7 @@ export const useQuizStore = create<QuizStore>()(
             timeLimit: quizType === 'INTRODUCTION' ? 30 : undefined
           })
         } catch (error: any) {
+          console.error('❌ [QuizStore] Error loading questions:', error)
           set({
             error: error.message || 'Erreur lors du chargement du quiz',
             isLoading: false
@@ -76,7 +92,7 @@ export const useQuizStore = create<QuizStore>()(
       },
 
       startQuiz: () => {
-        set({ 
+        set({
           startTime: Date.now(),
           currentQuestionIndex: 0,
           answers: [],
@@ -90,12 +106,12 @@ export const useQuizStore = create<QuizStore>()(
       submitAnswer: (questionId: string, selectedAnswers: string[]) => {
         const { questions, currentQuestionIndex, answers } = get()
         const currentQuestion = questions[currentQuestionIndex]
-        
+
         if (!currentQuestion || currentQuestion.id !== questionId) return
 
         // Calculate if answer is correct
         const isCorrect = selectedAnswers.length === currentQuestion.correct_answer.length &&
-                         selectedAnswers.every(answer => currentQuestion.correct_answer.includes(answer))
+          selectedAnswers.every(answer => currentQuestion.correct_answer.includes(answer))
 
         const answer: QuizAnswer = {
           questionId,
@@ -115,22 +131,22 @@ export const useQuizStore = create<QuizStore>()(
         }
 
         // Passer à la question suivante automatiquement
-        const nextIndex = currentQuestionIndex < questions.length - 1 
-          ? currentQuestionIndex + 1 
+        const nextIndex = currentQuestionIndex < questions.length - 1
+          ? currentQuestionIndex + 1
           : currentQuestionIndex
 
-        set({ 
+        set({
           answers: updatedAnswers,
           currentQuestionIndex: nextIndex
         })
       },
 
-      completeQuiz: async (quizType: 'INTRODUCTION' | 'SONDAGE') => {
+      completeQuiz: async (quizType: string) => {
         const { questions, answers, startTime } = get()
-        
+
         // If startTime is missing, use current time as fallback to avoid blocking users
         const effectiveStartTime = startTime || Date.now()
-        
+
         if (!startTime) {
           console.warn('Quiz startTime was missing, using current time as fallback')
         }
@@ -167,7 +183,7 @@ export const useQuizStore = create<QuizStore>()(
           if (!response.ok) {
             const errorData = await response.json()
             console.error('Erreur API:', errorData)
-            
+
             // Message d'erreur personnalisé selon le code de statut
             if (response.status === 401) {
               throw new Error(errorData.message || 'Vous devez être connecté pour sauvegarder vos résultats.')
@@ -189,7 +205,7 @@ export const useQuizStore = create<QuizStore>()(
         } catch (error: any) {
           // Même en cas d'erreur de sauvegarde, on peut montrer les résultats localement
           console.warn('Erreur lors de la sauvegarde des résultats:', error)
-          
+
           // Importer et afficher un toast d'avertissement
           if (typeof window !== 'undefined') {
             import('react-hot-toast').then(({ default: toast }) => {
@@ -205,7 +221,7 @@ export const useQuizStore = create<QuizStore>()(
               }
             })
           }
-          
+
           set({
             isCompleted: true,
             score,

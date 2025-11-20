@@ -24,12 +24,16 @@ interface QuestionsListResponse {
   totalPages: number
 }
 
-export default function QuestionsList() {
+interface QuestionsListProps {
+  fixedQuizType?: string
+}
+
+export default function QuestionsList({ fixedQuizType }: QuestionsListProps) {
   const [questions, setQuestions] = useState<QuizQuestion[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [filterCategory, setFilterCategory] = useState<string>('all')
-  const [filterQuizType, setFilterQuizType] = useState<string>('all')
+  const [filterQuizType, setFilterQuizType] = useState<string>(fixedQuizType || 'all')
   const [filterActive, setFilterActive] = useState<string>('all')
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
@@ -184,16 +188,18 @@ export default function QuestionsList() {
             </SelectContent>
           </Select>
 
-          <Select value={filterQuizType} onValueChange={setFilterQuizType}>
-            <SelectTrigger className="w-32">
-              <SelectValue placeholder="Type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Tous</SelectItem>
-              <SelectItem value="INTRODUCTION">Introduction</SelectItem>
-              <SelectItem value="SONDAGE">Sondage</SelectItem>
-            </SelectContent>
-          </Select>
+          {!fixedQuizType && (
+            <Select value={filterQuizType} onValueChange={setFilterQuizType}>
+              <SelectTrigger className="w-32">
+                <SelectValue placeholder="Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tous</SelectItem>
+                <SelectItem value="INTRODUCTION">Introduction</SelectItem>
+                <SelectItem value="SONDAGE">Sondage</SelectItem>
+              </SelectContent>
+            </Select>
+          )}
 
           <Select value={filterActive} onValueChange={setFilterActive}>
             <SelectTrigger className="w-32">

@@ -13,6 +13,27 @@ export default function WorkshopsListPage() {
 
   useEffect(() => {
     loadActiveWorkshops()
+
+    // Subscribe to real-time changes on workshops table
+    const channel = supabase
+      .channel('workshops-public-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'workshops'
+        },
+        (payload) => {
+          console.log('[Workshops Page] Real-time update received:', payload)
+          loadActiveWorkshops()
+        }
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
   }, [])
 
   const loadActiveWorkshops = async () => {

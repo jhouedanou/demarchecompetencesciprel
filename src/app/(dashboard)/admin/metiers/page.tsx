@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Loader2, AlertCircle, CheckCircle, LogOut } from 'lucide-react'
+import { Loader2, AlertCircle, CheckCircle, LogOut, Brain, Link2, Edit2, Save, X, Calendar, RefreshCw } from 'lucide-react'
 import { useAdmin } from '@/contexts/AdminContext'
 import { useRouter } from 'next/navigation'
 
@@ -22,6 +22,8 @@ interface Metier {
   slogans: string[]
   competencesCles: any
   outils: string[]
+  onedrive_url: string | null
+  publication_date: string | null
 }
 
 interface ApiResponse {
@@ -38,6 +40,8 @@ export default function AdminMetiersPage() {
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
   const [expandedId, setExpandedId] = useState<number | null>(null)
+  const [editingMetierId, setEditingMetierId] = useState<number | null>(null)
+  const [editData, setEditData] = useState<{ onedrive_url?: string; publication_date?: string } | null>(null)
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -53,14 +57,20 @@ export default function AdminMetiersPage() {
 
   const fetchMetiers = async () => {
     try {
+      console.log('🔍 [Admin Métiers] Fetching métiers from /api/metiers...')
       setLoading(true)
       const response = await fetch('/api/metiers')
+      console.log('🔍 [Admin Métiers] Response status:', response.status)
       const data: ApiResponse = await response.json()
+      console.log('🔍 [Admin Métiers] Data received:', data)
       if (data.success) {
+        console.log('✅ [Admin Métiers] Setting métiers:', data.data.length, 'items')
         setMetiers(data.data)
+      } else {
+        console.error('❌ [Admin Métiers] API returned success:false')
       }
     } catch (error) {
-      console.error('Error fetching metiers:', error)
+      console.error('❌ [Admin Métiers] Error fetching metiers:', error)
       setMessage({ type: 'error', text: 'Erreur lors du chargement des blocs' })
     } finally {
       setLoading(false)
@@ -116,7 +126,7 @@ export default function AdminMetiersPage() {
 
     try {
       setSaving(true)
-      await Promise.all([
+      const responses = await Promise.all([
         fetch('/api/metiers', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -129,11 +139,68 @@ export default function AdminMetiersPage() {
         })
       ])
 
-      setMetiers([...metiers])
-      setMessage({ type: 'success', text: 'Ordre mis à jour' })
+      // Check if both updates succeeded
+      if (responses.every(r => r.ok)) {
+        // Re-sort the list by ordre to reflect the new order
+        const sortedMetiers = [...metiers].sort((a, b) => a.ordre - b.ordre)
+        setMetiers(sortedMetiers)
+        setMessage({ type: 'success', text: 'Ordre mis à jour' })
+        setTimeout(() => setMessage(null), 3000)
+      } else {
+        throw new Error('Failed to update order')
+      }
     } catch (error) {
       console.error('Error reordering:', error)
       setMessage({ type: 'error', text: 'Erreur lors de la réorganisation' })
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleEditMetier = (metier: Metier) => {
+    setEditingMetierId(metier.id)
+    setEditData({
+      onedrive_url: metier.onedrive_url || '',
+      publication_date: metier.publication_date || ''
+    })
+  }
+
+  const handleCancelEdit = () => {
+    setEditingMetierId(null)
+    setEditData(null)
+  }
+
+  const handleSaveMetier = async (id: number) => {
+    if (!editData) return
+    console.log('💾 [Admin Métiers] Saving métier:', { id, editData })
+    try {
+      setSaving(true)
+      const response = await fetch('/api/metiers', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id,
+          onedrive_url: editData.onedrive_url,
+          publication_date: editData.publication_date
+        })
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        console.log('💾 [Admin Métiers] Save result:', result)
+        setMetiers(prev => prev.map(m =>
+          m.id === id ? { ...m, onedrive_url: editData.onedrive_url || null, publication_date: editData.publication_date || null } : m
+        ))
+        setEditingMetierId(null)
+        setEditData(null)
+        setMessage({ type: 'success', text: 'Métier mis à jour avec succès' })
+        setTimeout(() => setMessage(null), 3000)
+      } else {
+        setMessage({ type: 'error', text: 'Erreur lors de la sauvegarde' })
+      }
+    } catch (error) {
+      console.error('Save error:', error)
+      setMessage({ type: 'error', text: 'Erreur lors de la sauvegarde' })
     } finally {
       setSaving(false)
     }
@@ -187,9 +254,8 @@ export default function AdminMetiersPage() {
       {message && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
           <div
-            className={`p-4 rounded-lg flex gap-3 items-start ${
-              message.type === 'success' ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'
-            }`}
+            className={`p-4 rounded-lg flex gap-3 items-start ${message.type === 'success' ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'
+              }`}
           >
             {message.type === 'success' ? (
               <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
@@ -218,9 +284,8 @@ export default function AdminMetiersPage() {
                             handleToggleStatus(metier.id)
                           }}
                           disabled={saving}
-                          className={`w-12 h-6 rounded-full transition-colors flex items-center justify-center ${
-                            metier.statut ? 'bg-green-500' : 'bg-gray-300'
-                          } ${saving ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                          className={`w-12 h-6 rounded-full transition-colors flex items-center justify-center ${metier.statut ? 'bg-green-500' : 'bg-gray-300'
+                            } ${saving ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                         >
                           <span className="text-white text-xs font-bold">{metier.statut ? 'ON' : 'OFF'}</span>
                         </button>
@@ -239,8 +304,21 @@ export default function AdminMetiersPage() {
                   </div>
                 </div>
 
-                {/* Reorder buttons */}
+                {/* Action buttons */}
                 <div className="flex items-center gap-2 ml-4">
+                  {/* Questions button */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      router.push(`/admin/metiers/${metier.id}/questions`)
+                    }}
+                    className="p-2 hover:bg-ciprel-green-100 rounded text-ciprel-green-600 transition-colors"
+                    title="Gérer les questions"
+                  >
+                    <Brain className="h-5 w-5" />
+                  </button>
+
+                  {/* Reorder buttons */}
                   <button
                     onClick={(e) => {
                       e.stopPropagation()
@@ -266,7 +344,108 @@ export default function AdminMetiersPage() {
                 </div>
               </div>
 
-              {/* Expanded content */}
+              {/* Workshop Section */}
+              <div className="px-6 py-3 bg-gray-50 border-t border-gray-200">
+                <div className="grid grid-cols-2 gap-4">
+                  {/* OneDrive Link */}
+                  <div>
+                    <label className="text-xs font-medium text-gray-700 block mb-1">Lien OneDrive</label>
+                    {editingMetierId === metier.id ? (
+                      <input
+                        type="url"
+                        placeholder="https://..."
+                        value={editData?.onedrive_url || ''}
+                        onChange={(e) => setEditData(prev => prev ? { ...prev, onedrive_url: e.target.value } : null)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        {metier.onedrive_url ? (
+                          <a
+                            href={metier.onedrive_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-ciprel-green-600 hover:text-ciprel-green-700 text-sm flex items-center gap-1"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <Link2 className="h-4 w-4" />
+                            Voir
+                          </a>
+                        ) : (
+                          <span className="text-gray-400 text-sm">Non défini</span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Publication Date */}
+                  <div>
+                    <label className="text-xs font-medium text-gray-700 block mb-1">Date de publication</label>
+                    {editingMetierId === metier.id ? (
+                      <input
+                        type="date"
+                        value={editData?.publication_date ? editData.publication_date.split('T')[0] : ''}
+                        onChange={(e) => setEditData(prev => prev ? { ...prev, publication_date: e.target.value } : null)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        {metier.publication_date ? (
+                          <span className="text-gray-700 text-sm flex items-center gap-1">
+                            <Calendar className="h-4 w-4 text-ciprel-green-600" />
+                            {new Date(metier.publication_date).toLocaleDateString('fr-FR')}
+                          </span>
+                        ) : (
+                          <span className="text-gray-400 text-sm">Non définie</span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Edit/Save Buttons */}
+                <div className="mt-3 flex gap-2">
+                  {editingMetierId === metier.id ? (
+                    <>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleSaveMetier(metier.id)
+                        }}
+                        className="inline-flex items-center px-3 py-1 bg-ciprel-green-600 text-white rounded text-sm hover:bg-ciprel-green-700"
+                      >
+                        <Save className="h-4 w-4 mr-1" />
+                        Sauvegarder
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleCancelEdit()
+                        }}
+                        className="inline-flex items-center px-3 py-1 bg-gray-300 text-gray-700 rounded text-sm hover:bg-gray-400"
+                      >
+                        <X className="h-4 w-4 mr-1" />
+                        Annuler
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleEditMetier(metier)
+                      }}
+                      className="inline-flex items-center px-3 py-1 bg-ciprel-orange-500 text-white rounded text-sm hover:bg-ciprel-orange-600"
+                    >
+                      <Edit2 className="h-4 w-4 mr-1" />
+                      Éditer Workshop
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Expanded content (optional details) */}
               {expandedId === metier.id && (
                 <div className="border-t border-gray-200 px-6 py-4 bg-gray-50">
                   <div className="space-y-4">

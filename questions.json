@@ -1,0 +1,1216 @@
+{
+    "quizzes": [
+        {
+            "title": "Quiz de la DAF",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "Quel est le rôle principal de l'équipe Comptabilité (Adjoint/Comptable) au sein du pôle Finance ?",
+                    "options": [
+                        "a) Gérer les relations bancaires.",
+                        "b) Traiter et consolider les opérations comptables et financières, et traiter les données fiscales.",
+                        "c) Élaborer le budget prévisionnel de l'entreprise.",
+                        "d) Optimiser les processus d'achat."
+                    ],
+                    "correct_answer": "b",
+                    
+                    "source_ref": "[cite: 2, 4]"
+                },
+                {
+                    "id": 2,
+                    "question": "Selon la présentation, quelle est la mission centrale du Contrôleur de Gestion ?",
+                    "options": [
+                        "a) Assurer le reporting hebdomadaire des soldes bancaires.",
+                        "b) Élaborer le budget (plan financier) et effectuer le suivi rigoureux de sa mise en œuvre.",
+                        "c) Piloter le système d'informations financières (SIF).",
+                        "d) Gérer les contentieux douaniers."
+                    ],
+                    "correct_answer": "b",
+                    
+                    "source_ref": "[cite: 7, 9]"
+                },
+                {
+                    "id": 3,
+                    "question": "Quelle est l'une des principales responsabilités de la fonction Trésorerie ?",
+                    "options": [
+                        "a) Réaliser les inventaires de stock annuels.",
+                        "b) Gérer les flux de trésorerie et les relations bancaires.",
+                        "c) Coordonner les activités de RSE.",
+                        "d) Assurer la sécurité physique des infrastructures."
+                    ],
+                    "correct_answer": "b",
+                    
+                    "source_ref": "[cite: 12, 14]"
+                },
+                {
+                    "id": 4,
+                    "question": "Qui est principalement chargé de Piloter le système d'informations financières (SIF) et de Maîtriser les risques de contrôle interne ?",
+                    "options": [
+                        "a) Le Contrôleur de Gestion.",
+                        "b) Le Trésorier.",
+                        "c) L'Adjoint en charge de la comptabilité.",
+                        "d) Le Leadership (Directeur / Responsable Financier)."
+                    ],
+                    "correct_answer": "d",
+                    
+                    "source_ref": "[cite: 17, 21]"
+                },
+                {
+                    "id": 5,
+                    "question": "Quelle est la valeur clé que la Comptabilité assure en garantissant la conformité et la rigueur des obligations fiscales ?",
+                    "options": [
+                        "a) Convivialité.",
+                        "b) Innovation.",
+                        "c) Respect.",
+                        "d) Force du Collectif."
+                    ],
+                    "correct_answer": "c",
+                    
+                    "source_ref": "[cite: 22, 25]"
+                },
+                {
+                    "id": 6,
+                    "question": "En plus de l'élaboration du budget, quelle mission est essentielle pour le Contrôle de Gestion afin de s'assurer de la pertinence des outils d'aide à la décision ?",
+                    "options": [
+                        "a) Améliorer la fiabilité des informations financières et comptables.",
+                        "b) Traiter les opérations de décaissement.",
+                        "c) Gérer les placements à long terme.",
+                        "d) Coordonner la logistique."
+                    ],
+                    "correct_answer": "a",
+                    
+                    "source_ref": "[cite: 27, 28]"
+                },
+                {
+                    "id": 7,
+                    "question": "Comment la Trésorerie démontre-t-elle l'Équité et la transparence dans son rôle ?",
+                    "options": [
+                        "a) En s'engageant à ne jamais avoir de dettes.",
+                        "b) En ne travaillant qu'avec une seule banque.",
+                        "c) En assurant un reporting régulier et transparent (hebdomadaire et mensuel) des flux.",
+                        "d) En élaborant les contrats clients."
+                    ],
+                    "correct_answer": "c",
+                    
+                    "source_ref": "[cite: 32, 35]"
+                },
+                {
+                    "id": 8,
+                    "question": "Quel rôle au sein de la Finance est spécifiquement responsable de la coordination des opérations comptables et de la gestion globale de la trésorerie ?",
+                    "options": [
+                        "a) Le Comptable.",
+                        "b) Le Contrôleur de Gestion.",
+                        "c) Le Responsable Finance et Comptabilité.",
+                        "d) Le Coordinateur Logistique."
+                    ],
+                    "correct_answer": "c",
+                    
+                    "source_ref": "[cite: 37, 40]"
+                },
+                {
+                    "id": 9,
+                    "question": "La Force du Collectif en Finance repose sur quel principe ?",
+                    "options": [
+                        "a) L'indépendance totale de chaque fonction pour minimiser les risques.",
+                        "b) L'interdépendance des fonctions : la Comptabilité fournit, la Trésorerie sécurise, et le Contrôle de Gestion guide.",
+                        "c) La fusion des rôles de Comptable et de Trésorier.",
+                        "d) La délégation de la gestion fiscale à un cabinet externe."
+                    ],
+                    "correct_answer": "b",
+                    
+                    "source_ref": "[cite: 42, 44]"
+                },
+                {
+                    "id": 10,
+                    "question": "Quel est l'objectif final du Pôle Finance vis-à-vis de la Direction, en combinant toutes ses missions ?",
+                    "options": [
+                        "a) Simplement enregistrer les transactions passées.",
+                        "b) Réduire les effectifs du département.",
+                        "c) Fournir le socle pour les décisions d'investissement futures et la Maîtrise des Risques.",
+                        "d) Gérer uniquement les relations avec les actionnaires."
+                    ],
+                    "correct_answer": "c",
+                    
+                    "source_ref": "[cite: 47, 50]"
+                }
+            ]
+        },
+        {
+            "title": "QUIZ – Ressources Humaines & Juridique",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "Quelle est la mission fondamentale du département RH ?",
+                    "options": [
+                        "A. Gérer uniquement les dossiers administratifs",
+                        "B. Transformer les talents en moteur de performance durable",
+                        "C. Surveiller les installations techniques",
+                        "D. Contrôler la qualité de la production"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 53, 55]"
+                },
+                {
+                    "id": 2,
+                    "question": "Quel est l’objectif principal du Développement RH ?",
+                    "options": [
+                        "A. Rédiger les contrats de travail",
+                        "B. Préparer l’avenir en développant les compétences et les parcours",
+                        "C. Gérer les paies et absences",
+                        "D. Assurer la conformité réglementaire exclusivement"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 56, 58]"
+                },
+                {
+                    "id": 3,
+                    "question": "L’Administration RH a pour rôle de :",
+                    "options": [
+                        "A. Produire l’énergie électrique",
+                        "B. Structurer, sécuriser et garantir la conformité RH",
+                        "C. Définir les objectifs de production",
+                        "D. Gérer les achats de combustibles"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 59, 61]"
+                },
+                {
+                    "id": 4,
+                    "question": "Quelle activité appartient au Développement RH ?",
+                    "options": [
+                        "A. Élaboration de la paie",
+                        "B. Constitution des dossiers du personnel",
+                        "C. Analyse des besoins en recrutement et sourcing",
+                        "D. Gestion des visites médicales"
+                    ],
+                    "correct_answer": "C",
+                    
+                    "source_ref": "[cite: 62, 64]"
+                },
+                {
+                    "id": 5,
+                    "question": "Quel savoir-être est indispensable en RH ?",
+                    "options": [
+                        "A. La distance et la froideur",
+                        "B. L’équité, l’écoute et la discrétion",
+                        "C. La rigidité totale",
+                        "D. L’absence de contact humain"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 65, 67]"
+                },
+                {
+                    "id": 6,
+                    "question": "Quelle est la mission principale du pôle Juridique ?",
+                    "options": [
+                        "A. Piloter les turbines",
+                        "B. Produire l’eau déminéralisée",
+                        "C. Sécuriser les opérations et garantir la légalité des décisions",
+                        "D. Superviser les formations"
+                    ],
+                    "correct_answer": "C",
+                    
+                    "source_ref": "[cite: 68, 70]"
+                },
+                {
+                    "id": 7,
+                    "question": "Quel est un rôle clé du Juridique dans l’entreprise ?",
+                    "options": [
+                        "A. Évaluer les collaborateurs",
+                        "B. Rédiger les contrats et protéger l’entreprise contre les risques juridiques",
+                        "C. Organiser les plannings de production",
+                        "D. Superviser les achats techniques"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 71, 73]"
+                },
+                {
+                    "id": 8,
+                    "question": "Quelle valeur FEERIC est indispensable dans les fonctions RH & Juridique ?",
+                    "options": [
+                        "A. L’individualisme",
+                        "B. La précipitation",
+                        "C. L’Équité",
+                        "D. L’agressivité"
+                    ],
+                    "correct_answer": "C",
+                    
+                    "source_ref": "[cite: 74, 75]"
+                },
+                {
+                    "id": 9,
+                    "question": "Quel lien unit le Développement RH et l’Administration RH ?",
+                    "options": [
+                        "A. Ils travaillent chacun de leur côté",
+                        "B. Ils sont en opposition permanente",
+                        "C. Leur complémentarité transforme les besoins opérationnels en solutions RH durables",
+                        "D. Ils gèrent uniquement les formations"
+                    ],
+                    "correct_answer": "C",
+                    
+                    "source_ref": "[cite: 76, 78]"
+                },
+                {
+                    "id": 10,
+                    "question": "Le rôle du Juridique en matière d’éthique consiste à :",
+                    "options": [
+                        "A. Assurer la production électrique de nuit",
+                        "B. Se concentrer uniquement sur les procès",
+                        "C. Garantir la transparence, la gouvernance, et prévenir la corruption",
+                        "D. Gérer les congés du personnel"
+                    ],
+                    "correct_answer": "C",
+                    
+                    "source_ref": "[cite: 79, 81]"
+                }
+            ]
+        },
+        {
+            "title": "QUIZ GESTION DES STOCK",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "Quel est le rôle stratégique principal de la Gestion des Stocks dans un environnement critique comme une centrale électrique ?",
+                    "options": [
+                        "a) Négocier les prix avec les fournisseurs de pièces.",
+                        "b) Assurer la sécurité physique du site dans son ensemble.",
+                        "c) Être le premier rempart contre la défaillance et garantir la disponibilité immédiate des pièces vitales.",
+                        "d) Calculer les amortissements des actifs stockés."
+                    ],
+                    "correct_answer": "c",
+                    
+                    "source_ref": "[cite: 83, 86]"
+                },
+                {
+                    "id": 2,
+                    "question": "Quelle est la mission du pôle concernant l'immobilisation financière liée aux pièces ?",
+                    "options": [
+                        "a) Maximiser le volume de stock pour prévenir toute éventualité.",
+                        "b) Éliminer tous les stocks pour réduire le capital immobilisé.",
+                        "c) Optimiser le capital immobilisé en minimisant le surstockage coûteux tout en maximisant la sécurité.",
+                        "d) Négocier les taux d'intérêt sur le stock avec la banque."
+                    ],
+                    "correct_answer": "c",
+                    
+                    "source_ref": "[cite: 88, 91]"
+                },
+                {
+                    "id": 3,
+                    "question": "Quelle fonction spécifique garantit la fiabilité des données de stock pour la Comptabilité et le Contrôle de Gestion ?",
+                    "options": [
+                        "a) Le contrôle qualitatif à la réception uniquement.",
+                        "b) La distribution interne des pièces.",
+                        "c) La gestion des mouvements physiques de stocks.",
+                        "d) La réalisation des inventaires de stock (tournants et annuels)."
+                    ],
+                    "correct_answer": "d",
+                    
+                    "source_ref": "[cite: 93, 97]"
+                },
+                {
+                    "id": 4,
+                    "question": "Quel titre de fonction est chargé d'assurer la vision globale et l'intégration des méthodes au sein du pôle Gestion des Stocks ?",
+                    "options": [
+                        "a) Le Gestionnaire de Stock.",
+                        "b) Le Responsable Achat & Logistique.",
+                        "c) Le Coordinateur Gestion de Stock.",
+                        "d) L'Acheteur."
+                    ],
+                    "correct_answer": "b",
+                    
+                    "source_ref": "[cite: 98, 100]"
+                },
+                {
+                    "id": 5,
+                    "question": "De quel type de rapport s'agit-il pour assurer la transparence et l'information des autres départements ?",
+                    "options": [
+                        "a) Les rapports d'évaluation des fournisseurs.",
+                        "b) Les états financiers annuels.",
+                        "c) Les rapports et états liés à la gestion de son activité (performance des stocks, mouvements).",
+                        "d) Les études de marché sur les prix des matières premières."
+                    ],
+                    "correct_answer": "c",
+                    
+                    "source_ref": "[cite: 103, 107]"
+                },
+                {
+                    "id": 6,
+                    "question": "Quelle valeur est directement liée à la mission de 'veiller à l'Équité et à la justesse de chaque mouvement' ?",
+                    "options": [
+                        "a) Innovation.",
+                        "b) Convivialité.",
+                        "c) Force du Collectif.",
+                        "d) Équité."
+                    ],
+                    "correct_answer": "d",
+                    
+                    "source_ref": "[cite: 109, 113]"
+                },
+                {
+                    "id": 7,
+                    "question": "Que signifie la mission de 'Suivre les paramètres de gestion de stocks' ?",
+                    "options": [
+                        "a) Mémoriser l'emplacement exact de chaque pièce.",
+                        "b) Définir les niveaux de stock (minimum, alerte, sécurité) et analyser les indicateurs (rotations, délais).",
+                        "c) Vérifier la validité des licences logicielles utilisées par le pôle.",
+                        "d) Organiser des réunions de 'Convivialité' avec les fournisseurs."
+                    ],
+                    "correct_answer": "b",
+                    
+                    "source_ref": "[cite: 114, 116]"
+                },
+                {
+                    "id": 8,
+                    "question": "Quelle est la principale raison pour laquelle le Magasinage doit 'Gérer les mouvements physiques de stocks' avec le plus grand 'Respect' des procédures ?",
+                    "options": [
+                        "a) Pour garantir que les camions de livraison aient assez d'espace pour manœuvrer.",
+                        "b) Pour minimiser l'usure des équipements de manutention.",
+                        "c) Pour garantir la traçabilité des pièces, leur intégrité physique et la conformité des données enregistrées.",
+                        "d) Pour prouver la 'Force du Collectif' à la Direction Générale."
+                    ],
+                    "correct_answer": "c",
+                    
+                    "source_ref": "[cite: 119, 122]"
+                },
+                {
+                    "id": 9,
+                    "question": "Le pôle Gestion des Stocks est qualifié de gardien du 'Stock de Sécurité'. Qu'est-ce que cela implique ?",
+                    "options": [
+                        "a) Il gère uniquement les stocks de fournitures de bureau.",
+                        "b) Il contrôle le niveau de stock en fonction de la demande du marché de l'électricité.",
+                        "c) Il assure la gestion et l'état des pièces uniques sans lesquelles la centrale pourrait s'arrêter, priorité absolue pour la Maîtrise des Risques.",
+                        "d) Il est responsable de la protection des données informatiques de l'entreprise."
+                    ],
+                    "correct_answer": "c",
+                    
+                    "source_ref": "[cite: 124, 127]"
+                },
+                {
+                    "id": 10,
+                    "question": "Comment le pôle Gestion des Stocks utilise-t-il l'Innovation selon la présentation ?",
+                    "options": [
+                        "a) En inventant de nouvelles pièces de rechange.",
+                        "b) En utilisant uniquement des méthodes de gestion de stock manuelles (papier et stylo).",
+                        "c) En développant des partenariats avec des banques d'investissement.",
+                        "d) En intégrant des systèmes de gestion des stocks WMS ou des méthodes d'inventaire dynamiques pour une vision précise et en temps réel."
+                    ],
+                    "correct_answer": "d",
+                    
+                    "source_ref": "[cite: 129, 133]"
+                }
+            ]
+        },
+        {
+            "title": "Quiz PROJETS",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "Le rôle stratégique du Responsable Projets",
+                    "options": [
+                        "A. Superviser le travail administratif du pôle projets",
+                        "B. Garantir l’alignement des projets avec les orientations stratégiques de la Direction Générale",
+                        "C. Assurer la maintenance des installations électriques",
+                        "D. Réaliser les tâches de suivi quotidien des prestataires"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 135, 136]"
+                },
+                {
+                    "id": 2,
+                    "question": "Le Directeur Développement assure la performance du pôle projets en :",
+                    "options": [
+                        "A. Définissant les standards méthodologiques et outils de gestion de projets",
+                        "B. Coordonnant uniquement les recrutements liés au département",
+                        "C. Pilotant la feuille de route de développement et les investissements",
+                        "D. Supervisant les rôles : Superviseur Projets, Assistante Projets, Secrétaire"
+                    ],
+                    "correct_answer": "C",
+                    
+                    "source_ref": "[cite: 138, 139]"
+                },
+                {
+                    "id": 3,
+                    "question": "Le Superviseur Projets contribue directement à la performance énergétique de CIPREL en :",
+                    "options": [
+                        "A. Réalisant le suivi technique et opérationnel de l’avancement des projets",
+                        "B. Rédigeant les contrats fournisseurs",
+                        "C. Formant les opérateurs de production",
+                        "D. Gérant les archives administratives du pôle"
+                    ],
+                    "correct_answer": "A",
+                    
+                    "source_ref": "[cite: 141]"
+                },
+                {
+                    "id": 4,
+                    "question": "Dans une centrale électrique, la mission du Superviseur Projets inclut :",
+                    "options": [
+                        "A. Le contrôle du respect des normes QHSE",
+                        "B. L’identification des risques opérationnels et des mesures d’atténuation",
+                        "C. La coordination des plannings de paie",
+                        "D. La supervision des prestataires sur site"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 143, 144]"
+                },
+                {
+                    "id": 5,
+                    "question": "Le rôle principal de l’Assistante Projets est :",
+                    "options": [
+                        "A. Réaliser les audits QHSE",
+                        "B. Actualiser la documentation projet, préparer les dossiers et assurer la circulation des informations",
+                        "C. Gérer les interventions techniques sur les installations",
+                        "D. Élaborer les stratégies d’investissement"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 145]"
+                },
+                {
+                    "id": 6,
+                    "question": "La Secrétaire Projets contribue à la conformité réglementaire du pôle en :",
+                    "options": [
+                        "A. Organisant les réunions, comités et ateliers projets",
+                        "B. Assurant l’archivage structuré pour garantir traçabilité et auditabilité",
+                        "C. Rédigeant les procès-verbaux, comptes rendus et courriers",
+                        "D. Supervisant les installations électriques basse tension"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 147, 148]"
+                },
+                {
+                    "id": 7,
+                    "question": "Dans le pôle Projets, la valeur Intégrité se traduit particulièrement par :",
+                    "options": [
+                        "A. Le strict respect des délais de production électrique",
+                        "B. La transparence dans les processus de contractualisation et reporting",
+                        "C. L’innovation permanente dans les solutions techniques",
+                        "D. La gestion exclusive de la communication interne"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 150]"
+                },
+                {
+                    "id": 8,
+                    "question": "Un projet est considéré comme aligné avec les standards CIPREL lorsqu’il :",
+                    "options": [
+                        "A. Renforce la continuité et la fiabilité de la production électrique",
+                        "B. Respecte les normes QHSE à chaque étape",
+                        "C. Est livré systématiquement avant la date prévue, même si certaines étapes sont écourtées",
+                        "D. Intègre les critères ESG dans son approche (sécurité, éthique, environnement, impact social)"
+                    ],
+                    "correct_answer": "D",
+                    
+                    "source_ref": "[cite: 152, 154]"
+                },
+                {
+                    "id": 9,
+                    "question": "La collaboration efficace du pôle Projets repose avant tout sur :",
+                    "options": [
+                        "A. Une autonomie complète de chaque rôle sans coordination",
+                        "B. Une synchronisation rigoureuse entre stratégie, supervision terrain et support administratif",
+                        "C. Une délégation totale des responsabilités à des prestataires externes",
+                        "D. Un reporting annuel unique"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 155]"
+                },
+                {
+                    "id": 10,
+                    "question": "Dans la conduite d’un projet énergétique, les risques critiques à surveiller incluent :",
+                    "options": [
+                        "A. Les risques techniques liés aux installations",
+                        "B. Les risques opérationnels liés aux prestataires et à l’exécution",
+                        "C. Les risques administratifs liés à l’archivage des CV",
+                        "D. Les risques de conformité réglementaire et environnementale"
+                    ],
+                    "correct_answer": "D",
+                    
+                    "source_ref": "[cite: 157, 158]"
+                }
+            ]
+        },
+        {
+            "title": "QUIZ SUR SITD",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "Le SIDT joue un rôle essentiel chez CIPREL. Quel est son objectif principal ?",
+                    "options": [
+                        "A. Garantir la sécurité et la performance des systèmes d’information",
+                        "B. Gérer exclusivement les contrats de prestation externe",
+                        "C. Accompagner la transformation digitale de CIPREL",
+                        "D. Assurer la disponibilité et la fiabilité des outils numériques"
+                    ],
+                    "correct_answer": "D",
+                    
+                    "source_ref": "[cite: 161, 163]"
+                },
+                {
+                    "id": 2,
+                    "question": "Quels sont les trois pôles/fonctions clés du SIDT chez CIPREL ?",
+                    "options": [
+                        "A. Responsable Informatique & Veille Technologique",
+                        "B. Responsable Maintenance Industrielle",
+                        "C. Ingénieur Informatique",
+                        "D. Technicien Informatique"
+                    ],
+                    "correct_answer": "A, C, D",
+                    
+                    "source_ref": "[cite: 164, 165]"
+                },
+                {
+                    "id": 3,
+                    "question": "Le rôle de l’Ingénieur Informatique dans la cybersécurité se concentre principalement sur :",
+                    "options": [
+                        "A. La sensibilisation des utilisateurs aux bonnes pratiques",
+                        "B. L’intégration de mécanismes techniques de protection dans les architectures SI",
+                        "C. La rédaction des chartes et politiques de sécurité",
+                        "D. Le contrôle de la qualité du support de niveau 1"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 166, 167]"
+                },
+                {
+                    "id": 4,
+                    "question": "Le Technicien Informatique a pour rôle :",
+                    "options": [
+                        "A. D’assurer un support de proximité auprès des collaborateurs",
+                        "B. De maintenir et installer les équipements",
+                        "C. De rédiger les politiques de cybersécurité",
+                        "D. De garantir la continuité opérationnelle au quotidien"
+                    ],
+                    "correct_answer": "A",
+                    
+                    "source_ref": "[cite: 169, 170]"
+                },
+                {
+                    "id": 5,
+                    "question": "Quels piliers structurent la mission globale du SIDT chez CIPREL ?",
+                    "options": [
+                        "A. Moderniser et sécuriser les systèmes d’information",
+                        "B. Améliorer la transformation digitale",
+                        "C. Optimiser les lignes de production électriques",
+                        "D. Anticiper les évolutions technologiques"
+                    ],
+                    "correct_answer": "A",
+                    
+                    "source_ref": "[cite: 171, 172]"
+                },
+                {
+                    "id": 6,
+                    "question": "Quelle valeur CIPREL se traduit le plus directement dans la mise en place d’un plan de cybersécurité robuste ?",
+                    "options": [
+                        "A. Innovation",
+                        "B. Intégrité",
+                        "C. Excellence",
+                        "D. Convivialité"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 173, 174]"
+                },
+                {
+                    "id": 7,
+                    "question": "Dans la collaboration interne, le SIDT se distingue par :",
+                    "options": [
+                        "A. Une forte complémentarité entre technicien, ingénieur et responsable",
+                        "B. Un travail isolé sans contact avec les autres départements",
+                        "C. Un rôle stratégique pour faciliter le travail de tous",
+                        "D. Une contribution directe à la fiabilité opérationnelle de la centrale"
+                    ],
+                    "correct_answer": "C",
+                    
+                    "source_ref": "[cite: 175, 176]"
+                },
+                {
+                    "id": 8,
+                    "question": "En matière de durabilité et d’ESG, le SIDT contribue à :",
+                    "options": [
+                        "A. Renforcer la cybersécurité et protéger les données sensibles",
+                        "B. Réduire l’empreinte environnementale grâce à la sobriété numérique",
+                        "C. Concevoir la politique RH de l’entreprise",
+                        "D. Intégrer des solutions technologiques responsables et conformes"
+                    ],
+                    "correct_answer": "D",
+                    
+                    "source_ref": "[cite: 178, 179]"
+                },
+                {
+                    "id": 9,
+                    "question": "Le SIDT se positionne comme :",
+                    "options": [
+                        "A. Un simple support technique",
+                        "B. Un partenaire stratégique de la performance",
+                        "C. Un acteur clé de la sécurité technologique",
+                        "D. Un moteur de la transformation digitale durable"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 180, 181]"
+                }
+            ]
+        },
+        {
+            "title": "Quiz Achats et Logistique",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "Quel est le double rôle principal du Pôle Achats & Logistique ?",
+                    "options": [
+                        "a) Gérer les ressources humaines et la communication.",
+                        "b) Être le levier de la performance durable et le garant de la continuité des opérations.",
+                        "c) Assurer le marketing et les ventes à l'international.",
+                        "d) Définir la stratégie d'entreprise et les politiques RSE."
+                    ],
+                    "correct_answer": "b",
+                    
+                    "source_ref": "[cite: 184, 186]"
+                },
+                {
+                    "id": 2,
+                    "question": "Quelle est la mission fondamentale du pôle Achats vis-à-vis des pratiques de l'entreprise, en lien avec les valeurs ?",
+                    "options": [
+                        "a) Simplement obtenir le prix le plus bas.",
+                        "b) Être le garant de l'éthique et de la loyauté des pratiques.",
+                        "c) Rédiger tous les contrats légaux.",
+                        "d) Assurer uniquement le sourcing local."
+                    ],
+                    "correct_answer": "b",
+                    
+                    "source_ref": "[cite: 189, 191]"
+                },
+                {
+                    "id": 3,
+                    "question": "Dans le processus d'Achat, quelle mission est citée juste après le traitement des besoins et leur validation ?",
+                    "options": [
+                        "a) Le traitement des contentieux douaniers.",
+                        "b) La gestion des stocks de sécurité.",
+                        "c) Assurer le suivi des achats.",
+                        "d) Négocier les budgets avec la Finance."
+                    ],
+                    "correct_answer": "c",
+                    
+                    "source_ref": "[cite: 194, 197]"
+                },
+                {
+                    "id": 4,
+                    "question": "Qui est spécifiquement responsable de la gestion des mouvements physiques de stocks, selon la présentation ?",
+                    "options": [
+                        "a) L'Acheteur.",
+                        "b) Le Responsable Achat & Logistique.",
+                        "c) Le Coordinateur Logistique et Transit.",
+                        "d) Cette fonction a été développée séparément (Gestion des Stocks)."
+                    ],
+                    "correct_answer": "d",
+                    
+                    "source_ref": "[cite: 199, 203]"
+                },
+                {
+                    "id": 5,
+                    "question": "Comment l'équipe Logistique garantit-elle la conformité de l'entreprise vis-à-vis des importations ?",
+                    "options": [
+                        "a) En s'occupant uniquement du transport maritime ?",
+                        "b) En déléguant les responsabilités douanières aux fournisseurs.",
+                        "c) En assurant le traitement et le suivi des dossiers transits et en traitant les contentieux douaniers.",
+                        "d) En évaluant les fournisseurs."
+                    ],
+                    "correct_answer": "c",
+                    
+                    "source_ref": "[cite: 204, 206]"
+                },
+                {
+                    "id": 6,
+                    "question": "Quelle valeur est mise en évidence par le fait de \"transformer l'engagement de nos partenaires en une valeur ajoutée tangible\" ?",
+                    "options": [
+                        "a) Innovation.",
+                        "b) Respect.",
+                        "c) Engagement.",
+                        "d) Équité."
+                    ],
+                    "correct_answer": "c",
+                    
+                    "source_ref": "[cite: 208, 211]"
+                },
+                {
+                    "id": 7,
+                    "question": "L'évaluation des fournisseurs est une mission clé. En plus de la performance et de l'éthique, quelle valeur est assurée par l'évaluation ?",
+                    "options": [
+                        "a) Convivialité.",
+                        "b) Force du collectif.",
+                        "c) Équité.",
+                        "d) Logistique."
+                    ],
+                    "correct_answer": "c",
+                    
+                    "source_ref": "[cite: 213, 216]"
+                },
+                {
+                    "id": 8,
+                    "question": "Quel est le titre de la fonction qui assure la vision globale et la direction du pôle ?",
+                    "options": [
+                        "a) Acheteur.",
+                        "b) Responsable Achat & Logistique.",
+                        "c) Coordinateur Achat.",
+                        "d) Coordinateur Logistique et Transit."
+                    ],
+                    "correct_answer": "b",
+                    
+                    "source_ref": "[cite: 218, 220]"
+                },
+                {
+                    "id": 9,
+                    "question": "Selon la présentation, comment la Force du Collectif s'applique-t-elle au sein du pôle ?",
+                    "options": [
+                        "a) En minimisant les interactions avec les autres départements.",
+                        "b) En favorisant la collaboration et la fluidité entre les fonctions Achat et Logistique et avec les clients internes.",
+                        "c) En négociant individuellement avec chaque fournisseur.",
+                        "d) En se concentrant uniquement sur l'optimisation des coûts."
+                    ],
+                    "correct_answer": "b",
+                    
+                    "source_ref": "[cite: 223, 225]"
+                },
+                {
+                    "id": 10,
+                    "question": "Quel est l'un des critères RSE majeurs intégrés par le pôle Achats lors de la sélection des fournisseurs ?",
+                    "options": [
+                        "a) L'ancienneté du fournisseur sur le marché.",
+                        "b) La capacité à ne fournir qu'un seul type de bien.",
+                        "c) L'intégration des critères environnementaux, sociaux et de gouvernance (ESG).",
+                        "d) La rapidité de réponse aux emails."
+                    ],
+                    "correct_answer": "c",
+                    
+                    "source_ref": "[cite: 228, 231]"
+                }
+            ]
+        },
+        {
+            "title": "QUIZ – Services Généraux",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "La mission principale des Services Généraux est de :",
+                    "options": [
+                        "A. Produire de l’énergie",
+                        "B. Assurer un environnement de travail fonctionnel et sécurisé",
+                        "C. Former les nouveaux collaborateurs",
+                        "D. Garantir la qualité de l’eau déminéralisée"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 234, 236]"
+                },
+                {
+                    "id": 2,
+                    "question": "Les Services Généraux interviennent principalement pour :",
+                    "options": [
+                        "A. Gérer les installations et les besoins matériels du personnel",
+                        "B. Superviser les turbines et la salle de commande",
+                        "C. Assurer la conformité financière des opérations",
+                        "D. Piloter la production d’énergie du site"
+                    ],
+                    "correct_answer": "A",
+                    
+                    "source_ref": "[cite: 237, 239]"
+                },
+                {
+                    "id": 3,
+                    "question": "Parmi ces savoir-faire, lequel est essentiel aux Services Généraux ?",
+                    "options": [
+                        "A. Réaliser des analyses chimiques",
+                        "B. Ajuster la puissance électrique du réseau",
+                        "C. Planifier et suivre la maintenance des installations internes",
+                        "D. Diagnostiquer les moteurs de turbines"
+                    ],
+                    "correct_answer": "C",
+                    
+                    "source_ref": "[cite: 240, 242]"
+                },
+                {
+                    "id": 4,
+                    "question": "Quel savoir-être est indispensable dans ce métier ?",
+                    "options": [
+                        "A. L’individualisme",
+                        "B. La disponibilité et le sens du service",
+                        "C. L’agressivité",
+                        "D. La distanciation totale"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 243, 244]"
+                },
+                {
+                    "id": 5,
+                    "question": "Quelle interaction est typique des Services Généraux ?",
+                    "options": [
+                        "A. Dialogue avec la salle de commande pour ajuster la production",
+                        "B. Coordination quotidienne avec tous les départements internes",
+                        "C. Intervention pour calibrer les équipements de laboratoire chimique",
+                        "D. Relation avec les autorités du réseau électrique"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 245, 247]"
+                },
+                {
+                    "id": 6,
+                    "question": "La fierté principale du métier des Services Généraux réside dans :",
+                    "options": [
+                        "A. La gestion du réseau électrique national",
+                        "B. L’optimisation de la production d’énergie",
+                        "C. Le fait que tout fonctionne, soit disponible et prêt pour les équipes",
+                        "D. Le pilotage des installations de la centrale"
+                    ],
+                    "correct_answer": "C",
+                    
+                    "source_ref": "[cite: 248, 251]"
+                },
+                {
+                    "id": 7,
+                    "question": "Quel type de savoir les Services Généraux doivent-ils maîtriser ?",
+                    "options": [
+                        "A. Les normes d’hygiène, sécurité et gestion des infrastructures",
+                        "B. Les algorithmes d’ajustement de tension électrique",
+                        "C. Les procédures de mise en service des turbines",
+                        "D. Le fonctionnement chimique de l’eau déminéralisée"
+                    ],
+                    "correct_answer": "A",
+                    
+                    "source_ref": "[cite: 252, 254]"
+                }
+            ]
+        },
+        {
+            "title": "QUIZ SUR QSE RSE SURETE",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "Le rôle principal du Pôle QSE-RSE & Sûreté, c’est :",
+                    "options": [
+                        "A. Superviser uniquement la qualité des produits finis",
+                        "B. Garantir la qualité, la sécurité, la sûreté et la responsabilité sociale dans toutes les activités",
+                        "C. Gérer les stocks et l’approvisionnement"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 256, 260]"
+                },
+                {
+                    "id": 2,
+                    "question": "La mission première du service QSE-RSE est de :",
+                    "options": [
+                        "A. Faire respecter la réglementation environnementale",
+                        "B. Intégrer la durabilité et la responsabilité dans chaque processus de l’entreprise",
+                        "C. Établir des statistiques sur les incidents"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 261, 265]"
+                },
+                {
+                    "id": 3,
+                    "question": "Le service Sûreté a pour rôle de :",
+                    "options": [
+                        "A. Protéger les installations et le personnel contre les risques internes et externes",
+                        "B. Gérer la propreté du site",
+                        "C. Surveiller uniquement la centrale"
+                    ],
+                    "correct_answer": "A",
+                    
+                    "source_ref": "[cite: 266, 270]"
+                },
+                {
+                    "id": 4,
+                    "question": "“Agir responsable, opérer en sécurité, exceller en qualité” résume :",
+                    "options": [
+                        "A. Le slogan de la Démarche Compétence",
+                        "B. Le slogan du Pôle QSE-RSE & Sûreté",
+                        "C. Le plan d’urgence interne"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 271, 275]"
+                },
+                {
+                    "id": 5,
+                    "question": "Les métiers du QSE-RSE et de la Sûreté contribuent à :",
+                    "options": [
+                        "A. La performance économique uniquement",
+                        "B. La performance durable et la confiance interne et externe",
+                        "C. L’optimisation des budgets"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 276, 280]"
+                },
+                {
+                    "id": 6,
+                    "question": "Pour exceller dans ce métier, il faut avant tout :",
+                    "options": [
+                        "A. Connaître les lois et procédures applicables et anticiper les risques",
+                        "B. Avoir un goût prononcé pour le risque",
+                        "C. Être indifférent aux normes"
+                    ],
+                    "correct_answer": "A",
+                    
+                    "source_ref": "[cite: 281, 285]"
+                },
+                {
+                    "id": 7,
+                    "question": "Parmi les valeurs FEERIC, laquelle illustre le mieux la culture QSE-RSE ?",
+                    "options": [
+                        "A. Force du collectif",
+                        "B. Innovation",
+                        "C. Respect"
+                    ],
+                    "correct_answer": "C",
+                    
+                    "source_ref": "[cite: 286, 290]"
+                },
+                {
+                    "id": 8,
+                    "question": "En matière de Sûreté, chaque employé de CIPREL est :",
+                    "options": [
+                        "A. Un acteur passif qui suit les ordres",
+                        "B. Le premier responsable de la sûreté au quotidien",
+                        "C. Exempté des consignes de sécurité"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 291, 295]"
+                },
+                {
+                    "id": 9,
+                    "question": "Les partenaires externes du Pôle QSE-RSE incluent :",
+                    "options": [
+                        "A. Les autorités de régulation et organismes de certification",
+                        "B. Les fournisseurs d’énergie",
+                        "C. Les médias"
+                    ],
+                    "correct_answer": "A",
+                    
+                    "source_ref": "[cite: 296, 300]"
+                },
+                {
+                    "id": 10,
+                    "question": "La plus grande fierté des équipes QSE-RSE & Sûreté, c’est :",
+                    "options": [
+                        "A. Ne pas avoir de rapports à rédiger",
+                        "B. Garantir que chaque collaborateur rentre chez lui sain et sauf chaque jour",
+                        "C. Gérer la logistique du site"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 301, 305]"
+                }
+            ]
+        },
+        {
+            "title": "QUIZ SUR LA PRODUCTION",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "La Production à CIPREL, c’est avant tout :",
+                    "options": [
+                        "A. Une fonction administrative",
+                        "B. Le cœur opérationnel de la centrale électrique",
+                        "C. Une activité de maintenance préventive"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 308, 312]"
+                },
+                {
+                    "id": 2,
+                    "question": "Le Pôle Production est composé de :",
+                    "options": [
+                        "A. La Conduite et la Maintenance",
+                        "B. La Conduite et la Chimie",
+                        "C. La Maintenance et le QSE-RSE"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 313, 317]"
+                },
+                {
+                    "id": 3,
+                    "question": "Les techniciens Conduite ont pour rôle principal :",
+                    "options": [
+                        "A. Réaliser des audits de sécurité",
+                        "B. Veiller au bon fonctionnement des machines sur le terrain",
+                        "C. Élaborer les plans de communication interne"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 318, 322]"
+                },
+                {
+                    "id": 4,
+                    "question": "Les conducteurs d’installation sont responsables de :",
+                    "options": [
+                        "A. L’animation des ateliers RH",
+                        "B. Le pilotage et la surveillance des installations depuis la salle de commande",
+                        "C. La maintenance des systèmes électriques"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 323, 327]"
+                },
+                {
+                    "id": 5,
+                    "question": "Les chimistes ont pour mission :",
+                    "options": [
+                        "A. Produire et contrôler la qualité de l’eau déminéralisée et de la vapeur",
+                        "B. Surveiller les stocks de combustibles",
+                        "C. Vérifier les comptes de production"
+                    ],
+                    "correct_answer": "A",
+                    
+                    "source_ref": "[cite: 328, 332]"
+                },
+                {
+                    "id": 6,
+                    "question": "Le savoir-faire dans la Production, c’est :",
+                    "options": [
+                        "A. La capacité à diagnostiquer, piloter et coordonner les installations",
+                        "B. L’attitude positive en équipe",
+                        "C. La connaissance des consignes de sécurité"
+                    ],
+                    "correct_answer": "A",
+                    
+                    "source_ref": "[cite: 333, 337]"
+                },
+                {
+                    "id": 7,
+                    "question": "Le savoir-être attendu d’un opérateur de Conduite comprend :",
+                    "options": [
+                        "A. L’autonomie, la créativité et la curiosité scientifique",
+                        "B. La rigueur, la réactivité, la vigilance et l’esprit d’équipe",
+                        "C. L’ambition et le goût du risque"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 338, 342]"
+                },
+                {
+                    "id": 8,
+                    "question": "Les partenaires internes du Pôle Production sont :",
+                    "options": [
+                        "A. Les autorités électriques",
+                        "B. Maintenance, QSE-RSE, RH, Projets, Achats & logistique",
+                        "C. Les fournisseurs de combustibles"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 343, 347]"
+                },
+                {
+                    "id": 9,
+                    "question": "Le slogan du Pôle Production est :",
+                    "options": [
+                        "A. “Nos installations, notre réussite.”",
+                        "B. “Nos compétences, notre énergie.”",
+                        "C. “Produire mieux, dépenser moins.”"
+                    ],
+                    "correct_answer": "B",
+                    
+                    "source_ref": "[cite: 348, 352]"
+                }
+            ]
+        },
+        {
+            "title": "QUIZ SUR LA PHASE INTRODUCTIVE",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "La démarche compétence c’est :",
+                    "options": [
+                        "Un moyen de retenir les potentiels et les talents",
+                        "Un levier de performance",
+                        "Un levier de certification qualité"
+                    ],
+                    "correct_answer": "b",
+                    
+                    "source_ref": "[cite: 355, 359]"
+                },
+                {
+                    "id": 2,
+                    "question": "La démarche compétence est la responsabilité de :",
+                    "options": [
+                        "Tous",
+                        "La direction générale",
+                        "Le groupe ERANOVE"
+                    ],
+                    "correct_answer": "a",
+                    
+                    "source_ref": "[cite: 360, 364]"
+                },
+                {
+                    "id": 3,
+                    "question": "Les compétences sont essentiellement :",
+                    "options": [
+                        "Techniques",
+                        "Comportementales",
+                        "Fondamentales"
+                    ],
+                    "correct_answer": "a et b",
+                    
+                    "source_ref": "[cite: 365, 369]"
+                },
+                {
+                    "id": 4,
+                    "question": "Le savoir-faire c’est :",
+                    "options": [
+                        "La capacité à assurer des tâches techniques ou managériales.",
+                        "L’ensemble des capacités cognitives et relationnelles",
+                        "La capacité à bien faire les choses"
+                    ],
+                    "correct_answer": "a",
+                    
+                    "source_ref": "[cite: 370, 374]"
+                },
+                {
+                    "id": 5,
+                    "question": "Le savoir être c’est",
+                    "options": [
+                        "L’ensemble des connaissances cumulées grâce à l’expérience",
+                        "La capacité à agir dans son environnement",
+                        "L’ensemble des capacités cognitives et relationnelles"
+                    ],
+                    "correct_answer": "c",
+                    
+                    "source_ref": "[cite: 375, 379]"
+                },
+                {
+                    "id": 6,
+                    "question": "Quelles sont les étapes de la démarche compétence :",
+                    "options": [
+                        "a) Identification des compétences requises",
+                        "b) Développer les compétences",
+                        "c) Challenger les plus méritants",
+                        "d) Cartographier et évaluer les compétences acquises",
+                        "e) Evaluer et suivre les évolutions",
+                        "f) Tolérer les écarts",
+                        "g) Analyser les écarts en compétences et définir les besoins"
+                    ],
+                    "correct_answer": "a, b, d, e, g",
+                    
+                    "source_ref": "[cite: 380, 388]"
+                }
+            ]
+        }
+    ]
+}

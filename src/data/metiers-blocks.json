@@ -154,6 +154,26 @@
       "publication_date": "2025-11-01"
     },
     {
+      "id": 13,
+      "slug": "campagne-sensibilisation-decembre-2025",
+      "titre": "Campagne de sensibilisation évaluation de performance",
+      "periode": "Décembre 2025",
+      "phase": 1,
+      "description": "Campagne dédiée à la sensibilisation sur l'évaluation de la performance.",
+      "mission": null,
+      "definitionEtObjectifs": null,
+      "beneficesPourCiprel": null,
+      "beneficesPourPersonnel": null,
+      "laCompetence": null,
+      "slogans": [],
+      "competencesCles": null,
+      "outils": [],
+      "statut": true,
+      "ordre": 6,
+      "onedrive_url": "",
+      "publication_date": "2025-12-01"
+    },
+    {
       "id": 6,
       "slug": "controle-interne-janvier-2026",
       "titre": "Métiers du Contrôle Interne",
@@ -177,7 +197,7 @@
         "Séance de formation avec les managers"
       ],
       "statut": true,
-      "ordre": 6,
+      "ordre": 7,
       "onedrive_url": "https://example.onedrive.com/workshop-controle",
       "publication_date": "2026-01-01"
     },
@@ -205,7 +225,7 @@
         "Séance de formation avec les managers"
       ],
       "statut": true,
-      "ordre": 7,
+      "ordre": 8,
       "onedrive_url": "https://example.onedrive.com/workshop-stocks",
       "publication_date": "2026-02-01"
     },
@@ -233,7 +253,7 @@
         "Séance de formation avec les managers"
       ],
       "statut": true,
-      "ordre": 8,
+      "ordre": 9,
       "onedrive_url": "https://example.onedrive.com/workshop-rh",
       "publication_date": "2026-03-01"
     },
@@ -261,7 +281,7 @@
         "Séance de formation avec les managers"
       ],
       "statut": true,
-      "ordre": 9,
+      "ordre": 10,
       "onedrive_url": "https://example.onedrive.com/workshop-services",
       "publication_date": "2026-04-01"
     },
@@ -289,7 +309,7 @@
         "Séance de formation avec les managers"
       ],
       "statut": true,
-      "ordre": 10,
+      "ordre": 11,
       "onedrive_url": "https://example.onedrive.com/workshop-dfc",
       "publication_date": "2026-05-01"
     },
@@ -316,7 +336,7 @@
         "Séance de formation avec les managers"
       ],
       "statut": true,
-      "ordre": 11,
+      "ordre": 12,
       "onedrive_url": "https://example.onedrive.com/workshop-projets",
       "publication_date": "2026-06-01"
     },
@@ -346,7 +366,7 @@
         "Quiz interactif et plateforme d'évaluation"
       ],
       "statut": true,
-      "ordre": 12
+      "ordre": 13
     }
   ]
 }

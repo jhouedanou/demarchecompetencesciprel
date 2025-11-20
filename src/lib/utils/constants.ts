@@ -199,11 +199,11 @@ export const CIPREL_COLORS = {
   TANGERINE: '#EC7E05',     // Orange secondaire - couleur d'accent
   RICH_BLACK: '#0A0E12',    // Noir profond - texte principal
   WHITE: '#FFFFFF',         // Blanc - arrière-plans
-  
+
   // Déclinaisons du vert CIPREL
   GREEN: {
     50: '#f0fdf4',
-    100: '#dcfce7', 
+    100: '#dcfce7',
     200: '#bbf7d0',
     300: '#86efac',
     400: '#4ade80',
@@ -213,12 +213,12 @@ export const CIPREL_COLORS = {
     800: '#1f5429',
     900: '#1a4622'
   },
-  
+
   // Déclinaisons de l'orange CIPREL
   ORANGE: {
     50: '#fff7ed',
     100: '#ffedd5',
-    200: '#fed7aa', 
+    200: '#fed7aa',
     300: '#fdba74',
     400: '#fb923c',
     500: '#EC7E05', // Couleur de base
@@ -279,4 +279,34 @@ export const SUCCESS_MESSAGES = {
   QUIZ_COMPLETED: 'Quiz complété avec succès',
   PROFILE_UPDATED: 'Profil mis à jour',
   DATA_SAVED: 'Données sauvegardées'
+}
+
+// Métiers Configuration
+export const METIERS = [
+  { id: 1, nom: 'Introduction DC' },
+  { id: 2, nom: 'Production' },
+  { id: 3, nom: 'SIDT' },
+  { id: 4, nom: 'Maintenance' },
+  { id: 5, nom: 'QSE-RSE/Sûreté' },
+  { id: 13, nom: 'Campagne Sensibilisation' },
+  { id: 6, nom: 'Contrôle Interne' },
+  { id: 7, nom: 'Stocks' },
+  { id: 8, nom: 'RH/Juridique' },
+  { id: 9, nom: 'Services Généraux' },
+  { id: 10, nom: 'DAF' },
+  { id: 11, nom: 'Projets' },
+  { id: 12, nom: 'Achats & Logistique' }
+] as const
+
+export const METIER_QUIZ_MAPPING: Record<string, string> = {
+  'DAF': 'Quiz de la DAF',
+  'RH/Juridique': 'QUIZ – Ressources Humaines & Juridique',
+  'Stocks': 'QUIZ GESTION DES STOCK',
+  'Projets': 'Quiz PROJETS',
+  'SIDT': 'QUIZ SUR SITD',
+  'Achats & Logistique': 'Quiz Achats et Logistique',
+  'Services Généraux': 'QUIZ – Services Généraux',
+  'QSE-RSE/Sûreté': 'QUIZ SUR QSE RSE SURETE',
+  'Production': 'QUIZ SUR LA PRODUCTION',
+  'Introduction DC': 'QUIZ SUR LA PHASE INTRODUCTIVE',
 }

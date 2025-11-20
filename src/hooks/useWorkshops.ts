@@ -45,6 +45,7 @@ export const useWorkshops = () => {
 
       if (fetchError) throw fetchError
 
+      console.log('[useWorkshops] Fetched workshops:', data)
       setWorkshops(data || [])
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Erreur lors du chargement des workshops'
@@ -105,6 +106,8 @@ export const useWorkshops = () => {
     try {
       setError(null)
 
+      console.log('[useWorkshops] Updating workshop:', { id, updates })
+
       // Use API endpoint for authenticated requests
       const response = await authFetch('/api/admin/workshops', {
         method: 'PUT',
@@ -114,13 +117,18 @@ export const useWorkshops = () => {
         body: JSON.stringify({ id, ...updates }),
       })
 
+      console.log('[useWorkshops] API response status:', response.status)
+
       if (!response.ok) {
         const errorData = await response.json()
+        console.error('[useWorkshops] API error:', errorData)
         throw new Error(errorData.error || `HTTP ${response.status}`)
       }
 
       const data = await response.json()
       const workshop = data.workshop
+
+      console.log('[useWorkshops] Workshop updated successfully:', workshop)
 
       // Mettre à jour la liste locale
       if (workshop) {
@@ -133,7 +141,7 @@ export const useWorkshops = () => {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Erreur lors de la mise à jour du workshop'
       setError(errorMessage)
-      console.error('Error updating workshop:', err)
+      console.error('[useWorkshops] Error updating workshop:', err)
       return null
     }
   }, [])
@@ -170,6 +178,27 @@ export const useWorkshops = () => {
   // Charger les workshops au montage du composant
   useEffect(() => {
     getWorkshops()
+
+    // Subscribe to real-time changes
+    const channel = supabase
+      .channel('workshops-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'workshops'
+        },
+        (payload) => {
+          console.log('[useWorkshops] Real-time update received:', payload)
+          getWorkshops()
+        }
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
   }, [getWorkshops])
 
   return {

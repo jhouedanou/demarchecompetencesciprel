@@ -8,31 +8,47 @@ export async function GET(request: NextRequest) {
   try {
     const supabase = await createUserServerClient()
     const { searchParams } = new URL(request.url)
-    const quizType = searchParams.get('type') as 'INTRODUCTION' | 'SONDAGE'
-    
-    if (!quizType || !['INTRODUCTION', 'SONDAGE'].includes(quizType)) {
-      return NextResponse.json({ error: 'Type de quiz invalide' }, { status: 400 })
+    const quizType = searchParams.get('type')
+    const metierId = searchParams.get('metier_id')
+
+    // At least one parameter is required
+    if (!quizType && !metierId) {
+      return NextResponse.json({ error: 'Type de quiz ou metier_id requis' }, { status: 400 })
     }
 
-    // Récupérer les questions du quiz
-    const { data: questions, error } = await supabase
+    console.log('🎯 [API /api/quiz] Loading questions:', { quizType, metierId })
+
+    // Build query
+    let query = supabase
       .from('questions')
       .select('*')
-      .eq('quiz_type', quizType)
       .eq('active', true)
       .order('order_index', { ascending: true })
 
+    // Filter by metier_id if provided (preferred method for WORKSHOP quizzes)
+    if (metierId) {
+      query = query.eq('metier_id', parseInt(metierId))
+    }
+    // Fallback to quiz_type for INTRODUCTION and SONDAGE
+    else if (quizType) {
+      query = query.eq('quiz_type', quizType)
+    }
+
+    const { data: questions, error } = await query
+
     if (error) {
-      console.error('Erreur lors de la récupération des questions:', error)
+      console.error('❌ [API /api/quiz] Database error:', error)
       return NextResponse.json({ error: 'Erreur de base de données' }, { status: 500 })
     }
+
+    console.log(`✅ [API /api/quiz] Found ${questions?.length || 0} questions`)
 
     return NextResponse.json({
       questions: questions || [],
       total: questions?.length || 0
     })
   } catch (error) {
-    console.error('Erreur dans GET /api/quiz:', error)
+    console.error('❌ [API /api/quiz] Server error:', error)
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
   }
 }
@@ -49,16 +65,16 @@ export async function POST(request: NextRequest) {
 
     if (sessionError) {
       console.error('Erreur de session:', sessionError)
-      return NextResponse.json({ 
+      return NextResponse.json({
         error: 'Erreur d\'authentification',
-        message: 'Impossible de vérifier votre session. Veuillez vous reconnecter.' 
+        message: 'Impossible de vérifier votre session. Veuillez vous reconnecter.'
       }, { status: 401 })
     }
 
     if (!session) {
-      return NextResponse.json({ 
+      return NextResponse.json({
         error: 'Non autorisé',
-        message: 'Vous devez être connecté pour sauvegarder vos résultats.' 
+        message: 'Vous devez être connecté pour sauvegarder vos résultats.'
       }, { status: 401 })
     }
 
@@ -76,30 +92,30 @@ export async function POST(request: NextRequest) {
 
     // Validation des données
     if (!quiz_type || !['INTRODUCTION', 'SONDAGE'].includes(quiz_type)) {
-      return NextResponse.json({ 
+      return NextResponse.json({
         error: 'Type de quiz invalide',
-        message: `Le type de quiz "${quiz_type}" n'est pas valide.` 
+        message: `Le type de quiz "${quiz_type}" n'est pas valide.`
       }, { status: 400 })
     }
 
     if (!responses || !Array.isArray(responses)) {
-      return NextResponse.json({ 
+      return NextResponse.json({
         error: 'Réponses manquantes',
-        message: 'Les réponses au quiz sont requises.' 
+        message: 'Les réponses au quiz sont requises.'
       }, { status: 400 })
     }
 
     if (score === undefined || score === null) {
-      return NextResponse.json({ 
+      return NextResponse.json({
         error: 'Score manquant',
-        message: 'Le score du quiz est requis.' 
+        message: 'Le score du quiz est requis.'
       }, { status: 400 })
     }
 
     if (!total_questions || total_questions <= 0) {
-      return NextResponse.json({ 
+      return NextResponse.json({
         error: 'Nombre de questions invalide',
-        message: 'Le nombre total de questions doit être supérieur à 0.' 
+        message: 'Le nombre total de questions doit être supérieur à 0.'
       }, { status: 400 })
     }
 
@@ -115,7 +131,7 @@ export async function POST(request: NextRequest) {
       .order('attempt_number', { ascending: false })
       .limit(1)
 
-    const attemptNumber = previousAttempts?.[0]?.attempt_number ? 
+    const attemptNumber = previousAttempts?.[0]?.attempt_number ?
       previousAttempts[0].attempt_number + 1 : 1
 
     // Préparer les données pour la sauvegarde
@@ -161,8 +177,8 @@ export async function POST(request: NextRequest) {
         details: error.details,
         hint: error.hint
       })
-      
-      return NextResponse.json({ 
+
+      return NextResponse.json({
         error: 'Erreur lors de la sauvegarde',
         message: error.message || 'Impossible de sauvegarder vos résultats. Veuillez réessayer.',
         details: error.details

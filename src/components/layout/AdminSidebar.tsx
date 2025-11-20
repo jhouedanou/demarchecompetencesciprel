@@ -29,13 +29,8 @@ const navigation = [
     icon: Users,
   },
   {
-    name: 'Questions Quiz',
-    href: '/admin/questions',
-    icon: Brain,
-  },
-  {
-    name: 'Workshops Métiers',
-    href: '/admin/workshops',
+    name: 'Métiers',
+    href: '/admin/metiers',
     icon: Presentation,
   },
   {
@@ -73,17 +68,17 @@ export function AdminSidebar() {
       <div className="flex h-16 items-center justify-between px-4 border-b border-gray-200">
         {!collapsed && (
           <div className="flex items-center space-x-3">
-            <img 
-              src="/images/logo.webp" 
-              alt="CIPREL" 
-              className="h-8 w-auto" 
+            <img
+              src="/images/logo.webp"
+              alt="CIPREL"
+              className="h-8 w-auto"
             />
             <span className="text-xl font-bold text-gray-900">
               Admin
             </span>
           </div>
         )}
-        
+
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-gray-700"
@@ -100,7 +95,7 @@ export function AdminSidebar() {
       <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
         {navigation.map((item) => {
           const isActive = pathname === item.href
-          
+
           return (
             <Link
               key={item.name}

@@ -21,7 +21,7 @@ interface QuizEngineProps {
 export function QuizEngine({ quizType, className, onClose }: QuizEngineProps) {
   const [isStarted, setIsStarted] = useState(false)
   const [showResults, setShowResults] = useState(false)
-  
+
   const {
     questions,
     currentQuestionIndex,
@@ -50,7 +50,7 @@ export function QuizEngine({ quizType, className, onClose }: QuizEngineProps) {
   const handleStartQuiz = async () => {
     // Vérifier que l'utilisateur est bien connecté
     const { data: { session } } = await (await import('@/lib/supabase/client')).supabase.auth.getSession()
-    
+
     if (!session) {
       // Afficher un toast et ouvrir le modal de connexion
       const toast = (await import('react-hot-toast')).default
@@ -58,20 +58,20 @@ export function QuizEngine({ quizType, className, onClose }: QuizEngineProps) {
         duration: 4000,
         position: 'top-center'
       })
-      
+
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new Event('open-login'))
       }
       return
     }
-    
+
     startQuiz()
     setIsStarted(true)
   }
 
   const handleAnswerSubmit = (questionId: string, selectedAnswers: string[]) => {
     submitAnswer(questionId, selectedAnswers)
-    
+
     // Si c'est la dernière question, terminer le quiz
     if (currentQuestionIndex === questions.length - 1) {
       handleCompleteQuiz()
@@ -108,7 +108,7 @@ export function QuizEngine({ quizType, className, onClose }: QuizEngineProps) {
         <p className="text-gray-600 mb-6">
           {error}
         </p>
-        <Button 
+        <Button
           onClick={() => loadQuestions(quizType)}
           className="bg-ciprel-green-600 hover:bg-ciprel-green-700"
         >
@@ -147,10 +147,10 @@ export function QuizEngine({ quizType, className, onClose }: QuizEngineProps) {
             Prêt à commencer ?
           </h2>
           <p className="text-gray-600 mb-6">
-            Ce quiz contient {questions.length} questions. 
+            Ce quiz contient {questions.length} questions.
             {timeLimit && ` Vous avez ${timeLimit} minutes pour le compléter.`}
           </p>
-          
+
           {/* Avertissement si non connecté */}
           {!isAuthenticated && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
@@ -161,7 +161,7 @@ export function QuizEngine({ quizType, className, onClose }: QuizEngineProps) {
                   <p className="mb-2">
                     Vous n'êtes pas connecté. Vous pouvez passer le quiz, mais <strong>vos résultats ne seront pas sauvegardés</strong>.
                   </p>
-                  <button 
+                  <button
                     onClick={() => {
                       if (typeof window !== 'undefined') {
                         window.dispatchEvent(new Event('open-login'))
@@ -175,7 +175,7 @@ export function QuizEngine({ quizType, className, onClose }: QuizEngineProps) {
               </div>
             </div>
           )}
-          
+
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
             <div className="flex items-start">
               <AlertCircle className="h-5 w-5 text-yellow-600 mt-0.5 mr-3 flex-shrink-0" />
@@ -241,7 +241,7 @@ export function QuizEngine({ quizType, className, onClose }: QuizEngineProps) {
           <div className="text-sm text-gray-600">
             Question {currentQuestionIndex + 1} sur {questions.length}
           </div>
-          
+
           {timeLimit && startTime && (
             <Timer
               startTime={startTime}
@@ -250,7 +250,7 @@ export function QuizEngine({ quizType, className, onClose }: QuizEngineProps) {
             />
           )}
         </div>
-        
+
         <ProgressBar
           current={currentQuestionIndex + 1}
           total={questions.length}
