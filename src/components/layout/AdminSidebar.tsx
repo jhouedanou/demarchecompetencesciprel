@@ -7,11 +7,7 @@ import { cn } from '@/lib/utils/cn'
 import {
   LayoutDashboard,
   Users,
-  Brain,
   BarChart3,
-  Settings,
-  Shield,
-  FileText,
   ChevronLeft,
   ChevronRight,
   Presentation
@@ -37,21 +33,6 @@ const navigation = [
     name: 'Résultats',
     href: '/admin/results',
     icon: BarChart3,
-  },
-  {
-    name: 'RGPD',
-    href: '/admin/gdpr',
-    icon: Shield,
-  },
-  {
-    name: 'Rapports',
-    href: '/admin/reports',
-    icon: FileText,
-  },
-  {
-    name: 'Paramètres',
-    href: '/admin/settings',
-    icon: Settings,
   },
 ]
 

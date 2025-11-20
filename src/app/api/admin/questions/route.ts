@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Valider le type de quiz
-    const validQuizTypes = ['INTRODUCTION', 'SONDAGE']
+    const validQuizTypes = ['INTRODUCTION', 'SONDAGE', 'WORKSHOP']
     if (!validQuizTypes.includes(body.quiz_type)) {
       return NextResponse.json({ error: 'Type de quiz invalide' }, { status: 400 })
     }
@@ -128,11 +128,13 @@ export async function POST(request: NextRequest) {
       correct_answer: body.correct_answer,
       category: body.category,
       quiz_type: body.quiz_type,
+      etape: body.etape || 'ATELIER',
       points: body.points,
       feedback: body.feedback || null,
       explanation: body.explanation || null,
       order_index,
       active: body.active !== undefined ? body.active : true,
+      metier_id: body.metier_id || null,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     }

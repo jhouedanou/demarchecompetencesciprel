@@ -50,7 +50,7 @@ export async function PUT(
 
     // Validation
     const validCategories = ['DEFINITION', 'RESPONSABILITE', 'COMPETENCES', 'ETAPES', 'OPINION']
-    const validQuizTypes = ['INTRODUCTION', 'SONDAGE']
+    const validQuizTypes = ['INTRODUCTION', 'SONDAGE', 'WORKSHOP']
 
     if (body.category && !validCategories.includes(body.category)) {
       return NextResponse.json({ error: 'Catégorie invalide' }, { status: 400 })

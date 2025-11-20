@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
     } = body
 
     // Validation des données
-    if (!quiz_type || !['INTRODUCTION', 'SONDAGE'].includes(quiz_type)) {
+    if (!quiz_type || !['INTRODUCTION', 'SONDAGE', 'WORKSHOP'].includes(quiz_type)) {
       return NextResponse.json({
         error: 'Type de quiz invalide',
         message: `Le type de quiz "${quiz_type}" n'est pas valide.`
