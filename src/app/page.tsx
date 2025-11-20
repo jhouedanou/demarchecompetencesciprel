@@ -137,7 +137,11 @@ export default function HomePage() {
   const [activeModal, setActiveModal] = useState<SectionType>(null)
   const [activeSlide, setActiveSlide] = useState(0)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [quizModalOpen, setQuizModalOpen] = useState(false)
+  const [quizConfig, setQuizConfig] = useState<{
+    isOpen: boolean
+    type: 'INTRODUCTION' | 'WORKSHOP'
+    metierId?: number
+  }>({ isOpen: false, type: 'INTRODUCTION' })
   const [surveyModalOpen, setSurveyModalOpen] = useState(false)
   const [videoModalOpen, setVideoModalOpen] = useState(false)
   const [initialVideoIndex, setInitialVideoIndex] = useState(0)
@@ -291,11 +295,11 @@ export default function HomePage() {
 
   const openQuizModal = () => {
     resetQuiz()
-    setQuizModalOpen(true)
+    setQuizConfig({ isOpen: true, type: 'INTRODUCTION' })
   }
 
   const closeQuizModal = () => {
-    setQuizModalOpen(false)
+    setQuizConfig(prev => ({ ...prev, isOpen: false }))
     resetQuiz()
   }
 
@@ -1765,25 +1769,28 @@ export default function HomePage() {
 
       <Suspense fallback={null}>
         <Dialog
-          open={quizModalOpen}
+          open={quizConfig.isOpen}
           onOpenChange={(open) => {
-            if (open) {
-              resetQuiz()
-              setQuizModalOpen(true)
-            } else {
+            if (!open) {
               closeQuizModal()
             }
           }}
         >
-          <DialogContent className="max-w-4xl w-full">
+          <DialogContent className="max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <DialogTitle className="text-2xl font-semibold text-ciprel-black">
-              Quiz d&apos;introduction
+              {quizConfig.type === 'INTRODUCTION' ? "Quiz d'introduction" : "Quiz Workshop"}
             </DialogTitle>
             <DialogDescription className="text-sm text-gray-600">
-              Validez vos connaissances sur les fondamentaux de la démarche compétences.
+              {quizConfig.type === 'INTRODUCTION' 
+                ? "Validez vos connaissances sur les fondamentaux de la démarche compétences."
+                : "Testez vos connaissances sur ce métier."}
             </DialogDescription>
             <Suspense fallback={<LoadingScreen message="Chargement du quiz..." />}>
-              <QuizEngine quizType="INTRODUCTION" onClose={closeQuizModal} />
+              <QuizEngine 
+                quizType={quizConfig.type} 
+                metierId={quizConfig.metierId}
+                onClose={closeQuizModal} 
+              />
             </Suspense>
           </DialogContent>
         </Dialog>
@@ -1887,10 +1894,12 @@ export default function HomePage() {
                       console.log('🎯 [HomePage] Starting workshop quiz for metier_id:', selectedWorkshop.metier_id)
 
                       setWorkshopModalOpen(false)
-                      // Charger le quiz WORKSHOP pour ce métier spécifique
-                      useQuizStore.getState().loadQuestions('WORKSHOP', selectedWorkshop.metier_id)
-                      useQuizStore.getState().startQuiz()
-                      setQuizModalOpen(true)
+                      resetQuiz()
+                      setQuizConfig({ 
+                        isOpen: true, 
+                        type: 'WORKSHOP', 
+                        metierId: selectedWorkshop.metier_id 
+                      })
                     }}
                     className="inline-flex items-center justify-center gap-2 bg-ciprel-orange-500 text-white px-6 py-3 rounded-lg hover:bg-ciprel-orange-600 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl"
                   >
@@ -1922,6 +1931,8 @@ export default function HomePage() {
           initialVideoIndex={initialVideoIndex}
         />
       </Suspense>
+
+
 
       {/* Modaux d'authentification */}
       <Suspense fallback={null}>

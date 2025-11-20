@@ -13,12 +13,13 @@ import { AlertCircle, Play, RotateCcw } from 'lucide-react'
 import { QuizQuestion } from '@/types'
 
 interface QuizEngineProps {
-  quizType: 'INTRODUCTION' | 'SONDAGE'
+  quizType: 'INTRODUCTION' | 'SONDAGE' | 'WORKSHOP'
+  metierId?: number
   className?: string
   onClose?: () => void
 }
 
-export function QuizEngine({ quizType, className, onClose }: QuizEngineProps) {
+export function QuizEngine({ quizType, metierId, className, onClose }: QuizEngineProps) {
   const [isStarted, setIsStarted] = useState(false)
   const [showResults, setShowResults] = useState(false)
 
@@ -43,9 +44,9 @@ export function QuizEngine({ quizType, className, onClose }: QuizEngineProps) {
 
   useEffect(() => {
     if (!questions.length && !isLoading) {
-      loadQuestions(quizType)
+      loadQuestions(quizType, metierId)
     }
-  }, [quizType, questions.length, isLoading, loadQuestions])
+  }, [quizType, metierId, questions.length, isLoading, loadQuestions])
 
   const handleStartQuiz = async () => {
     // Vérifier que l'utilisateur est bien connecté
