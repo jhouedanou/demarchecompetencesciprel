@@ -44,15 +44,21 @@ export default function AdminMetiersPage() {
   const [expandedId, setExpandedId] = useState<number | null>(null)
   const [editingMetierId, setEditingMetierId] = useState<number | null>(null)
   const [editData, setEditData] = useState<{ onedrive_url?: string; publication_date?: string } | null>(null)
+  const [isHydrated, setIsHydrated] = useState(false)
 
-  // Redirect if not authenticated
-  // Redirect if not authenticated
+  // Mark component as hydrated after mount
   useEffect(() => {
+    setIsHydrated(true)
+  }, [])
+
+  // Redirect if not authenticated (only after hydration)
+  useEffect(() => {
+    if (!isHydrated) return
     const isSupabaseAdmin = user && ['ADMIN', 'MANAGER'].includes(user.role)
     if (!isAdminAuthenticated && !isSupabaseAdmin) {
       router.push('/admin')
     }
-  }, [isAdminAuthenticated, user, router])
+  }, [isAdminAuthenticated, user, router, isHydrated])
 
   // Fetch metiers on mount
   useEffect(() => {
@@ -210,8 +216,16 @@ export default function AdminMetiersPage() {
     }
   }
 
-  if (!isAdminAuthenticated) {
-    return null
+  // Don't render until hydrated and authenticated
+  if (!isHydrated || (!isAdminAuthenticated && !user)) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="w-8 h-8 animate-spin text-ciprel-orange-600" />
+          <p className="text-gray-600">Vérification de l'authentification...</p>
+        </div>
+      </div>
+    )
   }
 
   if (loading) {
