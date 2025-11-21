@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Loader2, AlertCircle, CheckCircle, LogOut, Brain, Link2, Edit2, Save, X, Calendar, RefreshCw } from 'lucide-react'
 import { useAdmin } from '@/contexts/AdminContext'
+import { useAuthStore } from '@/stores/auth-store'
 import { useRouter } from 'next/navigation'
 
 interface Metier {
@@ -34,6 +35,7 @@ interface ApiResponse {
 
 export default function AdminMetiersPage() {
   const { isAdminAuthenticated, adminUsername, logoutAdmin } = useAdmin()
+  const { user } = useAuthStore()
   const router = useRouter()
   const [metiers, setMetiers] = useState<Metier[]>([])
   const [loading, setLoading] = useState(true)
@@ -44,11 +46,13 @@ export default function AdminMetiersPage() {
   const [editData, setEditData] = useState<{ onedrive_url?: string; publication_date?: string } | null>(null)
 
   // Redirect if not authenticated
+  // Redirect if not authenticated
   useEffect(() => {
-    if (!isAdminAuthenticated) {
+    const isSupabaseAdmin = user && ['ADMIN', 'MANAGER'].includes(user.role)
+    if (!isAdminAuthenticated && !isSupabaseAdmin) {
       router.push('/admin')
     }
-  }, [isAdminAuthenticated, router])
+  }, [isAdminAuthenticated, user, router])
 
   // Fetch metiers on mount
   useEffect(() => {
@@ -233,18 +237,20 @@ export default function AdminMetiersPage() {
             </div>
             <div className="flex items-center gap-4">
               <span className="text-sm text-gray-700">
-                Connecté en tant que: <strong>{adminUsername}</strong>
+                Connecté en tant que: <strong>{adminUsername || user?.email}</strong>
               </span>
-              <button
-                onClick={() => {
-                  logoutAdmin()
-                  router.push('/admin')
-                }}
-                className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
-              >
-                <LogOut className="w-4 h-4" />
-                Déconnexion
-              </button>
+              {isAdminAuthenticated && (
+                <button
+                  onClick={() => {
+                    logoutAdmin()
+                    router.push('/admin')
+                  }}
+                  className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Déconnexion
+                </button>
+              )}
             </div>
           </div>
         </div>
