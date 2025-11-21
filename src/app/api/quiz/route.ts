@@ -57,14 +57,25 @@ export async function POST(request: NextRequest) {
   try {
     const supabase = await createUserServerClient()
 
+    // Debug: Log all cookies
+    const cookies = request.cookies.getAll()
+    console.log('🍪 [POST /api/quiz] Cookies received:', cookies.map(c => c.name))
+
     // Vérifier l'authentification
     const {
       data: { session },
       error: sessionError
     } = await supabase.auth.getSession()
 
+    console.log('🔐 [POST /api/quiz] Session check:', {
+      hasSession: !!session,
+      hasError: !!sessionError,
+      userId: session?.user?.id,
+      error: sessionError?.message
+    })
+
     if (sessionError) {
-      console.error('Erreur de session:', sessionError)
+      console.error('❌ [POST /api/quiz] Erreur de session:', sessionError)
       return NextResponse.json({
         error: 'Erreur d\'authentification',
         message: 'Impossible de vérifier votre session. Veuillez vous reconnecter.'
@@ -72,6 +83,8 @@ export async function POST(request: NextRequest) {
     }
 
     if (!session) {
+      console.error('❌ [POST /api/quiz] No session found - user not authenticated')
+      console.error('Available cookies:', cookies)
       return NextResponse.json({
         error: 'Non autorisé',
         message: 'Vous devez être connecté pour sauvegarder vos résultats.'

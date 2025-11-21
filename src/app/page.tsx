@@ -412,19 +412,16 @@ export default function HomePage() {
           {/* Actions pour utilisateurs connectés */}
           {user && (
             <div className="pt-4 border-t border-gray-200 space-y-2">
-              {/* Lien vers les questionnaires */}
+              {/* Lien vers le tableau de bord */}
               <button
                 onClick={() => {
                   setSidebarOpen(false)
-                  swiperRef.current?.slideTo(5, 800)
-                  setTimeout(() => {
-                    document.getElementById('slide-quiz')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                  }, 100)
+                  router.push('/competences')
                 }}
                 className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-ciprel-green-600 hover:bg-ciprel-green-700 rounded-lg transition-colors"
               >
                 <BookOpen className="h-4 w-4" />
-                Accéder aux questionnaires
+                Tableau de bord
               </button>
 
               {/* Logout Button */}

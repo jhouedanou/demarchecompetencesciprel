@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
+import { createBrowserClient } from '@supabase/ssr'
 import { useState, useEffect } from 'react'
 import type { Database } from '@/types/database'
 import type { User } from '@supabase/supabase-js'
@@ -9,24 +9,11 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 // Vérifier si Supabase est configuré
 const isSupabaseConfigured = supabaseUrl && supabaseAnonKey
 
-// Client-side Supabase client (ou client factice si non configuré)
-export const supabase = isSupabaseConfigured
-  ? createClient<Database>(supabaseUrl, supabaseAnonKey, {
-      auth: {
-        autoRefreshToken: true,
-        persistSession: true,
-        detectSessionInUrl: true,
-        flowType: 'pkce',
-        storage: typeof window !== 'undefined' ? window.localStorage : undefined,
-      },
-    })
-  : createClient<Database>('https://placeholder.supabase.co', 'placeholder-key', {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-        detectSessionInUrl: false,
-      },
-    })
+// Client-side Supabase client using SSR for cookie management
+export const supabase = createBrowserClient<Database>(
+  supabaseUrl,
+  supabaseAnonKey
+)
 
 // Hook to get current user avec cache
 export function useUser() {
