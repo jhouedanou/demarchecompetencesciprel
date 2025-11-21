@@ -356,7 +356,23 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'ciprel-auth-storage',
-      partialize: (state) => ({ user: state.user, isAuthenticated: state.isAuthenticated }),
+      partialize: (state) => ({ 
+        user: state.user, 
+        isAuthenticated: state.isAuthenticated 
+      }),
+      skipHydration: false,
+      // Specify storage explicitly for better browser compatibility
+      storage: {
+        getItem: (name) => {
+          const str = localStorage.getItem(name)
+          if (!str) return null
+          return JSON.parse(str)
+        },
+        setItem: (name, value) => {
+          localStorage.setItem(name, JSON.stringify(value))
+        },
+        removeItem: (name) => localStorage.removeItem(name),
+      },
     }
   )
 )
