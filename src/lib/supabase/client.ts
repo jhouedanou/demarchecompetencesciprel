@@ -30,13 +30,13 @@ export function useUser() {
     }
 
     let isMounted = true
-    // Réduire le timeout à 5 secondes au lieu de 10
+    // Augmenter le timeout à 15 secondes pour la latence Turso en production
     const timeoutId = setTimeout(() => {
       if (isMounted) {
-        console.warn('Auth session check timed out after 5s')
+        console.warn('Auth session check timed out after 15s')
         setLoading(false)
       }
-    }, 5000)
+    }, 15000)
 
     const getSession = async () => {
       try {

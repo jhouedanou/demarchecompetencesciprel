@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs'
-import { db, executeQuery, executeRun } from './db'
+import { executeQuery, executeRun } from './db'
 import type { AuthUser } from '@/types/auth'
 
 interface Profile {
@@ -119,6 +119,9 @@ export async function createUser(
 
 // Récupère un utilisateur par ID
 export async function getUserById(userId: string): Promise<AuthUser | null> {
+  const startTime = performance.now()
+  console.log(`🔍 [Auth] Getting user by ID: ${userId}`)
+
   try {
     const profiles = await executeQuery<Profile>(
       'SELECT * FROM profiles WHERE id = ? LIMIT 1',
@@ -126,10 +129,15 @@ export async function getUserById(userId: string): Promise<AuthUser | null> {
     )
 
     if (profiles.length === 0) {
+      const elapsed = performance.now() - startTime
+      console.log(`❌ [Auth] User not found in ${elapsed.toFixed(2)}ms`)
       return null
     }
 
     const profile = profiles[0]
+    const elapsed = performance.now() - startTime
+    console.log(`✅ [Auth] User retrieved in ${elapsed.toFixed(2)}ms`)
+
     return {
       id: profile.id,
       email: profile.email,
@@ -141,7 +149,8 @@ export async function getUserById(userId: string): Promise<AuthUser | null> {
       updated_at: profile.updated_at,
     }
   } catch (error) {
-    console.error('❌ [Auth] Get user error:', error)
+    const elapsed = performance.now() - startTime
+    console.error(`❌ [Auth] Get user error after ${elapsed.toFixed(2)}ms:`, error)
     return null
   }
 }

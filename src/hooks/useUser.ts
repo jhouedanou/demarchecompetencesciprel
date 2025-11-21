@@ -1,59 +1,24 @@
-import { useState, useEffect } from 'react'
+import { useAuthStore } from '@/stores/auth-store'
 import type { User } from '@supabase/supabase-js'
+import type { AuthUser } from '@/types/auth'
 
+// Hook utilitaire pour compatibilité avec les composants existants
+// Utilise le Zustand store au lieu d'appels API lents
 export function useUser() {
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
+  const authUser = useAuthStore(state => state.user)
+  const isLoading = useAuthStore(state => state.isLoading)
 
-  useEffect(() => {
-    let isMounted = true
-    const startTime = performance.now()
-    console.log('🔄 [useUser] Starting session check...')
+  // Convertir AuthUser en Supabase User pour compatibilité
+  const user: User | null = authUser ? ({
+    id: authUser.id,
+    email: authUser.email,
+    user_metadata: {
+      name: authUser.name,
+      role: authUser.role,
+      avatar_url: authUser.avatar_url,
+      phone: authUser.phone,
+    },
+  } as any) : null
 
-    async function checkSession() {
-      try {
-        console.log('📡 [useUser] Calling /api/auth/session...')
-        const sessionStartTime = performance.now()
-
-        const response = await fetch('/api/auth/session', {
-          credentials: 'include', // Important pour envoyer les cookies
-        })
-
-        const sessionElapsed = performance.now() - sessionStartTime
-        console.log(`✅ [useUser] /api/auth/session completed in ${sessionElapsed.toFixed(0)}ms`)
-
-        const { user: sessionUser } = await response.json()
-
-        if (isMounted) {
-          setUser(sessionUser)
-          setLoading(false)
-
-          const totalElapsed = performance.now() - startTime
-          console.log(`✨ [useUser] Total session check completed in ${totalElapsed.toFixed(0)}ms`)
-
-          if (sessionUser) {
-            console.log(`👤 [useUser] User: ${sessionUser.email}`)
-          } else {
-            console.log('👤 [useUser] No user logged in')
-          }
-        }
-      } catch (error) {
-        const errorElapsed = performance.now() - startTime
-        console.error(`❌ [useUser] Session check failed after ${errorElapsed.toFixed(0)}ms:`, error)
-
-        if (isMounted) {
-          setUser(null)
-          setLoading(false)
-        }
-      }
-    }
-
-    checkSession()
-
-    return () => {
-      isMounted = false
-    }
-  }, [])
-
-  return { user, loading }
+  return { user, loading: isLoading }
 }
