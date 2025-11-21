@@ -25,7 +25,7 @@ import { cn } from '@/lib/utils/cn'
 import confetti from 'canvas-confetti'
 
 interface ResultsViewProps {
-  quizType: 'INTRODUCTION' | 'SONDAGE'
+  quizType: 'INTRODUCTION' | 'SONDAGE' | 'WORKSHOP'
   onRestart: () => void
   onClose?: () => void
   className?: string
