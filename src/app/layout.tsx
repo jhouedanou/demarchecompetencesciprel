@@ -6,6 +6,7 @@ import { AuthProvider } from '@/components/auth/AuthProvider'
 import { GlobalLoginGate } from '@/components/auth/GlobalLoginGate'
 import { CookieBanner } from '@/components/gdpr/CookieBanner'
 import { AdminProvider } from '@/contexts/AdminContext'
+import { Footer } from '@/components/layout/Footer'
 import { ENV } from '@/lib/utils/constants'
 
 const questrial = Questrial({
@@ -101,10 +102,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body className="font-sans antialiased">
         <AdminProvider>
           <AuthProvider>
-            <div className="relative min-h-screen bg-background">
-              <main className="relative z-0">
+            <div className="relative min-h-screen bg-background flex flex-col">
+              <main className="relative z-0 flex-1">
                 {children}
               </main>
+
+              {/* Footer */}
+              <Footer />
 
               {/* Global login modal gate */}
               <GlobalLoginGate />
