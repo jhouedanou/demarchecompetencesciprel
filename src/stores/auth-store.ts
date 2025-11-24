@@ -27,31 +27,23 @@ export const useAuthStore = create<AuthState>()(
 
       initialize: async () => {
         try {
-          console.log('[Auth] Starting initialization...')
           set({ isLoading: true })
 
           // Vérifier si Supabase est configuré
           if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-            console.warn('[Auth] Supabase not configured - skipping initialization')
             set({ user: null, isAuthenticated: false, isLoading: false })
             return
           }
-
-          console.log('[Auth] Fetching session...')
 
           // Get current session
           const { data: { session }, error } = await supabase.auth.getSession()
 
           if (error) {
-            console.error('[Auth] Session error:', error)
             set({ user: null, isAuthenticated: false, isLoading: false })
             return
           }
 
-          console.log('[Auth] Session retrieved:', session ? 'authenticated' : 'not authenticated')
-
           if (session?.user) {
-            console.log('[Auth] Fetching profile for user:', session.user.id)
             // Get profile data
             const { data: profile, error: profileError } = await supabase
               .from('profiles')
@@ -60,7 +52,6 @@ export const useAuthStore = create<AuthState>()(
               .single()
 
             if (profileError) {
-              console.error('[Auth] Profile fetch error:', profileError)
               set({ user: null, isAuthenticated: false, isLoading: false })
               return
             }
@@ -77,21 +68,16 @@ export const useAuthStore = create<AuthState>()(
                 updated_at: profile.updated_at!,
               }
 
-              console.log('[Auth] User authenticated:', authUser.name, 'Role:', authUser.role)
               set({ user: authUser, isAuthenticated: true, isLoading: false })
             } else {
-              console.log('[Auth] Profile not found')
               set({ user: null, isAuthenticated: false, isLoading: false })
             }
           } else {
-            console.log('[Auth] No session, user not authenticated')
             set({ user: null, isAuthenticated: false, isLoading: false })
           }
 
-          console.log('[Auth] Setting up auth state listener...')
           // Listen for auth changes
           supabase.auth.onAuthStateChange(async (event, session) => {
-            console.log('[Auth] Auth state change event:', event)
             if (event === 'SIGNED_IN' && session?.user) {
               const { data: profile } = await supabase
                 .from('profiles')
@@ -117,35 +103,21 @@ export const useAuthStore = create<AuthState>()(
               set({ user: null, isAuthenticated: false, isLoading: false })
             }
           })
-          console.log('[Auth] Initialization complete!')
         } catch (error) {
-          console.error('Auth initialization error:', error)
           set({ user: null, isAuthenticated: false, isLoading: false })
         }
       },
 
       signIn: async (credentials) => {
-        const startTime = performance.now()
-        console.log('🔐 [signIn] Starting login for:', credentials.email)
-
         try {
           set({ isLoading: true })
-
-          // Étape 1: Authentification
-          console.log('📡 [signIn] Step 1/2: Calling signInWithPassword...')
-          const authStartTime = performance.now()
 
           const { data, error } = await supabase.auth.signInWithPassword({
             email: credentials.email,
             password: credentials.password,
           })
 
-          const authElapsed = performance.now() - authStartTime
-          console.log(`✅ [signIn] Auth completed in ${authElapsed.toFixed(0)}ms`)
-
           if (error) {
-            const totalElapsed = performance.now() - startTime
-            console.error(`❌ [signIn] Login failed after ${totalElapsed.toFixed(0)}ms:`, error.message)
             set({ isLoading: false })
 
             // Traduire les erreurs courantes en français
@@ -165,22 +137,12 @@ export const useAuthStore = create<AuthState>()(
 
           // Étape 2: Récupération du profil
           if (data.user) {
-            console.log('📡 [signIn] Step 2/2: Fetching user profile...')
-            const profileStartTime = performance.now()
-
             // Optimisation: Utiliser select avec moins de champs si possible
             const { data: profile, error: profileError } = await supabase
               .from('profiles')
               .select('id, name, role, avatar_url, phone, created_at, updated_at')
               .eq('id', data.user.id)
               .single()
-
-            const profileElapsed = performance.now() - profileStartTime
-            console.log(`✅ [signIn] Profile fetched in ${profileElapsed.toFixed(0)}ms`)
-
-            if (profileError) {
-              console.error('❌ [signIn] Profile fetch error:', profileError)
-            }
 
             if (profile) {
               const authUser: AuthUser = {
@@ -200,19 +162,11 @@ export const useAuthStore = create<AuthState>()(
               if (typeof window !== 'undefined') {
                 localStorage.setItem('cached_profile', JSON.stringify(authUser))
               }
-
-              const totalElapsed = performance.now() - startTime
-              console.log(`✨ [signIn] Login complete in ${totalElapsed.toFixed(0)}ms`)
-              console.log(`👤 [signIn] Logged in as: ${authUser.name} (${authUser.role})`)
-            } else {
-              console.warn('⚠️ [signIn] No profile found for user')
             }
           }
 
           return {}
         } catch (error: any) {
-          const totalElapsed = performance.now() - startTime
-          console.error(`❌ [signIn] Exception after ${totalElapsed.toFixed(0)}ms:`, error)
           set({ isLoading: false })
           return { error: error.message }
         }

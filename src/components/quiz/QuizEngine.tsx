@@ -48,6 +48,14 @@ export function QuizEngine({ quizType, metierId, className, onClose }: QuizEngin
     }
   }, [quizType, metierId, questions.length, isLoading, loadQuestions])
 
+  // Auto-start quiz when questions are loaded and user is authenticated
+  useEffect(() => {
+    if (questions.length > 0 && isAuthenticated && !isStarted && !isLoading) {
+      startQuiz()
+      setIsStarted(true)
+    }
+  }, [questions.length, isAuthenticated, isStarted, isLoading, startQuiz])
+
   const handleStartQuiz = async () => {
     // Vérifier que l'utilisateur est bien connecté
     const { data: { session } } = await (await import('@/lib/supabase/client')).supabase.auth.getSession()
@@ -84,7 +92,7 @@ export function QuizEngine({ quizType, metierId, className, onClose }: QuizEngin
       await completeQuiz(quizType)
       setShowResults(true)
     } catch (error) {
-      console.error('Erreur lors de la finalisation du quiz:', error)
+      // Silent error handling
     }
   }
 

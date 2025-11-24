@@ -49,27 +49,15 @@ export function useReadingProgress(user: User | null) {
   const loadProgress = useCallback(async () => {
     if (!user) return
 
-    const startTime = performance.now()
-    console.log('📚 [useReadingProgress] Loading progress for user:', user.email)
-
     try {
-      console.log('📡 [useReadingProgress] Querying user_reading_progress table...')
-      const queryStartTime = performance.now()
-
       const { data, error } = await supabase
         .from('user_reading_progress')
         .select('*')
         .eq('user_id', user.id)
 
-      const queryElapsed = performance.now() - queryStartTime
-      console.log(`✅ [useReadingProgress] Query completed in ${queryElapsed.toFixed(0)}ms`)
-
       if (error) {
-        console.error('❌ [useReadingProgress] Error loading reading progress:', error)
         return
       }
-
-      console.log(`📊 [useReadingProgress] Found ${data?.length || 0} completed sections`)
 
       // Update sections with completed status
       const updatedSections = REQUIRED_SECTIONS.map(section => {
@@ -83,12 +71,8 @@ export function useReadingProgress(user: User | null) {
 
       setSections(updatedSections)
       setAllCompleted(areRequiredSectionsCompleted(updatedSections))
-
-      const totalElapsed = performance.now() - startTime
-      console.log(`✨ [useReadingProgress] Total load completed in ${totalElapsed.toFixed(0)}ms`)
     } catch (error) {
-      const errorElapsed = performance.now() - startTime
-      console.error(`❌ [useReadingProgress] Error in loadProgress after ${errorElapsed.toFixed(0)}ms:`, error)
+      // Silent error handling
     } finally {
       setLoading(false)
     }
@@ -130,8 +114,6 @@ export function useReadingProgress(user: User | null) {
         return false
       }
 
-      console.log(`Attempting to mark section as completed: ${sectionId}`)
-
       const { data: progressData, error } = await supabase
         .from('user_reading_progress')
         .upsert({
@@ -146,8 +128,6 @@ export function useReadingProgress(user: User | null) {
         .select()
 
       if (error) {
-        console.error('Supabase error marking section as completed:', error)
-
         // Fallback: Update local state even if DB fails
         const updatedSections = sections.map(s =>
           s.id === sectionId ? { ...s, completed: true, reading_time: readingTimeSeconds } : s
@@ -161,8 +141,6 @@ export function useReadingProgress(user: User | null) {
         return true // Return true for UX, even if DB failed
       }
 
-      console.log('Section marked as completed successfully:', progressData)
-
       // Reload progress from database
       await loadProgress()
 
@@ -171,8 +149,6 @@ export function useReadingProgress(user: User | null) {
 
       return true
     } catch (error) {
-      console.error('Error in markSectionCompleted:', error)
-
       // Fallback: Update local state even on error
       const updatedSections = sections.map(s =>
         s.id === sectionId ? { ...s, completed: true, reading_time: readingTimeSeconds } : s

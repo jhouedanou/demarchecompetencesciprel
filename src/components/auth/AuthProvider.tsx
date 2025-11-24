@@ -20,12 +20,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     // Only initialize once on mount
     if (!initRef.current) {
       initRef.current = true
-      console.log('[AuthProvider] Initializing auth...')
-      initialize().then(() => {
-        if (mountedRef.current) {
-          console.log('[AuthProvider] Auth initialized successfully')
-        }
-      })
+      initialize()
     }
 
     return () => {

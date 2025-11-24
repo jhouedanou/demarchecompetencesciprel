@@ -51,11 +51,9 @@ export const useQuizStore = create<QuizStore>()(
           // For WORKSHOP quizzes, prefer metier_id if provided
           if (metierId) {
             params.append('metier_id', metierId.toString())
-            console.log(`🎯 [QuizStore] Loading WORKSHOP questions for metier_id: ${metierId}`)
           } else {
             // Fallback to type for INTRODUCTION/SONDAGE
             params.append('type', quizType)
-            console.log(`🎯 [QuizStore] Loading questions for quiz_type: ${quizType}`)
           }
 
           const response = await fetch(`/api/quiz?${params.toString()}`, {
@@ -75,15 +73,12 @@ export const useQuizStore = create<QuizStore>()(
             throw new Error('Aucune question trouvée pour ce quiz')
           }
 
-          console.log(`✅ [QuizStore] Loaded ${data.questions.length} questions`)
-
           set({
             questions: data.questions,
             isLoading: false,
             timeLimit: quizType === 'INTRODUCTION' ? 30 : undefined
           })
         } catch (error: any) {
-          console.error('❌ [QuizStore] Error loading questions:', error)
           set({
             error: error.message || 'Erreur lors du chargement du quiz',
             isLoading: false
@@ -204,8 +199,6 @@ export const useQuizStore = create<QuizStore>()(
 
         } catch (error: any) {
           // Même en cas d'erreur de sauvegarde, on peut montrer les résultats localement
-          console.warn('Erreur lors de la sauvegarde des résultats:', error)
-
           // Importer et afficher un toast d'avertissement
           if (typeof window !== 'undefined') {
             import('react-hot-toast').then(({ default: toast }) => {
