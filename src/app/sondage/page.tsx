@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { CiprelNavigation } from '@/components/ciprel/CiprelNavigation'
 import { CiprelSondageContent } from '@/components/ciprel/CiprelSondageContent'
-import { useUser } from '@/lib/supabase/client'
+import { useUser } from '@/hooks/useUser'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
 import { Lock, BookOpen, ArrowLeft, HelpCircle } from 'lucide-react'
 import Link from 'next/link'

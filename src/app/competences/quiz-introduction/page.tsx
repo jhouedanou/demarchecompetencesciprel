@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { QuizModal } from '@/components/modals/QuizModal'
-import { useUser } from '@/lib/supabase/client'
+import { useUser } from '@/hooks/useUser'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
 import { useQuizStore } from '@/stores/quiz-store'
 import { Lock, BookOpen, ArrowLeft } from 'lucide-react'

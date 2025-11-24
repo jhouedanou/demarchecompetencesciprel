@@ -1,6 +1,6 @@
 'use client'
 
-import { useUser } from '@/lib/supabase/client'
+import { useUser } from '@/hooks/useUser'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
 import { CheckCircle, Circle, Lock, BookOpen, LogOut, RotateCcw, HelpCircle } from 'lucide-react'
 import { useAuthStore } from '@/stores/auth-store'

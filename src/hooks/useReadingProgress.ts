@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '@/lib/supabase/client'
 import { User } from '@supabase/supabase-js'
 
@@ -45,31 +45,8 @@ export function useReadingProgress(user: User | null) {
   const [allCompleted, setAllCompleted] = useState(false)
   const [loading, setLoading] = useState(true)
 
-  // supabase client is imported directly
-
-  // Load user's reading progress
-  useEffect(() => {
-    if (!user) {
-      setLoading(false)
-      return
-    }
-
-    loadProgress()
-  }, [user])
-
-  // Listen for reading progress updates from other components
-  useEffect(() => {
-    const handleProgressUpdate = () => {
-      if (user) {
-        loadProgress()
-      }
-    }
-
-    window.addEventListener('reading-progress-updated', handleProgressUpdate)
-    return () => window.removeEventListener('reading-progress-updated', handleProgressUpdate)
-  }, [user])
-
-  const loadProgress = async () => {
+  // Memoize loadProgress to prevent unnecessary event listener updates
+  const loadProgress = useCallback(async () => {
     if (!user) return
 
     const startTime = performance.now()
@@ -115,7 +92,29 @@ export function useReadingProgress(user: User | null) {
     } finally {
       setLoading(false)
     }
-  }
+  }, [user])
+
+  // Load user's reading progress on mount and when user changes
+  useEffect(() => {
+    if (!user) {
+      setLoading(false)
+      return
+    }
+
+    loadProgress()
+  }, [user, loadProgress])
+
+  // Listen for reading progress updates from other components
+  useEffect(() => {
+    const handleProgressUpdate = () => {
+      if (user) {
+        loadProgress()
+      }
+    }
+
+    window.addEventListener('reading-progress-updated', handleProgressUpdate)
+    return () => window.removeEventListener('reading-progress-updated', handleProgressUpdate)
+  }, [user, loadProgress])
 
   // Mark a section as completed
   const markSectionCompleted = async (sectionId: string, readingTimeSeconds: number = 0) => {

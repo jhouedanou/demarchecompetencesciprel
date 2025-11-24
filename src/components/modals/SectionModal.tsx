@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, ReactNode } from 'react'
 import { X, Check } from 'lucide-react'
 import { toast } from 'react-hot-toast'
-import { useUser } from '@/lib/supabase/client'
+import { useUser } from '@/hooks/useUser'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
 
 interface SectionModalProps {
