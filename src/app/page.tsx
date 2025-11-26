@@ -168,22 +168,16 @@ export default function HomePage() {
         const response = await fetch('/api/metiers')
         const data = await response.json()
 
-        console.log('📊 [HomePage] Fetched métiers:', data)
-
         if (data.success && data.data) {
           // Filtrer uniquement les métiers actifs et mapper avec display config
           const activeMetiers = data.data
-            .filter((m: MetierData) => {
-              console.log(`🔍 [HomePage] Métier ${m.titre}: statut=${m.statut}`)
-              return m.statut === true
-            })
+            .filter((m: MetierData) => m.statut === true)
             .sort((a: MetierData, b: MetierData) => a.ordre - b.ordre)
             .map((m: MetierData) => {
               const config = METIERS_DISPLAY_CONFIG[m.titre] || {
                 icon: '📋',
                 color: 'from-gray-500 to-gray-600'
               }
-              console.log(`✅ [HomePage] Active métier: ${m.titre}, icon: ${config.icon}`)
               return {
                 id: m.id,
                 nom: m.titre,
@@ -192,11 +186,10 @@ export default function HomePage() {
               }
             })
 
-          console.log(`✨ [HomePage] Total active métiers: ${activeMetiers.length}`)
           setMetiers(activeMetiers)
         }
       } catch (error) {
-        console.error('❌ [HomePage] Error fetching métiers:', error)
+        // Silent error handling
       } finally {
         setMetiersLoading(false)
       }
@@ -210,7 +203,6 @@ export default function HomePage() {
     const handleOpenLogout = () => setLogoutModalOpen(true)
     const handleOpenSurvey = () => setSurveyModalOpen(true)
     const handleAuthChanged = () => {
-      console.log('🔄 [HomePage] Auth changed, reloading page data...')
       // Pas besoin de window.location.reload(), juste forcer un re-render
       // React va automatiquement re-fetch les données grâce à useUser()
     }
@@ -1832,7 +1824,7 @@ export default function HomePage() {
             }
           }}
         >
-          <DialogContent className="max-w-2xl w-full">
+          <DialogContent className="max-w-3xl w-full max-h-[90vh] overflow-y-auto">
             <DialogTitle className="text-2xl font-semibold text-ciprel-black">
               {selectedWorkshop?.metier_nom && `Workshop - ${selectedWorkshop.metier_nom}`}
             </DialogTitle>
@@ -1854,6 +1846,52 @@ export default function HomePage() {
                       day: 'numeric'
                     })}
                   </p>
+                </div>
+              )}
+
+              {/* Section Vidéo */}
+              {selectedWorkshop?.video_url && (
+                <div className="bg-gradient-to-r from-ciprel-orange-50 to-ciprel-green-50 border border-ciprel-orange-200 rounded-xl p-6">
+                  <h4 className="font-bold text-ciprel-black mb-4 flex items-center">
+                    <svg className="h-5 w-5 mr-2 text-ciprel-orange-600" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                    Vidéo du workshop
+                  </h4>
+                  <div className="relative aspect-video bg-black rounded-lg overflow-hidden shadow-lg">
+                    {(() => {
+                      const videoUrl = selectedWorkshop.video_url || ''
+                      // Extraire l'ID YouTube si c'est un lien YouTube
+                      const youtubeMatch = videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)
+                      if (youtubeMatch) {
+                        return (
+                          <iframe
+                            src={`https://www.youtube.com/embed/${youtubeMatch[1]}`}
+                            title={`Vidéo ${selectedWorkshop.metier_nom}`}
+                            className="absolute inset-0 w-full h-full"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          />
+                        )
+                      }
+                      // Sinon, afficher comme lien externe
+                      return (
+                        <a
+                          href={videoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-ciprel-orange-500 to-ciprel-green-500 text-white hover:opacity-90 transition-opacity"
+                        >
+                          <div className="text-center">
+                            <svg className="h-16 w-16 mx-auto mb-3" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                            <span className="font-semibold text-lg">Voir la vidéo</span>
+                          </div>
+                        </a>
+                      )
+                    })()}
+                  </div>
                 </div>
               )}
 
@@ -1887,8 +1925,6 @@ export default function HomePage() {
                   <button
                     onClick={() => {
                       if (!selectedWorkshop) return
-
-                      console.log('🎯 [HomePage] Starting workshop quiz for metier_id:', selectedWorkshop.metier_id)
 
                       setWorkshopModalOpen(false)
                       resetQuiz()

@@ -9,6 +9,7 @@ export interface Workshop {
   is_active: boolean
   publication_date: string | null
   onedrive_link: string | null
+  video_url: string | null
   created_at: string
   updated_at: string
 }
@@ -33,8 +34,8 @@ export const useWorkshops = () => {
         const data = await response.json()
         setWorkshops(data.workshops || [])
         return
-      } catch (apiErr) {
-        console.warn('API endpoint failed, falling back to direct Supabase query:', apiErr)
+      } catch {
+        // Silent fallback to direct Supabase query
       }
 
       // Fallback: Direct Supabase query (for non-admin users viewing active workshops)
@@ -45,12 +46,10 @@ export const useWorkshops = () => {
 
       if (fetchError) throw fetchError
 
-      console.log('[useWorkshops] Fetched workshops:', data)
       setWorkshops(data || [])
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Erreur lors du chargement des workshops'
       setError(errorMessage)
-      console.error('Error fetching workshops:', err)
     } finally {
       setLoading(false)
     }
@@ -68,8 +67,7 @@ export const useWorkshops = () => {
       if (fetchError && fetchError.code !== 'PGRST116') throw fetchError
 
       return data || null
-    } catch (err) {
-      console.error('Error fetching workshop:', err)
+    } catch {
       return null
     }
   }, [])
@@ -96,7 +94,6 @@ export const useWorkshops = () => {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Erreur lors de la création du workshop'
       setError(errorMessage)
-      console.error('Error creating workshop:', err)
       return null
     }
   }, [])
@@ -105,8 +102,6 @@ export const useWorkshops = () => {
   const updateWorkshop = useCallback(async (id: number, updates: Partial<Workshop>) => {
     try {
       setError(null)
-
-      console.log('[useWorkshops] Updating workshop:', { id, updates })
 
       // Use API endpoint for authenticated requests
       const response = await authFetch('/api/admin/workshops', {
@@ -117,18 +112,13 @@ export const useWorkshops = () => {
         body: JSON.stringify({ id, ...updates }),
       })
 
-      console.log('[useWorkshops] API response status:', response.status)
-
       if (!response.ok) {
         const errorData = await response.json()
-        console.error('[useWorkshops] API error:', errorData)
         throw new Error(errorData.error || `HTTP ${response.status}`)
       }
 
       const data = await response.json()
       const workshop = data.workshop
-
-      console.log('[useWorkshops] Workshop updated successfully:', workshop)
 
       // Mettre à jour la liste locale
       if (workshop) {
@@ -141,7 +131,6 @@ export const useWorkshops = () => {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Erreur lors de la mise à jour du workshop'
       setError(errorMessage)
-      console.error('[useWorkshops] Error updating workshop:', err)
       return null
     }
   }, [])
@@ -165,7 +154,6 @@ export const useWorkshops = () => {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Erreur lors de la suppression du workshop'
       setError(errorMessage)
-      console.error('Error deleting workshop:', err)
       return false
     }
   }, [])
@@ -189,8 +177,7 @@ export const useWorkshops = () => {
           schema: 'public',
           table: 'workshops'
         },
-        (payload) => {
-          console.log('[useWorkshops] Real-time update received:', payload)
+        () => {
           getWorkshops()
         }
       )

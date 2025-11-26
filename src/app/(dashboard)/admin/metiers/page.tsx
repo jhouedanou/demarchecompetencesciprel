@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Loader2, AlertCircle, CheckCircle, LogOut, Brain, Link2, Edit2, Save, X, Calendar, RefreshCw } from 'lucide-react'
+import { Loader2, AlertCircle, CheckCircle, LogOut, Brain, Link2, Edit2, Save, X, Calendar, RefreshCw, Video } from 'lucide-react'
 import { useAdmin } from '@/contexts/AdminContext'
 import { useAuthStore } from '@/stores/auth-store'
 import { useRouter } from 'next/navigation'
@@ -25,6 +25,7 @@ interface Metier {
   outils: string[]
   onedrive_url: string | null
   publication_date: string | null
+  video_url: string | null
 }
 
 interface ApiResponse {
@@ -43,7 +44,7 @@ export default function AdminMetiersPage() {
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
   const [expandedId, setExpandedId] = useState<number | null>(null)
   const [editingMetierId, setEditingMetierId] = useState<number | null>(null)
-  const [editData, setEditData] = useState<{ onedrive_url?: string; publication_date?: string } | null>(null)
+  const [editData, setEditData] = useState<{ onedrive_url?: string; publication_date?: string; video_url?: string } | null>(null)
   const [isHydrated, setIsHydrated] = useState(false)
 
   // Mark component as hydrated after mount
@@ -67,20 +68,13 @@ export default function AdminMetiersPage() {
 
   const fetchMetiers = async () => {
     try {
-      console.log('🔍 [Admin Métiers] Fetching métiers from /api/metiers...')
       setLoading(true)
       const response = await fetch('/api/metiers')
-      console.log('🔍 [Admin Métiers] Response status:', response.status)
       const data: ApiResponse = await response.json()
-      console.log('🔍 [Admin Métiers] Data received:', data)
       if (data.success) {
-        console.log('✅ [Admin Métiers] Setting métiers:', data.data.length, 'items')
         setMetiers(data.data)
-      } else {
-        console.error('❌ [Admin Métiers] API returned success:false')
       }
     } catch (error) {
-      console.error('❌ [Admin Métiers] Error fetching metiers:', error)
       setMessage({ type: 'error', text: 'Erreur lors du chargement des blocs' })
     } finally {
       setLoading(false)
@@ -113,7 +107,6 @@ export default function AdminMetiersPage() {
         setMessage({ type: 'error', text: 'Erreur lors de la mise à jour' })
       }
     } catch (error) {
-      console.error('Error updating metier:', error)
       setMessage({ type: 'error', text: 'Erreur lors de la mise à jour' })
     } finally {
       setSaving(false)
@@ -160,7 +153,6 @@ export default function AdminMetiersPage() {
         throw new Error('Failed to update order')
       }
     } catch (error) {
-      console.error('Error reordering:', error)
       setMessage({ type: 'error', text: 'Erreur lors de la réorganisation' })
     } finally {
       setSaving(false)
@@ -171,7 +163,8 @@ export default function AdminMetiersPage() {
     setEditingMetierId(metier.id)
     setEditData({
       onedrive_url: metier.onedrive_url || '',
-      publication_date: metier.publication_date || ''
+      publication_date: metier.publication_date || '',
+      video_url: metier.video_url || ''
     })
   }
 
@@ -182,7 +175,6 @@ export default function AdminMetiersPage() {
 
   const handleSaveMetier = async (id: number) => {
     if (!editData) return
-    console.log('💾 [Admin Métiers] Saving métier:', { id, editData })
     try {
       setSaving(true)
       const response = await fetch('/api/metiers', {
@@ -191,15 +183,14 @@ export default function AdminMetiersPage() {
         body: JSON.stringify({
           id,
           onedrive_url: editData.onedrive_url,
-          publication_date: editData.publication_date
+          publication_date: editData.publication_date,
+          video_url: editData.video_url
         })
       })
 
       if (response.ok) {
-        const result = await response.json()
-        console.log('💾 [Admin Métiers] Save result:', result)
         setMetiers(prev => prev.map(m =>
-          m.id === id ? { ...m, onedrive_url: editData.onedrive_url || null, publication_date: editData.publication_date || null } : m
+          m.id === id ? { ...m, onedrive_url: editData.onedrive_url || null, publication_date: editData.publication_date || null, video_url: editData.video_url || null } : m
         ))
         setEditingMetierId(null)
         setEditData(null)
@@ -209,7 +200,6 @@ export default function AdminMetiersPage() {
         setMessage({ type: 'error', text: 'Erreur lors de la sauvegarde' })
       }
     } catch (error) {
-      console.error('Save error:', error)
       setMessage({ type: 'error', text: 'Erreur lors de la sauvegarde' })
     } finally {
       setSaving(false)
@@ -366,7 +356,7 @@ export default function AdminMetiersPage() {
 
               {/* Workshop Section */}
               <div className="px-6 py-3 bg-gray-50 border-t border-gray-200">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
                   {/* OneDrive Link */}
                   <div>
                     <label className="text-xs font-medium text-gray-700 block mb-1">Lien OneDrive</label>
@@ -394,6 +384,38 @@ export default function AdminMetiersPage() {
                           </a>
                         ) : (
                           <span className="text-gray-400 text-sm">Non défini</span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Video URL */}
+                  <div>
+                    <label className="text-xs font-medium text-gray-700 block mb-1">URL Vidéo (YouTube)</label>
+                    {editingMetierId === metier.id ? (
+                      <input
+                        type="url"
+                        placeholder="https://www.youtube.com/watch?v=..."
+                        value={editData?.video_url || ''}
+                        onChange={(e) => setEditData(prev => prev ? { ...prev, video_url: e.target.value } : null)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        {metier.video_url ? (
+                          <a
+                            href={metier.video_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-ciprel-orange-600 hover:text-ciprel-orange-700 text-sm flex items-center gap-1"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <Video className="h-4 w-4" />
+                            Voir
+                          </a>
+                        ) : (
+                          <span className="text-gray-400 text-sm">Non définie</span>
                         )}
                       </div>
                     )}
