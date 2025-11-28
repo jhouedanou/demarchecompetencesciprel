@@ -150,8 +150,10 @@ export default function HomePage() {
   const [metiers, setMetiers] = useState<MetierDisplay[]>([])
   const [metiersLoading, setMetiersLoading] = useState(true)
   const swiperRef = useRef<SwiperType | null>(null)
+  const swiperDefinitionsRef = useRef<any>(null)
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const totalSlides = 3 // Structure finale avec 3 slides
+  const [definitionCarouselIndex, setDefinitionCarouselIndex] = useState(0)
   const practiceVideos = PRACTICE_VIDEOS
   const resetQuiz = useQuizStore(state => state.resetQuiz)
   const router = useRouter()
@@ -272,6 +274,14 @@ export default function HomePage() {
 
   const goNext = () => {
     swiperRef.current?.slideNext()
+  }
+
+  const goDefinitionsPrev = () => {
+    swiperDefinitionsRef.current?.slidePrev()
+  }
+
+  const goDefinitionsNext = () => {
+    swiperDefinitionsRef.current?.slideNext()
   }
 
   const openQuizModal = () => {
@@ -547,116 +557,167 @@ export default function HomePage() {
             {/* DEFINITIONS AND OBJECTIVES SLIDE - Slide 1 - Définitions et objectifs */}
             <section className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-green-50 via-white to-gray-50">
               <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
-                {/* Définition */}
-                <div className="bg-white rounded-xl shadow-lg border-l-4 border-ciprel-green-500 p-8 md:p-10 mb-8">
-                  <h3 className="text-2xl font-bold text-ciprel-black mb-6 flex items-center">
-                    <div className="bg-ciprel-green-100 p-2 rounded-lg mr-3">
-                      <HelpCircle className="h-7 w-7 text-ciprel-green-600" />
-                    </div>
-                    Qu'est-ce que la démarche compétence ?
-                  </h3>
+                {/* Internal Carousel for Definitions and Objectives */}
+                <div className="relative">
+                  <Swiper
+                    ref={swiperDefinitionsRef}
+                    modules={[Navigation]}
+                    slidesPerView={1}
+                    direction="horizontal"
+                    onSlideChange={(swiper) => setDefinitionCarouselIndex(swiper.activeIndex)}
+                    className="relative"
+                  >
+                    {/* Slide 1: Définition */}
+                    <SwiperSlide>
+                      <div className="bg-white rounded-xl shadow-lg border-l-4 border-ciprel-green-500 p-8 md:p-10 mb-8 min-h-[500px] flex flex-col justify-center">
+                        <h3 className="text-2xl font-bold text-ciprel-black mb-6 flex items-center">
+                          <div className="bg-ciprel-green-100 p-2 rounded-lg mr-3">
+                            <HelpCircle className="h-7 w-7 text-ciprel-green-600" />
+                          </div>
+                          Qu'est-ce que la démarche compétence ?
+                        </h3>
 
-                  <div className="space-y-4 mb-8">
-                    <p className="text-gray-700 leading-relaxed text-lg">
-                      Les compétences correspondent à un ensemble de <strong className="text-ciprel-green-700">connaissance (les savoirs)</strong>,
-                      <strong className="text-ciprel-orange-600"> savoir-faire</strong> (habilité ou compétences technique propre au métier),
-                      <strong className="text-ciprel-green-600"> savoir-être</strong> (habilité ou caractéristique comportementale),
-                      observables et mesurables qui contribuent au succès du rendement au travail.
-                    </p>
-                    <p className="text-gray-700 leading-relaxed text-lg">
-                      La démarche compétence c'est donc un ensemble de <strong>processus et de procédures</strong> définis
-                      par l'entreprise pour développer les compétences de ses salariés, il s'agit en d'autres
-                      termes de créer, transférer, assembler et intégrer le capital compétence disponible en interne.
-                    </p>
-                  </div>
+                        <div className="space-y-4 mb-8">
+                          <p className="text-gray-700 leading-relaxed text-lg">
+                            Les compétences correspondent à un ensemble de <strong className="text-ciprel-green-700">connaissance (les savoirs)</strong>,
+                            <strong className="text-ciprel-orange-600"> savoir-faire</strong> (habilité ou compétences technique propre au métier),
+                            <strong className="text-ciprel-green-600"> savoir-être</strong> (habilité ou caractéristique comportementale),
+                            observables et mesurables qui contribuent au succès du rendement au travail.
+                          </p>
+                          <p className="text-gray-700 leading-relaxed text-lg">
+                            La démarche compétence c'est donc un ensemble de <strong>processus et de procédures</strong> définis
+                            par l'entreprise pour développer les compétences de ses salariés, il s'agit en d'autres
+                            termes de créer, transférer, assembler et intégrer le capital compétence disponible en interne.
+                          </p>
+                        </div>
 
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="bg-gradient-to-br from-ciprel-green-50 to-white rounded-lg p-6 border border-ciprel-green-200">
-                      <div className="flex items-center mb-3">
-                        <Building2 className="h-6 w-6 text-ciprel-green-600 mr-2" />
-                        <h4 className="font-bold text-ciprel-green-700 text-lg">Pour CIPREL</h4>
+                        <div className="grid md:grid-cols-2 gap-6">
+                          <div className="bg-gradient-to-br from-ciprel-green-50 to-white rounded-lg p-6 border border-ciprel-green-200">
+                            <div className="flex items-center mb-3">
+                              <Building2 className="h-6 w-6 text-ciprel-green-600 mr-2" />
+                              <h4 className="font-bold text-ciprel-green-700 text-lg">Pour CIPREL</h4>
+                            </div>
+                            <p className="text-gray-700">
+                              Accroître la <strong>performance économique et sociale</strong> en préservant les compétences
+                              de l'entreprise et l'expertise interne
+                            </p>
+                          </div>
+                          <div className="bg-gradient-to-br from-ciprel-orange-50 to-white rounded-lg p-6 border border-ciprel-orange-200">
+                            <div className="flex items-center mb-3">
+                              <Users className="h-6 w-6 text-ciprel-orange-600 mr-2" />
+                              <h4 className="font-bold text-ciprel-orange-600 text-lg">Pour les collaborateurs</h4>
+                            </div>
+                            <p className="text-gray-700">
+                              Accroître et entretenir leur <strong>capital compétences</strong> et les valoriser dans le cadre
+                              d'un plan de développement professionnel
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                      <p className="text-gray-700">
-                        Accroître la <strong>performance économique et sociale</strong> en préservant les compétences
-                        de l'entreprise et l'expertise interne
-                      </p>
-                    </div>
-                    <div className="bg-gradient-to-br from-ciprel-orange-50 to-white rounded-lg p-6 border border-ciprel-orange-200">
-                      <div className="flex items-center mb-3">
-                        <Users className="h-6 w-6 text-ciprel-orange-600 mr-2" />
-                        <h4 className="font-bold text-ciprel-orange-600 text-lg">Pour les collaborateurs</h4>
+                    </SwiperSlide>
+
+                    {/* Slide 2: Objectifs */}
+                    <SwiperSlide>
+                      <div className="bg-white rounded-xl shadow-lg p-8 md:p-10 mb-8 min-h-[500px] flex flex-col justify-center">
+                        <div className="text-center mb-8">
+                          <span className="bg-ciprel-green-100 text-ciprel-green-800 px-4 py-2 rounded-full text-sm font-semibold inline-block mb-4">
+                            Objectifs stratégiques
+                          </span>
+                          <h2 className="text-3xl font-bold text-ciprel-black mb-4">
+                            Objectifs de la démarche
+                          </h2>
+                          <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+                            Une vision commune pour l'entreprise et ses collaborateurs
+                          </p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-8">
+                          {/* Pour CIPREL */}
+                          <div className="bg-gradient-to-br from-ciprel-green-50 to-white rounded-xl shadow-lg p-6 border-t-4 border-ciprel-green-500 hover:shadow-xl transition-shadow duration-200">
+                            <div className="flex items-center mb-4">
+                              <div className="bg-ciprel-green-100 p-3 rounded-lg mr-4">
+                                <Building2 className="h-7 w-7 text-ciprel-green-600" />
+                              </div>
+                              <h3 className="text-xl font-bold text-ciprel-black">Pour CIPREL</h3>
+                            </div>
+                            <ul className="space-y-3">
+                              <li className="flex items-start">
+                                <CheckCircle2 className="h-5 w-5 text-ciprel-green-500 mr-3 flex-shrink-0 mt-1" />
+                                <span className="text-gray-700 text-sm">Communiquer autour des compétences techniques et pratiques professionnelles fondamentales</span>
+                              </li>
+                              <li className="flex items-start">
+                                <CheckCircle2 className="h-5 w-5 text-ciprel-green-500 mr-3 flex-shrink-0 mt-1" />
+                                <span className="text-gray-700 text-sm">Favoriser l'ancrage du contenu de la démarche compétence</span>
+                              </li>
+                              <li className="flex items-start">
+                                <CheckCircle2 className="h-5 w-5 text-ciprel-green-500 mr-3 flex-shrink-0 mt-1" />
+                                <span className="text-gray-700 text-sm">Maintenir la dynamique autour des compétences, l'implication et la responsabilisation des salariés</span>
+                              </li>
+                            </ul>
+                          </div>
+
+                          {/* Pour le personnel */}
+                          <div className="bg-gradient-to-br from-ciprel-orange-50 to-white rounded-xl shadow-lg p-6 border-t-4 border-ciprel-orange-500 hover:shadow-xl transition-shadow duration-200">
+                            <div className="flex items-center mb-4">
+                              <div className="bg-ciprel-orange-100 p-3 rounded-lg mr-4">
+                                <Users className="h-7 w-7 text-ciprel-orange-600" />
+                              </div>
+                              <h3 className="text-xl font-bold text-ciprel-black">Pour le personnel</h3>
+                            </div>
+                            <ul className="space-y-3">
+                              <li className="flex items-start">
+                                <CheckCircle2 className="h-5 w-5 text-ciprel-orange-500 mr-3 flex-shrink-0 mt-1" />
+                                <span className="text-gray-700 text-sm">Comprendre le contenu de la démarche compétence, ses objectifs et les gains attendus</span>
+                              </li>
+                              <li className="flex items-start">
+                                <CheckCircle2 className="h-5 w-5 text-ciprel-orange-500 mr-3 flex-shrink-0 mt-1" />
+                                <span className="text-gray-700 text-sm">Maîtriser le requis en pratiques professionnelles et en compétences</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
                       </div>
-                      <p className="text-gray-700">
-                        Accroître et entretenir leur <strong>capital compétences</strong> et les valoriser dans le cadre
-                        d'un plan de développement professionnel
-                      </p>
+                    </SwiperSlide>
+                  </Swiper>
+
+                  {/* Navigation Arrows for Internal Carousel */}
+                  <div className="flex justify-center gap-4 mt-8 mb-4">
+                    <button
+                      type="button"
+                      onClick={goDefinitionsPrev}
+                      className="bg-ciprel-orange-600 text-white p-3 rounded-full hover:bg-ciprel-orange-700 shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                      aria-label="Section précédente"
+                    >
+                      <ChevronLeft className="h-6 w-6" />
+                    </button>
+
+                    {/* Indicator dots */}
+                    <div className="flex items-center gap-2">
+                      {[0, 1].map((index) => (
+                        <div
+                          key={index}
+                          className={`h-2 rounded-full transition-all duration-200 ${
+                            definitionCarouselIndex === index
+                              ? 'bg-ciprel-orange-600 w-6'
+                              : 'bg-gray-300 w-2'
+                          }`}
+                        />
+                      ))}
                     </div>
+
+                    <button
+                      type="button"
+                      onClick={goDefinitionsNext}
+                      className="bg-ciprel-green-600 text-white p-3 rounded-full hover:bg-ciprel-green-700 shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                      aria-label="Section suivante"
+                    >
+                      <ChevronRight className="h-6 w-6" />
+                    </button>
                   </div>
                 </div>
 
-                {/* Objectifs */}
-                <div className="bg-white rounded-xl shadow-lg p-8 md:p-10 mb-4">
-                  <div className="text-center mb-8">
-                    <span className="bg-ciprel-green-100 text-ciprel-green-800 px-4 py-2 rounded-full text-sm font-semibold inline-block mb-4">
-                      Objectifs stratégiques
-                    </span>
-                    <h2 className="text-3xl font-bold text-ciprel-black mb-4">
-                      Objectifs de la démarche
-                    </h2>
-                    <p className="text-gray-600 text-lg max-w-3xl mx-auto">
-                      Une vision commune pour l'entreprise et ses collaborateurs
-                    </p>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-8">
-                    {/* Pour CIPREL */}
-                    <div className="bg-gradient-to-br from-ciprel-green-50 to-white rounded-xl shadow-lg p-6 border-t-4 border-ciprel-green-500 hover:shadow-xl transition-shadow duration-200">
-                      <div className="flex items-center mb-4">
-                        <div className="bg-ciprel-green-100 p-3 rounded-lg mr-4">
-                          <Building2 className="h-7 w-7 text-ciprel-green-600" />
-                        </div>
-                        <h3 className="text-xl font-bold text-ciprel-black">Pour CIPREL</h3>
-                      </div>
-                      <ul className="space-y-3">
-                        <li className="flex items-start">
-                          <CheckCircle2 className="h-5 w-5 text-ciprel-green-500 mr-3 flex-shrink-0 mt-1" />
-                          <span className="text-gray-700 text-sm">Communiquer autour des compétences techniques et pratiques professionnelles fondamentales</span>
-                        </li>
-                        <li className="flex items-start">
-                          <CheckCircle2 className="h-5 w-5 text-ciprel-green-500 mr-3 flex-shrink-0 mt-1" />
-                          <span className="text-gray-700 text-sm">Favoriser l'ancrage du contenu de la démarche compétence</span>
-                        </li>
-                        <li className="flex items-start">
-                          <CheckCircle2 className="h-5 w-5 text-ciprel-green-500 mr-3 flex-shrink-0 mt-1" />
-                          <span className="text-gray-700 text-sm">Maintenir la dynamique autour des compétences, l'implication et la responsabilisation des salariés</span>
-                        </li>
-                      </ul>
-                    </div>
-
-                    {/* Pour le personnel */}
-                    <div className="bg-gradient-to-br from-ciprel-orange-50 to-white rounded-xl shadow-lg p-6 border-t-4 border-ciprel-orange-500 hover:shadow-xl transition-shadow duration-200">
-                      <div className="flex items-center mb-4">
-                        <div className="bg-ciprel-orange-100 p-3 rounded-lg mr-4">
-                          <Users className="h-7 w-7 text-ciprel-orange-600" />
-                        </div>
-                        <h3 className="text-xl font-bold text-ciprel-black">Pour le personnel</h3>
-                      </div>
-                      <ul className="space-y-3">
-                        <li className="flex items-start">
-                          <CheckCircle2 className="h-5 w-5 text-ciprel-orange-500 mr-3 flex-shrink-0 mt-1" />
-                          <span className="text-gray-700 text-sm">Comprendre le contenu de la démarche compétence, ses objectifs et les gains attendus</span>
-                        </li>
-                        <li className="flex items-start">
-                          <CheckCircle2 className="h-5 w-5 text-ciprel-orange-500 mr-3 flex-shrink-0 mt-1" />
-                          <span className="text-gray-700 text-sm">Maîtriser le requis en pratiques professionnelles et en compétences</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Navigation Buttons */}
-                <div className="flex justify-center gap-4 mt-4">
+                {/* Navigation Buttons for Main Slides */}
+                <div className="flex justify-center gap-4 mt-8">
                   <button
                     type="button"
                     onClick={goPrev}
