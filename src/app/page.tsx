@@ -561,11 +561,24 @@ export default function HomePage() {
                 <div className="relative">
                   <Swiper
                     ref={swiperDefinitionsRef}
-                    modules={[Navigation]}
+                    modules={[Navigation, Pagination]}
                     slidesPerView={1}
                     direction="horizontal"
                     onSlideChange={(swiper) => setDefinitionCarouselIndex(swiper.activeIndex)}
-                    className="relative"
+                    navigation={{
+                      prevEl: '.swiper-button-prev-definitions',
+                      nextEl: '.swiper-button-next-definitions',
+                    }}
+                    pagination={{
+                      clickable: true,
+                      dynamicBullets: true,
+                    }}
+                    className="w-full definitions-swiper"
+                    style={{
+                      '--swiper-pagination-color': '#EE7F00',
+                      '--swiper-pagination-bullet-inactive-color': '#58A636',
+                      '--swiper-pagination-bullet-inactive-opacity': '0.4',
+                    } as React.CSSProperties}
                   >
                     {/* Slide 1: Définition */}
                     <SwiperSlide>
@@ -678,42 +691,94 @@ export default function HomePage() {
                         </div>
                       </div>
                     </SwiperSlide>
+
+                    {/* Slide 3: Vidéo d'introduction */}
+                    <SwiperSlide>
+                      <div className="bg-white rounded-xl shadow-lg p-8 md:p-10 mb-8 min-h-[500px] flex flex-col justify-center">
+                        <div className="text-center mb-8">
+                          <span className="bg-ciprel-orange-100 text-ciprel-orange-800 px-4 py-2 rounded-full text-sm font-semibold inline-block mb-4">
+                            📹 Vidéo d'introduction
+                          </span>
+                          <h2 className="text-3xl md:text-4xl font-bold text-ciprel-black mb-4">
+                            Découvrez la Démarche Compétence en 2 minutes
+                          </h2>
+                          <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+                            Une présentation vidéo pour comprendre rapidement les enjeux et objectifs de notre démarche
+                          </p>
+                        </div>
+
+                        {/* Lecteur vidéo */}
+                        <div className="max-w-4xl mx-auto w-full mb-8">
+                          <div className="relative aspect-video bg-black rounded-2xl shadow-2xl overflow-hidden">
+                            <video
+                              ref={videoRef}
+                              controls
+                              className="absolute inset-0 w-full h-full"
+                              poster="/images/poster.jpg"
+                            >
+                              <source src="/videos/video1.mp4" type="video/mp4" />
+                              Votre navigateur ne supporte pas la lecture de vidéos HTML5.
+                            </video>
+                          </div>
+                        </div>
+
+                        {/* Points clés */}
+                        <div className="bg-gradient-to-br from-ciprel-orange-50 to-white rounded-xl p-6 max-w-4xl mx-auto border-t-4 border-ciprel-orange-500">
+                          <h3 className="text-xl font-bold text-ciprel-black mb-4 flex items-center">
+                            <CheckCircle2 className="h-6 w-6 text-ciprel-green-600 mr-3" />
+                            Ce que vous allez découvrir
+                          </h3>
+                          <div className="grid md:grid-cols-2 gap-4">
+                            <div className="flex items-start">
+                              <span className="text-ciprel-orange-600 font-bold mr-2">•</span>
+                              <p className="text-gray-700">Les enjeux de la démarche compétence</p>
+                            </div>
+                            <div className="flex items-start">
+                              <span className="text-ciprel-orange-600 font-bold mr-2">•</span>
+                              <p className="text-gray-700">Les bénéfices pour CIPREL et les collaborateurs</p>
+                            </div>
+                            <div className="flex items-start">
+                              <span className="text-ciprel-orange-600 font-bold mr-2">•</span>
+                              <p className="text-gray-700">Le parcours de développement des compétences</p>
+                            </div>
+                            <div className="flex items-start">
+                              <span className="text-ciprel-orange-600 font-bold mr-2">•</span>
+                              <p className="text-gray-700">Les outils et ressources disponibles</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </SwiperSlide>
                   </Swiper>
 
-                  {/* Navigation Arrows for Internal Carousel */}
-                  <div className="flex justify-center gap-4 mt-8 mb-8">
-                    <button
-                      type="button"
-                      onClick={goDefinitionsPrev}
-                      className="bg-ciprel-orange-600 text-white p-3 rounded-full hover:bg-ciprel-orange-700 shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
-                      aria-label="Section précédente"
-                    >
-                      <ChevronLeft className="h-6 w-6" />
-                    </button>
+                  {/* Navigation Arrows for Internal Carousel - Using same pattern as workshops */}
+                  <button
+                    className="swiper-button-prev-definitions absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-ciprel-orange-600 hover:bg-ciprel-orange-600 hover:text-white transition-all duration-300 hover:scale-110"
+                    aria-label="Précédent"
+                  >
+                    <ChevronLeft className="h-6 w-6" />
+                  </button>
 
-                    {/* Indicator dots */}
-                    <div className="flex items-center gap-2">
-                      {[0, 1].map((index) => (
-                        <div
-                          key={index}
-                          className={`h-2 rounded-full transition-all duration-200 ${
-                            definitionCarouselIndex === index
-                              ? 'bg-ciprel-orange-600 w-6'
-                              : 'bg-gray-300 w-2'
-                          }`}
-                        />
-                      ))}
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={goDefinitionsNext}
-                      className="bg-ciprel-green-600 text-white p-3 rounded-full hover:bg-ciprel-green-700 shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
-                      aria-label="Section suivante"
-                    >
-                      <ChevronRight className="h-6 w-6" />
-                    </button>
+                  {/* Pagination dots */}
+                  <div className="flex justify-center gap-2 mt-8 mb-8">
+                    {[0, 1, 2].map((index) => (
+                      <div
+                        key={index}
+                        className={`h-2 rounded-full transition-all duration-200 ${
+                          definitionCarouselIndex === index
+                            ? 'bg-ciprel-orange-600 w-6'
+                            : 'bg-gray-300 w-2'
+                        }`}
+                      />
+                    ))}
                   </div>
+
+                  <button
+                    className="swiper-button-next-definitions absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-ciprel-orange-600 hover:bg-ciprel-orange-600 hover:text-white transition-all duration-300 hover:scale-110"
+                    aria-label="Suivant"
+                  >
+                    <ChevronRight className="h-6 w-6" />
+                  </button>
                 </div>
 
                 {/* SECTION 3: QUIZ & ÉVALUATION */}
@@ -844,62 +909,6 @@ export default function HomePage() {
                         <Download className="h-6 w-6 mr-3" />
                         Télécharger le guide complet (PDF)
                       </a>
-                    </div>
-                  </div>
-                </div>
-
-                {/* SECTION 5: VIDÉO D'INTRODUCTION */}
-                <div className="mt-12 mb-12">
-                  <div className="text-center mb-8">
-                    <span className="bg-ciprel-orange-100 text-ciprel-orange-800 px-4 py-2 rounded-full text-sm font-semibold inline-block mb-4">
-                      📹 Vidéo d'introduction
-                    </span>
-                    <h3 className="text-3xl md:text-4xl font-bold text-ciprel-black mb-4">
-                      Découvrez la Démarche Compétence en 2 minutes
-                    </h3>
-                    <p className="text-gray-600 text-lg max-w-3xl mx-auto">
-                      Une présentation vidéo pour comprendre rapidement les enjeux et objectifs de notre démarche
-                    </p>
-                  </div>
-
-                  {/* Lecteur vidéo */}
-                  <div className="max-w-4xl mx-auto w-full mb-8">
-                    <div className="relative aspect-video bg-black rounded-2xl shadow-2xl overflow-hidden">
-                      <video
-                        ref={videoRef}
-                        controls
-                        className="absolute inset-0 w-full h-full"
-                        poster="/images/poster.jpg"
-                      >
-                        <source src="/videos/video1.mp4" type="video/mp4" />
-                        Votre navigateur ne supporte pas la lecture de vidéos HTML5.
-                      </video>
-                    </div>
-                  </div>
-
-                  {/* Points clés */}
-                  <div className="bg-white rounded-xl shadow-lg p-6 max-w-4xl mx-auto">
-                    <h3 className="text-xl font-bold text-ciprel-black mb-4 flex items-center">
-                      <CheckCircle2 className="h-6 w-6 text-ciprel-green-600 mr-3" />
-                      Ce que vous allez découvrir
-                    </h3>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div className="flex items-start">
-                        <span className="text-ciprel-orange-600 font-bold mr-2">•</span>
-                        <p className="text-gray-700">Les enjeux de la démarche compétence</p>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="text-ciprel-orange-600 font-bold mr-2">•</span>
-                        <p className="text-gray-700">Les bénéfices pour CIPREL et les collaborateurs</p>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="text-ciprel-orange-600 font-bold mr-2">•</span>
-                        <p className="text-gray-700">Le parcours de développement des compétences</p>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="text-ciprel-orange-600 font-bold mr-2">•</span>
-                        <p className="text-gray-700">Les outils et ressources disponibles</p>
-                      </div>
                     </div>
                   </div>
                 </div>
