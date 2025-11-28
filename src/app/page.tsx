@@ -59,7 +59,10 @@ type SectionType = 'introduction' | 'dialectique' | 'synoptique' | 'leviers' | '
 const SLIDE_TITLES = [
   'Présentation',
   'Définitions et objectifs',
-  'Workshops métiers'
+  'Workshops métiers',
+  'Vidéo',
+  'Quiz',
+  'Guide et ressources'
 ]
 
 // Mapping statique des icônes et couleurs par nom de métier
@@ -152,7 +155,7 @@ export default function HomePage() {
   const swiperRef = useRef<SwiperType | null>(null)
   const swiperDefinitionsRef = useRef<any>(null)
   const videoRef = useRef<HTMLVideoElement | null>(null)
-  const totalSlides = 3 // Structure finale avec 3 slides
+  const totalSlides = 6 // Structure finale avec 6 slides
   const [definitionCarouselIndex, setDefinitionCarouselIndex] = useState(0)
   const practiceVideos = PRACTICE_VIDEOS
   const resetQuiz = useQuizStore(state => state.resetQuiz)
@@ -893,6 +896,281 @@ export default function HomePage() {
                 </div>
 
                 {/* Navigation */}
+                <div className="flex justify-center gap-4">
+                  <button
+                    type="button"
+                    onClick={goPrev}
+                    className="bg-ciprel-orange-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                  >
+                    <ChevronUp className="h-5 w-5 mr-2" />
+                    Précédent
+                  </button>
+                  <button
+                    type="button"
+                    onClick={goNext}
+                    className="bg-ciprel-green-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                  >
+                    Suivant
+                    <ChevronDown className="h-5 w-5 ml-2" />
+                  </button>
+                </div>
+              </div>
+            </section>
+          </SwiperSlide>
+
+          <SwiperSlide id="slide-video">
+            {/* VIDÉO INTRO - Slide 4 - Vidéo d'introduction (2 min) */}
+            <section className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50">
+              <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
+
+                <div className="text-center mb-8">
+                  <span className="bg-ciprel-orange-100 text-ciprel-orange-800 px-4 py-2 rounded-full text-sm font-semibold inline-block mb-4">
+                    📹 Vidéo d'introduction
+                  </span>
+                  <h2 className="text-3xl md:text-4xl font-bold text-ciprel-black mb-4">
+                    Découvrez la Démarche Compétence en 2 minutes
+                  </h2>
+                  <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+                    Une présentation vidéo pour comprendre rapidement les enjeux et objectifs de notre démarche
+                  </p>
+                </div>
+
+                {/* Lecteur vidéo */}
+                <div className="max-w-4xl mx-auto w-full mb-8">
+                  <div className="relative aspect-video bg-black rounded-2xl shadow-2xl overflow-hidden">
+                    <video
+                      ref={videoRef}
+                      controls
+                      className="absolute inset-0 w-full h-full"
+                      poster="/images/poster.jpg"
+                    >
+                      <source src="/videos/video1.mp4" type="video/mp4" />
+                      Votre navigateur ne supporte pas la lecture de vidéos HTML5.
+                    </video>
+                  </div>
+                </div>
+
+                {/* Points clés */}
+                <div className="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+                  <h3 className="text-xl font-bold text-ciprel-black mb-4 flex items-center">
+                    <CheckCircle2 className="h-6 w-6 text-ciprel-green-600 mr-3" />
+                    Ce que vous allez découvrir
+                  </h3>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="flex items-start">
+                      <span className="text-ciprel-orange-600 font-bold mr-2">•</span>
+                      <p className="text-gray-700">Les enjeux de la démarche compétence</p>
+                    </div>
+                    <div className="flex items-start">
+                      <span className="text-ciprel-orange-600 font-bold mr-2">•</span>
+                      <p className="text-gray-700">Les bénéfices pour CIPREL et les collaborateurs</p>
+                    </div>
+                    <div className="flex items-start">
+                      <span className="text-ciprel-orange-600 font-bold mr-2">•</span>
+                      <p className="text-gray-700">Le parcours de développement des compétences</p>
+                    </div>
+                    <div className="flex items-start">
+                      <span className="text-ciprel-orange-600 font-bold mr-2">•</span>
+                      <p className="text-gray-700">Les outils et ressources disponibles</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Navigation Buttons */}
+                <div className="flex justify-center gap-4">
+                  <button
+                    type="button"
+                    onClick={goPrev}
+                    className="bg-ciprel-orange-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                  >
+                    <ChevronUp className="h-5 w-5 mr-2" />
+                    Précédent
+                  </button>
+                  <button
+                    type="button"
+                    onClick={goNext}
+                    className="bg-ciprel-green-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                  >
+                    Suivant
+                    <ChevronDown className="h-5 w-5 ml-2" />
+                  </button>
+                </div>
+              </div>
+            </section>
+          </SwiperSlide>
+
+          <SwiperSlide id="slide-quiz">
+            {/* SECTION QUIZ - Slide 5 - Quiz et sondages */}
+            <section className="h-full overflow-y-auto bg-gray-50">
+              <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
+                <div className="text-center mb-12">
+                  <span className="bg-ciprel-green-100 text-ciprel-green-800 px-4 py-2 rounded-full text-sm font-semibold inline-block mb-4">
+                    Quiz et évaluation
+                  </span>
+                  <h2 className="text-3xl md:text-4xl font-bold text-ciprel-black mb-4">
+                    Testez vos connaissances
+                  </h2>
+                  <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+                    Impliquer le personnel dans l'amélioration continue de la démarche compétence,
+                    mesurer la compréhension des concepts clés et faciliter l'appropriation.
+                  </p>
+                </div>
+
+                {/* Grille des fonctionnalités */}
+                <div className="grid md:grid-cols-3 gap-6 mb-12">
+                  <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-200">
+                    <div className="bg-ciprel-green-100 w-14 h-14 rounded-xl flex items-center justify-center mb-4">
+                      <BookOpen className="h-7 w-7 text-ciprel-green-600" />
+                    </div>
+                    <h3 className="font-bold text-lg mb-2 text-ciprel-black">Modules interactifs</h3>
+                    <p className="text-gray-600">
+                      Concepts de compétence technique, pratiques professionnelles, procédures et développement
+                    </p>
+                  </div>
+
+                  <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-200">
+                    <div className="bg-ciprel-orange-100 w-14 h-14 rounded-xl flex items-center justify-center mb-4">
+                      <HelpCircle className="h-7 w-7 text-ciprel-orange-600" />
+                    </div>
+                    <h3 className="font-bold text-lg mb-2 text-ciprel-black">Quiz & Auto-évaluation</h3>
+                    <p className="text-gray-600">
+                      Exercices d'auto-évaluation accessibles via QR code et quiz trimestriels
+                    </p>
+                  </div>
+
+                  <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-200">
+                    <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-4 bg-ciprel-yellow/20 border border-ciprel-yellow/40">
+                      <TrendingUp className="h-7 w-7 text-ciprel-yellow" />
+                    </div>
+                    <h3 className="font-bold text-lg mb-2 text-ciprel-black">Suivi personnalisé</h3>
+                    <p className="text-gray-600">
+                      Espace personnel, tableau de bord managers et rapports RH détaillés
+                    </p>
+                  </div>
+                </div>
+
+                {/* Quiz et Sondage */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                  {user ? (
+                    <button
+                      type="button"
+                      onClick={openQuizModal}
+                      className="block w-full text-left p-6 bg-gradient-to-r from-ciprel-green-500 to-ciprel-green-600 text-white rounded-xl hover:from-ciprel-green-600 hover:to-ciprel-green-700 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ciprel-green-500"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-bold text-xl">Quiz d'introduction</h4>
+                        <BookOpen className="h-7 w-7" />
+                      </div>
+                      <p className="text-ciprel-green-100 mb-4">Testez vos connaissances sur la démarche compétence</p>
+                      <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
+                        Afficher le questionnaire
+                      </div>
+                    </button>
+                  ) : (
+                    <div className="block p-6 bg-gray-300 text-gray-500 rounded-xl cursor-not-allowed">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-bold text-xl">Quiz d'introduction</h4>
+                        <Lock className="h-7 w-7" />
+                      </div>
+                      <p className="text-gray-400 mb-4">Testez vos connaissances sur la démarche compétence</p>
+                      <div className="text-sm bg-gray-400 text-white rounded-lg px-3 py-2 inline-block">
+                        🔒 Connectez-vous pour accéder
+                      </div>
+                    </div>
+                  )}
+
+                  {user ? (
+                    <button
+                      type="button"
+                      onClick={() => setSurveyModalOpen(true)}
+                      data-survey-trigger
+                      className="block w-full text-left p-6 bg-gradient-to-r from-ciprel-orange-500 to-ciprel-orange-600 text-white rounded-xl hover:from-ciprel-orange-600 hover:to-ciprel-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ciprel-orange-500"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-bold text-xl">Sondage d'opinion</h4>
+                        <HelpCircle className="h-7 w-7" />
+                      </div>
+                      <p className="text-ciprel-orange-100 mb-4">Partagez votre avis et vos suggestions d'amélioration</p>
+                      <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
+                        Afficher le questionnaire
+                      </div>
+                    </button>
+                  ) : (
+                    <div className="block p-6 bg-gray-300 text-gray-500 rounded-xl cursor-not-allowed">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-bold text-xl">Sondage d'opinion</h4>
+                        <Lock className="h-7 w-7" />
+                      </div>
+                      <p className="text-gray-400 mb-4">Partagez votre avis et vos suggestions d'amélioration</p>
+                      <div className="text-sm bg-gray-400 text-white rounded-lg px-3 py-2 inline-block">
+                        🔒 Connectez-vous pour accéder
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Navigation Buttons */}
+                <div className="flex justify-center gap-4">
+                  <button
+                    type="button"
+                    onClick={goPrev}
+                    className="bg-ciprel-orange-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                  >
+                    <ChevronUp className="h-5 w-5 mr-2" />
+                    Précédent
+                  </button>
+                  <button
+                    type="button"
+                    onClick={goNext}
+                    className="bg-ciprel-green-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                  >
+                    Suivant
+                    <ChevronDown className="h-5 w-5 ml-2" />
+                  </button>
+                </div>
+              </div>
+            </section>
+          </SwiperSlide>
+
+          <SwiperSlide id="slide-guide">
+            {/* SECTION GUIDE - Slide 6 - Guide et ressources */}
+            <section className="h-full overflow-y-auto bg-gradient-to-br from-gray-50 to-ciprel-green-50">
+              <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-20">
+                {/* Badge Document essentiel */}
+                <div className="flex justify-center mb-6">
+                  <span className="bg-ciprel-green-100 text-ciprel-green-800 px-6 py-3 rounded-full font-bold text-lg flex items-center shadow-md">
+                    <Award className="h-6 w-6 mr-2" />
+                    Document essentiel
+                  </span>
+                </div>
+
+                <h2 className="text-3xl md:text-4xl font-bold text-center text-ciprel-black mb-6">
+                  Le Guide de la Démarche Compétence CIPREL
+                </h2>
+
+                <p className="text-center text-gray-600 text-lg mb-12 max-w-3xl mx-auto">
+                  Fournir aux employés une <strong>vue d'ensemble</strong> sur le processus de gestion des compétences,
+                  son importance, ses objectifs et son déploiement.
+                </p>
+
+                {/* Carte principale du guide */}
+                <div className="bg-white rounded-2xl shadow-2xl overflow-hidden mb-12">
+                  <div className="grid gap-8 items-start p-8 md:p-12">
+                    {/* Contenu du guide */}
+                    <div>
+                      <a
+                        href="/Guide_démarche_compétence.pdf"
+                        download
+                        className="bg-ciprel-green-600 text-white px-6 py-4 rounded-lg hover:bg-ciprel-green-700 font-bold text-lg w-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200"
+                      >
+                        <Download className="h-6 w-6 mr-3" />
+                        Télécharger le guide complet (PDF)
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Navigation Buttons */}
                 <div className="flex justify-center gap-4">
                   <button
                     type="button"
