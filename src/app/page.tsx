@@ -558,7 +558,7 @@ export default function HomePage() {
             <section className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-green-50 via-white to-gray-50">
               <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
                 {/* Internal Carousel for Definitions and Objectives */}
-                <div className="relative">
+                <div className="relative px-12">
                   <Swiper
                     ref={swiperDefinitionsRef}
                     modules={[Navigation, Pagination]}
@@ -573,7 +573,7 @@ export default function HomePage() {
                       clickable: true,
                       dynamicBullets: true,
                     }}
-                    className="w-full definitions-swiper"
+                    className="w-full mb-8 definitions-swiper"
                     style={{
                       '--swiper-pagination-color': '#EE7F00',
                       '--swiper-pagination-bullet-inactive-color': '#58A636',
@@ -751,34 +751,31 @@ export default function HomePage() {
                     </SwiperSlide>
                   </Swiper>
 
-                  {/* Navigation Arrows for Internal Carousel - Using same pattern as workshops */}
+                  {/* Flèches de navigation personnalisées */}
                   <button
-                    className="swiper-button-prev-definitions absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-ciprel-orange-600 hover:bg-ciprel-orange-600 hover:text-white transition-all duration-300 hover:scale-110"
+                    className="swiper-button-prev-definitions absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-ciprel-orange-600 hover:bg-ciprel-orange-600 hover:text-white transition-all duration-300 hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed"
                     aria-label="Précédent"
                   >
                     <ChevronLeft className="h-6 w-6" />
                   </button>
-
-                  {/* Pagination dots */}
-                  <div className="flex justify-center gap-2 mt-8 mb-8">
-                    {[0, 1, 2].map((index) => (
-                      <div
-                        key={index}
-                        className={`h-2 rounded-full transition-all duration-200 ${
-                          definitionCarouselIndex === index
-                            ? 'bg-ciprel-orange-600 w-6'
-                            : 'bg-gray-300 w-2'
-                        }`}
-                      />
-                    ))}
-                  </div>
-
                   <button
-                    className="swiper-button-next-definitions absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-ciprel-orange-600 hover:bg-ciprel-orange-600 hover:text-white transition-all duration-300 hover:scale-110"
+                    className="swiper-button-next-definitions absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-ciprel-orange-600 hover:bg-ciprel-orange-600 hover:text-white transition-all duration-300 hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed"
                     aria-label="Suivant"
                   >
                     <ChevronRight className="h-6 w-6" />
                   </button>
+                </div>
+
+                {/* Légende */}
+                <div className="text-center text-sm text-gray-500 mb-8 mt-4">
+                  <p className="flex items-center justify-center gap-2">
+                    <span>Utilisez les flèches</span>
+                    <span className="inline-flex items-center gap-1">
+                      <ChevronLeft className="h-4 w-4" />
+                      <ChevronRight className="h-4 w-4" />
+                    </span>
+                    <span>ou les points pour naviguer</span>
+                  </p>
                 </div>
 
                 {/* SECTION 3: QUIZ & ÉVALUATION */}
