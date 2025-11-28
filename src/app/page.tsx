@@ -79,6 +79,23 @@ const METIERS_DISPLAY_CONFIG: Record<string, { icon: string; color: string }> = 
   'Achats & Logistique': { icon: '🚚', color: 'from-lime-500 to-lime-600' }
 }
 
+// Ordre personnalisé des métiers
+const METIERS_ORDER: Record<string, number> = {
+  'Production': 1,
+  'SIDT': 2,
+  'Maintenance': 3,
+  'QSE-RSE/Sûreté': 4,
+  'Contrôle Interne': 5,
+  'Stocks': 6,
+  'RH/Juridique': 7,
+  'Services Généraux': 8,
+  'DAF': 9,
+  'Projets': 10,
+  'Achats & Logistique': 11,
+  'Introduction DC': 12,
+  'Campagne Sensibilisation': 13
+}
+
 interface MetierData {
   id: number
   titre: string
@@ -170,7 +187,6 @@ export default function HomePage() {
           // Filtrer uniquement les métiers actifs et mapper avec display config
           const activeMetiers = data.data
             .filter((m: MetierData) => m.statut === true)
-            .sort((a: MetierData, b: MetierData) => a.ordre - b.ordre)
             .map((m: MetierData) => {
               const config = METIERS_DISPLAY_CONFIG[m.titre] || {
                 icon: '📋',
@@ -182,6 +198,11 @@ export default function HomePage() {
                 icon: config.icon,
                 color: config.color
               }
+            })
+            .sort((a: MetierDisplay, b: MetierDisplay) => {
+              const orderA = METIERS_ORDER[a.nom] || 999
+              const orderB = METIERS_ORDER[b.nom] || 999
+              return orderA - orderB
             })
 
           setMetiers(activeMetiers)
