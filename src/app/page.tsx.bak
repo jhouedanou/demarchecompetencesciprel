@@ -513,25 +513,25 @@ export default function HomePage() {
 
                     <div className="space-y-4">
                       <div>
-                        <h4 className="font-semibold text-ciprel-black mb-3">La communication autour de la Démarche Compétence se structure autour de deux axes majeurs :</h4>
+                        <h4 className="font-semibold text-ciprel-black mb-2">Nos axes de communication :</h4>
                         <ul className="space-y-2 ml-4">
                           <li className="text-gray-700">
-                            <span className="font-semibold text-ciprel-orange-600">•</span> La valorisation des métiers au travers des compétences techniques, comportementales et pratiques professionnelles
+                            <span className="font-semibold text-ciprel-orange-600">•</span> La valorisation des métiers
                           </li>
                           <li className="text-gray-700">
-                            <span className="font-semibold text-ciprel-orange-600">•</span> Et la mise en avant de nos valeurs FEERIC à travers des actions concrètes
+                            <span className="font-semibold text-ciprel-orange-600">•</span> Les valeurs FEERIC en action
                           </li>
                         </ul>
                       </div>
 
                       <div className="border-t pt-4">
-                        <h4 className="font-semibold text-ciprel-black mb-2">Vous découvrirez tout au long du programme :</h4>
+                        <h4 className="font-semibold text-ciprel-black mb-2">Vous découvrirez :</h4>
                         <ul className="space-y-2 ml-4 text-sm">
                           <li className="text-gray-700"><span className="font-semibold text-ciprel-green-600">•</span> Des workshops métiers interactifs</li>
                           <li className="text-gray-700"><span className="font-semibold text-ciprel-green-600">•</span> Des newsletters</li>
                           <li className="text-gray-700"><span className="font-semibold text-ciprel-green-600">•</span> Des capsules vidéo métiers</li>
-                          <li className="text-gray-700"><span className="font-semibold text-ciprel-green-600">•</span> Des quiz et témoignages collaborateurs</li>
-                          <li className="text-gray-700"><span className="font-semibold text-ciprel-green-600">•</span> Ainsi que tous les supports, référentiels et outils de la Démarche Compétence à télécharger</li>
+                          <li className="text-gray-700"><span className="font-semibold text-ciprel-green-600">•</span> Des quiz et témoignages</li>
+                          <li className="text-gray-700"><span className="font-semibold text-ciprel-green-600">•</span> Tous les supports et outils à télécharger</li>
                         </ul>
                       </div>
                     </div>
@@ -556,25 +556,24 @@ export default function HomePage() {
           <SwiperSlide id="slide-definitions-objectifs">
             {/* DEFINITIONS AND OBJECTIVES SLIDE - Slide 1 - Définitions et objectifs */}
             <section className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-green-50 via-white to-gray-50">
-              <div className="max-w-7xl mx-auto px-4 py-16">
+              <div className="max-w-7xl mx-auto flex h-full flex-col justify-center px-4 py-16">
                 {/* Internal Carousel for Definitions and Objectives */}
-                <div className="relative px-12 min-h-[600px]">
+                <div className="relative px-12">
                   <Swiper
-                    onSwiper={(swiper) => {
-                      swiperDefinitionsRef.current = swiper
-                    }}
+                    ref={swiperDefinitionsRef}
                     modules={[Navigation, Pagination]}
                     slidesPerView={1}
                     direction="horizontal"
                     onSlideChange={(swiper) => setDefinitionCarouselIndex(swiper.activeIndex)}
+                    navigation={{
+                      prevEl: '.swiper-button-prev-definitions',
+                      nextEl: '.swiper-button-next-definitions',
+                    }}
                     pagination={{
                       clickable: true,
                       dynamicBullets: true,
                     }}
-                    observer={true}
-                    observeParents={true}
-                    nested={true}
-                    className="w-full mb-8 definitions-swiper h-full"
+                    className="w-full mb-8 definitions-swiper"
                     style={{
                       '--swiper-pagination-color': '#EE7F00',
                       '--swiper-pagination-bullet-inactive-color': '#58A636',
@@ -750,138 +749,21 @@ export default function HomePage() {
                         </div>
                       </div>
                     </SwiperSlide>
-
-                    {/* Slide 4: Parcours d'apprentissage - Quiz & Évaluation */}
-                    <SwiperSlide>
-                      <div className="bg-white rounded-xl shadow-lg p-8 md:p-10 mb-8 min-h-[500px] flex flex-col justify-center">
-                        <div className="text-center mb-8">
-                          <span className="bg-ciprel-orange-100 text-ciprel-orange-800 px-4 py-2 rounded-full text-sm font-semibold inline-block mb-4">
-                            Parcours d'apprentissage
-                          </span>
-                          <h3 className="text-3xl font-bold text-ciprel-black mb-4">
-                            Testez vos connaissances
-                          </h3>
-                          <p className="text-gray-600 text-lg max-w-3xl mx-auto">
-                            Modules interactifs et évaluations pour valider votre compréhension
-                          </p>
-                        </div>
-
-                        {/* Fonctionnalités */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                          <div className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-ciprel-green-500 text-center">
-                            <div className="bg-ciprel-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                              <BookOpen className="h-8 w-8 text-ciprel-green-600" />
-                            </div>
-                            <h4 className="font-bold text-lg text-ciprel-black mb-2">Modules interactifs</h4>
-                            <p className="text-gray-600 text-sm">Découvrez les concepts clés de la démarche compétence</p>
-                          </div>
-
-                          <div className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-ciprel-orange-500 text-center">
-                            <div className="bg-ciprel-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                              <HelpCircle className="h-8 w-8 text-ciprel-orange-600" />
-                            </div>
-                            <h4 className="font-bold text-lg text-ciprel-black mb-2">Quiz & Auto-évaluation</h4>
-                            <p className="text-gray-600 text-sm">Testez vos connaissances et progressez à votre rythme</p>
-                          </div>
-
-                          <div className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-ciprel-green-600 text-center">
-                            <div className="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                              <TrendingUp className="h-8 w-8 text-yellow-600" />
-                            </div>
-                            <h4 className="font-bold text-lg text-ciprel-black mb-2">Suivi personnalisé</h4>
-                            <p className="text-gray-600 text-sm">Suivez votre progression et vos résultats en temps réel</p>
-                          </div>
-                        </div>
-
-                        {/* Quiz et Sondage */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                          {user ? (
-                            <button
-                              type="button"
-                              onClick={openQuizModal}
-                              className="block w-full text-left p-6 bg-gradient-to-r from-ciprel-green-500 to-ciprel-green-600 text-white rounded-xl hover:from-ciprel-green-600 hover:to-ciprel-green-700 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ciprel-green-500"
-                            >
-                              <div className="flex items-center justify-between mb-3">
-                                <h4 className="font-bold text-xl">Quiz d'introduction</h4>
-                                <BookOpen className="h-7 w-7" />
-                              </div>
-                              <p className="text-ciprel-green-100 mb-4">Testez vos connaissances sur la démarche compétence</p>
-                              <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
-                                Afficher le questionnaire
-                              </div>
-                            </button>
-                          ) : (
-                            <div className="block p-6 bg-gray-300 text-gray-500 rounded-xl cursor-not-allowed">
-                              <div className="flex items-center justify-between mb-3">
-                                <h4 className="font-bold text-xl">Quiz d'introduction</h4>
-                                <Lock className="h-7 w-7" />
-                              </div>
-                              <p className="text-gray-400 mb-4">Testez vos connaissances sur la démarche compétence</p>
-                              <div className="text-sm bg-gray-400 text-white rounded-lg px-3 py-2 inline-block">
-                                🔒 Connectez-vous pour accéder
-                              </div>
-                            </div>
-                          )}
-
-                          {user ? (
-                            <button
-                              type="button"
-                              onClick={() => setSurveyModalOpen(true)}
-                              data-survey-trigger
-                              className="block w-full text-left p-6 bg-gradient-to-r from-ciprel-orange-500 to-ciprel-orange-600 text-white rounded-xl hover:from-ciprel-orange-600 hover:to-ciprel-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ciprel-orange-500"
-                            >
-                              <div className="flex items-center justify-between mb-3">
-                                <h4 className="font-bold text-xl">Sondage d'opinion</h4>
-                                <HelpCircle className="h-7 w-7" />
-                              </div>
-                              <p className="text-ciprel-orange-100 mb-4">Partagez votre avis et vos suggestions d'amélioration</p>
-                              <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
-                                Afficher le questionnaire
-                              </div>
-                            </button>
-                          ) : (
-                            <div className="block p-6 bg-gray-300 text-gray-500 rounded-xl cursor-not-allowed">
-                              <div className="flex items-center justify-between mb-3">
-                                <h4 className="font-bold text-xl">Sondage d'opinion</h4>
-                                <Lock className="h-7 w-7" />
-                              </div>
-                              <p className="text-gray-400 mb-4">Partagez votre avis et vos suggestions d'amélioration</p>
-                              <div className="text-sm bg-gray-400 text-white rounded-lg px-3 py-2 inline-block">
-                                🔒 Connectez-vous pour accéder
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </SwiperSlide>
                   </Swiper>
 
                   {/* Flèches de navigation personnalisées */}
                   <button
-                    onClick={goDefinitionsPrev}
                     className="swiper-button-prev-definitions absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-ciprel-orange-600 hover:bg-ciprel-orange-600 hover:text-white transition-all duration-300 hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed"
                     aria-label="Précédent"
                   >
                     <ChevronLeft className="h-6 w-6" />
                   </button>
                   <button
-                    onClick={goDefinitionsNext}
                     className="swiper-button-next-definitions absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-ciprel-orange-600 hover:bg-ciprel-orange-600 hover:text-white transition-all duration-300 hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed"
                     aria-label="Suivant"
                   >
                     <ChevronRight className="h-6 w-6" />
                   </button>
-                </div>
-
-                {/* Indicateur de progression */}
-                <div className="text-center mt-6 mb-2">
-                  <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-md border border-gray-200">
-                    <span className="text-sm font-semibold text-ciprel-orange-600">
-                      {definitionCarouselIndex + 1}
-                    </span>
-                    <span className="text-sm text-gray-400">/</span>
-                    <span className="text-sm text-gray-600">4</span>
-                  </div>
                 </div>
 
                 {/* Légende */}
@@ -894,6 +776,108 @@ export default function HomePage() {
                     </span>
                     <span>ou les points pour naviguer</span>
                   </p>
+                </div>
+
+                {/* SECTION 3: QUIZ & ÉVALUATION */}
+                <div className="mt-12 mb-12">
+                  <div className="text-center mb-8">
+                    <span className="bg-ciprel-orange-100 text-ciprel-orange-800 px-4 py-2 rounded-full text-sm font-semibold inline-block mb-4">
+                      Parcours d'apprentissage
+                    </span>
+                    <h3 className="text-3xl font-bold text-ciprel-black mb-4">
+                      Testez vos connaissances
+                    </h3>
+                    <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+                      Modules interactifs et évaluations pour valider votre compréhension
+                    </p>
+                  </div>
+
+                  {/* Fonctionnalités */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-ciprel-green-500 text-center">
+                      <div className="bg-ciprel-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <BookOpen className="h-8 w-8 text-ciprel-green-600" />
+                      </div>
+                      <h4 className="font-bold text-lg text-ciprel-black mb-2">Modules interactifs</h4>
+                      <p className="text-gray-600 text-sm">Découvrez les concepts clés de la démarche compétence</p>
+                    </div>
+
+                    <div className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-ciprel-orange-500 text-center">
+                      <div className="bg-ciprel-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <HelpCircle className="h-8 w-8 text-ciprel-orange-600" />
+                      </div>
+                      <h4 className="font-bold text-lg text-ciprel-black mb-2">Quiz & Auto-évaluation</h4>
+                      <p className="text-gray-600 text-sm">Testez vos connaissances et progressez à votre rythme</p>
+                    </div>
+
+                    <div className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-ciprel-green-600 text-center">
+                      <div className="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <TrendingUp className="h-8 w-8 text-yellow-600" />
+                      </div>
+                      <h4 className="font-bold text-lg text-ciprel-black mb-2">Suivi personnalisé</h4>
+                      <p className="text-gray-600 text-sm">Suivez votre progression et vos résultats en temps réel</p>
+                    </div>
+                  </div>
+
+                  {/* Quiz et Sondage */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {user ? (
+                      <button
+                        type="button"
+                        onClick={openQuizModal}
+                        className="block w-full text-left p-6 bg-gradient-to-r from-ciprel-green-500 to-ciprel-green-600 text-white rounded-xl hover:from-ciprel-green-600 hover:to-ciprel-green-700 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ciprel-green-500"
+                      >
+                        <div className="flex items-center justify-between mb-3">
+                          <h4 className="font-bold text-xl">Quiz d'introduction</h4>
+                          <BookOpen className="h-7 w-7" />
+                        </div>
+                        <p className="text-ciprel-green-100 mb-4">Testez vos connaissances sur la démarche compétence</p>
+                        <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
+                          Afficher le questionnaire
+                        </div>
+                      </button>
+                    ) : (
+                      <div className="block p-6 bg-gray-300 text-gray-500 rounded-xl cursor-not-allowed">
+                        <div className="flex items-center justify-between mb-3">
+                          <h4 className="font-bold text-xl">Quiz d'introduction</h4>
+                          <Lock className="h-7 w-7" />
+                        </div>
+                        <p className="text-gray-400 mb-4">Testez vos connaissances sur la démarche compétence</p>
+                        <div className="text-sm bg-gray-400 text-white rounded-lg px-3 py-2 inline-block">
+                          🔒 Connectez-vous pour accéder
+                        </div>
+                      </div>
+                    )}
+
+                    {user ? (
+                      <button
+                        type="button"
+                        onClick={() => setSurveyModalOpen(true)}
+                        data-survey-trigger
+                        className="block w-full text-left p-6 bg-gradient-to-r from-ciprel-orange-500 to-ciprel-orange-600 text-white rounded-xl hover:from-ciprel-orange-600 hover:to-ciprel-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ciprel-orange-500"
+                      >
+                        <div className="flex items-center justify-between mb-3">
+                          <h4 className="font-bold text-xl">Sondage d'opinion</h4>
+                          <HelpCircle className="h-7 w-7" />
+                        </div>
+                        <p className="text-ciprel-orange-100 mb-4">Partagez votre avis et vos suggestions d'amélioration</p>
+                        <div className="text-sm bg-white/20 rounded-lg px-3 py-2 inline-block">
+                          Afficher le questionnaire
+                        </div>
+                      </button>
+                    ) : (
+                      <div className="block p-6 bg-gray-300 text-gray-500 rounded-xl cursor-not-allowed">
+                        <div className="flex items-center justify-between mb-3">
+                          <h4 className="font-bold text-xl">Sondage d'opinion</h4>
+                          <Lock className="h-7 w-7" />
+                        </div>
+                        <p className="text-gray-400 mb-4">Partagez votre avis et vos suggestions d'amélioration</p>
+                        <div className="text-sm bg-gray-400 text-white rounded-lg px-3 py-2 inline-block">
+                          🔒 Connectez-vous pour accéder
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* SECTION 4: GUIDE & RESSOURCES */}
@@ -1558,8 +1542,6 @@ export default function HomePage() {
           html {
             scroll-behavior: smooth;
           }
-            .swiper-pagination.swiper-pagination-bullets-dynamic.swiper-pagination-clickable.swiper-pagination-bullets.swiper-pagination-horizontal{
-            display: none;}
 
           .homepage-swiper .swiper-pagination {
             position: absolute;
@@ -1713,15 +1695,15 @@ export default function HomePage() {
               {quizConfig.type === 'INTRODUCTION' ? "Quiz d'introduction" : "Quiz Workshop"}
             </DialogTitle>
             <DialogDescription className="text-sm text-gray-600">
-              {quizConfig.type === 'INTRODUCTION'
+              {quizConfig.type === 'INTRODUCTION' 
                 ? "Validez vos connaissances sur les fondamentaux de la démarche compétences."
                 : "Testez vos connaissances sur ce métier."}
             </DialogDescription>
             <Suspense fallback={<LoadingScreen message="Chargement du quiz..." />}>
-              <QuizEngine
-                quizType={quizConfig.type}
+              <QuizEngine 
+                quizType={quizConfig.type} 
                 metierId={quizConfig.metierId}
-                onClose={closeQuizModal}
+                onClose={closeQuizModal} 
               />
             </Suspense>
           </DialogContent>
@@ -1871,10 +1853,10 @@ export default function HomePage() {
 
                       setWorkshopModalOpen(false)
                       resetQuiz()
-                      setQuizConfig({
-                        isOpen: true,
-                        type: 'WORKSHOP',
-                        metierId: selectedWorkshop.metier_id
+                      setQuizConfig({ 
+                        isOpen: true, 
+                        type: 'WORKSHOP', 
+                        metierId: selectedWorkshop.metier_id 
                       })
                     }}
                     className="inline-flex items-center justify-center gap-2 bg-ciprel-orange-500 text-white px-6 py-3 rounded-lg hover:bg-ciprel-orange-600 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl"
