@@ -321,24 +321,26 @@ export default function HomePage() {
 
   return (
     <div className="relative min-h-screen bg-gray-50 flex flex-row">
-      {/* Hamburger Button - Mobile/Tablet only */}
-      <button
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed top-4 left-4 z-50 lg:hidden bg-ciprel-orange-600 text-white p-3 rounded-lg shadow-lg hover:bg-ciprel-orange-700 transition-colors"
-        aria-label="Toggle menu"
-      >
-        {sidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-      </button>
+      {/* Hamburger Button - Mobile/Tablet only - Caché sur la première slide */}
+      {activeSlide !== 0 && (
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="fixed top-4 left-4 z-50 lg:hidden bg-ciprel-orange-600 text-white p-3 rounded-lg shadow-lg hover:bg-ciprel-orange-700 transition-colors"
+          aria-label="Toggle menu"
+        >
+          {sidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
+      )}
 
       {/* Overlay - Mobile/Tablet only */}
-      {sidebarOpen && (
+      {sidebarOpen && activeSlide !== 0 && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
-      {/* Sidebar - 30% à gauche */}
+      {/* Sidebar - 30% à gauche - Cachée sur la première slide */}
       <aside className={`
         w-[280px] lg:w-[20%]
         min-h-screen
@@ -350,7 +352,7 @@ export default function HomePage() {
         overflow-y-auto
         z-40
         transition-transform duration-300 ease-in-out
-        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        ${activeSlide === 0 ? '-translate-x-full' : (sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0')}
       `}>
         <div className="p-6 space-y-8">
           {/* Navigation Menu - UNE SEULE NAVIGATION pour tous */}
@@ -431,8 +433,8 @@ export default function HomePage() {
         </div>
       </aside>
 
-      {/* Main Content - 70% - avec padding left sur mobile */}
-      <div className="w-full lg:w-[80%] lg:ml-0">
+      {/* Main Content - 80% normalement, 100% sur la première slide */}
+      <div className={`w-full transition-all duration-300 ${activeSlide === 0 ? 'lg:w-full' : 'lg:w-[80%]'} lg:ml-0`}>
         {/* Desktop: Swiper */}
         <Swiper
           className="homepage-swiper h-screen hidden lg:block"

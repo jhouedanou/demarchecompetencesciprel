@@ -18,7 +18,12 @@ export async function getAccessToken(): Promise<string | null> {
       return null
     }
 
-    return session?.access_token || null
+    if (!session?.access_token) {
+      console.warn('[API Client] No access token in session')
+      return null
+    }
+
+    return session.access_token
   } catch (error) {
     console.error('[API Client] Exception getting token:', error)
     return null
@@ -44,6 +49,9 @@ export async function authFetch(
   // Add Authorization header with JWT token
   if (token) {
     headers.set('Authorization', `Bearer ${token}`)
+    console.log('[authFetch] Token added to request:', url)
+  } else {
+    console.warn('[authFetch] No token available for request:', url)
   }
 
   // Ensure Content-Type is set for JSON requests
@@ -51,10 +59,32 @@ export async function authFetch(
     headers.set('Content-Type', 'application/json')
   }
 
-  return fetch(url, {
-    ...options,
-    headers,
+  console.log('[authFetch] Request details:', {
+    method: options.method || 'GET',
+    url,
+    hasToken: !!token
   })
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers,
+    })
+
+    console.log('[authFetch] Response:', {
+      url,
+      status: response.status,
+      statusText: response.statusText
+    })
+
+    return response
+  } catch (error) {
+    console.error('[authFetch] Fetch error:', {
+      url,
+      error
+    })
+    throw error
+  }
 }
 
 /**

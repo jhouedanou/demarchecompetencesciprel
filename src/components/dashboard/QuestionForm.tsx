@@ -78,29 +78,38 @@ export default function QuestionForm({ mode, questionId }: QuestionFormProps) {
 
           if (!response.ok) {
             const error = await response.json()
+            console.error('API Error Response:', error)
             throw new Error(error.error || 'Question non trouvée')
           }
 
-          const { question } = await response.json()
+          const data = await response.json()
+
+          // Vérifier que nous avons les données de la question
+          if (!data.question) {
+            console.error('Question data missing from response:', data)
+            throw new Error('Données de question invalides')
+          }
+
+          const question = data.question
 
           // Pré-remplir le formulaire
-          setValue('title', question.title)
-          setValue('question', question.question)
-          setValue('option_a', question.option_a)
-          setValue('option_b', question.option_b)
-          setValue('option_c', question.option_c)
+          setValue('title', question.title || '')
+          setValue('question', question.question || '')
+          setValue('option_a', question.option_a || '')
+          setValue('option_b', question.option_b || '')
+          setValue('option_c', question.option_c || '')
           setValue('option_d', question.option_d || '')
-          setValue('correct_answer', question.correct_answer)
-          setValue('category', question.category)
-          setValue('quiz_type', question.quiz_type)
-          setValue('points', question.points)
+          setValue('correct_answer', Array.isArray(question.correct_answer) ? question.correct_answer : [])
+          setValue('category', question.category || 'DEFINITION')
+          setValue('quiz_type', question.quiz_type || 'INTRODUCTION')
+          setValue('points', Number(question.points) || 10)
           setValue('feedback', question.feedback || '')
           setValue('explanation', question.explanation || '')
-          setValue('order_index', question.order_index)
-          setValue('active', question.active)
+          setValue('order_index', Number(question.order_index) || 0)
+          setValue('active', question.active !== false)
         } catch (error) {
-          console.error('Erreur:', error)
-          toast.error('Erreur lors du chargement de la question')
+          console.error('Erreur lors du chargement de la question:', error)
+          toast.error(error instanceof Error ? error.message : 'Erreur lors du chargement de la question')
           router.push('/admin/questions')
         } finally {
           setLoading(false)
@@ -119,22 +128,40 @@ export default function QuestionForm({ mode, questionId }: QuestionFormProps) {
         ? '/api/admin/questions'
         : `/api/admin/questions/${questionId}`
 
+      // Préparer les données pour l'envoi
+      const payload = {
+        ...data,
+        option_d: data.option_d || null,
+        feedback: data.feedback || null,
+        explanation: data.explanation || null
+      }
+
+      console.log('[QuestionForm] Envoi des données:', {
+        method: mode === 'create' ? 'POST' : 'PUT',
+        url,
+        payload
+      })
+
       const response = await authFetch(url, {
         method: mode === 'create' ? 'POST' : 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          ...data,
-          option_d: data.option_d || null,
-          feedback: data.feedback || null,
-          explanation: data.explanation || null
-        })
+        body: JSON.stringify(payload)
       })
 
+      console.log('[QuestionForm] Réponse statut:', response.status, response.statusText)
+
       if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || 'Erreur lors de la sauvegarde')
+        let errorMessage = 'Erreur lors de la sauvegarde'
+        try {
+          const errorData = await response.json()
+          errorMessage = errorData.error || errorData.message || errorMessage
+        } catch {
+          // Si la réponse n'est pas du JSON, utiliser le texte du statut
+          errorMessage = `${response.status}: ${response.statusText}`
+        }
+        throw new Error(errorMessage)
       }
 
       toast.success(
@@ -145,7 +172,7 @@ export default function QuestionForm({ mode, questionId }: QuestionFormProps) {
 
       router.push('/admin/questions')
     } catch (error: any) {
-      console.error('Erreur:', error)
+      console.error('[QuestionForm] Erreur lors de la sauvegarde:', error)
       toast.error(error.message || 'Erreur lors de la sauvegarde')
     } finally {
       setSubmitting(false)
