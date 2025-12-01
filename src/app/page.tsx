@@ -81,6 +81,7 @@ const METIERS_DISPLAY_CONFIG: Record<string, { icon: string; color: string }> = 
 
 // Ordre personnalisé des métiers
 const METIERS_ORDER: Record<string, number> = {
+  'Introduction DC': 0,
   'Production': 1,
   'SIDT': 2,
   'Maintenance': 3,
@@ -92,7 +93,6 @@ const METIERS_ORDER: Record<string, number> = {
   'DAF': 9,
   'Projets': 10,
   'Achats & Logistique': 11,
-  'Introduction DC': 12,
   'Campagne Sensibilisation': 13
 }
 
@@ -196,14 +196,11 @@ export default function HomePage() {
                 id: m.id,
                 nom: m.titre,
                 icon: config.icon,
-                color: config.color
+                color: config.color,
+                ordre: m.ordre
               }
             })
-            .sort((a: MetierDisplay, b: MetierDisplay) => {
-              const orderA = METIERS_ORDER[a.nom] || 999
-              const orderB = METIERS_ORDER[b.nom] || 999
-              return orderA - orderB
-            })
+            .sort((a: any, b: any) => a.ordre - b.ordre)
 
           setMetiers(activeMetiers)
         }
