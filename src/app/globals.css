@@ -80,10 +80,20 @@
     @apply border-border;
   }
 
+  /* Bloquer la taille du texte lors du zoom */
+  html {
+    font-size: 16px !important;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body, 'Questrial'), 'Century Gothic', 'Questrial', 'Avenir', 'Helvetica Neue', 'Arial', sans-serif;
     font-feature-settings: 'rlig' 1, 'calt' 1;
+    font-size: 16px !important;
   }
 
   html {

@@ -92,6 +92,8 @@ export interface WorkshopMetierDB {
   color: string
   ordre: number
   is_active: boolean
+  video?: string      // URL de la vidéo du workshop
+  onedrive?: string   // Lien OneDrive pour les ressources
   created_at?: string
   updated_at?: string
 }

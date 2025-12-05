@@ -100,6 +100,91 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <meta name="apple-mobile-web-app-title" content={ENV.SITE_NAME} />
       </head>
       <body className="font-sans antialiased">
+        {/* Bannière d'avertissement zoom */}
+        <div 
+          id="zoom-warning" 
+          style={{
+            display: 'none',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: '#EE7F00',
+            color: 'white',
+            padding: '12px 20px',
+            textAlign: 'center',
+            zIndex: 99999,
+            fontSize: '14px',
+            fontFamily: "'Helvetica Neue', Arial, sans-serif",
+            boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+          }}
+        >
+          <span>⚠️ Votre navigateur est zoomé à plus de 100%. Pour une meilleure expérience, veuillez remettre le zoom à 100% (Ctrl + 0).</span>
+          <button 
+            id="zoom-warning-close"
+            style={{
+              marginLeft: '15px',
+              background: 'white',
+              color: '#EE7F00',
+              border: 'none',
+              padding: '5px 12px',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontWeight: 'bold',
+            }}
+          >
+            Fermer
+          </button>
+        </div>
+        
+        {/* Script de détection du zoom */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var warningDismissed = false;
+                
+                function checkZoom() {
+                  if (warningDismissed) return;
+                  
+                  var zoomLevel = Math.round(window.devicePixelRatio * 100);
+                  var warning = document.getElementById('zoom-warning');
+                  
+                  if (warning) {
+                    if (zoomLevel > 100) {
+                      warning.style.display = 'block';
+                      document.body.style.paddingTop = warning.offsetHeight + 'px';
+                    } else {
+                      warning.style.display = 'none';
+                      document.body.style.paddingTop = '0';
+                    }
+                  }
+                }
+                
+                function dismissWarning() {
+                  warningDismissed = true;
+                  var warning = document.getElementById('zoom-warning');
+                  if (warning) {
+                    warning.style.display = 'none';
+                    document.body.style.paddingTop = '0';
+                  }
+                }
+                
+                document.addEventListener('DOMContentLoaded', function() {
+                  checkZoom();
+                  
+                  var closeBtn = document.getElementById('zoom-warning-close');
+                  if (closeBtn) {
+                    closeBtn.addEventListener('click', dismissWarning);
+                  }
+                });
+                
+                window.addEventListener('resize', checkZoom);
+              })();
+            `,
+          }}
+        />
+        
         <AdminProvider>
           <AuthProvider>
             <div className="relative min-h-screen bg-background flex flex-col">

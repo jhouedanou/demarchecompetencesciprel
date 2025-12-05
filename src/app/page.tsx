@@ -51,7 +51,9 @@ import {
   Briefcase,
   Presentation,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Video,
+  FolderOpen
 } from 'lucide-react'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
 import { useRouter } from 'next/navigation'
@@ -972,20 +974,7 @@ export default function HomePage() {
                   >
                     {sortedWorkshopsMetiers.map((workshop, index) => (
                       <SwiperSlide key={workshop.id}>
-                        <button
-                          onClick={() => {
-                            if (workshop.is_active) {
-                              setSelectedWorkshopMetier(workshop)
-                              setWorkshopModalOpen(true)
-                            }
-                          }}
-                          disabled={!workshop.is_active}
-                          className={`group relative bg-white rounded-2xl shadow-md transition-all duration-300 p-6 h-80 w-full flex flex-col items-center justify-center border-2 transform cursor-pointer ${
-                            workshop.is_active 
-                              ? 'border-gray-200 hover:border-ciprel-green-500 hover:shadow-xl hover:-translate-y-2' 
-                              : 'border-gray-300 opacity-50 grayscale cursor-not-allowed'
-                          }`}
-                        >
+                        <div className="group relative bg-white rounded-2xl shadow-md transition-all duration-300 p-6 h-96 w-full flex flex-col items-center justify-between border-2">
                           {/* Badge numéro et statut */}
                           <div className="absolute top-4 right-4 flex flex-col gap-2">
                             <div className={`px-3 py-1 rounded-full text-xs font-bold shadow-md ${
@@ -1003,8 +992,8 @@ export default function HomePage() {
                           </div>
 
                           {/* Icône */}
-                          <div className="relative mb-4">
-                            <div className={`text-7xl transition-transform duration-300 ${
+                          <div className="relative mb-2 mt-4">
+                            <div className={`text-6xl transition-transform duration-300 ${
                               workshop.is_active ? 'group-hover:scale-110' : ''
                             }`}>
                               {workshop.icon}
@@ -1012,24 +1001,66 @@ export default function HomePage() {
                           </div>
 
                           {/* Nom du métier */}
-                          <h3 className={`text-xl font-bold text-center mb-2 transition-colors duration-300 ${
+                          <h3 className={`text-lg font-bold text-center mb-2 transition-colors duration-300 ${
                             workshop.is_active 
-                              ? 'text-ciprel-black group-hover:text-ciprel-green-600' 
+                              ? 'text-ciprel-black' 
                               : 'text-gray-500'
                           }`}>
                             {workshop.titre}
                           </h3>
 
-                          {/* Bouton d'action */}
-                          <div className={`mt-auto px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 flex items-center gap-2 shadow-lg ${
-                            workshop.is_active 
-                              ? 'bg-ciprel-green-600 hover:bg-ciprel-green-700 text-white group-hover:shadow-xl' 
-                              : 'bg-gray-400 text-gray-200'
-                          }`}>
-                            <Presentation className="h-4 w-4" />
-                            {workshop.is_active ? 'Voir le workshop' : 'Non disponible'}
+                          {/* Boutons d'action */}
+                          <div className="flex flex-col gap-2 w-full mt-auto">
+                            {/* Bouton principal : Voir le workshop */}
+                            <button
+                              onClick={() => {
+                                if (workshop.is_active) {
+                                  setSelectedWorkshopMetier(workshop)
+                                  setWorkshopModalOpen(true)
+                                }
+                              }}
+                              disabled={!workshop.is_active}
+                              className={`w-full px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2 shadow-md ${
+                                workshop.is_active 
+                                  ? 'bg-ciprel-green-600 hover:bg-ciprel-green-700 text-white cursor-pointer' 
+                                  : 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                              }`}
+                            >
+                              <Presentation className="h-4 w-4" />
+                              {workshop.is_active ? 'Voir le workshop' : 'Non disponible'}
+                            </button>
+
+                            {/* Boutons secondaires : Vidéo et OneDrive */}
+                            {workshop.is_active && (workshop.video || workshop.onedrive) && (
+                              <div className="flex gap-2">
+                                {workshop.video && (
+                                  <a
+                                    href={workshop.video}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="flex-1 px-3 py-2 rounded-full text-xs font-semibold bg-ciprel-orange-600 hover:bg-ciprel-orange-700 text-white transition-all duration-300 flex items-center justify-center gap-1 shadow-md"
+                                  >
+                                    <Video className="h-3 w-3" />
+                                    Vidéo
+                                  </a>
+                                )}
+                                {workshop.onedrive && (
+                                  <a
+                                    href={workshop.onedrive}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="flex-1 px-3 py-2 rounded-full text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 flex items-center justify-center gap-1 shadow-md"
+                                  >
+                                    <FolderOpen className="h-3 w-3" />
+                                    OneDrive
+                                  </a>
+                                )}
+                              </div>
+                            )}
                           </div>
-                        </button>
+                        </div>
                       </SwiperSlide>
                     ))}
                   </Swiper>

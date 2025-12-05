@@ -108,6 +108,8 @@ export function WorkshopsMetiersAdminUnified() {
           color: editingData.color,
           ordre: editingData.ordre,
           is_active: editingData.is_active,
+          video: editingData.video,
+          onedrive: editingData.onedrive,
           contenu: editingData.contenu,
         }),
       })
@@ -379,6 +381,28 @@ export function WorkshopsMetiersAdminUnified() {
                 onChange={(e) => setEditingData(prev => ({ ...prev, ordre: parseInt(e.target.value) || 0 }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ciprel-green-500"
               />
+            </div>
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">🎬 URL Vidéo</label>
+              <input
+                type="url"
+                value={editingData.video || ''}
+                onChange={(e) => setEditingData(prev => ({ ...prev, video: e.target.value }))}
+                placeholder="https://www.youtube.com/embed/... ou URL de la vidéo"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ciprel-green-500"
+              />
+              <p className="text-xs text-gray-500 mt-1">Lien vers la vidéo du workshop (YouTube, Vimeo, etc.)</p>
+            </div>
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">📁 Lien OneDrive</label>
+              <input
+                type="url"
+                value={editingData.onedrive || ''}
+                onChange={(e) => setEditingData(prev => ({ ...prev, onedrive: e.target.value }))}
+                placeholder="https://onedrive.live.com/... ou lien de partage"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ciprel-green-500"
+              />
+              <p className="text-xs text-gray-500 mt-1">Lien vers les ressources OneDrive du workshop</p>
             </div>
           </div>
         )
