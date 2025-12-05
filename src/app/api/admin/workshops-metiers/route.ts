@@ -42,6 +42,9 @@ export async function PUT(request: NextRequest) {
     const body = await request.json()
     const { id, ...updates } = body
 
+    console.log('PUT /api/admin/workshops-metiers - ID:', id)
+    console.log('PUT /api/admin/workshops-metiers - Updates:', JSON.stringify(updates, null, 2))
+
     if (!id) {
       return NextResponse.json({ error: 'ID du workshop manquant' }, { status: 400 })
     }
@@ -50,6 +53,8 @@ export async function PUT(request: NextRequest) {
       ...updates,
       updated_at: new Date().toISOString(),
     }
+
+    console.log('PUT /api/admin/workshops-metiers - Payload final:', JSON.stringify(updatePayload, null, 2))
 
     const { data: updatedWorkshop, error: updateError } = await supabase
       .from('workshops_metiers')
@@ -67,6 +72,7 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Workshop non trouvé' }, { status: 404 })
     }
 
+    console.log('PUT /api/admin/workshops-metiers - Workshop mis à jour:', updatedWorkshop)
     return NextResponse.json({ success: true, workshop: updatedWorkshop })
   } catch (error) {
     console.error('Erreur dans PUT /api/admin/workshops-metiers:', error)

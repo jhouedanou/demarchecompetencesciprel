@@ -87,6 +87,8 @@ export function WorkshopsMetiersAdminUnified() {
     setEditingId(workshop.id)
     setEditingData({ 
       ...workshop,
+      video: workshop.video || '',
+      onedrive: workshop.onedrive || '',
       contenu: workshop.contenu ? JSON.parse(JSON.stringify(workshop.contenu)) : {}
     })
     setExpandedId(workshop.id)
@@ -98,20 +100,25 @@ export function WorkshopsMetiersAdminUnified() {
 
     try {
       setSaving(true)
+      
+      const payload = {
+        id: editingId,
+        titre: editingData.titre,
+        icon: editingData.icon,
+        color: editingData.color,
+        ordre: editingData.ordre,
+        is_active: editingData.is_active,
+        video: editingData.video || '',
+        onedrive: editingData.onedrive || '',
+        contenu: editingData.contenu,
+      }
+      
+      console.log('Saving workshop with payload:', payload)
+      
       const response = await authFetch('/api/admin/workshops-metiers', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          id: editingId,
-          titre: editingData.titre,
-          icon: editingData.icon,
-          color: editingData.color,
-          ordre: editingData.ordre,
-          is_active: editingData.is_active,
-          video: editingData.video,
-          onedrive: editingData.onedrive,
-          contenu: editingData.contenu,
-        }),
+        body: JSON.stringify(payload),
       })
 
       if (!response.ok) {
