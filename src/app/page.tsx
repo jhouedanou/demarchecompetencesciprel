@@ -64,6 +64,7 @@ const SLIDE_TITLES = [
   'Workshops métiers'
 ]
 
+
 const PRACTICE_VIDEOS = [
   {
     id: 1,
