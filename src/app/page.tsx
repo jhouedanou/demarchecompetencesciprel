@@ -32,6 +32,7 @@ const MetiersHome = lazy(() => import('@/components/MetiersHome').then(m => ({ d
 const MetiersQuiz = lazy(() => import('@/components/MetiersQuiz').then(m => ({ default: m.MetiersQuiz })))
 const FEERICValues = lazy(() => import('@/components/FEERICValues').then(m => ({ default: m.FEERICValues })))
 const WorkshopMetierModal = lazy(() => import('@/components/modals/WorkshopMetierModal').then(m => ({ default: m.WorkshopMetierModal })))
+const SingleVideoModal = lazy(() => import('@/components/modals/SingleVideoModal').then(m => ({ default: m.SingleVideoModal })))
 import {
   Building2,
   Users,
@@ -121,6 +122,8 @@ export default function HomePage() {
   const [selectedWorkshopMetier, setSelectedWorkshopMetier] = useState<WorkshopMetier | null>(null)
   const [showMetiersQuiz, setShowMetiersQuiz] = useState(false)
   const [workshopModalOpen, setWorkshopModalOpen] = useState(false)
+  const [workshopVideoUrl, setWorkshopVideoUrl] = useState<string | null>(null) // Pour le popup vidéo workshop
+  const [workshopVideoTitle, setWorkshopVideoTitle] = useState<string>('Vidéo') // Titre de la vidéo pour le popup
   const swiperRef = useRef<SwiperType | null>(null)
   const swiperDefinitionsRef = useRef<any>(null)
   const videoRef = useRef<HTMLVideoElement | null>(null)
@@ -1034,16 +1037,17 @@ export default function HomePage() {
                             {workshop.is_active && (workshop.video || workshop.onedrive) && (
                               <div className="flex gap-2">
                                 {workshop.video && (
-                                  <a
-                                    href={workshop.video}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={(e) => e.stopPropagation()}
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      setWorkshopVideoUrl(workshop.video)
+                                      setWorkshopVideoTitle(workshop.titre)
+                                    }}
                                     className="flex-1 px-3 py-2 rounded-full text-xs font-semibold bg-ciprel-orange-600 hover:bg-ciprel-orange-700 text-white transition-all duration-300 flex items-center justify-center gap-1 shadow-md"
                                   >
                                     <Video className="h-3 w-3" />
                                     Vidéo
-                                  </a>
+                                  </button>
                                 )}
                                 {workshop.onedrive && (
                                   <a
@@ -1768,7 +1772,18 @@ export default function HomePage() {
         />
       </Suspense>
 
-
+      {/* Modal vidéo pour les workshops métiers */}
+      <Suspense fallback={null}>
+        <SingleVideoModal
+          isOpen={!!workshopVideoUrl}
+          onClose={() => {
+            setWorkshopVideoUrl(null)
+            setWorkshopVideoTitle('Vidéo')
+          }}
+          videoUrl={workshopVideoUrl}
+          title={workshopVideoTitle}
+        />
+      </Suspense>
 
       {/* Modaux d'authentification */}
       <Suspense fallback={null}>
