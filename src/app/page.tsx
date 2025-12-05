@@ -129,7 +129,10 @@ export default function HomePage() {
   const router = useRouter()
 
   // Les workshops métiers sont chargés depuis Supabase via le hook
-  const activeWorkshopsMetiers = workshopsMetiers.filter(w => w.is_active).sort((a, b) => a.ordre - b.ordre)
+  // On affiche tous les workshops triés par ordre, avec un indicateur visuel pour les inactifs
+  const sortedWorkshopsMetiers = [...workshopsMetiers].sort((a, b) => a.ordre - b.ordre)
+  // Pour le compteur, on ne compte que les actifs
+  const activeWorkshopsCount = workshopsMetiers.filter(w => w.is_active).length
 
   // Écouter les événements pour ouvrir les modaux
   useEffect(() => {
@@ -148,6 +151,44 @@ export default function HomePage() {
       window.removeEventListener('open-logout', handleOpenLogout)
       window.removeEventListener('open-survey', handleOpenSurvey)
       window.removeEventListener('auth-changed', handleAuthChanged)
+    }
+  }, [])
+
+  // Bloquer le zoom utilisateur (pinch-zoom et Ctrl+scroll)
+  useEffect(() => {
+    // Bloquer le zoom par touch (pinch-zoom)
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 1) {
+        e.preventDefault()
+      }
+    }
+
+    // Bloquer le zoom par Ctrl+scroll ou Ctrl+/- 
+    const handleWheel = (e: WheelEvent) => {
+      if (e.ctrlKey) {
+        e.preventDefault()
+      }
+    }
+
+    // Bloquer le zoom par raccourcis clavier (Ctrl/Cmd + +/-/0)
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '=' || e.key === '0')) {
+        e.preventDefault()
+      }
+    }
+
+    // Ajouter la classe no-zoom au html
+    document.documentElement.classList.add('no-zoom')
+
+    document.addEventListener('touchmove', handleTouchMove, { passive: false })
+    document.addEventListener('wheel', handleWheel, { passive: false })
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.documentElement.classList.remove('no-zoom')
+      document.removeEventListener('touchmove', handleTouchMove)
+      document.removeEventListener('wheel', handleWheel)
+      document.removeEventListener('keydown', handleKeyDown)
     }
   }, [])
 
@@ -893,7 +934,7 @@ export default function HomePage() {
                 <div className="text-center mb-8">
                   <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-ciprel-orange-100 to-ciprel-green-100 text-ciprel-black rounded-full text-sm font-semibold mb-4">
                     <Briefcase className="h-4 w-4" />
-                    {activeWorkshopsMetiers.length} Métiers
+                    {activeWorkshopsCount} Métiers
                   </div>
                   <h2 className="text-3xl md:text-4xl font-bold text-ciprel-black mb-4">
                     La déclinaison de la DC dans nos métiers
@@ -929,38 +970,64 @@ export default function HomePage() {
                       '--swiper-pagination-bullet-inactive-opacity': '0.4',
                     } as React.CSSProperties}
                   >
-                    {activeWorkshopsMetiers.map((workshop, index) => (
+                    {sortedWorkshopsMetiers.map((workshop, index) => (
                       <SwiperSlide key={workshop.id}>
                         <button
                           onClick={() => {
-                            setSelectedWorkshopMetier(workshop)
-                            setWorkshopModalOpen(true)
+                            if (workshop.is_active) {
+                              setSelectedWorkshopMetier(workshop)
+                              setWorkshopModalOpen(true)
+                            }
                           }}
-                          className="group relative bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 h-80 w-full flex flex-col items-center justify-center border-2 border-gray-200 hover:border-ciprel-green-500 transform hover:-translate-y-2 cursor-pointer"
+                          disabled={!workshop.is_active}
+                          className={`group relative bg-white rounded-2xl shadow-md transition-all duration-300 p-6 h-80 w-full flex flex-col items-center justify-center border-2 transform cursor-pointer ${
+                            workshop.is_active 
+                              ? 'border-gray-200 hover:border-ciprel-green-500 hover:shadow-xl hover:-translate-y-2' 
+                              : 'border-gray-300 opacity-50 grayscale cursor-not-allowed'
+                          }`}
                         >
-                          {/* Badge numéro */}
+                          {/* Badge numéro et statut */}
                           <div className="absolute top-4 right-4 flex flex-col gap-2">
-                            <div className="bg-ciprel-green-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md">
+                            <div className={`px-3 py-1 rounded-full text-xs font-bold shadow-md ${
+                              workshop.is_active 
+                                ? 'bg-ciprel-green-600 text-white' 
+                                : 'bg-gray-400 text-white'
+                            }`}>
                               #{index + 1}
                             </div>
+                            {!workshop.is_active && (
+                              <div className="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-md">
+                                Inactif
+                              </div>
+                            )}
                           </div>
 
                           {/* Icône */}
                           <div className="relative mb-4">
-                            <div className="text-7xl transition-transform group-hover:scale-110 duration-300">
+                            <div className={`text-7xl transition-transform duration-300 ${
+                              workshop.is_active ? 'group-hover:scale-110' : ''
+                            }`}>
                               {workshop.icon}
                             </div>
                           </div>
 
                           {/* Nom du métier */}
-                          <h3 className="text-xl font-bold text-center mb-2 text-ciprel-black group-hover:text-ciprel-green-600 transition-colors duration-300">
+                          <h3 className={`text-xl font-bold text-center mb-2 transition-colors duration-300 ${
+                            workshop.is_active 
+                              ? 'text-ciprel-black group-hover:text-ciprel-green-600' 
+                              : 'text-gray-500'
+                          }`}>
                             {workshop.titre}
                           </h3>
 
-                          {/* Bouton d'action - Vert CIPREL */}
-                          <div className="mt-auto px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 flex items-center gap-2 bg-ciprel-green-600 hover:bg-ciprel-green-700 text-white shadow-lg group-hover:shadow-xl">
+                          {/* Bouton d'action */}
+                          <div className={`mt-auto px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 flex items-center gap-2 shadow-lg ${
+                            workshop.is_active 
+                              ? 'bg-ciprel-green-600 hover:bg-ciprel-green-700 text-white group-hover:shadow-xl' 
+                              : 'bg-gray-400 text-gray-200'
+                          }`}>
                             <Presentation className="h-4 w-4" />
-                            Voir le workshop
+                            {workshop.is_active ? 'Voir le workshop' : 'Non disponible'}
                           </div>
                         </button>
                       </SwiperSlide>

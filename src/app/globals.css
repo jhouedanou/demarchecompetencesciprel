@@ -40,6 +40,18 @@
     --radius: 0.5rem;
   }
 
+  /* Empêcher le zoom utilisateur sur la page d'accueil */
+  html {
+    touch-action: pan-x pan-y;
+    -ms-touch-action: pan-x pan-y;
+  }
+  
+  /* Empêcher le zoom au double-tap et pinch-zoom */
+  html.no-zoom {
+    touch-action: manipulation;
+    -ms-touch-action: manipulation;
+  }
+
   .dark {
     --background: var(--ciprel-black);
     --foreground: 0 0% 100%;
