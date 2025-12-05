@@ -115,21 +115,44 @@ export function WorkshopsMetiersAdminUnified() {
       
       console.log('Saving workshop with payload:', payload)
       
-      const response = await authFetch('/api/admin/workshops-metiers', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
+      // Timeout de 30 secondes
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 30000)
+      
+      try {
+        const response = await authFetch('/api/admin/workshops-metiers', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: controller.signal,
+        })
+        
+        clearTimeout(timeoutId)
+        
+        console.log('Response status:', response.status)
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}))
+          console.error('Error response:', errorData)
+          throw new Error(errorData.error || 'Erreur lors de la mise à jour')
+        }
 
-      if (!response.ok) {
-        throw new Error('Erreur lors de la mise à jour')
+        const result = await response.json()
+        console.log('Save result:', result)
+        
+        toast.success('Workshop métier mis à jour')
+        setEditingId(null)
+        setEditingData({})
+        loadWorkshops()
+      } catch (fetchError) {
+        clearTimeout(timeoutId)
+        if (fetchError instanceof Error && fetchError.name === 'AbortError') {
+          throw new Error('La requête a pris trop de temps (timeout)')
+        }
+        throw fetchError
       }
-
-      toast.success('Workshop métier mis à jour')
-      setEditingId(null)
-      setEditingData({})
-      loadWorkshops()
     } catch (error) {
+      console.error('Save error:', error)
       toast.error(error instanceof Error ? error.message : 'Erreur lors de la mise à jour')
     } finally {
       setSaving(false)
