@@ -1,0 +1,697 @@
+[
+  {
+    "id": "rh-juridique",
+    "titre": "Workshop Métier RH & Juridique",
+    "departement": "Ressources Humaines et Juridique",
+    "video": "",
+    "icon": "⚖️",
+    "color": "from-indigo-500 to-indigo-600",
+    "ordre": 1,
+    "is_active": true,
+    "contenu": {
+      "introduction": {
+        "objectifs": [
+          "Comprendre le métier des RH et Juridique",
+          "Identifier les compétences clés techniques, comportementales et organisationnelles",
+          "Valoriser le métier et renforcer la reconnaissance interne",
+          "Favoriser les échanges inter-services"
+        ]
+      },
+      "presentation_metier": {
+        "definition": "L'Humain n'est pas une ressource, c'est notre raison d'avancer. Le Juridique transforme les règles en sécurité et la conformité en performance durable.",
+        "piliers": [
+          "Développement RH (Préparer l'avenir)",
+          "Administration RH (Garantir la conformité)",
+          "Sécurisation des engagements contractuels",
+          "Protection des données et prévention des risques"
+        ]
+      },
+      "roles": [
+        {
+          "poste": "Chargé développement RH",
+          "mission": "Recrute les talents, pilote la formation, développe les parcours professionnels et anticipe les besoins en compétences."
+        },
+        {
+          "poste": "Responsable administration RH",
+          "mission": "Gère le cycle de vie du collaborateur (contrats, paie, intégration), assure la veille sociale et la conformité."
+        },
+        {
+          "poste": "Assistant juridique",
+          "mission": "Sécurise les contrats, pilote la conformité des Données à Caractère Personnel (DCP), gère le contentieux et assure la veille réglementaire."
+        }
+      ],
+      "competences": {
+        "savoirs": [
+          "Droit du travail et réglementation sociale",
+          "Droit des contrats et législation commerciale",
+          "Législation sur les Données à Caractère Personnel (DCP)",
+          "Techniques de recrutement et d'évaluation",
+          "Processus CIPREL"
+        ],
+        "savoir_faire": [
+          "Recruter et intégrer les talents",
+          "Piloter le plan de formation",
+          "Rédaction et révision contractuelle",
+          "Analyse légale et évaluation des risques",
+          "Gestion de la paie et administration du personnel",
+          "Préparation des dossiers de contentieux"
+        ],
+        "savoir_etre": [
+          "Confidentialité absolue et intégrité",
+          "Écoute et diplomatie",
+          "Rigueur et sens du détail",
+          "Analyse critique",
+          "Vigilance réglementaire"
+        ]
+      },
+      "interactions": {
+        "internes": [
+          "Direction Générale",
+          "Tous les départements (support, conseil, recrutement)",
+          "Managers et collaborateurs"
+        ],
+        "externes": [
+          "Cabinets d'avocats et experts juridiques",
+          "Institutionnels (CNPS, Inspection du Travail)",
+          "Organismes de formation et cabinets de recrutement",
+          "Autorités de régulation"
+        ]
+      },
+      "temoignage": "Nous faisons grandir l'Humain... Nous protégeons CIPREL en garantissant la conformité, l'intégrité et la sécurité juridique."
+    }
+  },
+  {
+    "id": "qse-rse-surete",
+    "titre": "Workshop Métier QSE-RSE & Sûreté",
+    "departement": "QSE-RSE & Sûreté",
+    "video": "",
+    "icon": "🛡️",
+    "color": "from-green-500 to-green-600",
+    "ordre": 2,
+    "is_active": true,
+    "contenu": {
+      "introduction": {
+        "objectifs": [
+          "Comprendre les enjeux stratégiques QSE-RSE & Sûreté",
+          "Identifier les compétences techniques et réglementaires",
+          "Favoriser la culture sécurité et la performance durable"
+        ]
+      },
+      "presentation_metier": {
+        "definition": "Veille à ce que chaque personne, installation et processus contribue à une énergie fiable, durable et sécurisée.",
+        "piliers": [
+          "QSE (Gardien de la sécurité et conformité)",
+          "RSE (Moteur de l'impact positif)",
+          "Sûreté (Forteresse protégeant les opérations)"
+        ]
+      },
+      "roles": [
+        {
+          "poste": "Responsable QSE–RSE",
+          "mission": "Pilote le système de management intégré et la démarche RSE, coordonne les activités et garantit les engagements."
+        },
+        {
+          "poste": "Ingénieur QSE",
+          "mission": "Met en œuvre les exigences, assure la conformité réglementaire, pilote les audits et prévient les risques SST."
+        },
+        {
+          "poste": "Coordinateur HSE",
+          "mission": "Acteur terrain, veille à l'application des consignes, accompagne les équipes techniques."
+        },
+        {
+          "poste": "Ingénieur RSE / Chef de projet DD",
+          "mission": "Pilote les actions RSE, intègre les critères ESG, anime le dialogue avec les parties prenantes."
+        },
+        {
+          "poste": "Responsable Sûreté",
+          "mission": "Protège les personnes et infrastructures, anticipe les menaces et garantit la continuité."
+        }
+      ],
+      "competences": {
+        "savoirs": [
+          "Normes QSE (ISO) et exigences réglementaires",
+          "Risques industriels et plans d'urgence",
+          "Réglementation environnementale et sécurité",
+          "Procédures HSE"
+        ],
+        "savoir_faire": [
+          "Analyse des risques et prévention",
+          "Pilotage du système QSE et audits",
+          "Coordination terrain et inspections",
+          "Reporting et gestion documentaire"
+        ],
+        "savoir_etre": [
+          "Vigilance et rigueur",
+          "Courage d'alerter",
+          "Exemplarité comportementale",
+          "Éthique et sens de la responsabilité"
+        ]
+      },
+      "interactions": {
+        "internes": [
+          "Production",
+          "Maintenance",
+          "RH",
+          "Projets",
+          "Achats & Logistique",
+          "Direction Générale"
+        ],
+        "externes": [
+          "Organismes de contrôle et régulation",
+          "Cabinets d'audit",
+          "ONG et collectivités locales",
+          "Prestataires sécurité"
+        ]
+      },
+      "temoignage": "Notre plus grande fierté est de garantir que chaque collaborateur rentre chez lui en toute sécurité tous les jours."
+    }
+  },
+  {
+    "id": "projets",
+    "titre": "Workshop Métier Projets",
+    "departement": "Projets",
+    "video": "",
+    "icon": "🎯",
+    "color": "from-cyan-500 to-cyan-600",
+    "ordre": 3,
+    "is_active": true,
+    "contenu": {
+      "introduction": {
+        "objectifs": [
+          "Mieux comprendre le métier Projets et ses enjeux stratégiques",
+          "Identifier les compétences de réussite des projets structurants",
+          "Valoriser ce métier pivot de la transformation"
+        ]
+      },
+      "presentation_metier": {
+        "definition": "Chef d'orchestre qui transforme la vision stratégique en réalisations tangibles. Moteur de la modernisation et de l'innovation.",
+        "piliers": [
+          "Planification",
+          "Pilotage",
+          "Livraison de projets structurants"
+        ]
+      },
+      "roles": [
+        {
+          "poste": "Directeur Développement",
+          "mission": "Stratège, pilote la feuille de route d'investissements, structure les méthodes et supervise les équipes."
+        },
+        {
+          "poste": "Superviseur Projets",
+          "mission": "Contrôle l'avancement physique et technique, assure le respect QHSE et coordonne les prestataires."
+        },
+        {
+          "poste": "Assistante Projets",
+          "mission": "Prépare les dossiers, plannings, reportings et assure la traçabilité documentaire."
+        },
+        {
+          "poste": "Secrétaire Projets",
+          "mission": "Gestion administrative, courriers, PV de réunions et archivage."
+        }
+      ],
+      "competences": {
+        "savoirs": [
+          "Gestion de projets et outils de planification",
+          "Normes QHSE et réglementation",
+          "Connaissance équipements et infrastructures",
+          "Méthodes d'audit"
+        ],
+        "savoir_faire": [
+          "Planification et pilotage de projets",
+          "Gestion des risques et suivi technique",
+          "Gestion documentaire et reporting",
+          "Coordination des prestataires"
+        ],
+        "savoir_etre": [
+          "Rigueur et organisation",
+          "Anticipation",
+          "Esprit d'équipe",
+          "Communication claire"
+        ]
+      },
+      "interactions": {
+        "internes": [
+          "Production",
+          "Maintenance",
+          "QSE-RSE",
+          "Achats & Logistique",
+          "Finance",
+          "Direction Générale"
+        ],
+        "externes": [
+          "Bureaux d'études et ingénierie",
+          "Prestataires techniques",
+          "Fournisseurs d'équipements",
+          "Autorités réglementaires"
+        ]
+      },
+      "temoignage": "Nous préparons l'avenir énergétique... Nous intégrons les critères ESG dans chaque étape pour une performance durable."
+    }
+  },
+  {
+    "id": "maintenance",
+    "titre": "Workshop Métier Maintenance",
+    "departement": "Maintenance",
+    "video": "",
+    "icon": "🔧",
+    "color": "from-orange-500 to-orange-600",
+    "ordre": 4,
+    "is_active": true,
+    "contenu": {
+      "introduction": {
+        "objectifs": [
+          "Comprendre les métiers de la Maintenance (Arrêts, Préparation, Réalisation)",
+          "Identifier les compétences techniques et organisationnelles",
+          "Valoriser les garants de la fiabilité et sécurité"
+        ]
+      },
+      "presentation_metier": {
+        "definition": "Gardienne de la continuité énergétique. Ce n'est pas que la réparation, c'est surtout l'anticipation.",
+        "piliers": [
+          "Maintenance Préventive (80% : inspections, contrôles)",
+          "Maintenance Corrective (Diagnostic, remise en état)"
+        ]
+      },
+      "roles": [
+        {
+          "poste": "Technicien de Maintenance",
+          "mission": "Intervient avec expertise et précision sur les composants mécaniques et électriques."
+        },
+        {
+          "poste": "Contremaître de Maintenance",
+          "mission": "Coordonne les équipes terrain, gère les priorités et la sécurité."
+        },
+        {
+          "poste": "Préparateur Maintenance",
+          "mission": "Assure la disponibilité des pièces, la planification et le soutien technique."
+        },
+        {
+          "poste": "Coordinateur Maintenance",
+          "mission": "Planifie les arrêts majeurs, optimise les processus et pilote la performance technique."
+        },
+        {
+          "poste": "Manager des Activités",
+          "mission": "Dirige la stratégie, supervise les équipes et garantit la conformité QHSE."
+        }
+      ],
+      "competences": {
+        "savoirs": [
+          "Équipements mécaniques, électriques et instrumentation",
+          "Procédures de maintenance (préventive/corrective)",
+          "Standards QHSE et règles de sécurité"
+        ],
+        "savoir_faire": [
+          "Diagnostic et dépannage",
+          "Lecture de plans techniques",
+          "Planification d'interventions",
+          "Utilisation d'outils spécialisés"
+        ],
+        "savoir_etre": [
+          "Rigueur et réactivité",
+          "Vigilance et discipline",
+          "Esprit d'analyse",
+          "Travail en équipe"
+        ]
+      },
+      "interactions": {
+        "internes": [
+          "Production (24/7)",
+          "QSE-RSE",
+          "Projets",
+          "Achats & Logistique",
+          "Gestion des stocks"
+        ],
+        "externes": [
+          "Fournisseurs d'équipements",
+          "Experts internationaux",
+          "Prestataires techniques",
+          "Organismes de contrôle"
+        ]
+      },
+      "temoignage": "Notre plus grande fierté ? Voir la centrale fonctionner sans interruption grâce à notre travail."
+    }
+  },
+  {
+    "id": "achats-logistique",
+    "titre": "Workshop Métier Achats & Logistique",
+    "departement": "Achats & Logistique",
+    "video": "",
+    "icon": "🚚",
+    "color": "from-lime-500 to-lime-600",
+    "ordre": 5,
+    "is_active": true,
+    "contenu": {
+      "introduction": {
+        "objectifs": [
+          "Comprendre le rôle stratégique de l'approvisionnement",
+          "Identifier les compétences de négociation et logistique",
+          "Valoriser le maillon clé de la continuité opérationnelle"
+        ]
+      },
+      "presentation_metier": {
+        "definition": "Passerelle stratégique reliant les besoins internes à la disponibilité des ressources.",
+        "piliers": [
+          "Achats (Valeur ajoutée, éthique, négociation)",
+          "Logistique & Transit (Fluidité des flux, dédouanement)"
+        ]
+      },
+      "roles": [
+        {
+          "poste": "Responsable Achat & Logistique",
+          "mission": "Pilote la stratégie, sécurise la chaîne d'approvisionnement et garantit la conformité."
+        },
+        {
+          "poste": "Coordonnateur Achat",
+          "mission": "Supervise les besoins, valide la cohérence budgétaire et accompagne les acheteurs."
+        },
+        {
+          "poste": "Acheteurs",
+          "mission": "Traitent les demandes, négocient, sélectionnent les fournisseurs et suivent les commandes."
+        },
+        {
+          "poste": "Coordonnateur Logistique & Transit",
+          "mission": "Gère l'importation, le transit international, la douane et la livraison sur site."
+        }
+      ],
+      "competences": {
+        "savoirs": [
+          "Procédures d'achat et techniques de négociation",
+          "Réglementation douanière et Incoterms",
+          "Gestion de la chaîne logistique (Supply Chain)"
+        ],
+        "savoir_faire": [
+          "Analyse des besoins et sourcing",
+          "Négociation contractuelle",
+          "Gestion des flux logistiques et transit",
+          "Suivi des fournisseurs"
+        ],
+        "savoir_etre": [
+          "Intégrité et équité",
+          "Réactivité et sens du service",
+          "Diplomatie et fermeté",
+          "Rigueur administrative"
+        ]
+      },
+      "interactions": {
+        "internes": [
+          "Production",
+          "Maintenance",
+          "Projets",
+          "Finance",
+          "Juridique"
+        ],
+        "externes": [
+          "Fournisseurs locaux et internationaux",
+          "Transitaires et douanes",
+          "Transporteurs",
+          "Banques"
+        ]
+      },
+      "temoignage": "Nous sommes le maillon qui relie le monde à la centrale. Sans nous, la chaîne s'arrête."
+    }
+  },
+  {
+    "id": "sitd",
+    "titre": "Workshop Métier SITD",
+    "departement": "Systèmes d'Information et Transformation Digitale",
+    "video": "",
+    "icon": "💻",
+    "color": "from-purple-500 to-purple-600",
+    "ordre": 6,
+    "is_active": true,
+    "contenu": {
+      "introduction": {
+        "objectifs": [
+          "Comprendre les enjeux de la transformation digitale",
+          "Identifier les compétences IT critiques",
+          "Valoriser le rôle de support transverse des SI"
+        ]
+      },
+      "presentation_metier": {
+        "definition": "La colonne vertébrale numérique de l'entreprise. Garantit des systèmes efficaces propulsés par l'innovation.",
+        "piliers": [
+          "Systèmes d'Information",
+          "Transformation Digitale",
+          "Cybersécurité"
+        ]
+      },
+      "roles": [
+        {
+          "poste": "Responsable SITD",
+          "mission": "Définit la stratégie IT, veille à la cybersécurité, pilote les infrastructures et l'innovation."
+        },
+        {
+          "poste": "Technicien Informatique",
+          "mission": "Assure le support utilisateur, la maintenance du parc, la résolution d'incidents et la disponibilité des outils."
+        }
+      ],
+      "competences": {
+        "savoirs": [
+          "Architecture réseaux et systèmes",
+          "Administration bases de données",
+          "Cybersécurité",
+          "Veille technologique"
+        ],
+        "savoir_faire": [
+          "Support et assistance utilisateurs",
+          "Maintenance préventive et corrective IT",
+          "Administration serveurs et virtualisation",
+          "Gestion de projets SI"
+        ],
+        "savoir_etre": [
+          "Sens du service",
+          "Réactivité",
+          "Discrétion (données)",
+          "Curiosité technique"
+        ]
+      },
+      "interactions": {
+        "internes": [
+          "Tous les services (Support transverse)",
+          "Projets (Digitalisation)",
+          "Direction Générale"
+        ],
+        "externes": [
+          "Prestataires informatiques",
+          "Fournisseurs de solutions logicielles",
+          "Autorités de régulation télécom/réseau"
+        ]
+      },
+      "temoignage": "Savoir que chaque donnée partagée et chaque décision prise s'appuie sur un système robuste que nous avons construit."
+    }
+  },
+  {
+    "id": "gestion-stock",
+    "titre": "Workshop Métier Gestion de Stock",
+    "departement": "Gestion de Stock",
+    "video": "",
+    "icon": "📦",
+    "color": "from-yellow-500 to-yellow-600",
+    "ordre": 7,
+    "is_active": true,
+    "contenu": {
+      "introduction": {
+        "objectifs": [
+          "Reconnaître un métier souvent invisible mais vital",
+          "Identifier les compétences de rigueur et d'organisation",
+          "Comprendre l'impact sur la disponibilité des pièces"
+        ]
+      },
+      "presentation_metier": {
+        "definition": "Transforme la logistique en service client interne. Garantit que chaque pièce est disponible au bon moment et en parfait état.",
+        "piliers": [
+          "Disponibilité",
+          "Fiabilité des données",
+          "Conservation"
+        ]
+      },
+      "roles": [
+        {
+          "poste": "Coordinateur Gestion des Stocks",
+          "mission": "Supervise le magasin, gère les paramètres de stock (seuils), pilote les inventaires et la fiabilité des données."
+        },
+        {
+          "poste": "Gestionnaires de Stock",
+          "mission": "Assurent les mouvements physiques (réception, stockage, sortie), les contrôles qualité et les inventaires."
+        }
+      ],
+      "competences": {
+        "savoirs": [
+          "Gestion de stock et approvisionnement",
+          "Connaissance des produits techniques",
+          "Règles de sécurité et conservation"
+        ],
+        "savoir_faire": [
+          "Réception et contrôle qualitatif/quantitatif",
+          "Réalisation d'inventaires",
+          "Utilisation ERP (Saisie de données)",
+          "Optimisation de l'espace de stockage"
+        ],
+        "savoir_etre": [
+          "Rigueur absolue",
+          "Organisation",
+          "Fiabilité",
+          "Sens du service"
+        ]
+      },
+      "interactions": {
+        "internes": [
+          "Maintenance (Client principal)",
+          "Achats & Logistique",
+          "Finance (Inventaires)",
+          "Projets"
+        ],
+        "externes": [
+          "Fournisseurs (Livraisons)",
+          "Transporteurs"
+        ]
+      },
+      "temoignage": "Assurer en silence la continuité des opérations... Savoir qu'aucune turbine ne s'arrête faute de pièces."
+    }
+  },
+  {
+    "id": "daf",
+    "titre": "Workshop Métier DAF",
+    "departement": "Direction Administrative et Financière",
+    "video": "",
+    "icon": "💰",
+    "color": "from-teal-500 to-teal-600",
+    "ordre": 8,
+    "is_active": true,
+    "contenu": {
+      "introduction": {
+        "objectifs": [
+          "Comprendre les enjeux de la performance économique",
+          "Identifier les compétences analytiques et de gestion",
+          "Valoriser le rôle de gardien des ressources"
+        ]
+      },
+      "presentation_metier": {
+        "definition": "Moteur et compas de l'entreprise. Assure la fiabilité financière, accompagne la stratégie et garantit la pérennité.",
+        "piliers": [
+          "Comptabilité",
+          "Contrôle de Gestion",
+          "Trésorerie",
+          "Leadership Financier"
+        ]
+      },
+      "roles": [
+        {
+          "poste": "Comptabilité (Adjoint / Comptable)",
+          "mission": "Garantit la fidélité de l'image financière, traite les opérations comptables et fiscales, assure la consolidation."
+        },
+        {
+          "poste": "Contrôle de Gestion (Responsable / Contrôleur)",
+          "mission": "Pilote la performance, élabore le budget, analyse les écarts et fournit les outils d'aide à la décision."
+        },
+        {
+          "poste": "Trésorerie (Trésorier / Assistant)",
+          "mission": "Gère les flux financiers, sécurise les liquidités et optimise les relations bancaires."
+        },
+        {
+          "poste": "Directeur / Responsable Financier",
+          "mission": "Pilote la stratégie financière globale, maîtrise les risques et supervise le système d'information financier."
+        }
+      ],
+      "competences": {
+        "savoirs": [
+          "Normes comptables et fiscalité",
+          "Analyse financière et budgétaire",
+          "Réglementation bancaire"
+        ],
+        "savoir_faire": [
+          "Traitement et consolidation comptable",
+          "Élaboration budgétaire et forecast",
+          "Gestion de trésorerie",
+          "Reporting financier"
+        ],
+        "savoir_etre": [
+          "Intégrité et éthique",
+          "Rigueur et précision",
+          "Confidentialité",
+          "Capacité d'analyse"
+        ]
+      },
+      "interactions": {
+        "internes": [
+          "Tous les services (Budget, Procédures)",
+          "Direction Générale"
+        ],
+        "externes": [
+          "Banques",
+          "Commissaires aux comptes et auditeurs",
+          "Administration fiscale",
+          "Autorités financières"
+        ]
+      },
+      "temoignage": "Quand tout fonctionne, quand les projets sont financés et les fournisseurs payés... c'est grâce à nous."
+    }
+  },
+  {
+    "id": "controle-interne",
+    "titre": "Workshop Métier Contrôle Interne",
+    "departement": "Contrôle Interne",
+    "video": "",
+    "icon": "📊",
+    "color": "from-red-500 to-red-600",
+    "ordre": 9,
+    "is_active": true,
+    "contenu": {
+      "introduction": {
+        "objectifs": [
+          "Comprendre la maîtrise des risques",
+          "Identifier les compétences d'audit et de conformité",
+          "Valoriser le rôle de tiers de confiance"
+        ]
+      },
+      "presentation_metier": {
+        "definition": "Garantit la fiabilité des processus, prévient les risques et sécurise la performance collective.",
+        "piliers": [
+          "Prévention des risques",
+          "Conformité",
+          "Fiabilité des opérations"
+        ]
+      },
+      "roles": [
+        {
+          "poste": "Directrice Contrôle Interne",
+          "mission": "Pilote la fonction, cartographie les risques, mène les audits, vérifie l'application des procédures et recommande des améliorations."
+        }
+      ],
+      "competences": {
+        "savoirs": [
+          "Méthodologie d'audit et de contrôle",
+          "Cartographie des risques",
+          "Procédures internes et normes",
+          "Réglementation"
+        ],
+        "savoir_faire": [
+          "Analyse de processus",
+          "Conduite d'audit et diagnostic",
+          "Rédaction de rapports",
+          "Suivi des plans d'action"
+        ],
+        "savoir_etre": [
+          "Objectivité et indépendance",
+          "Rigueur",
+          "Discrétion",
+          "Sens critique et diplomatie"
+        ]
+      },
+      "interactions": {
+        "internes": [
+          "Direction Générale",
+          "Tous les processus métiers (Audit)",
+          "Juridique",
+          "Finance"
+        ],
+        "externes": [
+          "Auditeurs externes",
+          "Commissaires aux comptes",
+          "Organismes de certification"
+        ]
+      },
+      "temoignage": "Garantir que l'entreprise évolue dans un environnement sûr, transparent et maîtrisé. Créer la confiance."
+    }
+  }
+]

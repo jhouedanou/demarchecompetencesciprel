@@ -12,9 +12,10 @@ import { useUser } from '@/hooks/useUser'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
 import { useQuizStore } from '@/stores/quiz-store'
 import { useAuthStore } from '@/stores/auth-store'
-import { useWorkshops, type Workshop } from '@/hooks/useWorkshops'
 import { LoadingScreen } from '@/components/ui/loading-screen'
 import { ContentSkeleton } from '@/components/ui/content-skeleton'
+import { WorkshopMetier } from '@/types/workshop-metier'
+import { useWorkshopsMetiers } from '@/hooks/useWorkshopsMetiers'
 
 // Lazy loading des composants lourds
 const SectionModal = lazy(() => import('@/components/modals/SectionModal').then(m => ({ default: m.SectionModal })))
@@ -30,6 +31,7 @@ const VideoPlayerModal = lazy(() => import('@/components/modals/VideoPlayerModal
 const MetiersHome = lazy(() => import('@/components/MetiersHome').then(m => ({ default: m.MetiersHome })))
 const MetiersQuiz = lazy(() => import('@/components/MetiersQuiz').then(m => ({ default: m.MetiersQuiz })))
 const FEERICValues = lazy(() => import('@/components/FEERICValues').then(m => ({ default: m.FEERICValues })))
+const WorkshopMetierModal = lazy(() => import('@/components/modals/WorkshopMetierModal').then(m => ({ default: m.WorkshopMetierModal })))
 import {
   Building2,
   Users,
@@ -62,54 +64,6 @@ const SLIDE_TITLES = [
   'Workshops métiers'
 ]
 
-// Mapping statique des icônes et couleurs par nom de métier
-const METIERS_DISPLAY_CONFIG: Record<string, { icon: string; color: string }> = {
-  'Introduction DC': { icon: '📘', color: 'from-blue-500 to-blue-600' },
-  'Production': { icon: '⚡', color: 'from-blue-500 to-blue-600' },
-  'SIDT': { icon: '💻', color: 'from-purple-500 to-purple-600' },
-  'Maintenance': { icon: '🔧', color: 'from-orange-500 to-orange-600' },
-  'QSE-RSE/Sûreté': { icon: '🛡️', color: 'from-green-500 to-green-600' },
-  'Campagne Sensibilisation': { icon: '📢', color: 'from-pink-500 to-pink-600' },
-  'Contrôle Interne': { icon: '📊', color: 'from-red-500 to-red-600' },
-  'Stocks': { icon: '📦', color: 'from-yellow-500 to-yellow-600' },
-  'RH/Juridique': { icon: '⚖️', color: 'from-indigo-500 to-indigo-600' },
-  'Services Généraux': { icon: '🏢', color: 'from-pink-500 to-pink-600' },
-  'DAF': { icon: '💰', color: 'from-teal-500 to-teal-600' },
-  'Projets': { icon: '🎯', color: 'from-cyan-500 to-cyan-600' },
-  'Achats & Logistique': { icon: '🚚', color: 'from-lime-500 to-lime-600' }
-}
-
-// Ordre personnalisé des métiers
-const METIERS_ORDER: Record<string, number> = {
-  'Production': 1,
-  'SIDT': 2,
-  'Maintenance': 3,
-  'QSE-RSE/Sûreté': 4,
-  'Contrôle Interne': 5,
-  'Stocks': 6,
-  'RH/Juridique': 7,
-  'Services Généraux': 8,
-  'DAF': 9,
-  'Projets': 10,
-  'Achats & Logistique': 11,
-  'Introduction DC': 12,
-  'Campagne Sensibilisation': 13
-}
-
-interface MetierData {
-  id: number
-  titre: string
-  statut: boolean
-  ordre: number
-}
-
-interface MetierDisplay {
-  id: number
-  nom: string
-  icon: string
-  color: string
-}
-
 const PRACTICE_VIDEOS = [
   {
     id: 1,
@@ -138,7 +92,7 @@ const PRACTICE_VIDEOS = [
 ]
 
 interface ActiveMetier {
-  id: number
+  id: string
   titre: string
 }
 
@@ -146,7 +100,7 @@ export default function HomePage() {
   const { user, loading } = useUser()
   const { sections, canAccessQuiz, markSectionCompleted } = useReadingProgress(user)
   const { signOut } = useAuthStore()
-  const { workshops, loading: workshopsLoading } = useWorkshops()
+  const { workshopsMetiers, loading: workshopsLoading } = useWorkshopsMetiers()
   const [activeModal, setActiveModal] = useState<SectionType>(null)
   const [activeSlide, setActiveSlide] = useState(0)
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -161,11 +115,9 @@ export default function HomePage() {
   const [logoutModalOpen, setLogoutModalOpen] = useState(false)
   const [videoSectionMarked, setVideoSectionMarked] = useState(false)
   const [activeMetier, setActiveMetier] = useState<ActiveMetier | null>(null)
-  const [selectedWorkshop, setSelectedWorkshop] = useState<Workshop | null>(null)
+  const [selectedWorkshopMetier, setSelectedWorkshopMetier] = useState<WorkshopMetier | null>(null)
   const [showMetiersQuiz, setShowMetiersQuiz] = useState(false)
   const [workshopModalOpen, setWorkshopModalOpen] = useState(false)
-  const [metiers, setMetiers] = useState<MetierDisplay[]>([])
-  const [metiersLoading, setMetiersLoading] = useState(true)
   const swiperRef = useRef<SwiperType | null>(null)
   const swiperDefinitionsRef = useRef<any>(null)
   const videoRef = useRef<HTMLVideoElement | null>(null)
@@ -175,47 +127,8 @@ export default function HomePage() {
   const resetQuiz = useQuizStore(state => state.resetQuiz)
   const router = useRouter()
 
-  // Fetch métiers from API
-  useEffect(() => {
-    const fetchMetiers = async () => {
-      try {
-        setMetiersLoading(true)
-        const response = await fetch('/api/metiers')
-        const data = await response.json()
-
-        if (data.success && data.data) {
-          // Filtrer uniquement les métiers actifs et mapper avec display config
-          const activeMetiers = data.data
-            .filter((m: MetierData) => m.statut === true)
-            .map((m: MetierData) => {
-              const config = METIERS_DISPLAY_CONFIG[m.titre] || {
-                icon: '📋',
-                color: 'from-gray-500 to-gray-600'
-              }
-              return {
-                id: m.id,
-                nom: m.titre,
-                icon: config.icon,
-                color: config.color
-              }
-            })
-            .sort((a: MetierDisplay, b: MetierDisplay) => {
-              const orderA = METIERS_ORDER[a.nom] || 999
-              const orderB = METIERS_ORDER[b.nom] || 999
-              return orderA - orderB
-            })
-
-          setMetiers(activeMetiers)
-        }
-      } catch (error) {
-        // Silent error handling
-      } finally {
-        setMetiersLoading(false)
-      }
-    }
-
-    fetchMetiers()
-  }, [])
+  // Les workshops métiers sont chargés depuis Supabase via le hook
+  const activeWorkshopsMetiers = workshopsMetiers.filter(w => w.is_active).sort((a, b) => a.ordre - b.ordre)
 
   // Écouter les événements pour ouvrir les modaux
   useEffect(() => {
@@ -820,7 +733,7 @@ export default function HomePage() {
                             <button
                               type="button"
                               onClick={openQuizModal}
-                              className="block w-full text-left p-6 bg-gradient-to-r from-ciprel-green-500 to-ciprel-green-600 text-white rounded-xl hover:from-ciprel-green-600 hover:to-ciprel-green-700 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ciprel-green-500"
+                              className="block w-full text-left p-6 bg-ciprel-green-600 text-white rounded-xl hover:bg-ciprel-green-700 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ciprel-green-500"
                             >
                               <div className="flex items-center justify-between mb-3">
                                 <h4 className="font-bold text-xl">Quiz d'introduction</h4>
@@ -849,7 +762,7 @@ export default function HomePage() {
                               type="button"
                               onClick={() => setSurveyModalOpen(true)}
                               data-survey-trigger
-                              className="block w-full text-left p-6 bg-gradient-to-r from-ciprel-orange-500 to-ciprel-orange-600 text-white rounded-xl hover:from-ciprel-orange-600 hover:to-ciprel-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ciprel-orange-500"
+                              className="block w-full text-left p-6 bg-ciprel-orange-600 text-white rounded-xl hover:bg-ciprel-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ciprel-orange-500"
                             >
                               <div className="flex items-center justify-between mb-3">
                                 <h4 className="font-bold text-xl">Sondage d'opinion</h4>
@@ -979,7 +892,7 @@ export default function HomePage() {
                 <div className="text-center mb-8">
                   <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-ciprel-orange-100 to-ciprel-green-100 text-ciprel-black rounded-full text-sm font-semibold mb-4">
                     <Briefcase className="h-4 w-4" />
-                    {metiers.length} Métiers Actifs
+                    {activeWorkshopsMetiers.length} Métiers
                   </div>
                   <h2 className="text-3xl md:text-4xl font-bold text-ciprel-black mb-4">
                     La déclinaison de la DC dans nos métiers
@@ -1015,85 +928,42 @@ export default function HomePage() {
                       '--swiper-pagination-bullet-inactive-opacity': '0.4',
                     } as React.CSSProperties}
                   >
-                    {metiers.map((metier) => {
-                      // Extraire les couleurs du gradient pour la bordure
-                      const gradientColors = metier.color.match(/from-(\S+)\s+to-(\S+)/)
-                      const fromColor = gradientColors ? gradientColors[1] : 'blue-500'
-                      const toColor = gradientColors ? gradientColors[2] : 'blue-600'
-
-                      // Récupérer le workshop correspondant
-                      const workshop = workshops.find(w => w.metier_id === metier.id)
-                      const isActive = workshop?.is_active ?? false
-                      const hasLink = workshop?.onedrive_link && workshop.onedrive_link.trim() !== ''
-
-                      return (
-                        <SwiperSlide key={metier.id}>
-                          <button
-                            onClick={() => {
-                              if (isActive && hasLink) {
-                                setSelectedWorkshop(workshop)
-                                setWorkshopModalOpen(true)
-                              }
-                            }}
-                            disabled={!isActive || !hasLink}
-                            className={`group relative bg-white rounded-2xl shadow-md transition-all duration-300 p-6 h-80 w-full flex flex-col items-center justify-center border-4 border-transparent ${isActive && hasLink
-                              ? 'hover:shadow-2xl transform hover:-translate-y-2 hover:border-opacity-100 cursor-pointer'
-                              : 'opacity-50 cursor-not-allowed'
-                              }`}
-                            style={{
-                              borderImage: `linear-gradient(135deg, var(--tw-gradient-stops)) 1`,
-                              borderImageSlice: 1,
-                            }}
-                          >
-                            {/* Bordure colorée avec gradient */}
-                            <div
-                              className={`absolute inset-0 rounded-2xl opacity-100 group-hover:opacity-100 transition-opacity duration-300 -z-10`}
-                              style={{
-                                background: `linear-gradient(white, white) padding-box, linear-gradient(135deg, var(--tw-gradient-stops)) border-box`,
-                                border: '4px solid transparent',
-                                borderRadius: '1rem',
-                              }}
-                            >
-                              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${metier.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
+                    {activeWorkshopsMetiers.map((workshop, index) => (
+                      <SwiperSlide key={workshop.id}>
+                        <button
+                          onClick={() => {
+                            setSelectedWorkshopMetier(workshop)
+                            setWorkshopModalOpen(true)
+                          }}
+                          className="group relative bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 h-80 w-full flex flex-col items-center justify-center border-2 border-gray-200 hover:border-ciprel-green-500 transform hover:-translate-y-2 cursor-pointer"
+                        >
+                          {/* Badge numéro */}
+                          <div className="absolute top-4 right-4 flex flex-col gap-2">
+                            <div className="bg-ciprel-green-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md">
+                              #{index + 1}
                             </div>
+                          </div>
 
-                            {/* Badge numéro et statut */}
-                            <div className="absolute top-4 right-4 flex flex-col gap-2">
-                              <div className={`bg-gradient-to-r ${metier.color} text-white px-3 py-1 rounded-full text-xs font-bold shadow-md`}>
-                                #{metier.id}
-                              </div>
-                              {!isActive && (
-                                <div className="bg-gray-400 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md">
-                                  Bientôt
-                                </div>
-                              )}
+                          {/* Icône */}
+                          <div className="relative mb-4">
+                            <div className="text-7xl transition-transform group-hover:scale-110 duration-300">
+                              {workshop.icon}
                             </div>
+                          </div>
 
-                            {/* Icône avec effet */}
-                            <div className="relative mb-4">
-                              <div className={`absolute inset-0 bg-gradient-to-br ${metier.color} opacity-10 rounded-full blur-2xl scale-150`} />
-                              <div className="text-7xl transition-transform group-hover:scale-110 duration-300 relative z-10">
-                                {metier.icon}
-                              </div>
-                            </div>
+                          {/* Nom du métier */}
+                          <h3 className="text-xl font-bold text-center mb-2 text-ciprel-black group-hover:text-ciprel-green-600 transition-colors duration-300">
+                            {workshop.titre}
+                          </h3>
 
-                            {/* Nom du métier */}
-                            <h3 className="text-2xl font-bold text-center mb-4 text-ciprel-black group-hover:text-ciprel-orange-600 transition-colors duration-300">
-                              {metier.nom}
-                            </h3>
-
-                            {/* Bouton d'action */}
-                            <div className={`mt-auto px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 flex items-center gap-2 ${isActive && hasLink
-                              ? `bg-gradient-to-r ${metier.color} text-white shadow-lg group-hover:shadow-xl`
-                              : 'bg-gray-300 text-gray-500'
-                              }`}>
-                              <Presentation className="h-4 w-4" />
-                              {isActive && hasLink ? 'Voir le workshop' : 'Prochainement'}
-                            </div>
-                          </button>
-                        </SwiperSlide>
-                      )
-                    })}
+                          {/* Bouton d'action - Vert CIPREL */}
+                          <div className="mt-auto px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 flex items-center gap-2 bg-ciprel-green-600 hover:bg-ciprel-green-700 text-white shadow-lg group-hover:shadow-xl">
+                            <Presentation className="h-4 w-4" />
+                            Voir le workshop
+                          </div>
+                        </button>
+                      </SwiperSlide>
+                    ))}
                   </Swiper>
 
                   {/* Flèches de navigation personnalisées */}
@@ -1778,146 +1648,16 @@ export default function HomePage() {
         </Dialog>
       </Suspense>
 
+      {/* Modal Workshop Métier avec contenu détaillé */}
       <Suspense fallback={null}>
-        <Dialog
-          open={workshopModalOpen}
-          onOpenChange={(open) => {
-            if (!open) {
-              setWorkshopModalOpen(false)
-              setSelectedWorkshop(null)
-            }
+        <WorkshopMetierModal
+          workshop={selectedWorkshopMetier}
+          isOpen={workshopModalOpen}
+          onClose={() => {
+            setWorkshopModalOpen(false)
+            setSelectedWorkshopMetier(null)
           }}
-        >
-          <DialogContent className="max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-            <DialogTitle className="text-2xl font-semibold text-ciprel-black">
-              {selectedWorkshop?.metier_nom && `Workshop - ${selectedWorkshop.metier_nom}`}
-            </DialogTitle>
-            <DialogDescription className="text-sm text-gray-600">
-              Accédez aux ressources et documents pour le workshop
-            </DialogDescription>
-            <div className="space-y-6 py-4">
-              <p className="text-gray-700">
-                Bienvenue au workshop du métier <strong>{selectedWorkshop?.metier_nom}</strong>.
-              </p>
-
-              {selectedWorkshop?.publication_date && (
-                <div className="bg-ciprel-green-50 border border-ciprel-green-200 rounded-lg p-4">
-                  <p className="text-sm text-ciprel-green-800 flex items-center">
-                    <CheckCircle2 className="h-4 w-4 mr-2" />
-                    Publié le {new Date(selectedWorkshop.publication_date).toLocaleDateString('fr-FR', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </p>
-                </div>
-              )}
-
-              {/* Section Vidéo */}
-              {selectedWorkshop?.video_url && (
-                <div className="bg-gradient-to-r from-ciprel-orange-50 to-ciprel-green-50 border border-ciprel-orange-200 rounded-xl p-6">
-                  <h4 className="font-bold text-ciprel-black mb-4 flex items-center">
-                    <svg className="h-5 w-5 mr-2 text-ciprel-orange-600" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                    Vidéo du workshop
-                  </h4>
-                  <div className="relative aspect-video bg-black rounded-lg overflow-hidden shadow-lg">
-                    {(() => {
-                      const videoUrl = selectedWorkshop.video_url || ''
-                      // Extraire l'ID YouTube si c'est un lien YouTube
-                      const youtubeMatch = videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)
-                      if (youtubeMatch) {
-                        return (
-                          <iframe
-                            src={`https://www.youtube.com/embed/${youtubeMatch[1]}`}
-                            title={`Vidéo ${selectedWorkshop.metier_nom}`}
-                            className="absolute inset-0 w-full h-full"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                          />
-                        )
-                      }
-                      // Sinon, afficher comme lien externe
-                      return (
-                        <a
-                          href={videoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-ciprel-orange-500 to-ciprel-green-500 text-white hover:opacity-90 transition-opacity"
-                        >
-                          <div className="text-center">
-                            <svg className="h-16 w-16 mx-auto mb-3" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z" />
-                            </svg>
-                            <span className="font-semibold text-lg">Voir la vidéo</span>
-                          </div>
-                        </a>
-                      )
-                    })()}
-                  </div>
-                </div>
-              )}
-
-              <div className="bg-white border-2 border-ciprel-orange-200 rounded-xl p-6">
-                <h4 className="font-bold text-ciprel-black mb-3 flex items-center">
-                  <Briefcase className="h-5 w-5 mr-2 text-ciprel-orange-600" />
-                  Ressources du workshop
-                </h4>
-                <p className="text-gray-600 mb-4">
-                  Retrouvez tous les supports, documents et ressources nécessaires pour ce workshop sur notre espace OneDrive.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3">
-                  {selectedWorkshop?.onedrive_link ? (
-                    <a
-                      href={selectedWorkshop.onedrive_link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 bg-ciprel-green-600 text-white px-6 py-3 rounded-lg hover:bg-ciprel-green-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl"
-                    >
-                      <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M13.8 12.4c-.8-.7-1.9-1.1-3-1.1-2.5 0-4.5 2-4.5 4.5s2 4.5 4.5 4.5c1.1 0 2.2-.4 3-1.1.2-.2.2-.5 0-.7l-1.4-1.4c-.2-.2-.5-.2-.7 0-.4.3-.8.5-1.3.5-1.2 0-2.2-1-2.2-2.2s1-2.2 2.2-2.2c.5 0 .9.2 1.3.5.2.2.5.2.7 0l1.4-1.4c.2-.2.2-.5 0-.7z" />
-                      </svg>
-                      Ouvrir sur OneDrive
-                    </a>
-                  ) : (
-                    <div className="bg-gray-100 text-gray-500 px-6 py-3 rounded-lg inline-flex items-center justify-center">
-                      Lien OneDrive non disponible
-                    </div>
-                  )}
-
-                  <button
-                    onClick={() => {
-                      if (!selectedWorkshop) return
-
-                      setWorkshopModalOpen(false)
-                      resetQuiz()
-                      setQuizConfig({
-                        isOpen: true,
-                        type: 'WORKSHOP',
-                        metierId: selectedWorkshop.metier_id
-                      })
-                    }}
-                    className="inline-flex items-center justify-center gap-2 bg-ciprel-orange-500 text-white px-6 py-3 rounded-lg hover:bg-ciprel-orange-600 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl"
-                  >
-                    <HelpCircle className="h-5 w-5" />
-                    Questionnaire
-                  </button>
-                </div>
-              </div>
-
-              <button
-                onClick={() => {
-                  setWorkshopModalOpen(false)
-                  setSelectedWorkshop(null)
-                }}
-                className="w-full bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
-              >
-                Fermer
-              </button>
-            </div>
-          </DialogContent>
-        </Dialog>
+        />
       </Suspense>
 
       <Suspense fallback={null}>

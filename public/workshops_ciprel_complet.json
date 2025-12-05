@@ -1,0 +1,1515 @@
+{
+  "metadata": {
+    "organisation": "CIPREL",
+    "projet": "Démarche Compétence - Workshops Métiers",
+    "lieu": "Abidjan",
+    "annee": 2025,
+    "description": "Extraction complète des contenus des workshops pour intégration web",
+    "valeurs_feeric": {
+      "F": "Force du collectif",
+      "E": "Engagement",
+      "E2": "Équité",
+      "R": "Respect",
+      "I": "Innovation",
+      "C": "Convivialité"
+    },
+    "structure_commune": {
+      "types_slides": [
+        {
+          "type": "titre",
+          "description": "Page de titre du workshop"
+        },
+        {
+          "type": "sommaire",
+          "description": "Liste des sections"
+        },
+        {
+          "type": "introduction",
+          "description": "Contexte et objectifs"
+        },
+        {
+          "type": "presentation",
+          "description": "Présentation du métier/pôle"
+        },
+        {
+          "type": "organisation",
+          "description": "Organisation et rôles"
+        },
+        {
+          "type": "referentiel",
+          "description": "Compétences (savoir, savoir-faire, savoir-être)"
+        },
+        {
+          "type": "partenariats",
+          "description": "Interactions internes et externes"
+        },
+        {
+          "type": "temoignage",
+          "description": "Témoignage et fierté métier"
+        },
+        {
+          "type": "conclusion",
+          "description": "Perspectives et prochaines étapes"
+        },
+        {
+          "type": "fin",
+          "description": "Page de clôture"
+        }
+      ]
+    }
+  },
+  "workshops": [
+    {
+      "id": "introduction_demarche",
+      "titre": "Workshop Introductif - Démarche Compétence",
+      "fichier_source": "Workshop_Introduction__de_marche_compe_tence_-_ok.pptx",
+      "nombre_slides": 11,
+      "slides": [
+        {
+          "numero": 1,
+          "type": "titre",
+          "contenu": [
+            "WORKSHOP INTRODUCTIF\nDE LA DEMARCHE COMPETENCE",
+            "ABIDJAN – Juillet 2025"
+          ]
+        },
+        {
+          "numero": 2,
+          "type": "contenu",
+          "contenu": [
+            "MOT DE LA DIRECTION GENERALE"
+          ]
+        },
+        {
+          "numero": 3,
+          "type": "referentiel",
+          "contenu": [
+            "1. Dialectique de la démarche compétence",
+            "2. Synoptique de la démarche compétence",
+            "3. Etapes de la démarche compétence",
+            "4. Leviers et Facteurs clés de succès de la démarche compétence"
+          ]
+        },
+        {
+          "numero": 4,
+          "type": "referentiel",
+          "contenu": [
+            "Dialectique de la démarche competence",
+            "un processus structuré et continu visant à identifier, évaluer, développer et mobiliser l'ensemble des compétences (savoirs, savoir-faire et savoir-être) individuelles et collectives nécessaires à l'atteinte des objectifs stratégiques de l'organisation.",
+            "La démarche compétence de quoi parle-t-on?"
+          ]
+        },
+        {
+          "numero": 5,
+          "type": "referentiel",
+          "contenu": [
+            "Dialectique de la démarche competence",
+            "Les éléments clés",
+            "Processus structuré et continu",
+            "Ce n'est pas une action ponctuelle, mais une approche systémique et pérenne.",
+            "Évaluation",
+            "Mesurer les compétences actuelles des collaborateurs par rapport aux besoins identifiés.",
+            "Identification",
+            "Définir les compétences critiques pour l'entreprise aujourd'hui et demain (référentiels de compétences).",
+            "Développement",
+            "Mettre en œuvre des actions (formation, tutorat, mobilité, projets) pour acquérir ou renforcer les compétences manquantes.",
+            "Mobilisation",
+            "S'assurer que les bonnes compétences sont utilisées au bon endroit et au bon moment pour la performance.",
+            "Compétences individuelles et collectives",
+            "La démarche concerne à la fois les capacités de chaque salarié et la synergie des compétences au sein des équipes.",
+            "Objectifs stratégiques de l'organisation",
+            ": La finalité est toujours de soutenir la vision, les projets et la performance globale de l'entreprise."
+          ]
+        },
+        {
+          "numero": 6,
+          "type": "referentiel",
+          "contenu": [
+            "Dialectique de la démarche competence",
+            "Bénéfices et gains attendus",
+            "Développer l'employabilité des collaborateurs et leur engagement.",
+            "Attractivité : Rendre l'entreprise plus attractive pour les nouveaux talents en démontrant un engagement envers le développement professionnel.",
+            "Adapter l'entreprise aux évolutions de son environnement (technologiques, économiques, marché).",
+            "Optimiser la gestion des talents et des ressources humaines.",
+            "Alignement Stratégique : S'assurer que les compétences disponibles correspondent aux objectifs de l'entreprise (ex: transformation digitale, nouveaux marchés).",
+            "Optimisation des Ressources : Identifier les lacunes et les forces pour une meilleure allocation des talents et des investissements en formation.",
+            "Développement des Collaborateurs : Offrir des perspectives d'évolution et de montée en compétences, augmentant l'engagement et la fidélisation",
+            "Renforcer la performance globale en Favorisant une culture de l'apprentissage continu et de l'amélioration, stimulant la productivité et la capacité d'innovation."
+          ]
+        },
+        {
+          "numero": 7,
+          "type": "contenu",
+          "contenu": [
+            "La démarche competence quelle méthodologie ?",
+            "Synoptique de la démarche competence"
+          ]
+        },
+        {
+          "numero": 8,
+          "type": "referentiel",
+          "contenu": [
+            "Synoptique de la démarche competence",
+            "1- Quelles sont les compétences essentielles aujourd'hui et demain pour l'entreprise ?",
+            "2- Évaluer les compétences des collaborateurs par rapport au référentiel défini",
+            "3- Identifier les écarts en compétence et leur cause pour définir les actions idoines",
+            "4-Offrir des opportunités de développement en ciblant les compétences manquantes et développer de nouvelles compétences",
+            "5-Mettre en place un suivi de l’évolution et apporter des ajustements en cas de besoin"
+          ]
+        },
+        {
+          "numero": 9,
+          "type": "referentiel",
+          "contenu": [
+            "Synthèse  de la démarche competence",
+            "Initiatives",
+            "Rôles et responsabilités",
+            "Outils",
+            "Fréquences",
+            "Identification des compétences requises",
+            "Cartographier et évaluer les compétences acquises \n( actuelles)",
+            "Analyser les écarts en compétences et définir les besoins",
+            "Développer les compétences",
+            "Evaluer et suivre les évolutions",
+            "Ressources humaines \nManagers",
+            "Ressources humaines \nManagers",
+            "Managers \nRessources humaines",
+            "Ressources humaines\nManagers \nCollaborateurs",
+            "Ressources humaines\nManagers \nCollaborateurs",
+            "Fiches métier \nRéférentiels de compétences",
+            "Entretien d’évaluation de la performance\nEvaluation des compétences",
+            "Evaluation des compétences et des performances \nPicking des évaluations",
+            "Plan de formation\nCoaching\nMentorat\nProjet",
+            "Evaluation des compétences et des performances",
+            "Ponctuelle\nMise à jour en cas de besoin",
+            "Annuelle \nTrisannuelle",
+            "Annuelle \nTrisannuelle",
+            "Tout au long de l’année",
+            "Tout au long de l’année"
+          ]
+        },
+        {
+          "numero": 10,
+          "type": "referentiel",
+          "contenu": [
+            "Leviers et Facteurs clés de succès de la démarche compétence",
+            "Sponsoring de la DG \nimplication des managers\nDisponibilité des outils\nImplication des collaborateurs"
+          ]
+        },
+        {
+          "numero": 11,
+          "type": "vide",
+          "contenu": []
+        }
+      ]
+    },
+    {
+      "id": "production",
+      "titre": "Workshop Métier - Production",
+      "fichier_source": "Workshop_Referentiel_-_Production_-_ok.pptx",
+      "nombre_slides": 10,
+      "slides": [
+        {
+          "numero": 1,
+          "type": "titre",
+          "contenu": [
+            "WORKSHOP METIER\nLA PRODUCTION",
+            "ABIDJAN – 2025"
+          ]
+        },
+        {
+          "numero": 2,
+          "type": "sommaire",
+          "contenu": [
+            "1. Présentation de la PRODUCTION",
+            "2. Organisation et Rôles",
+            "3. Refrentiel de competences",
+            "4. INTERACTIONS ET PARTENARIATS de la production",
+            "5. Témoignage",
+            "6. Conclusion et perspectives",
+            "INTRODUCTION"
+          ]
+        },
+        {
+          "numero": 3,
+          "type": "sommaire",
+          "contenu": [
+            "INTRODUCTION",
+            "Dans la continuité du plan de communication sur la Démarche Compétence, CIPREL met à l’honneur les métiers et pôles qui construisent sa performance;",
+            "Après la valorisation des valeurs FEERIC, place à la valorisation des compétences métiers à travers nos Workshops Métiers.",
+            "Comprendre les métiers de la Production et ses enjeux;",
+            "Identifier les compétences clés techniques, comportementales et organisationnelles indispensables pour assurer la continuité du service;",
+            "Valoriser les métiers de la production et renforcer la reconnaissance interne;",
+            "Favoriser les échanges inter - services autour de la performance collective."
+          ]
+        },
+        {
+          "numero": 4,
+          "type": "presentation",
+          "contenu": [
+            "Présentation de la PRODUCTION",
+            "Elle est composée de deux (2) « entités » : CONDUITE et CHIMIE",
+            "Techniciens Conduite – Conducteurs d’Installation – Préparateurs Conduite – Appuis Conduite – Coordinateurs Conduite – Managers",
+            "CONDUITE",
+            "CHIMIE",
+            "Chimistes",
+            "La Production est le chef d’orchestre qui s'assure que chaque note est jouée parfaitement et au bon moment."
+          ]
+        },
+        {
+          "numero": 5,
+          "type": "organisation",
+          "contenu": [
+            "Organisation et Rôles",
+            "Techniciens Conduite",
+            "Opérateurs de Conduite qui sont le cœur de l’équipe, ils sont sur le terrain, veillent sur les machines et appliquent nos procédures avec une rigueur absolue",
+            "Conducteurs d’Installation",
+            "Chefs de Bloc et Contremaîtres Exploitation pilotent les installations en surveillant attentivement les paramètres d’exploitation et en réalisant les actions appropriées au bon moment depuis la salle de commande",
+            "Préparateurs Conduite \nAppuis Conduite",
+            "s’assurent de la disponibilité des consommables, des outillages et des combustibles nécessaires au bon fonctionnement des machines\nrédigent les rapports périodiques, élaborent les gammes de conduite et de consignation des équipements, et sont responsables de la préparation des données d’exploitation fiables",
+            "Coordinateurs Conduite",
+            "Chimistes",
+            "Chefs de Quart, les Ingénieurs supervisent les équipes et les activités de pilotage des machines, ils gèrent les urgences et les imprévus et veillent à ce que les actions soient parfaitement coordonnées",
+            "sont responsables de la production de l’eau déminéralisée, ainsi que de la surveillance et du contrôle de la qualité de cette eau et de la vapeur au sein de la centrale, des normes environnementales et des produits chimiques",
+            "Coordinateurs Conduite",
+            "Les managers de la Production, adjoints du Responsable Production, pilotent les opérations avec des responsabilités spécifiques (études ou supervision des équipes de conduite). Le Responsable Production, lui, organise le travail, suit les performances, met à jour les procédures et veille à la sécurité et au développement durable des compétences"
+          ]
+        },
+        {
+          "numero": 6,
+          "type": "referentiel",
+          "contenu": [
+            "Refrentiel de competences",
+            "Savoir :",
+            "Savoir-faire :",
+            "Savoir-être :",
+            "procédés de production, équipements, consignes de sécurité",
+            "pilotage, diagnostic, coordination, analyse de performance",
+            "rigueur, réactivité, vigilance, esprit d’équipe, respect des règles",
+            "CONDUITE",
+            "CHIMIE",
+            "L’excellence opérationnelle passe par des compétences solides !"
+          ]
+        },
+        {
+          "numero": 7,
+          "type": "partenariats",
+          "contenu": [
+            "INTERACTIONS ET PARTENARIATS de la production",
+            "Partenaires internes : Maintenance, QSE-RSE, RH, Projets, Achats & logistique, Gestion des stocks, DFC (Tous les services et directions de CIPREL).",
+            "Partenaires externes : les autorités qui ont la charge du réseau électrique et nos fournisseurs de combustibles."
+          ]
+        },
+        {
+          "numero": 8,
+          "type": "referentiel",
+          "contenu": [
+            "Témoignage",
+            "« Ma fierté, c’est de voir les lumières s’allumer dans les villes de Côte d’Ivoire grâce à notre travail. »",
+            "Une mission essentielle à la performance.",
+            "Des compétences maîtrisées et reconnues.",
+            "Une contribution directe à la réussite collective",
+            "« Nos compétences, notre énergie. »"
+          ]
+        },
+        {
+          "numero": 9,
+          "type": "referentiel",
+          "contenu": [
+            "Conclusion et perspectives",
+            "Diffusion du référentiel complet",
+            "Evaluations et plans de formation",
+            "Capsules vidéo métiers à venir suivi d’un quiz de compréhension",
+            "Merci pour votre engagement !"
+          ]
+        },
+        {
+          "numero": 10,
+          "type": "vide",
+          "contenu": []
+        }
+      ]
+    },
+    {
+      "id": "sitd",
+      "titre": "Workshop Métier - Système d'Information et Transformation Digitale (SITD)",
+      "fichier_source": "Workshop_Referentiel_-_SITD_-_ok.pptx",
+      "nombre_slides": 10,
+      "slides": [
+        {
+          "numero": 1,
+          "type": "titre",
+          "contenu": [
+            "WORKSHOP METIER\nSYSTÈME D’INFORMATION ET TRANSFORMATION DIGITALE (SITD)",
+            "ABIDJAN – 2025"
+          ]
+        },
+        {
+          "numero": 2,
+          "type": "sommaire",
+          "contenu": [
+            "1. Présentation DES SITD",
+            "2. Organisation et Rôles",
+            "3. Refrentiel de competences",
+            "4. INTERACTIONS ET PARTENARIATS deS SITD",
+            "5. Témoignage",
+            "6. Conclusion et perspectives",
+            "INTRODUCTION"
+          ]
+        },
+        {
+          "numero": 3,
+          "type": "sommaire",
+          "contenu": [
+            "INTRODUCTION",
+            "Dans la continuité du plan de communication sur la Démarche Compétence, CIPREL met à l’honneur les métiers et pôles qui construisent sa performance",
+            "Après la valorisation des valeurs FEERIC, place à la valorisation des compétences métiers à travers nos Workshops Métiers de la Démarche Compétence.",
+            "Comprendre les métiers des Systèmes d’Information et Transformation Digitale",
+            "Identifier les compétences clés techniques, comportementales et organisationnelles indispensables pour assurer la continuité du service",
+            "Valoriser les métiers des SITD",
+            "Favoriser les échanges inter - services autour de la performance collective."
+          ]
+        },
+        {
+          "numero": 4,
+          "type": "presentation",
+          "contenu": [
+            "Présentation deS SITD",
+            "Le métier des SITD est de deux fonctions principales pour un même engagement",
+            "Le Responsable Système Information et Transformation Digitale",
+            "Le Technicien Informatique"
+          ]
+        },
+        {
+          "numero": 5,
+          "type": "organisation",
+          "contenu": [
+            "Organisation et Rôles",
+            "Responsable Système Information et Transformation Digitale",
+            "•Définit la stratégie technologique,\n•Identifie les solutions innovantes grâce au benchmark,\n•Veille à la cybersécurité,\n•Pilote les évolutions des infrastructures informatiques,\n•Garantit la conformité et la maîtrise des risques IT.",
+            "Technicien Informatique",
+            "•Garantit le support utilisateur au quotidien,\n•Installe et maintient les équipements,\n•Résout les incidents et assure la continuité des opérations,\n•Veille à la disponibilité des outils essentiels au bon fonctionnement de la centrale."
+          ]
+        },
+        {
+          "numero": 6,
+          "type": "contenu",
+          "contenu": [
+            "Refrentiel de competences",
+            "Savoir :",
+            "Savoir-faire :",
+            "Savoir-être :",
+            "couvre l’architecture et les systèmes informatiques, l’administration et les bases de données, les méthodes et outils techniques, la démarche documentaire et projet, ainsi que la veille et l’innovation",
+            "assure le support et l’assistance aux utilisateurs, gère le système d’information, traite les dysfonctionnements et incidents, réalise la maintenance préventive, déploie les solutions, administre les serveurs et la virtualisation, assure une veille technologique et pilote les projets informatiques.",
+            "avoir un sens aigu de la responsabilité sans oublier de porter les valeurs FEERIC de CIPREL : Force du collectif, Engagement, Équité, Respect, Innovation, Convivialité.",
+            "Des systèmes d’information efficaces, propulsés par l’innovation"
+          ]
+        },
+        {
+          "numero": 7,
+          "type": "partenariats",
+          "contenu": [
+            "INTERACTIONS ET PARTENARIATS de la production",
+            "Partenaires internes : Maintenance, QSE-RSE, RH, Projets, Achats & logistique, Gestion des stocks, DFC (Tous les services et directions de CIPREL).",
+            "Partenaires externes : les autorités qui ont la charge du réseau et les prestataires."
+          ]
+        },
+        {
+          "numero": 8,
+          "type": "temoignage",
+          "contenu": [
+            "Témoignage",
+            "« Notre fierté, c’est d’être la colonne vertébrale numérique de l’entreprise, celle qui permet à chaque pôle de fonctionner efficacement, du terrain jusqu’à la direction »",
+            "Savoir que chaque donnée partagée, chaque application ouverte, chaque décision prise s’appuie sur un système d’information robuste et sécurisé que nous avons construit, entretenu et fait évoluer",
+            "« Des systèmes d’information efficaces et sécurisés pour une performance sereine. »"
+          ]
+        },
+        {
+          "numero": 9,
+          "type": "referentiel",
+          "contenu": [
+            "Conclusion et perspectives",
+            "Evaluations et plans de formation",
+            "Capsules vidéo métiers à venir suivi d’un quiz sur les métiers des SITD",
+            "Au SIDT, nous ne travaillons pas seulement sur des serveurs, des réseaux ou des applications : nous contribuons directement à la performance, à la sécurité et à la transformation digitale de CIPREL.",
+            "Diffusion du référentiel des compétences complet des SITD"
+          ]
+        },
+        {
+          "numero": 10,
+          "type": "vide",
+          "contenu": []
+        }
+      ]
+    },
+    {
+      "id": "services_generaux",
+      "titre": "Workshop Métier - Services Généraux",
+      "fichier_source": "Workshop_Referentiel_-_Services_ge_ne_raux-_ok.pptx",
+      "nombre_slides": 10,
+      "slides": [
+        {
+          "numero": 1,
+          "type": "titre",
+          "contenu": [
+            "WORKSHOP METIER\nLA PRODUCTION",
+            "ABIDJAN – 2025"
+          ]
+        },
+        {
+          "numero": 2,
+          "type": "sommaire",
+          "contenu": [
+            "1. Présentation deS SERVICES GENERAUX",
+            "2. Organisation et Rôles",
+            "3. Refrentiel de competences",
+            "4. INTERACTIONS ET PARTENARIATS",
+            "5. Témoignage",
+            "6. Conclusion et perspectives",
+            "INTRODUCTION"
+          ]
+        },
+        {
+          "numero": 3,
+          "type": "sommaire",
+          "contenu": [
+            "INTRODUCTION",
+            "Dans la continuité du plan de communication sur la Démarche Compétence, CIPREL met à l’honneur les métiers et pôles qui construisent sa performance;",
+            "Après la valorisation des valeurs FEERIC, place à la valorisation des compétences métiers à travers nos Workshops Métiers.",
+            "Comprendre les métiers des services généraux et ses enjeux;",
+            "Identifier les compétences clés techniques, comportementales et organisationnelles indispensables pour assurer la continuité du service;",
+            "Valoriser les métiers des services généraux et renforcer la reconnaissance interne;",
+            "Favoriser les échanges inter - services autour de la performance collective."
+          ]
+        },
+        {
+          "numero": 4,
+          "type": "presentation",
+          "contenu": [
+            "Présentation de la PRODUCTION",
+            "La mission est simple mais vitale",
+            "Assurer la disponibilité, la sécurité et la qualité des infrastructures, des services et des équipements nécessaires à la vie de l’entreprise.",
+            "Garantir un environnement propice au travail, propre, fonctionnel et conforme aux standards de CIPREL",
+            "Coordonner les services supports clés, indispensables à la performance de tous les départements."
+          ]
+        },
+        {
+          "numero": 5,
+          "type": "organisation",
+          "contenu": [
+            "Organisation et Rôles",
+            "Technicien Services Généraux",
+            "réalise les interventions de première maintenance des bâtiments, installations et équipements ;\nsuit les prestataires et contrôle la qualité des travaux ;\nassure la distribution, le rangement et la gestion des consommables ;\nveille au bon fonctionnement des infrastructures, du mobilier, des locaux techniques, et à la disponibilité des moyens.",
+            "Contremaître Services Généraux",
+            "planifie et contrôle les interventions des techniciens et prestataires ;\nélabore les rapports et états liés à la gestion des activités ;\ngère les urgences, coordonne les demandes internes, et ajuste les priorités ;\ngarantit l’application des procédures et le respect des standards QSE.",
+            "Coordinateur Services Généraux",
+            "pilote l’ensemble des activités des moyens généraux ;\nélabore les budgets, suit les dépenses et optimise les ressources ;\ncontractualise, négocie et supervise les prestataires stratégiques ;\nmet en place les plans à moyen terme : infrastructures, organisation, stratégie ;\nveille à l’amélioration continue, à l’innovation et à la conformité réglementaire."
+          ]
+        },
+        {
+          "numero": 6,
+          "type": "organisation",
+          "contenu": [
+            "Refrentiel de competences",
+            "Savoir :",
+            "Savoir-faire :",
+            "Savoir-être :",
+            "Logiciel X3 SAGE, Procédures de gestion de prestataires, Techniques budgétaires, Rédaction de cahier de charge  reporting et contrôle des activités, Connaissance des installations et équipements internes.",
+            "Pilotage, Exécution d’interventions techniques fiables, Planification & coordination des activités, Suivi des prestataires et contrôle qualité, Gestion des urgences et priorisation, Analyse des besoins et mise en place des solutions",
+            "Rigueur & sens de l’organisation, Réactivité & anticipation, Sens du service et de la communication, Esprit d’équipe et gestion des relations internes, Éthique, transparence et exemplarité"
+          ]
+        },
+        {
+          "numero": 7,
+          "type": "partenariats",
+          "contenu": [
+            "INTERACTIONS ET PARTENARIATS de la production",
+            "Partenaires internes : Maintenance, QSE-RSE, RH, Projets, Achats & logistique, Gestion des stocks, DFC (Tous les services et directions de CIPREL).",
+            "Partenaires externes : Prestataires techniques, Entreprises de nettoyage, sécurité, hygiène, Entreprises de construction et d’aménagement, Fournisseurs spécialisés (mobilier, climatiseurs, matériel divers)"
+          ]
+        },
+        {
+          "numero": 8,
+          "type": "temoignage",
+          "contenu": [
+            "Témoignage",
+            "Nous garantissons un environnement de travail sûr, propre et fonctionnel, essentiel à la performance des équipes.\n\nNous sommes les gardiens de la continuité, car le moindre équipement défaillant peut impacter toute l’entreprise.\n\nNous facilitons la vie de chaque collaborateur, du bureau à l’atelier, de l’accueil aux espaces techniques."
+          ]
+        },
+        {
+          "numero": 9,
+          "type": "referentiel",
+          "contenu": [
+            "Conclusion et perspectives",
+            "Diffusion du référentiel complet",
+            "Evaluations et plans de formation",
+            "Capsules vidéo métiers à venir suivi d’un quiz de compréhension",
+            "Merci pour votre engagement !"
+          ]
+        },
+        {
+          "numero": 10,
+          "type": "vide",
+          "contenu": []
+        }
+      ]
+    },
+    {
+      "id": "maintenance",
+      "titre": "Workshop Métier - Maintenance",
+      "fichier_source": "Workshop_Referentiel_de_compe_tences_-Maintenance_-_ok.pptx",
+      "nombre_slides": 10,
+      "slides": [
+        {
+          "numero": 1,
+          "type": "titre",
+          "contenu": [
+            "WORKSHOP METIER\nMAINTENANCE",
+            "ABIDJAN – 2025"
+          ]
+        },
+        {
+          "numero": 2,
+          "type": "sommaire",
+          "contenu": [
+            "2. PRÉSENTATION DES métierS DE LA maintenance",
+            "3. Organisation et Rôles",
+            "4. Refrentiel de compétences",
+            "5. INTERACTIONS ET PARTENARIATS",
+            "6. Témoignage",
+            "7. Conclusion et perspectives",
+            "1. introduction"
+          ]
+        },
+        {
+          "numero": 3,
+          "type": "sommaire",
+          "contenu": [
+            "INTRODUCTION",
+            "Dans la continuité du plan de communication sur la Démarche Compétence, CIPREL valorise les métiers et pôles qui assurent sa performance.",
+            "Après les valeurs FEERIC, place à la mise en lumière des compétences métiers à travers nos Workshops Métiers.",
+            "Comprendre les métiers de la Maintenance (Arrêts de Tranches, Préparation, Réalisation Travaux) et ses enjeux stratégiques pour la continuité énergétique.",
+            "Identifier les compétences clés techniques, comportementales et organisationnelles.",
+            "Valoriser les femmes et les hommes qui garantissent la fiabilité, la sécurité et la pérennité de la centrale.",
+            "Renforcer les échanges inter-services autour de la performance collective."
+          ]
+        },
+        {
+          "numero": 4,
+          "type": "presentation",
+          "contenu": [
+            "PRÉSENTATION Du métier maintenance",
+            "La Maintenance : gardienne de la continuité énergétique, garante de la performance durable.",
+            "Maintenance Préventive (80% de l’activité)",
+            "Contrairement aux idées reçues, la Maintenance n’est pas uniquement synonyme de réparation.",
+            "Elle repose sur deux piliers :",
+            "Maintenance Corrective",
+            "Inspections régulières\nContrôles de précision\nDétection précoce des anomalies\nMise en conformité des équipements",
+            "Intervention rapide en cas d’alerte\nDiagnostic précis\nRemise en fonctionnement immédiate\nSécurisation de la production"
+          ]
+        },
+        {
+          "numero": 5,
+          "type": "organisation",
+          "contenu": [
+            "Organisation et Rôles",
+            "Technicien de Maintenance",
+            "Maîtrise chaque composant et interviennent avec rigueur, expertise et précision.",
+            "Contremaître de Maintenance",
+            "Coordonne les équipes au quotidien, gère les priorités, veille au respect strict des consignes QHSE et assure la sécurité sur le terrain.",
+            "Préparateur Maintenance",
+            "Assure:\nLa disponibilité des pièces et consommables\nLa planification des interventions\nLe soutien technique des équipes",
+            "Coordinateur Maintenance (Ingénieurs)",
+            "Planifie les arrêts majeurs, optimise les processus, pilote les performances techniques et résolut les problèmes complexes.",
+            "Une organisation parfaitement structurée pour garantir la fiabilité totale de la centrale.",
+            "Manager des Activités de Maintenance",
+            "dirige la stratégie du département :\nCoordination des activités\nSupervision des équipes\nConformité QHSE\nPerformance globale et disponibilité des installations"
+          ]
+        },
+        {
+          "numero": 6,
+          "type": "referentiel",
+          "contenu": [
+            "Refrentiel de compétences",
+            "Savoir :\nConnaissance des équipements mécaniques, électriques et d’instrumentation.\nCompréhension des procédures de maintenance préventive et corrective.\nMaîtrise des règles de sécurité et des standards QHSE.",
+            "Savoir-faire : \nDiagnostic et dépannage\nLecture de plans et schémas techniques\nUtilisation d’outils spécialisés\nPlanification et exécution d’interventions\nAnalyse de performance et optimisation",
+            "Savoir-être : Rigueur, Réactivité, Esprit d’analyse, Vigilance, Travail en équipe, Sens des priorités, Discipline et respect des règles sans oublier FEERIC."
+          ]
+        },
+        {
+          "numero": 7,
+          "type": "partenariats",
+          "contenu": [
+            "INTERACTIONS ET PARTENARIATS",
+            "Partenaires internes : Production (collaboration continue 24/7), QSE-RSE, Projets, Achats & Logistique, Gestion des stocks, DFC, SITD",
+            "Partenaires externes : Fournisseurs d'équipements, Prestataires techniques spécialisés, Fabricants de pièces et technologies, Organismes de contrôle, Experts internationaux des machines",
+            "La Maintenance est au cœur d’un réseau d’experts et de partenaires, garantissant performance et sécurité."
+          ]
+        },
+        {
+          "numero": 8,
+          "type": "temoignage",
+          "contenu": [
+            "Témoignage",
+            "Notre plus grande fierté ? Voir la centrale fonctionner sans interruption grâce à notre travail.\nL’équipe de la maintenance gage de fiabilité et de pérennité de notre production d'énergie !"
+          ]
+        },
+        {
+          "numero": 9,
+          "type": "referentiel",
+          "contenu": [
+            "Conclusion et perspectives",
+            "Diffusion du référentiel complet",
+            "Evaluations et plans de formation",
+            "Capsules vidéo métiers à venir",
+            "Merci pour votre engagement !"
+          ]
+        },
+        {
+          "numero": 10,
+          "type": "vide",
+          "contenu": []
+        }
+      ]
+    },
+    {
+      "id": "achats_logistique",
+      "titre": "Workshop Métier - Achats & Logistique",
+      "fichier_source": "Workshop_Referentiel_de_compe_tences_-_Achats___logIstique_-_ok.pptx",
+      "nombre_slides": 10,
+      "slides": [
+        {
+          "numero": 1,
+          "type": "titre",
+          "contenu": [
+            "WORKSHOP METIER\nAchat & Logistique",
+            "ABIDJAN – 2025"
+          ]
+        },
+        {
+          "numero": 2,
+          "type": "sommaire",
+          "contenu": [
+            "2. PRÉSENTATION Du pôle achat & logistique",
+            "3. Organisation et Rôles",
+            "4. Refrentiel de compétences De l’achat & logistique",
+            "5. INTERACTIONS ET PARTENARIATS de l’achat & logistique",
+            "6. Témoignage",
+            "7. Conclusion et perspectives",
+            "1. introduction"
+          ]
+        },
+        {
+          "numero": 3,
+          "type": "sommaire",
+          "contenu": [
+            "INTRODUCTION",
+            "Dans la continuité du plan de communication sur la Démarche Compétence, CIPREL met à l’honneur les métiers et pôles qui construisent sa performance",
+            "Après la valorisation des valeurs FEERIC, place à la valorisation des compétences métiers à travers nos Workshops Métiers.",
+            "Comprendre le rôle stratégique du pôle Achats & Logistique et ses enjeux pour la continuité opérationnelle.",
+            "Identifier les compétences techniques, organisationnelles et comportementales qui soutiennent un approvisionnement fiable et une logistique fluide.",
+            "Valoriser ce métier clé de la chaîne de valeur et renforcer la reconnaissance interne.",
+            "Favoriser les échanges inter-services autour de la performance collective."
+          ]
+        },
+        {
+          "numero": 4,
+          "type": "presentation",
+          "contenu": [
+            "PRÉSENTATION du pôle achat & logistique",
+            "Dans un monde où la fiabilité de l’approvisionnement est vitale, le pôle Achats & Logistique est le garant de la continuité des opérations de CIPREL.",
+            "Achats & Logistique est la passerelle stratégique qui relie les besoins des équipes à la disponibilité réelle des ressources.",
+            "ACHATS",
+            "Il transforme l’engagement des partenaires en valeur ajoutée tangible, en assurant l’équité, la rigueur, la traçabilité et la fluidité des flux, de la commande à la livraison finale.",
+            "Ce pôle regroupe deux axes majeurs",
+            "LOGISTIQUE & TRANSIT",
+            "Coordonnateur, Acheteurs",
+            "Coordonnateur Logistique & Transit",
+            "Responsable"
+          ]
+        },
+        {
+          "numero": 5,
+          "type": "organisation",
+          "contenu": [
+            "Organisation et Rôles",
+            "Le Responsable Achat & Logistique",
+            "Pilote la stratégie d’achat, sécurise la chaîne d’approvisionnement, garantit la conformité des processus, encadre l’équipe et assure l’éthique, la performance et l’efficacité globale du pôle.",
+            "Le Coordonnateur Achat",
+            "Supervise le traitement des besoins d’achat, valide la cohérence avec les budgets, accompagne les acheteurs, garantit la conformité éthique et suit l’évolution des engagements avec les fournisseurs.",
+            "Les Acheteurs",
+            "Traitent les besoins des départements, négocient, sélectionnent les fournisseurs, suivent les commandes jusqu’à réception, évaluent les performances et veillent au respect des critères qualité-délai-coût-éthique.",
+            "Le Coordonnateur Logistique & Transit",
+            "Gère les dossiers d’importation, assure le transit international, le dédouanement, la mise à disposition des commandes et le traitement des contentieux douaniers avec rigueur et réactivité.",
+            "Chaque fonction contribue à la performance globale de l’approvisionnement, comme les maillons d’une chaîne solide et parfaitement synchronisée."
+          ]
+        },
+        {
+          "numero": 6,
+          "type": "referentiel",
+          "contenu": [
+            "Refrentiel de compétences de L’ACHAT & LOGISTIQUE",
+            "Savoir :\nProcédures d’achat, techniques de négociation \nRéglementation douanière et transit international\nGestion des fournisseurs, contrats et évaluation\nProcessus logistiques et chaîne d’approvisionnement\nExigences ESG & critères de conformité",
+            "Savoir-faire : \nAnalyser les besoins, lancer les appels d’offres et négocier\nSuivre les commandes et évaluer les fournisseurs\nGérer les flux logistiques et les dossiers import/export\nAssurer la traçabilité, la conformité douanière et le respect des délais\nOptimiser les processus pour réduire les risques et les coûts",
+            "Savoir-être : \nRigueur, intégrité, équité\nRéactivité et sens du service interne\nEsprit d’analyse, pragmatisme\nCommunication claire, diplomatie\nEsprit d’équipe et collaboration inter-pôles"
+          ]
+        },
+        {
+          "numero": 7,
+          "type": "partenariats",
+          "contenu": [
+            "INTERACTIONS ET PARTENARIATS de L’ACHAT & LOGISTIQUE",
+            "Partenaires internes : Production, Maintenance, RH, Juridique, QSE-RSE, Achats & Logistique, Projets, SITD, Direction Générale, DFC (tous les services de CIPREL).",
+            "Partenaires externes : Fournisseurs locaux & internationaux, transitaires, douanes, transporteurs, autorités réglementaires, banques et prestataires spécialisés.",
+            "C’est un métier profondément transversal, au cœur des relations internes et externes."
+          ]
+        },
+        {
+          "numero": 8,
+          "type": "temoignage",
+          "contenu": [
+            "Témoignage",
+            "«Notre fierté, c’est simple :\nlorsqu’une machine redémarre, lorsqu’une turbine tourne, lorsqu’une pièce critique arrive juste à temps… nous savons que nous avons rendu cela possible.»",
+            "Nous ne sommes pas sous les projecteurs, mais sans nous, la chaîne s’arrête.\nNotre travail garantit :\n\nla continuité des opérations\nla sécurité de la production\nla performance technique de la centrale\nla confiance entre CIPREL et ses partenaires\n\nNous sommes le maillon qui relie le monde à la centrale."
+          ]
+        },
+        {
+          "numero": 9,
+          "type": "referentiel",
+          "contenu": [
+            "Conclusion et perspectives",
+            "Diffusion du référentiel complet",
+            "Evaluations et plans de formation",
+            "Capsules vidéo métiers à venir",
+            "Merci pour votre engagement !"
+          ]
+        },
+        {
+          "numero": 10,
+          "type": "vide",
+          "contenu": []
+        }
+      ]
+    },
+    {
+      "id": "controle_interne",
+      "titre": "Workshop Métier - Contrôle Interne",
+      "fichier_source": "Workshop_Referentiel_de_compe_tences_-_Contro_le_Interne_-_ok.pptx",
+      "nombre_slides": 10,
+      "slides": [
+        {
+          "numero": 1,
+          "type": "titre",
+          "contenu": [
+            "WORKSHOP METIER\nCONTRÔLE INTERNE",
+            "ABIDJAN – 2025"
+          ]
+        },
+        {
+          "numero": 2,
+          "type": "sommaire",
+          "contenu": [
+            "2. PRÉSENTATION Du métier contrôle interne",
+            "3. Organisation et Rôles",
+            "4. Refrentiel de compétences",
+            "5. INTERACTIONS ET PARTENARIATS",
+            "6. Témoignage",
+            "7. Conclusion et perspectives",
+            "1. introduction"
+          ]
+        },
+        {
+          "numero": 3,
+          "type": "sommaire",
+          "contenu": [
+            "INTRODUCTION",
+            "Dans la continuité du plan de communication sur la Démarche Compétence, CIPREL met en lumière les métiers qui garantissent sa performance durable.\n\nAprès les valeurs FEERIC, place à la valorisation des compétences métiers à travers nos Workshops Métiers.\n\nAujourd’hui : focus sur le Contrôle Interne, pilier de la maîtrise des risques et de la fiabilité des activités.\n\nOBJECTIFS :\nComprendre les missions du Contrôle Interne et son rôle stratégique\nIdentifier les compétences clés de ce métier transversal\nValoriser son importance dans la stabilité et la confiance interne\nFavoriser les échanges autour de la performance collective et des bonnes pratiques"
+          ]
+        },
+        {
+          "numero": 4,
+          "type": "presentation",
+          "contenu": [
+            "PRÉSENTATION Du métier contrôle interne",
+            "Garantir la fiabilité des processus",
+            "Le Métier Contrôle Interne ne se limite pas à vérifier : il renforce, sécurise, améliore, et accompagne chaque pôle dans la maîtrise de ses opérations.",
+            "Il repose sur trois missions essentielles :",
+            "Prévenir les risques et renforcer la conformité",
+            "Le Contrôle Interne, c’est la rigueur qui protège, la transparence qui rassure et la structure qui fait grandir l’entreprise.",
+            "Sécuriser la performance collective"
+          ]
+        },
+        {
+          "numero": 5,
+          "type": "organisation",
+          "contenu": [
+            "Organisation et Rôles",
+            "Directrice Contrôle Interne",
+            "C’est le pilote de la fonction. Il analyse les processus, identifie les risques, propose les actions correctives et garantit la conformité aux règles internes et réglementaires.",
+            "Il mène des audits sur le terrain, vérifie l’application des procédures, détecte les écarts et recommande des améliorations pour renforcer la sécurité et la fiabilité.",
+            "Il accompagne les équipes au quotidien, facilite la bonne application des procédures, assure la traçabilité et veille à la cohérence des pratiques dans tous les départements.",
+            "Une équipe complémentaire, centrée sur la confiance, la fiabilité et la transparence."
+          ]
+        },
+        {
+          "numero": 6,
+          "type": "referentiel",
+          "contenu": [
+            "Refrentiel de compétences",
+            "Savoir : Procédures internes, Normes & conformité, Cartographie des risques, Contrôles financiers, Réglementation",
+            "Savoir-faire : Analyse des risques, Audit, Diagnostic, Reporting, Amélioration continue",
+            "Savoir-être : Rigueur, Intégrité, Objectivité, Discrétion, Sens critique"
+          ]
+        },
+        {
+          "numero": 7,
+          "type": "partenariats",
+          "contenu": [
+            "INTERACTIONS ET PARTENARIATS",
+            "Partenaires internes : Direction Générale, Finance et Contrôle de Gestion,RH,Achats & Logistique, SITD, Production, Maintenance, QSE-RSE, Juridique",
+            "Partenaires externes : Commissaires aux comptes, Auditeurs externs, Organismes de contrôle, Cabinets spécialisés, Institutionnels selon les exigences réglementaires",
+            "Le Contrôle Interne interagit avec tous les métiers : c’est un métier de collaboration, d’équité et d’exigence."
+          ]
+        },
+        {
+          "numero": 8,
+          "type": "temoignage",
+          "contenu": [
+            "Témoignage",
+            "La fierté du Contrôle Interne vient de cette mission souvent discrète, mais absolument essentielle :\ngarantir que l’entreprise évolue dans un environnement sûr, transparent et maîtrisé.",
+            "Le Contrôle Interne est fier de contribuer à la crédibilité de CIPREL, à son exemplarité, à sa conformité et à sa performance durable.\nIl construit un environnement où chacun peut donner le meilleur de lui-même, en confiance."
+          ]
+        },
+        {
+          "numero": 9,
+          "type": "referentiel",
+          "contenu": [
+            "Conclusion et perspectives",
+            "Diffusion du référentiel complet",
+            "Evaluations et plans de formation",
+            "Capsules vidéo métiers à venir",
+            "Merci pour votre engagement !"
+          ]
+        },
+        {
+          "numero": 10,
+          "type": "vide",
+          "contenu": []
+        }
+      ]
+    },
+    {
+      "id": "daf",
+      "titre": "Workshop Métier - Direction Administrative et Financière (DAF)",
+      "fichier_source": "Workshop_Referentiel_de_compe_tences_-_DAF_-_ok.pptx",
+      "nombre_slides": 10,
+      "slides": [
+        {
+          "numero": 1,
+          "type": "titre",
+          "contenu": [
+            "WORKSHOP METIER\nDIRECTION ADMINISTRATIVE ET FINANCIERE",
+            "ABIDJAN – 2025"
+          ]
+        },
+        {
+          "numero": 2,
+          "type": "sommaire",
+          "contenu": [
+            "2. PRÉSENTATION DE LA DAF",
+            "3. Organisation et Rôles",
+            "4. Refrentiel de compétences De la DAF",
+            "5. INTERACTIONS ET PARTENARIATS de la DAF",
+            "6. Témoignage",
+            "7. Conclusion et perspectives",
+            "1. introduction"
+          ]
+        },
+        {
+          "numero": 3,
+          "type": "sommaire",
+          "contenu": [
+            "INTRODUCTION",
+            "Dans la continuité du plan de communication sur la Démarche Compétence, CIPREL met à l’honneur les métiers et pôles qui construisent sa performance",
+            "Après la valorisation des valeurs FEERIC, place à la valorisation des compétences métiers à travers nos Workshops Métiers.",
+            "Mieux comprendre les métiers de la Finance, Comptabilité et Contrôle de Gestion et ses enjeux stratégiques pour la durabilité de l’entreprise.",
+            "Identifier les compétences clés techniques, analytiques et comportementales qui soutiennent la performance économique.",
+            "Valoriser ce métier pivot et renforcer la reconnaissance interne envers celles et ceux qui sécurisent nos ressources.",
+            "Favoriser les échanges inter-services autour d’une performance collective et durable."
+          ]
+        },
+        {
+          "numero": 4,
+          "type": "presentation",
+          "contenu": [
+            "PRÉSENTATION DE LA FINANCE, COMPTABILITÉ et Contrôle de gestion",
+            "La direction DAF est le moteur et le compas de CIPREL.",
+            "La Finance est le cœur stratégique qui transforme la précision en performance durable.",
+            "LEADERSHIP",
+            "COMPTABILITE",
+            "Il regroupe l’ensemble des acteurs qui transforment les chiffres en décisions, les données en analyses, et les risques en opportunités.",
+            "Son rôle est d’assurer la fiabilité financière, d’accompagner la stratégie et de garantir la pérennité économique de l’entreprise.",
+            "Les principaux domaines du pôle Finance :",
+            "CONTRÔLE DE GESTION",
+            "TRESORERIE",
+            "Directeur Financier, Responsable finance & comptabilité, Responsable Contrôle de Gestion"
+          ]
+        },
+        {
+          "numero": 5,
+          "type": "organisation",
+          "contenu": [
+            "Organisation et Rôles",
+            "La Comptabilité (Adjoint / Comptable)",
+            "Assure la fidélité de l’image financière de CIPREL. Elle traite l’ensemble des opérations comptables et fiscales, consolide les données, prépare les états nécessaires à la trésorerie et garantit des informations fiables et conformes. C’est la base solide sur laquelle repose toute décision financière.",
+            "Le Contrôle de Gestion (Responsable / Contrôleur)",
+            "Pilote la performance et l’efficience économique. Il élabore le budget, suit les écarts, analyse les coûts et la rentabilité, fournit les rapports nécessaires au pilotage stratégique et aux décisions futures. Il est l’œil analytique et anticipateur de l’entreprise.",
+            "La Trésorerie (Trésorier / Assitant trésorier)",
+            "Gère les flux financiers, sécurise les liquidités et optimise les relations bancaires. Elle élabore les prévisions de trésorerie, anticipe les besoins, optimise le financement, assure le reporting et garantit la solidité financière au quotidien.",
+            "Le Leadership financier (Directeur / Responsable Finance & Comptabilité)",
+            "Pilotent la stratégie financière globale, assurent la maîtrise des risques, optimisent les processus, supervisent le Système d’Information Financier (SIF), coordonnent la trésorerie, la comptabilité et les activités fiscales. Ils transforment les analyses en vision stratégique pour l’avenir."
+          ]
+        },
+        {
+          "numero": 6,
+          "type": "organisation",
+          "contenu": [
+            "Refrentiel de compétences de la finance",
+            "Savoir :\nNormes comptables, fiscalité, outils d’analyse financière, élaboration budgétaire, procédures internes, réglementation bancaire, processus financiers, reporting et gestion des risques",
+            "Savoir-faire : \nTraitement et consolidation des données financières\nÉlaboration et suivi budgétaire, analyse des écarts\nGestion des flux financiers et prévisions de trésorerie\nReporting stratégique et outils d’aide à la décision\nOptimisation et contrôle des processus financiers",
+            "Savoir-être : Rigueur, intégrité, sens de l’analyse, réactivité, précision, organisation, confidentialité, éthique professionnelle, esprit collaboratif et communication claire"
+          ]
+        },
+        {
+          "numero": 7,
+          "type": "partenariats",
+          "contenu": [
+            "INTERACTIONS ET PARTENARIATS de la finance",
+            "Partenaires internes : Production, Maintenance, RH, Juridique, QSE-RSE, Achats & Logistique, Projets, SITD, Direction Générale, DFC (tous les services de CIPREL).",
+            "Partenaires externes : Banques, cabinets comptables et fiscaux, auditeurs, autorités financières, organismes de contrôle, fournisseurs, prestataires spécialisés.",
+            "La Finance est le partenaire stratégique de tous les pôles de l’entreprise."
+          ]
+        },
+        {
+          "numero": 8,
+          "type": "temoignage",
+          "contenu": [
+            "Témoignage",
+            "Notre fierté, c’est simple :\nQuand tout fonctionne, quand tout est propre, disponible et prêt… c’est grâce à nous.",
+            "Quand un collègue trouve son poste de travail opérationnel, quand une réunion démarre à l’heure, quand un véhicule est disponible d’urgence, quand les installations restent impeccables…\nNous savons que notre travail a facilité celui des autres."
+          ]
+        },
+        {
+          "numero": 9,
+          "type": "referentiel",
+          "contenu": [
+            "Conclusion et perspectives",
+            "Diffusion du référentiel complet",
+            "Evaluations et plans de formation",
+            "Capsules vidéo métiers à venir",
+            "Merci pour votre engagement !"
+          ]
+        },
+        {
+          "numero": 10,
+          "type": "vide",
+          "contenu": []
+        }
+      ]
+    },
+    {
+      "id": "gestion_stock",
+      "titre": "Workshop Métier - Gestion de Stock",
+      "fichier_source": "Workshop_Referentiel_de_compe_tences_-_GESTION_DE_STOCK_-_ok.pptx",
+      "nombre_slides": 10,
+      "slides": [
+        {
+          "numero": 1,
+          "type": "titre",
+          "contenu": [
+            "WORKSHOP METIER\nGESTION DE STOCK",
+            "ABIDJAN – 2025"
+          ]
+        },
+        {
+          "numero": 2,
+          "type": "sommaire",
+          "contenu": [
+            "2. PRÉSENTATION Du métier GESTION DE STOCK",
+            "3. Organisation et Rôles",
+            "4. Refrentiel de compétences",
+            "5. INTERACTIONS ET PARTENARIATS",
+            "6. Témoignage",
+            "7. Conclusion et perspectives",
+            "1. introduction"
+          ]
+        },
+        {
+          "numero": 3,
+          "type": "sommaire",
+          "contenu": [
+            "INTRODUCTION",
+            "Dans la continuité du Plan de Communication sur la Démarche Compétence, CIPREL met à l’honneur les métiers essentiels à la performance opérationnelle de la centrale.",
+            "Après la valorisation des valeurs FEERIC, place à la valorisation des compétences métiers au travers de nos Workshops Métiers.",
+            "Comprendre le métier Gestion des Stocks et son rôle stratégique.",
+            "Identifier les compétences clés : techniques, organisationnelles et comportementales.",
+            "Renforcer la reconnaissance interne de ce métier souvent invisible mais vital.",
+            "Favoriser les échanges inter-services autour de la performance collective."
+          ]
+        },
+        {
+          "numero": 4,
+          "type": "presentation",
+          "contenu": [
+            "PRÉSENTATION Du métier GESTION DE STOCK",
+            "La Gestion des Stocks transforme la logistique en service client interne, au service de la Maintenance, des Achats et de la Production.",
+            "Coordinateur Gestion des Stocks",
+            "C’est un métier stratégique qui garantit que chaque pièce, chaque consommable et chaque matériel essentiel soit disponible au bon moment, en bonne quantité, et en parfait état.",
+            "Le métier s’appuie sur les fonctions suivantes :",
+            "Gestionnaires de Stock",
+            "Les acteurs terrain : réception, contrôle, rangement, distribution, inventaires et fiabilité des données."
+          ]
+        },
+        {
+          "numero": 5,
+          "type": "organisation",
+          "contenu": [
+            "Organisation et Rôles",
+            "Coordinateur Gestion des Stocks",
+            "Il supervise l’organisation globale du magasin, gère les paramètres de stock, pilote les inventaires et assure la qualité des données dans le système.",
+            "Gestionnaires de Stock",
+            "Ils assurent les mouvements physiques (réception, rangement, préparation, distribution), effectuent les contrôles qualité et réalisent les inventaires tournants et annuels."
+          ]
+        },
+        {
+          "numero": 6,
+          "type": "organisation",
+          "contenu": [
+            "Refrentiel de compétences",
+            "Savoir :\nStock & approvisionnement\nProduits techniques\nSécurité & conservation",
+            "Savoir-faire : \nRéception & contrôle\nInventaire\nSaisie & suivi des données\nAnalyse des mouvements\nMise à jour des seuils\nRédaction de rapports",
+            "Savoir-être : \nRigueur\nOrganisation\nFiabilité\nFEERIC"
+          ]
+        },
+        {
+          "numero": 7,
+          "type": "partenariats",
+          "contenu": [
+            "INTERACTIONS ET PARTENARIATS",
+            "Partenaires internes : Maintenance (priorité absolue), Achats & Logistique, Conduite, Projets, Finance & Comptabilité",
+            "Partenaires externes : Fournisseurs nationaux & internationaux, Transitaires / transporteurs, Prestataires spécialisés stock & logistique",
+            "La gestion des stocks fonctionne en parfaite symbiose avec les métiers opérationnels."
+          ]
+        },
+        {
+          "numero": 8,
+          "type": "temoignage",
+          "contenu": [
+            "Témoignage",
+            "Notre fierté ?\n\nAssurer en silence la continuité des opérations de la centrale.\n\nSavoir qu’aucune turbine ne s’arrête faute de pièces,\n\nSavoir que nos contrôles ont permis de prévenir une panne,\n\nSavoir que notre rigueur protège l’activité de CIPREL…\n\nC’est là tout le sens de notre Engagement."
+          ]
+        },
+        {
+          "numero": 9,
+          "type": "referentiel",
+          "contenu": [
+            "Conclusion et perspectives",
+            "Diffusion du référentiel complet",
+            "Evaluations et plans de formation",
+            "Capsules vidéo métiers à venir",
+            "Merci pour votre engagement !"
+          ]
+        },
+        {
+          "numero": 10,
+          "type": "vide",
+          "contenu": []
+        }
+      ]
+    },
+    {
+      "id": "projets",
+      "titre": "Workshop Métier - Projets",
+      "fichier_source": "Workshop_Referentiel_de_compe_tences_-_Projet_-_ok.pptx",
+      "nombre_slides": 10,
+      "slides": [
+        {
+          "numero": 1,
+          "type": "titre",
+          "contenu": [
+            "WORKSHOP METIER PROJETS",
+            "ABIDJAN – 2025"
+          ]
+        },
+        {
+          "numero": 2,
+          "type": "sommaire",
+          "contenu": [
+            "1. Présentation du métier projetS",
+            "2. Organisation et Rôles",
+            "3. Refrentiel de competences",
+            "4. INTERACTIONS ET PARTENARIATS de la production",
+            "5. Témoignage",
+            "6. Conclusion et perspectives",
+            "INTRODUCTION"
+          ]
+        },
+        {
+          "numero": 3,
+          "type": "sommaire",
+          "contenu": [
+            "INTRODUCTION",
+            "Dans la continuité du plan de communication sur la Démarche Compétences, CIPREL met à l’honneur les métiers et pôles qui construisent sa performance globale.\nAprès la valorisation des valeurs FEERIC, place à la valorisation des compétences métiers à travers nos Workshops Métiers.\nMieux comprendre le métier Projets et ses enjeux stratégiques.\nIdentifier les compétences clés qui assurent la réussite des projets structurants.\nValoriser ce métier pivot et renforcer la reconnaissance interne de ses contributions.\nFavoriser les échanges inter-pôles autour de la performance collective."
+          ]
+        },
+        {
+          "numero": 4,
+          "type": "presentation",
+          "contenu": [
+            "Présentation du métier projets",
+            "Le pôle Projets est le chef d’orchestre qui transforme la vision stratégique en réalisations tangibles, fiables et durables.",
+            "Le pôle Projets est le moteur silencieux de la transformation de CIPREL.\u000bIl regroupe les métiers qui permettent de planifier, piloter et livrer les projets structurants indispensables à la modernisation, à l’innovation et à la performance énergétique de l’entreprise.",
+            "Il se compose principalement de quatre fonctions clés :",
+            "Directeur Développement",
+            "Superviseur Projets",
+            "Assistante Projets",
+            "Secrétaire Projets"
+          ]
+        },
+        {
+          "numero": 5,
+          "type": "organisation",
+          "contenu": [
+            "Organisation et Rôles du métier projets",
+            "Directeur Développement",
+            "Stratège du pôle, il pilote la feuille de route d’investissements, structure les méthodes et outils, supervise les équipes et garantit le respect des engagements QHSE, contractuels et techniques.",
+            "Superviseur Projets",
+            "Acteur clé sur le terrain, il contrôle l’avancement physique et technique des projets, assure le respect des normes QHSE, identifie les risques et coordonne les prestataires, techniciens et équipes internes.",
+            "Assistante Projets",
+            "Pivot administratif, elle prépare les dossiers, plannings et reportings, met à jour la documentation technique, coordonne les flux d’information et assure la traçabilité des actions.",
+            "Secrétaire Projets",
+            "Soutien administratif indispensable : gestion des courriers, procès-verbaux, comptes rendus, organisation des réunions et archivage conforme aux procédures."
+          ]
+        },
+        {
+          "numero": 6,
+          "type": "referentiel",
+          "contenu": [
+            "Refrentiel de compétences du métier projets",
+            "Savoir :",
+            "Savoir-faire :",
+            "Savoir-être :",
+            "Gestion de projets, normes QHSE, réglementation, équipements et infrastructures, méthodes d’audit, outils de planification.",
+            "Planification, pilotage, coordination, gestion documentaire, gestion des risques, suivi technique, analyse de performance.",
+            "Rigueur, organisation, anticipation, vigilance, esprit d’équipe, communication claire, responsabilité."
+          ]
+        },
+        {
+          "numero": 7,
+          "type": "partenariats",
+          "contenu": [
+            "INTERACTIONS ET PARTENARIATS du métier projets",
+            "Partenaires internes : Production, Maintenance, QSE-RSE, RH, SITD, Achats & Logistique, Finance & Contrôle de Gestion, Sûreté, Communication, Juridique, Direction Générale.",
+            "Partenaires externes : Bureaux d’études, cabinets d’ingénierie, prestataires techniques, fournisseurs d’équipements, organismes de contrôle, autorités réglementaires, communautés locales selon les projets.",
+            "Le pôle Projets ne travaille jamais seul : la réussite dépend d’une collaboration étroite avec tous les métiers."
+          ]
+        },
+        {
+          "numero": 8,
+          "type": "temoignage",
+          "contenu": [
+            "Témoignage",
+            "Notre impact est majeur :\n\nNous préparons l’avenir énergétique en intégrant les innovations technologiques.\nNous faisons évoluer l’infrastructure de production de manière responsable.\nNous garantissons que les investissements servent à la performance durable.\nNous intégrons les critères ESG dans chaque étape : sécurité, environnement, conformité, éthique, impact social.\nNous protégeons la réputation et la pérennité de l’entreprise par une gestion transparente et rigoureuse."
+          ]
+        },
+        {
+          "numero": 9,
+          "type": "referentiel",
+          "contenu": [
+            "Conclusion et perspectives",
+            "Diffusion du référentiel complet",
+            "Evaluations et plans de formation",
+            "Capsules vidéo métiers à venir",
+            "Merci pour votre engagement !"
+          ]
+        },
+        {
+          "numero": 10,
+          "type": "vide",
+          "contenu": []
+        }
+      ]
+    },
+    {
+      "id": "qse_rse_surete",
+      "titre": "Workshop Métier - QSE-RSE & Sûreté",
+      "fichier_source": "Workshop_Referentiel_de_compe_tences_-_QSE_RSE___SURETE_-_ok.pptx",
+      "nombre_slides": 10,
+      "slides": [
+        {
+          "numero": 1,
+          "type": "titre",
+          "contenu": [
+            "WORKSHOP METIER\nQSE-RSE & SURETE",
+            "ABIDJAN – 2025"
+          ]
+        },
+        {
+          "numero": 2,
+          "type": "sommaire",
+          "contenu": [
+            "1. Présentation du métier QSE RSE & SURETE",
+            "2. Organisation et Rôles",
+            "3. Refrentiel de competences",
+            "4. INTERACTIONS ET PARTENARIATS de la production",
+            "5. Témoignage",
+            "6. Conclusion et perspectives",
+            "INTRODUCTION"
+          ]
+        },
+        {
+          "numero": 3,
+          "type": "sommaire",
+          "contenu": [
+            "INTRODUCTION",
+            "Dans la continuité du plan de communication sur la Démarche Compétences, CIPREL met à l’honneur les métiers et pôles qui construisent sa performance globale.",
+            "Après la valorisation des valeurs FEERIC, place à la valorisation des compétences métiers à travers nos Workshops Métiers.",
+            "Comprendre les métiers du pôle QSE–RSE & SURETE et leurs enjeux stratégiques.",
+            "Identifier les compétences clés techniques, comportementales et réglementaires.",
+            "Valoriser ces métiers essentiels et renforcer la reconnaissance interne.",
+            "Favoriser les échanges inter-services autour de la performance durable et de la culture sécurité."
+          ]
+        },
+        {
+          "numero": 4,
+          "type": "presentation",
+          "contenu": [
+            "Présentation du qse - rse & surete",
+            "Le pôle QSE/HSE/RSE veille à ce que chaque personne, chaque installation et chaque processus contribuent à une énergie fiable, durable et sécurisée.",
+            "QSE–RSE : Leadership et pilotage stratégique\nIngénierie QSE : Prévention des risques liés au système & à la conformité\nIngénerie RSE : Durabilité & ancrage sociétal\nSûreté : Protection du site et du personnel",
+            "QSE est le gardien de la sécurité et conformité. RSE est le moteur de l’impact positif. La sûreté est la forteresse qui protège nos opérations.",
+            "Il regroupe quatre piliers clés :"
+          ]
+        },
+        {
+          "numero": 5,
+          "type": "organisation",
+          "contenu": [
+            "Organisation et Rôles",
+            "Responsable QSE–RSE",
+            "Pilote le système de management intégré QSE et la démarche RSE. Il coordonne l’ensemble des activités, veille au respect des engagements de l’entreprise et garantit l’intégration harmonieuse des processus QSE-RSE dans toutes les opérations de CIPREL.",
+            "Ingénieur QSE",
+            "Expert des systèmes, il met en œuvre les exigences du management QSE, assure la conformité réglementaire, pilote les audits, identifie les impacts environnementaux et prévient les risques liés à la santé et sécurité au travail (HST).",
+            "Coordinateur HSE",
+            "Acteur clé sur le terrain, il veille à l’application quotidienne des consignes de sécurité, prévient les risques, accompagne les équipes techniques et garantit la maîtrise des impacts environnementaux sur site.",
+            "Ingénieur RSE",
+            "Coordinateur Projet Développement Durable",
+            "Conçoit, propose et pilote les actions RSE alignées sur la stratégie CIPREL. Il intègre les critères ESG, l’équité et la durabilité dans chaque décision et mobilise les partenaires pour des solutions innovantes et responsables.",
+            "Assure la mise en œuvre concrète des projets RSE, anime le dialogue avec les parties prenantes internes et externes, et renforce la convivialité et la cohésion autour des enjeux de durabilité.",
+            "Responsable Sûreté",
+            "Discret et essentiel, il protège les personnes, les infrastructures et les opérations. Il anticipe les menaces, coordonne les dispositifs de sûreté et garantit la continuité des activités dans un secteur critique."
+          ]
+        },
+        {
+          "numero": 6,
+          "type": "contenu",
+          "contenu": [
+            "Refrentiel de competences",
+            "Savoir :",
+            "Savoir-faire :",
+            "Savoir-être :",
+            "Normes QSE, exigences ISO, réglementation sécurité, réglementation environnementale, risques industriels, plans d’urgence, procédures HSE, audits et conformité.",
+            "Analyse des risques, prévention HSE, pilotage du système QSE, audits, inspections, reporting, coordination terrain, gestion documentaire, sensibilisation des équipes.",
+            "Vigilance, rigueur, courage d’alerter, sens de la responsabilité, esprit d’équipe, communication claire, éthique, discipline, exemplarité comportementale."
+          ]
+        },
+        {
+          "numero": 7,
+          "type": "partenariats",
+          "contenu": [
+            "INTERACTIONS ET PARTENARIATS du métier HSE QSE",
+            "Partenaires internes : Production, Maintenance, RH, Projets, SITD, Achats & Logistique, Contrôle de Gestion, Direction Générale, Communication, Juridique, Partenaires sociaux.",
+            "Partenaires externes : Organismes de contrôle, autorités de régulation, cabinets d’audit, prestataires HSE, ONG locales, collectivités et parties prenantes sociales, fournisseurs d’équipements de sécurité."
+          ]
+        },
+        {
+          "numero": 8,
+          "type": "temoignage",
+          "contenu": [
+            "Témoignage",
+            "Notre plus grande fierté est de garantir que chaque collaborateur rentre chez lui en toute sécurité tous les jours.",
+            "Nous sommes fiers d’être les garants de notre excellence opérationnelle et d’un avenir tourné vers la durabilité.",
+            "Savoir que notre travail contribue à protéger non seulement nos équipes, mais aussi l'environnement et la réputation de l'entreprise, est une source de satisfaction importante."
+          ]
+        },
+        {
+          "numero": 9,
+          "type": "referentiel",
+          "contenu": [
+            "Conclusion et perspectives",
+            "Diffusion du référentiel complet",
+            "Evaluations et plans de formation",
+            "Capsules vidéo métiers à venir",
+            "Merci pour votre engagement !"
+          ]
+        },
+        {
+          "numero": 10,
+          "type": "vide",
+          "contenu": []
+        }
+      ]
+    },
+    {
+      "id": "rh_juridique",
+      "titre": "Workshop Métier - RH & Juridique",
+      "fichier_source": "Workshop_Referentiel_de_compe_tences_-_RH___Juridique_-_ok.pptx",
+      "nombre_slides": 14,
+      "slides": [
+        {
+          "numero": 1,
+          "type": "titre",
+          "contenu": [
+            "WORKSHOP REFERENTIEL\nRH et JURIDIQUE",
+            "ABIDJAN – 2025"
+          ]
+        },
+        {
+          "numero": 2,
+          "type": "sommaire",
+          "contenu": [
+            "1. Présentation de la PRODUCTION",
+            "2. Organisation et Rôles",
+            "3. Refrentiel de competences",
+            "4. INTERACTIONS ET PARTENARIATS de la production",
+            "5. Témoignage",
+            "6. Conclusion et perspectives",
+            "INTRODUCTION"
+          ]
+        },
+        {
+          "numero": 3,
+          "type": "sommaire",
+          "contenu": [
+            "INTRODUCTION",
+            "Dans la continuité du plan de communication sur la Démarche Compétence, CIPREL met à l’honneur les métiers et pôles qui construisent sa performance;",
+            "Après la valorisation des valeurs FEERIC, place à la valorisation des compétences métiers à travers nos Workshops Métiers.",
+            "Comprendre le métier des RH et Juridique",
+            "Identifier les compétences clés techniques, comportementales et organisationnelles indispensables pour assurer la continuité du service;",
+            "Valoriser le métier des RH et Juridique et renforcer la reconnaissance interne;",
+            "Favoriser les échanges inter - services autour de la performance collective."
+          ]
+        },
+        {
+          "numero": 4,
+          "type": "presentation",
+          "contenu": [
+            "Présentation des métiers Rh",
+            "Métier RH",
+            "Chez CIPREL, \nL’Humain n’est pas une ressource. C’est notre raison d’avancer.",
+            "Le métier RH repose sur deux piliers complémentaires :Développement RH – Préparer l’avenir et Administration RH – Garantir la conformité\n1. Développement RH – Préparer l’avenir\n→ Attirer, intégrer, développer et fidéliser les talents.\u000b→ Construire les parcours professionnels, les plans de formation et les projets d’évolution.\u000b→ Évaluer, analyser et transformer les résultats en actions.\u000b→ Concevoir et déployer les outils RH.\n2. Administration RH – Garantir la conformité\n→ Gérer l’embauche, les contrats et l’intégration.\u000b→ Constituer et sécuriser les dossiers du personnel.\u000b→ Garantir la paie en justesse, conformité et délai.\u000b→ Assurer la veille réglementaire, le climat social, le respect des chartes et obligations légales."
+          ]
+        },
+        {
+          "numero": 5,
+          "type": "presentation",
+          "contenu": [
+            "Présentation des métiers pôle juridique",
+            "Service juridique",
+            "Chez CIPREL, \nNous transformons les règles en sécurité, et la conformité en performance durable.",
+            "Le métier juridique chez CIPREL, c’est :\nLa sécurisation des engagements contractuels.\nLa gestion rigoureuse des données personnelles.\nLa prévention des risques juridiques pour protéger la réputation de l’entreprise.\nLa veille réglementaire pour anticiper les obligations.\nLe soutien juridique à tous les départements internes."
+          ]
+        },
+        {
+          "numero": 6,
+          "type": "organisation",
+          "contenu": [
+            "Organisation et Rôles Métier RH",
+            "Chargé développement RH",
+            "Accompagne la croissance humaine de CIPREL en anticipant les besoins en compétences et en préparant l’avenir. Il recrute les talents, pilote le plan de formation, analyse les évaluations du personnel, développe les parcours professionnels et met en place les outils RH qui structurent l’organisation. Véritable moteur du potentiel humain, il garantit que chaque collaborateur dispose des compétences nécessaires pour évoluer et contribuer durablement à la performance de l’entreprise.",
+            "Responsable administration RH",
+            "Assure la stabilité, la conformité et la gestion quotidienne du cycle de vie du collaborateur. Elle élabore les contrats, organise l’accueil et l’intégration, tient les dossiers du personnel, répond aux demandes administratives et participe au processus de paie. Elle veille aussi au respect des obligations légales, au climat social et à la traçabilité irréprochable des informations. Ce pilier assure un cadre RH solide, fiable et conforme pour l’ensemble de l’entreprise."
+          ]
+        },
+        {
+          "numero": 7,
+          "type": "organisation",
+          "contenu": [
+            "Organisation et Rôles Pôle juridique",
+            "Assistant juridique",
+            "Sécurise l’ensemble des engagements de l’entreprise en élaborant et en suivant les contrats de prestations et de fournitures, tout en garantissant leur conformité aux exigences légales et opérationnelles. Il pilote également la mise en conformité des Données à Caractère Personnel en analysant les textes, en identifiant les obligations applicables, en construisant des plans d’action et en contrôlant leur mise en œuvre. Le juridique prépare les dossiers de contentieux, apporte un conseil constant aux départements internes et assure une veille réglementaire attentive afin de prévenir les risques et d’anticiper les évolutions légales. Grâce à cette vigilance et cette capacité d’analyse, il garantit la transparence, la conformité et la continuité juridique qui soutiennent la performance durable de CIPREL."
+          ]
+        },
+        {
+          "numero": 8,
+          "type": "referentiel",
+          "contenu": [
+            "Refrentiel de compétences métier RH",
+            "Savoirs",
+            "Droit du travail, réglementation sociale\nTechniques de recrutement, formation, évaluation\nGestion administrative et outils RH\nConnaissance des métiers et des processus CIPREL",
+            "Savoir-faire",
+            "Recruter et accompagner l’intégration\nPiloter le plan de formation et les évaluations\nDévelopper les parcours professionnels\nConcevoir les outils RH et réaliser les études RH\nGérer les contrats, dossiers, paie et conformité légale",
+            "Savoirs -être",
+            "Confidentialité, intégrité, équité\nÉcoute, diplomatie, communication claire\nRigueur, organisation, sens du service\nEsprit d’équipe et adaptabilité"
+          ]
+        },
+        {
+          "numero": 9,
+          "type": "fin",
+          "contenu": [
+            "Refrentiel de competences SERVICE juridique",
+            "Savoirs",
+            "Droit des contrats\nTextes légaux nationaux (travail, commerce, sécurité, données personnelles…)\nLégislation sur les Données à Caractère Personnel\nProcessus contractuels internes\nProcédures de contentieux",
+            "Savoir-faire",
+            "Rédaction et révision contractuelle\nAnalyse légale et évaluation des risques\nMise en conformité DCP\nTenue d’un registre de traitement / suivi des contrats\nPréparation de dossiers de contentieux\nCommunication juridique (notes, alertes, recommandations)",
+            "Savoirs -être",
+            "Rigueur et sens du détail\nConfidentialité absolue\nAnalyse critique\nVigilance réglementaire\nSens du service interne\nIntégrité & éthique\nOrganisation & méthode"
+          ]
+        },
+        {
+          "numero": 10,
+          "type": "referentiel",
+          "contenu": [
+            "INTERACTIONS ET PARTENARIATS Métier RH",
+            "Partenaires internes : \nDirection Générale (alignement stratégique, reporting RH)\nTous les départements (besoins en compétences, recrutements, formation technique).\nManagers & collaborateurs (support administratif, évaluation, mobilité…)",
+            "Partenaires externes :\nCabinets spécialisés / Organismes de formation (coaching, assessments, expertises spécifiques.\nInstitutionnels & organismes publics (CNPS, Inspection du Travail)\nPartenaires légaux & réglementaires"
+          ]
+        },
+        {
+          "numero": 11,
+          "type": "partenariats",
+          "contenu": [
+            "INTERACTIONS ET PARTENARIATS pôle juridique",
+            "Partenaires internes : \nDirection Générale\nTous les départements métiers pour le conseil juridique\nRH (contrats, conformité,…)\nQSE / RSE\nSITD (sécurité des données)\nFinance & achats (contrats fournisseurs)",
+            "Partenaires externes : \nCabinets d’avocats\nAutorités administratives et légales\nInstitutions de régulation\nPrestataires soumis à contrat\nOrganismes impliqués dans la protection des données"
+          ]
+        },
+        {
+          "numero": 12,
+          "type": "temoignage",
+          "contenu": [
+            "Témoignage",
+            "Fierté du Service RH :\nNous faisons grandir l’Humain, en révélant les talents et en accompagnant chaque parcours avec équité.\nNous créons un environnement de confiance, où l’engagement, le développement et la performance deviennent possibles.\nNous sommes les artisans de la cohésion, en renforçant la culture FEERIC et en soutenant les équipes au quotidien.",
+            "Fierté du Service Juridique :\nNous protégeons CIPREL, en garantissant la conformité, l'intégrité et la sécurité juridique de chaque décision.\nNous transformons la loi en stratégie, en apportant des solutions innovantes et anticipées aux enjeux de l’entreprise.\nNous portons l’éthique et la transparence, renforçant la réputation responsable et durable de CIPREL."
+          ]
+        },
+        {
+          "numero": 13,
+          "type": "referentiel",
+          "contenu": [
+            "Conclusion et perspectives",
+            "Diffusion du référentiel complet",
+            "Evaluations et plans de formation",
+            "Capsules vidéo métiers à venir",
+            "Merci pour votre engagement !"
+          ]
+        },
+        {
+          "numero": 14,
+          "type": "vide",
+          "contenu": []
+        }
+      ]
+    }
+  ]
+}

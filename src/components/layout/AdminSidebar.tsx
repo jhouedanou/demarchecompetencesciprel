@@ -10,7 +10,8 @@ import {
   BarChart3,
   ChevronLeft,
   ChevronRight,
-  Presentation
+  Presentation,
+  Briefcase
 } from 'lucide-react'
 
 const navigation = [
@@ -28,6 +29,11 @@ const navigation = [
     name: 'Métiers',
     href: '/admin/metiers',
     icon: Presentation,
+  },
+  {
+    name: 'Workshops Métiers',
+    href: '/admin/workshops-metiers',
+    icon: Briefcase,
   },
   {
     name: 'Résultats',
