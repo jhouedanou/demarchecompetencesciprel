@@ -4,6 +4,17 @@ import { createUserServerClient } from '@/lib/supabase/server'
 // Force dynamic rendering for this route
 export const dynamic = 'force-dynamic'
 
+// Mapping workshop_id -> metier_id pour fallback
+const WORKSHOP_TO_METIER_MAP: Record<string, number> = {
+  'production': 2,
+  'qse': 3,
+  'maintenance': 4,
+  'rh-juridique': 5,
+  'finances': 6,
+  'achats-stocks': 7,
+  'systemes-information': 8
+}
+
 export async function GET(request: NextRequest) {
   try {
     const supabase = await createUserServerClient()
@@ -19,52 +30,91 @@ export async function GET(request: NextRequest) {
 
     console.log('🎯 [API /api/quiz] Loading questions:', { quizType, metierId, workshopId })
 
-    // Build query (primary: table `questions`)
-    let query = supabase
-      .from('questions')
-      .select('*')
-      .eq('active', true)
-      .order('order_index', { ascending: true })
+    let questions: any[] | null = null
+    let error: any = null
 
     // Filter by workshop_id if provided (preferred method for WORKSHOP quizzes)
     if (workshopId) {
-      query = query.eq('workshop_id', workshopId)
+      // Essayer d'abord avec workshop_id
+      const result = await supabase
+        .from('questions')
+        .select('*')
+        .eq('active', true)
+        .eq('workshop_id', workshopId)
+        .order('order_index', { ascending: true })
+      
+      questions = result.data
+      error = result.error
+
+      // Fallback: si aucune question trouvée, essayer avec metier_id correspondant
+      if (!error && (!questions || questions.length === 0)) {
+        const metierId = WORKSHOP_TO_METIER_MAP[workshopId]
+        if (metierId) {
+          console.log(`🔄 [API /api/quiz] Fallback: searching with metier_id=${metierId} for workshop_id=${workshopId}`)
+          const fallbackResult = await supabase
+            .from('questions')
+            .select('*')
+            .eq('active', true)
+            .eq('metier_id', metierId)
+            .order('order_index', { ascending: true })
+          
+          questions = fallbackResult.data
+          error = fallbackResult.error
+          
+          if (questions && questions.length > 0) {
+            console.log(`✅ [API /api/quiz] Found ${questions.length} questions via metier_id fallback`)
+          }
+        }
+      }
     }
     // Fallback to metier_id for backward compatibility
     else if (metierId) {
-      query = query.eq('metier_id', parseInt(metierId))
+      const result = await supabase
+        .from('questions')
+        .select('*')
+        .eq('active', true)
+        .eq('metier_id', parseInt(metierId))
+        .order('order_index', { ascending: true })
+      
+      questions = result.data
+      error = result.error
     }
     // Fallback to quiz_type for INTRODUCTION and SONDAGE
     else if (quizType) {
-      query = query.eq('quiz_type', quizType)
+      const result = await supabase
+        .from('questions')
+        .select('*')
+        .eq('active', true)
+        .eq('quiz_type', quizType)
+        .order('order_index', { ascending: true })
+      
+      questions = result.data
+      error = result.error
     }
 
-    const { data: questions, error } = await query
-
     if (error) {
-      console.error('❌ [API /api/quiz] Database error (primary query):', error)
+      console.error('❌ [API /api/quiz] Database error:', error)
       return NextResponse.json({ error: 'Erreur de base de données' }, { status: 500 })
     }
 
-    console.log(`✅ [API /api/quiz] Found ${questions?.length || 0} questions (primary)`)
+    console.log(`✅ [API /api/quiz] Found ${questions?.length || 0} questions`)
 
-    // If no questions found for the requested workshop, log diagnostic info
-    // NOTE: Ne pas utiliser de fallback qui charge TOUTES les questions WORKSHOP
-    // Chaque quiz doit être filtré par son workshop_id spécifique
+    // If still no questions found for the requested workshop, log diagnostic info
     if ((questions?.length || 0) === 0 && workshopId) {
       console.log('🔍 [API /api/quiz] No questions found for workshop_id=', workshopId)
-      console.log('💡 [API /api/quiz] Assurez-vous que les questions ont bien le workshop_id défini dans la base')
+      console.log('💡 [API /api/quiz] Assurez-vous que les questions ont bien le workshop_id ou metier_id défini dans la base')
       
       // Diagnostic: liste des workshop_id disponibles
       const { data: availableWorkshops, error: diagError } = await supabase
         .from('questions')
-        .select('workshop_id')
+        .select('workshop_id, metier_id')
         .eq('quiz_type', 'WORKSHOP')
-        .not('workshop_id', 'is', null)
       
       if (!diagError && availableWorkshops) {
-        const uniqueWorkshops = Array.from(new Set(availableWorkshops.map(q => q.workshop_id)))
+        const uniqueWorkshops = Array.from(new Set(availableWorkshops.map(q => q.workshop_id).filter(Boolean)))
+        const uniqueMetiers = Array.from(new Set(availableWorkshops.map(q => q.metier_id).filter(Boolean)))
         console.log('📋 [API /api/quiz] Workshop IDs disponibles:', uniqueWorkshops)
+        console.log('📋 [API /api/quiz] Metier IDs disponibles:', uniqueMetiers)
       }
     }
 
