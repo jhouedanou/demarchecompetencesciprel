@@ -143,15 +143,28 @@ export default function RootLayout({ children }: RootLayoutProps) {
             __html: `
               (function() {
                 var warningDismissed = false;
-                
+
                 function checkZoom() {
                   if (warningDismissed) return;
-                  
-                  var zoomLevel = Math.round(window.devicePixelRatio * 100);
+
+                  // Méthode plus fiable : comparer la largeur de viewport avec la largeur de l'écran
+                  var zoomLevel = Math.round((window.outerWidth / window.innerWidth) * 100);
+
+                  // Fallback si outerWidth n'est pas disponible (certains navigateurs)
+                  if (!window.outerWidth || zoomLevel === 0 || zoomLevel === Infinity) {
+                    zoomLevel = Math.round((document.documentElement.clientWidth / window.innerWidth) * 100);
+                  }
+
+                  // Protection contre les valeurs aberrantes
+                  if (isNaN(zoomLevel) || zoomLevel < 50 || zoomLevel > 300) {
+                    zoomLevel = 100;
+                  }
+
                   var warning = document.getElementById('zoom-warning');
-                  
+
                   if (warning) {
-                    if (zoomLevel > 100) {
+                    // Tolérance de 5% pour éviter les faux positifs
+                    if (zoomLevel > 105) {
                       warning.style.display = 'block';
                       document.body.style.paddingTop = warning.offsetHeight + 'px';
                     } else {
@@ -160,7 +173,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                     }
                   }
                 }
-                
+
                 function dismissWarning() {
                   warningDismissed = true;
                   var warning = document.getElementById('zoom-warning');
@@ -169,16 +182,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
                     document.body.style.paddingTop = '0';
                   }
                 }
-                
+
                 document.addEventListener('DOMContentLoaded', function() {
-                  checkZoom();
-                  
+                  // Petit délai pour laisser le temps au navigateur de se stabiliser
+                  setTimeout(checkZoom, 100);
+
                   var closeBtn = document.getElementById('zoom-warning-close');
                   if (closeBtn) {
                     closeBtn.addEventListener('click', dismissWarning);
                   }
                 });
-                
+
                 window.addEventListener('resize', checkZoom);
               })();
             `,

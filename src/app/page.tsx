@@ -694,12 +694,11 @@ export default function HomePage() {
                         <div className="max-w-4xl mx-auto w-full mb-8">
                           <div className="relative aspect-video bg-black rounded-2xl shadow-2xl overflow-hidden">
                             <video
-                              ref={videoRef}
                               controls
                               className="absolute inset-0 w-full h-full"
                               poster="/images/poster.jpg"
                             >
-                              <source src="/videos/video1.mp4" type="video/mp4" />
+                              <source src="/videos/video.mp4" type="video/mp4" />
                               Votre navigateur ne supporte pas la lecture de vidéos HTML5.
                             </video>
                           </div>

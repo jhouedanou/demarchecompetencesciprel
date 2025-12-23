@@ -48,41 +48,23 @@ export async function GET(request: NextRequest) {
 
     console.log(`✅ [API /api/quiz] Found ${questions?.length || 0} questions (primary)`)
 
-    // If no questions found for the requested workshop, add diagnostic logs and try a fallback on the view `questions_by_etape`.
+    // If no questions found for the requested workshop, log diagnostic info
+    // NOTE: Ne pas utiliser de fallback qui charge TOUTES les questions WORKSHOP
+    // Chaque quiz doit être filtré par son workshop_id spécifique
     if ((questions?.length || 0) === 0 && workshopId) {
-      try {
-        console.log('🔍 [API /api/quiz] No questions found for workshop_id=', workshopId, " - running diagnostics...")
-
-        // Diagnostic: count questions directly by workshop_id
-        const { data: directMatch, error: directError } = await supabase
-          .from('questions')
-          .select('id, title, quiz_type, workshop_id, active')
-          .eq('workshop_id', workshopId)
-
-        if (directError) {
-          console.error('❌ [API /api/quiz] Diagnostic query error (directMatch):', directError)
-        } else {
-          console.log(`🔎 [API /api/quiz] Diagnostic directMatch count: ${directMatch?.length || 0}`)
-        }
-
-        // Fallback: try reading from the view `questions_by_etape` filtering by quiz_type WORKSHOP
-        const { data: viewQuestions, error: viewError } = await supabase
-          .from('questions_by_etape')
-          .select('*')
-          .eq('quiz_type', 'WORKSHOP')
-          .order('order_index', { ascending: true })
-
-        if (viewError) {
-          console.error('❌ [API /api/quiz] Fallback view query error (questions_by_etape):', viewError)
-        } else {
-          console.log(`🔁 [API /api/quiz] Fallback returned ${viewQuestions?.length || 0} questions from questions_by_etape`)
-        }
-
-        if (viewQuestions && viewQuestions.length > 0) {
-          return NextResponse.json({ questions: viewQuestions, total: viewQuestions.length })
-        }
-      } catch (diagError) {
-        console.error('❌ [API /api/quiz] Diagnostic/fallback error:', diagError)
+      console.log('🔍 [API /api/quiz] No questions found for workshop_id=', workshopId)
+      console.log('💡 [API /api/quiz] Assurez-vous que les questions ont bien le workshop_id défini dans la base')
+      
+      // Diagnostic: liste des workshop_id disponibles
+      const { data: availableWorkshops, error: diagError } = await supabase
+        .from('questions')
+        .select('workshop_id')
+        .eq('quiz_type', 'WORKSHOP')
+        .not('workshop_id', 'is', null)
+      
+      if (!diagError && availableWorkshops) {
+        const uniqueWorkshops = Array.from(new Set(availableWorkshops.map(q => q.workshop_id)))
+        console.log('📋 [API /api/quiz] Workshop IDs disponibles:', uniqueWorkshops)
       }
     }
 
