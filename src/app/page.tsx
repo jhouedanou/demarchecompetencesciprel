@@ -64,7 +64,8 @@ type SectionType = 'introduction' | 'dialectique' | 'synoptique' | 'leviers' | '
 const SLIDE_TITLES = [
   'Présentation',
   'Définitions, Objectifs & Ressources',
-  'Workshops métiers'
+  'Workshops métiers',
+  'Votre avis compte'
 ]
 
 
@@ -111,7 +112,7 @@ export default function HomePage() {
   const [quizConfig, setQuizConfig] = useState<{
     isOpen: boolean
     type: 'INTRODUCTION' | 'WORKSHOP'
-    metierId?: number
+    workshopId?: string
   }>({ isOpen: false, type: 'INTRODUCTION' })
   const [surveyModalOpen, setSurveyModalOpen] = useState(false)
   const [videoModalOpen, setVideoModalOpen] = useState(false)
@@ -127,7 +128,7 @@ export default function HomePage() {
   const swiperRef = useRef<SwiperType | null>(null)
   const swiperDefinitionsRef = useRef<any>(null)
   const videoRef = useRef<HTMLVideoElement | null>(null)
-  const totalSlides = 3 // Structure finale avec 3 slides
+  const totalSlides = 4 // Structure finale avec 4 slides (incluant sondage)
   const [definitionCarouselIndex, setDefinitionCarouselIndex] = useState(0)
   const practiceVideos = PRACTICE_VIDEOS
   const resetQuiz = useQuizStore(state => state.resetQuiz)
@@ -445,7 +446,7 @@ export default function HomePage() {
                 <div className="flex items-center justify-center gap-6 mb-6 flex-wrap">
                   <img src="/images/logo.webp" alt="CIPREL" className="h-12 w-auto object-contain drop-shadow-lg" />
                   <h1 className="text-3xl md:text-4xl font-bold text-ciprel-orange-600 whitespace-nowrap">
-                    Bienvenue sur la Démarche Compétence
+                    Bienvenue dans l'univers de la démarche compétences
                   </h1>
                   <img src="/images/30ans.png" alt="30 ans CIPREL" className="h-12 w-auto object-contain drop-shadow-lg" />
                 </div>
@@ -1033,35 +1034,18 @@ export default function HomePage() {
                               {workshop.is_active ? 'Voir le workshop' : 'Non disponible'}
                             </button>
 
-                            {/* Boutons secondaires : Vidéo et OneDrive */}
-                            {workshop.is_active && (workshop.video || workshop.onedrive) && (
-                              <div className="flex gap-2">
-                                {workshop.video && (
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation()
-                                      setWorkshopVideoUrl(workshop.video)
-                                      setWorkshopVideoTitle(workshop.titre)
-                                    }}
-                                    className="flex-1 px-3 py-2 rounded-full text-xs font-semibold bg-ciprel-orange-600 hover:bg-ciprel-orange-700 text-white transition-all duration-300 flex items-center justify-center gap-1 shadow-md"
-                                  >
-                                    <Video className="h-3 w-3" />
-                                    Vidéo
-                                  </button>
-                                )}
-                                {workshop.onedrive && (
-                                  <a
-                                    href={workshop.onedrive}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={(e) => e.stopPropagation()}
-                                    className="flex-1 px-3 py-2 rounded-full text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 flex items-center justify-center gap-1 shadow-md"
-                                  >
-                                    <FolderOpen className="h-3 w-3" />
-                                    OneDrive
-                                  </a>
-                                )}
-                              </div>
+                            {/* Bouton secondaire : Voir le support */}
+                            {workshop.is_active && (workshop.support_url || workshop.onedrive) && (
+                              <a
+                                href={workshop.support_url || workshop.onedrive}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="w-full px-4 py-2 rounded-full text-sm font-semibold bg-ciprel-orange-600 hover:bg-ciprel-orange-700 text-white transition-all duration-300 flex items-center justify-center gap-2 shadow-md"
+                              >
+                                <Download className="h-4 w-4" />
+                                Voir le support
+                              </a>
                             )}
                           </div>
                         </div>
@@ -1113,6 +1097,109 @@ export default function HomePage() {
                   >
                     Suivant
                     <ChevronDown className="h-5 w-5 ml-2" />
+                  </button>
+                </div>
+              </div>
+            </section>
+          </SwiperSlide>
+
+          {/* SLIDE 4 - SONDAGE D'OPINION */}
+          <SwiperSlide id="slide-sondage">
+            <section className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-orange-50 via-white to-ciprel-green-50">
+              <div className="max-w-5xl mx-auto flex h-full flex-col justify-center px-4 py-16">
+                
+                {/* En-tête */}
+                <div className="text-center mb-10">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-ciprel-orange-100 to-ciprel-green-100 text-ciprel-black rounded-full text-sm font-semibold mb-4">
+                    <HelpCircle className="h-4 w-4" />
+                    Votre avis compte
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold text-ciprel-black mb-4">
+                    Sondage d'opinion
+                  </h2>
+                  <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Participez à l'amélioration continue de la démarche compétences en partageant votre avis et vos suggestions.
+                  </p>
+                </div>
+
+                {/* Contenu principal */}
+                <div className="max-w-2xl mx-auto w-full">
+                  {user ? (
+                    <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                      <div className="text-center mb-6">
+                        <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-ciprel-orange-100 to-ciprel-green-100 rounded-full flex items-center justify-center">
+                          <HelpCircle className="h-10 w-10 text-ciprel-orange-600" />
+                        </div>
+                        <h3 className="text-xl font-bold text-ciprel-black mb-2">
+                          Partagez votre expérience
+                        </h3>
+                        <p className="text-gray-600">
+                          Vos retours nous aident à améliorer la démarche compétences et à mieux répondre à vos besoins.
+                        </p>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div className="bg-gradient-to-r from-ciprel-orange-50 to-ciprel-green-50 rounded-xl p-4">
+                          <h4 className="font-semibold text-ciprel-black mb-2 flex items-center gap-2">
+                            <CheckCircle2 className="h-5 w-5 text-ciprel-green-600" />
+                            Ce que nous aimerions savoir
+                          </h4>
+                          <ul className="text-sm text-gray-600 space-y-1 ml-7">
+                            <li>• Votre compréhension de la démarche compétences</li>
+                            <li>• L'utilité des ressources proposées</li>
+                            <li>• Vos suggestions d'amélioration</li>
+                          </ul>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => setSurveyModalOpen(true)}
+                          className="w-full bg-gradient-to-r from-ciprel-orange-600 to-ciprel-orange-500 text-white px-8 py-4 rounded-xl hover:from-ciprel-orange-700 hover:to-ciprel-orange-600 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-3"
+                        >
+                          <HelpCircle className="h-6 w-6" />
+                          Répondre au sondage
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                      <div className="text-center mb-6">
+                        <div className="w-20 h-20 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                          <Lock className="h-10 w-10 text-gray-400" />
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-600 mb-2">
+                          Connexion requise
+                        </h3>
+                        <p className="text-gray-500">
+                          Connectez-vous pour accéder au sondage et partager votre avis.
+                        </p>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (typeof window !== 'undefined') {
+                            window.dispatchEvent(new Event('open-login'))
+                          }
+                        }}
+                        className="w-full bg-ciprel-green-600 text-white px-8 py-4 rounded-xl hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-3"
+                      >
+                        <Lock className="h-5 w-5" />
+                        Se connecter pour participer
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Navigation */}
+                <div className="flex justify-center gap-4 mt-10">
+                  <button
+                    type="button"
+                    onClick={goPrev}
+                    className="bg-ciprel-orange-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-orange-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                  >
+                    <ChevronUp className="h-5 w-5 mr-2" />
+                    Précédent
                   </button>
                 </div>
               </div>
@@ -1624,17 +1711,6 @@ export default function HomePage() {
         `}</style>
       </div>
 
-      {/* Bouton sondage fixe en bas à gauche - visible sur toutes les pages */}
-      {user && (
-        <button
-          onClick={() => setSurveyModalOpen(true)}
-          className="fixed bottom-8 left-8 z-50 bg-ciprel-orange-500 text-white px-6 py-3 rounded-full shadow-2xl hover:bg-ciprel-orange-600 hover:shadow-xl transition-all duration-200 flex items-center gap-2 group"
-        >
-          <HelpCircle className="h-5 w-5 group-hover:rotate-12 transition-transform" />
-          <span className="font-semibold">Sondages</span>
-        </button>
-      )}
-
       {/* Modals */}
       <Suspense fallback={null}>
         <SectionModal
@@ -1714,7 +1790,7 @@ export default function HomePage() {
             <Suspense fallback={<LoadingScreen message="Chargement du quiz..." />}>
               <QuizEngine
                 quizType={quizConfig.type}
-                metierId={quizConfig.metierId}
+                workshopId={quizConfig.workshopId}
                 onClose={closeQuizModal}
               />
             </Suspense>
@@ -1759,6 +1835,11 @@ export default function HomePage() {
           onClose={() => {
             setWorkshopModalOpen(false)
             setSelectedWorkshopMetier(null)
+          }}
+          onOpenQuiz={(workshopId) => {
+            setWorkshopModalOpen(false)
+            resetQuiz()
+            setQuizConfig({ isOpen: true, type: 'WORKSHOP', workshopId })
           }}
         />
       </Suspense>

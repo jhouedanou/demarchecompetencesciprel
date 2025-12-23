@@ -14,12 +14,12 @@ import { QuizQuestion } from '@/types'
 
 interface QuizEngineProps {
   quizType: 'INTRODUCTION' | 'SONDAGE' | 'WORKSHOP'
-  metierId?: number
+  workshopId?: string
   className?: string
   onClose?: () => void
 }
 
-export function QuizEngine({ quizType, metierId, className, onClose }: QuizEngineProps) {
+export function QuizEngine({ quizType, workshopId, className, onClose }: QuizEngineProps) {
   const [isStarted, setIsStarted] = useState(false)
   const [showResults, setShowResults] = useState(false)
 
@@ -44,9 +44,9 @@ export function QuizEngine({ quizType, metierId, className, onClose }: QuizEngin
 
   useEffect(() => {
     if (!questions.length && !isLoading) {
-      loadQuestions(quizType, metierId)
+      loadQuestions(quizType, workshopId)
     }
-  }, [quizType, metierId, questions.length, isLoading, loadQuestions])
+  }, [quizType, workshopId, questions.length, isLoading, loadQuestions])
 
   // Auto-start quiz when questions are loaded and user is authenticated
   useEffect(() => {

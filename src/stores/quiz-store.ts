@@ -18,7 +18,7 @@ interface QuizStore {
   percentage?: number
 
   // Actions
-  loadQuestions: (quizType: string, metierId?: number) => Promise<void>
+  loadQuestions: (quizType: string, workshopId?: string) => Promise<void>
   startQuiz: () => void
   submitAnswer: (questionId: string, selectedAnswers: string[]) => void
   completeQuiz: (quizType: string) => Promise<void>
@@ -41,16 +41,16 @@ export const useQuizStore = create<QuizStore>()(
       score: undefined,
       percentage: undefined,
 
-      loadQuestions: async (quizType: string, metierId?: number) => {
+      loadQuestions: async (quizType: string, workshopId?: string) => {
         try {
           set({ isLoading: true, error: null })
 
           // Build URL with appropriate parameters
           const params = new URLSearchParams()
 
-          // For WORKSHOP quizzes, prefer metier_id if provided
-          if (metierId) {
-            params.append('metier_id', metierId.toString())
+          // For WORKSHOP quizzes, prefer workshop_id if provided
+          if (workshopId) {
+            params.append('workshop_id', workshopId)
           } else {
             // Fallback to type for INTRODUCTION/SONDAGE
             params.append('type', quizType)

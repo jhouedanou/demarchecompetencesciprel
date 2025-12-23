@@ -21,7 +21,9 @@ import {
   Building2,
   Globe,
   Quote,
-  Play
+  Play,
+  Download,
+  HelpCircle
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -29,9 +31,10 @@ interface WorkshopMetierModalProps {
   workshop: WorkshopMetier | null
   isOpen: boolean
   onClose: () => void
+  onOpenQuiz?: (workshopId: string) => void
 }
 
-export function WorkshopMetierModal({ workshop, isOpen, onClose }: WorkshopMetierModalProps) {
+export function WorkshopMetierModal({ workshop, isOpen, onClose, onOpenQuiz }: WorkshopMetierModalProps) {
   const [activeTab, setActiveTab] = useState<'overview' | 'roles' | 'competences' | 'interactions'>('overview')
 
   if (!workshop) return null
@@ -291,6 +294,83 @@ export function WorkshopMetierModal({ workshop, isOpen, onClose }: WorkshopMetie
               </div>
             </div>
           )}
+
+          {/* Section finale : Ressources et Quiz */}
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            <h3 className="text-xl font-bold text-ciprel-black mb-4 flex items-center gap-2">
+              <Download className="h-5 w-5 text-ciprel-orange-600" />
+              Ressources et évaluation
+            </h3>
+            
+            <div className="grid md:grid-cols-2 gap-4">
+              {/* Télécharger les ressources */}
+              {(workshop.support_url || workshop.referentiel_url || workshop.onedrive) && (
+                <div className="bg-gradient-to-br from-ciprel-green-50 to-white rounded-xl p-5 border border-ciprel-green-200">
+                  <h4 className="font-semibold text-ciprel-green-800 mb-3 flex items-center gap-2">
+                    <BookOpen className="h-5 w-5" />
+                    Télécharger les ressources
+                  </h4>
+                  <div className="space-y-2">
+                    {workshop.support_url && (
+                      <a
+                        href={workshop.support_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 bg-ciprel-green-600 text-white rounded-lg hover:bg-ciprel-green-700 transition-colors text-sm font-medium"
+                      >
+                        <Download className="h-4 w-4" />
+                        Support de présentation
+                      </a>
+                    )}
+                    {workshop.referentiel_url && (
+                      <a
+                        href={workshop.referentiel_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 bg-ciprel-orange-600 text-white rounded-lg hover:bg-ciprel-orange-700 transition-colors text-sm font-medium"
+                      >
+                        <Download className="h-4 w-4" />
+                        Référentiel de compétences
+                      </a>
+                    )}
+                    {workshop.onedrive && !workshop.support_url && !workshop.referentiel_url && (
+                      <a
+                        href={workshop.onedrive}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                      >
+                        <Download className="h-4 w-4" />
+                        Accéder aux ressources OneDrive
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Passer le quiz */}
+              <div className="bg-gradient-to-br from-ciprel-orange-50 to-white rounded-xl p-5 border border-ciprel-orange-200">
+                <h4 className="font-semibold text-ciprel-orange-800 mb-3 flex items-center gap-2">
+                  <HelpCircle className="h-5 w-5" />
+                  Testez vos connaissances
+                </h4>
+                <p className="text-sm text-gray-600 mb-3">
+                  Évaluez votre compréhension du workshop avec un quiz interactif.
+                </p>
+                <button
+                  onClick={() => {
+                    if (onOpenQuiz) {
+                      onOpenQuiz(workshop.id)
+                    }
+                  }}
+                  className="flex items-center gap-2 px-4 py-2 bg-ciprel-orange-600 text-white rounded-lg hover:bg-ciprel-orange-700 transition-colors text-sm font-medium w-full justify-center"
+                >
+                  <HelpCircle className="h-4 w-4" />
+                  Passer le quiz
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

@@ -10,23 +10,28 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const quizType = searchParams.get('type')
     const metierId = searchParams.get('metier_id')
+    const workshopId = searchParams.get('workshop_id')
 
     // At least one parameter is required
-    if (!quizType && !metierId) {
-      return NextResponse.json({ error: 'Type de quiz ou metier_id requis' }, { status: 400 })
+    if (!quizType && !metierId && !workshopId) {
+      return NextResponse.json({ error: 'Type de quiz, metier_id ou workshop_id requis' }, { status: 400 })
     }
 
-    console.log('🎯 [API /api/quiz] Loading questions:', { quizType, metierId })
+    console.log('🎯 [API /api/quiz] Loading questions:', { quizType, metierId, workshopId })
 
-    // Build query
+    // Build query (primary: table `questions`)
     let query = supabase
       .from('questions')
       .select('*')
       .eq('active', true)
       .order('order_index', { ascending: true })
 
-    // Filter by metier_id if provided (preferred method for WORKSHOP quizzes)
-    if (metierId) {
+    // Filter by workshop_id if provided (preferred method for WORKSHOP quizzes)
+    if (workshopId) {
+      query = query.eq('workshop_id', workshopId)
+    }
+    // Fallback to metier_id for backward compatibility
+    else if (metierId) {
       query = query.eq('metier_id', parseInt(metierId))
     }
     // Fallback to quiz_type for INTRODUCTION and SONDAGE
@@ -37,11 +42,49 @@ export async function GET(request: NextRequest) {
     const { data: questions, error } = await query
 
     if (error) {
-      console.error('❌ [API /api/quiz] Database error:', error)
+      console.error('❌ [API /api/quiz] Database error (primary query):', error)
       return NextResponse.json({ error: 'Erreur de base de données' }, { status: 500 })
     }
 
-    console.log(`✅ [API /api/quiz] Found ${questions?.length || 0} questions`)
+    console.log(`✅ [API /api/quiz] Found ${questions?.length || 0} questions (primary)`)
+
+    // If no questions found for the requested workshop, add diagnostic logs and try a fallback on the view `questions_by_etape`.
+    if ((questions?.length || 0) === 0 && workshopId) {
+      try {
+        console.log('🔍 [API /api/quiz] No questions found for workshop_id=', workshopId, " - running diagnostics...")
+
+        // Diagnostic: count questions directly by workshop_id
+        const { data: directMatch, error: directError } = await supabase
+          .from('questions')
+          .select('id, title, quiz_type, workshop_id, active')
+          .eq('workshop_id', workshopId)
+
+        if (directError) {
+          console.error('❌ [API /api/quiz] Diagnostic query error (directMatch):', directError)
+        } else {
+          console.log(`🔎 [API /api/quiz] Diagnostic directMatch count: ${directMatch?.length || 0}`)
+        }
+
+        // Fallback: try reading from the view `questions_by_etape` filtering by quiz_type WORKSHOP
+        const { data: viewQuestions, error: viewError } = await supabase
+          .from('questions_by_etape')
+          .select('*')
+          .eq('quiz_type', 'WORKSHOP')
+          .order('order_index', { ascending: true })
+
+        if (viewError) {
+          console.error('❌ [API /api/quiz] Fallback view query error (questions_by_etape):', viewError)
+        } else {
+          console.log(`🔁 [API /api/quiz] Fallback returned ${viewQuestions?.length || 0} questions from questions_by_etape`)
+        }
+
+        if (viewQuestions && viewQuestions.length > 0) {
+          return NextResponse.json({ questions: viewQuestions, total: viewQuestions.length })
+        }
+      } catch (diagError) {
+        console.error('❌ [API /api/quiz] Diagnostic/fallback error:', diagError)
+      }
+    }
 
     return NextResponse.json({
       questions: questions || [],

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { authFetch } from '@/lib/api/client'
 import toast from 'react-hot-toast'
 import { 
@@ -20,7 +21,11 @@ import {
   Users,
   BookOpen,
   Users2,
-  Quote
+  Quote,
+  Download,
+  HelpCircle,
+  ExternalLink,
+  Link
 } from 'lucide-react'
 import type { WorkshopMetier, WorkshopFonction, WorkshopContenu } from '@/types/workshop-metier'
 
@@ -30,13 +35,14 @@ interface EditableWorkshop extends Partial<WorkshopMetier> {
 }
 
 export function WorkshopsMetiersAdminUnified() {
+  const router = useRouter()
   const [workshops, setWorkshops] = useState<WorkshopMetier[]>([])
   const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editingData, setEditingData] = useState<EditableWorkshop>({})
   const [expandedId, setExpandedId] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'general' | 'presentation' | 'organisation' | 'competences' | 'partenariats' | 'temoignage'>('general')
+  const [activeTab, setActiveTab] = useState<'general' | 'presentation' | 'organisation' | 'competences' | 'partenariats' | 'temoignage' | 'ressources'>('general')
 
   const loadWorkshops = useCallback(async () => {
     try {
@@ -110,6 +116,8 @@ export function WorkshopsMetiersAdminUnified() {
         is_active: editingData.is_active,
         video: editingData.video || '',
         onedrive: editingData.onedrive || '',
+        support_url: editingData.support_url || '',
+        referentiel_url: editingData.referentiel_url || '',
         contenu: editingData.contenu,
       }
       
@@ -344,6 +352,7 @@ export function WorkshopsMetiersAdminUnified() {
       { id: 'competences', label: 'Compétences', icon: BookOpen },
       { id: 'partenariats', label: 'Partenariats', icon: Users2 },
       { id: 'temoignage', label: 'Témoignage', icon: Quote },
+      { id: 'ressources', label: 'Ressources', icon: Download },
     ] as const
 
     return (
@@ -584,6 +593,122 @@ export function WorkshopsMetiersAdminUnified() {
           </div>
         )
 
+      case 'ressources':
+        return (
+          <div className="space-y-6">
+            <div className="bg-blue-50 rounded-lg p-4 mb-4">
+              <div className="flex items-start gap-3">
+                <Download className="h-5 w-5 text-blue-600 mt-0.5" />
+                <div>
+                  <h4 className="font-semibold text-blue-800">Ressources téléchargeables</h4>
+                  <p className="text-sm text-blue-600">
+                    Ajoutez les liens vers les ressources du workshop (support de présentation, référentiel, etc.)
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                <Link size={16} />
+                URL du support de présentation
+              </label>
+              <input
+                type="url"
+                value={editingData.support_url || ''}
+                onChange={(e) => setEditingData(prev => ({ ...prev, support_url: e.target.value }))}
+                placeholder="https://onedrive.com/... ou autre lien direct"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ciprel-green-500"
+              />
+              <p className="text-xs text-gray-500 mt-1">Lien vers le fichier PowerPoint ou PDF du support</p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                <Link size={16} />
+                URL du référentiel de compétences
+              </label>
+              <input
+                type="url"
+                value={editingData.referentiel_url || ''}
+                onChange={(e) => setEditingData(prev => ({ ...prev, referentiel_url: e.target.value }))}
+                placeholder="https://onedrive.com/... ou autre lien direct"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ciprel-green-500"
+              />
+              <p className="text-xs text-gray-500 mt-1">Lien vers le document du référentiel métier</p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                <Link size={16} />
+                Lien OneDrive général (optionnel)
+              </label>
+              <input
+                type="url"
+                value={editingData.onedrive || ''}
+                onChange={(e) => setEditingData(prev => ({ ...prev, onedrive: e.target.value }))}
+                placeholder="https://onedrive.com/..."
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ciprel-green-500"
+              />
+              <p className="text-xs text-gray-500 mt-1">Dossier OneDrive contenant toutes les ressources</p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                <Link size={16} />
+                URL de la vidéo du workshop (optionnel)
+              </label>
+              <input
+                type="url"
+                value={editingData.video || ''}
+                onChange={(e) => setEditingData(prev => ({ ...prev, video: e.target.value }))}
+                placeholder="https://youtube.com/... ou https://onedrive.com/..."
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ciprel-green-500"
+              />
+              <p className="text-xs text-gray-500 mt-1">Lien vers une vidéo de présentation du workshop</p>
+            </div>
+
+            {/* Aperçu des ressources configurées */}
+            <div className="bg-gray-50 rounded-lg p-4 mt-4">
+              <h4 className="font-semibold text-gray-800 mb-3">Aperçu des ressources</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center gap-2">
+                  <span className={editingData.support_url ? 'text-green-600' : 'text-gray-400'}>
+                    {editingData.support_url ? '✓' : '○'}
+                  </span>
+                  <span className={editingData.support_url ? 'text-gray-700' : 'text-gray-400'}>
+                    Support de présentation
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={editingData.referentiel_url ? 'text-green-600' : 'text-gray-400'}>
+                    {editingData.referentiel_url ? '✓' : '○'}
+                  </span>
+                  <span className={editingData.referentiel_url ? 'text-gray-700' : 'text-gray-400'}>
+                    Référentiel de compétences
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={editingData.onedrive ? 'text-green-600' : 'text-gray-400'}>
+                    {editingData.onedrive ? '✓' : '○'}
+                  </span>
+                  <span className={editingData.onedrive ? 'text-gray-700' : 'text-gray-400'}>
+                    Dossier OneDrive
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={editingData.video ? 'text-green-600' : 'text-gray-400'}>
+                    {editingData.video ? '✓' : '○'}
+                  </span>
+                  <span className={editingData.video ? 'text-gray-700' : 'text-gray-400'}>
+                    Vidéo du workshop
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+
       default:
         return null
     }
@@ -669,6 +794,16 @@ export function WorkshopsMetiersAdminUnified() {
                         <Edit2 size={18} />
                       </button>
                     )}
+
+                    {/* Bouton gérer les questions du quiz */}
+                    <button
+                      onClick={() => router.push(`/admin/workshops-metiers/${workshop.id}/questions`)}
+                      className="flex items-center gap-1 px-3 py-1.5 text-purple-600 hover:bg-purple-50 rounded-lg text-sm font-medium"
+                      title="Gérer les questions du quiz"
+                    >
+                      <HelpCircle size={16} />
+                      Quiz
+                    </button>
 
                     {/* Bouton expand/collapse */}
                     <button

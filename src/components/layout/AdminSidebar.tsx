@@ -26,12 +26,7 @@ const navigation = [
     icon: Users,
   },
   {
-    name: 'Métiers',
-    href: '/admin/metiers',
-    icon: Presentation,
-  },
-  {
-    name: 'Workshops Métiers',
+    name: 'Workshops & Quiz',
     href: '/admin/workshops-metiers',
     icon: Briefcase,
   },

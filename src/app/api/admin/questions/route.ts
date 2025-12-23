@@ -135,6 +135,7 @@ export async function POST(request: NextRequest) {
       order_index,
       active: body.active !== undefined ? body.active : true,
       metier_id: body.metier_id || null,
+      workshop_id: body.workshop_id || null,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     }
