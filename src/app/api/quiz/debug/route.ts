@@ -52,9 +52,28 @@ export async function GET(request: NextRequest) {
       .order('ordre')
 
     // 4. Si un workshop_id spécifique est demandé, chercher ses questions
-    let specificQuestions = null
+    interface QuestionInfo {
+      id: string
+      title: string
+      workshop_id: string | null
+      metier_id: number | null
+      active: boolean
+    }
+    
+    interface SpecificQuestionsResult {
+      workshopId: string
+      count: number
+      questions: QuestionInfo[]
+      alternativeByMetierId?: {
+        metierId: number
+        count: number
+        questions: QuestionInfo[]
+      }
+    }
+    
+    let specificQuestions: SpecificQuestionsResult | null = null
     if (workshopId) {
-      const { data: questions, error: error3 } = await supabaseAdmin
+      const { data: questions } = await supabaseAdmin
         .from('questions')
         .select('id, title, question, workshop_id, metier_id, quiz_type, active')
         .eq('workshop_id', workshopId)

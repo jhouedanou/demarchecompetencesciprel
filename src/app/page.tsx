@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect, lazy, Suspense } from 'react'
+import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination, Mousewheel, Navigation } from 'swiper/modules'
 import type { Swiper as SwiperType } from 'swiper'
@@ -444,11 +445,11 @@ export default function HomePage() {
 
                 {/* Hero Header with logos on sides */}
                 <div className="flex items-center justify-center gap-6 mb-6 flex-wrap">
-                  <img src="/images/logo.webp" alt="CIPREL" className="h-12 w-auto object-contain drop-shadow-lg" />
+                  <Image src="/images/logo.webp" alt="CIPREL" width={120} height={48} className="h-12 w-auto object-contain drop-shadow-lg" />
                   <h1 className="text-3xl md:text-4xl font-bold text-ciprel-orange-600 whitespace-nowrap">
                     Bienvenue dans l'univers de la démarche compétences
                   </h1>
-                  <img src="/images/30ans.png" alt="30 ans CIPREL" className="h-12 w-auto object-contain drop-shadow-lg" />
+                  <Image src="/images/30ans.png" alt="30 ans CIPREL" width={120} height={48} className="h-12 w-auto object-contain drop-shadow-lg" />
                 </div>
 
                 <p className="text-center text-gray-700 text-lg mb-8 max-w-3xl mx-auto">
