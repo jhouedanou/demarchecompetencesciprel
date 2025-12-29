@@ -1214,8 +1214,8 @@ export default function HomePage() {
           <section id="hero" className="min-h-screen overflow-y-auto bg-gradient-to-br from-ciprel-green-50 via-white to-ciprel-orange-50 px-4 py-16">
             <div className="max-w-7xl mx-auto flex flex-col justify-center">
               <div className="flex items-center justify-center gap-8 mb-8 flex-wrap">
-                <img src="/images/logo.webp" alt="CIPREL" className="h-20 w-auto object-contain drop-shadow-lg" />
-                <img src="/images/30ans.png" alt="30 ans CIPREL" className="h-20 w-auto object-contain drop-shadow-lg" />
+                <Image src="/images/logo.webp" alt="CIPREL" width={200} height={80} className="h-20 w-auto object-contain drop-shadow-lg" />
+                <Image src="/images/30ans.png" alt="30 ans CIPREL" width={200} height={80} className="h-20 w-auto object-contain drop-shadow-lg" />
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-center text-ciprel-black mb-4">
                 La Démarche Compétence CIPREL

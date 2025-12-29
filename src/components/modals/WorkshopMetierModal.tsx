@@ -35,7 +35,7 @@ interface WorkshopMetierModalProps {
 }
 
 export function WorkshopMetierModal({ workshop, isOpen, onClose, onOpenQuiz }: WorkshopMetierModalProps) {
-  const [activeTab, setActiveTab] = useState<'overview' | 'roles' | 'competences' | 'interactions'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'roles' | 'competences' | 'interactions' | 'ressources'>('overview')
 
   if (!workshop) return null
 
@@ -48,9 +48,42 @@ export function WorkshopMetierModal({ workshop, isOpen, onClose, onOpenQuiz }: W
 
   // Extraction des piliers (structure variable selon le workshop)
   const piliers = workshop.contenu.presentation?.piliers || []
-  const piliersArray = Array.isArray(piliers)
-    ? piliers
-    : (typeof piliers === 'object' ? Object.values(piliers).flat() : [])
+  
+  // Fonction pour normaliser les piliers en tableau de strings lisibles
+  const normalizePiliers = (data: any): string[] => {
+    if (Array.isArray(data)) {
+      return data.flatMap(item => {
+        if (typeof item === 'string') {
+          // Vérifier si c'est du JSON stringifié
+          try {
+            const parsed = JSON.parse(item)
+            if (parsed.activites && Array.isArray(parsed.activites)) {
+              const prefix = parsed.part ? `(${parsed.part}) ` : ''
+              return parsed.activites.map((a: string) => prefix + a)
+            }
+            return [item]
+          } catch {
+            return [item]
+          }
+        }
+        if (typeof item === 'object' && item !== null) {
+          if (item.activites && Array.isArray(item.activites)) {
+            const prefix = item.part ? `(${item.part}) ` : ''
+            return item.activites.map((a: string) => prefix + a)
+          }
+          if (item.titre) return [item.titre]
+          return [JSON.stringify(item)]
+        }
+        return []
+      })
+    }
+    if (typeof data === 'object' && data !== null) {
+      return Object.values(data).flatMap(val => normalizePiliers(val))
+    }
+    return []
+  }
+  
+  const piliersArray = normalizePiliers(piliers)
 
   // Extraire l'ID YouTube si une URL vidéo est fournie
   const getYouTubeId = (url: string) => {
@@ -92,6 +125,7 @@ export function WorkshopMetierModal({ workshop, isOpen, onClose, onOpenQuiz }: W
               { id: 'roles', label: 'Rôles', icon: Users },
               { id: 'competences', label: 'Compétences', icon: BookOpen },
               { id: 'interactions', label: 'Interactions', icon: Globe },
+              { id: 'ressources', label: 'Ressources & Quiz', icon: Download },
             ].map(tab => (
               <button
                 key={tab.id}
@@ -295,15 +329,36 @@ export function WorkshopMetierModal({ workshop, isOpen, onClose, onOpenQuiz }: W
             </div>
           )}
 
-          {/* Section finale : Ressources et Quiz */}
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <h3 className="text-xl font-bold text-ciprel-black mb-4 flex items-center gap-2">
-              <Download className="h-5 w-5 text-ciprel-orange-600" />
-              Ressources et évaluation
-            </h3>
+          {/* Tab: Ressources & Évaluation */}
+          {activeTab === 'ressources' && (
+            <div className="space-y-6">
+              <h3 className="text-xl font-bold text-ciprel-black mb-4 flex items-center gap-2">
+                <Download className="h-5 w-5 text-ciprel-orange-600" />
+                Ressources et évaluation
+              </h3>
+              
+              {/* Vidéo si disponible */}
+              {workshop.video && (
+                <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100">
+                  <h4 className="font-semibold text-ciprel-black mb-4 flex items-center gap-2">
+                    <Play className="h-5 w-5 text-ciprel-green-600" />
+                    Vidéo de présentation
+                  </h4>
+                  <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
+                    <video
+                      src={workshop.video}
+                      controls
+                      className="w-full h-full"
+                      poster={`/images/workshops/${workshop.id}-poster.jpg`}
+                    >
+                      Votre navigateur ne supporte pas la lecture de vidéos.
+                    </video>
+                  </div>
+                </div>
+              )}
             
-            <div className="grid md:grid-cols-2 gap-4">
-              {/* Télécharger les ressources */}
+              <div className="grid md:grid-cols-2 gap-4">
+                {/* Télécharger les ressources */}
               {(workshop.support_url || workshop.referentiel_url || workshop.onedrive) && (
                 <div className="bg-gradient-to-br from-ciprel-green-50 to-white rounded-xl p-5 border border-ciprel-green-200">
                   <h4 className="font-semibold text-ciprel-green-800 mb-3 flex items-center gap-2">
@@ -371,6 +426,7 @@ export function WorkshopMetierModal({ workshop, isOpen, onClose, onOpenQuiz }: W
               </div>
             </div>
           </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>

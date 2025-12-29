@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils/cn'
 import {
@@ -50,9 +51,11 @@ export function AdminSidebar() {
       <div className="flex h-16 items-center justify-between px-4 border-b border-gray-200">
         {!collapsed && (
           <div className="flex items-center space-x-3">
-            <img
+            <Image
               src="/images/logo.webp"
               alt="CIPREL"
+              width={80}
+              height={32}
               className="h-8 w-auto"
             />
             <span className="text-xl font-bold text-gray-900">

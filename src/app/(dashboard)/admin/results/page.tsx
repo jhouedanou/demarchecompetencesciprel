@@ -44,7 +44,8 @@ export default function AdminResultsPage() {
             return
         }
         loadResults()
-    }, [isAdminAuthenticated, page, filterQuizType])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAdminAuthenticated, page, filterQuizType, router])
 
     const loadResults = async () => {
         try {

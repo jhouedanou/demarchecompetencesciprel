@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { useAdmin } from '@/contexts/AdminContext'
 import { LogIn, AlertCircle } from 'lucide-react'
 
@@ -41,7 +42,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md">
         {/* Logo and branding */}
         <div className="text-center mb-8">
-          <img src="/images/logo.webp" alt="CIPREL" className="h-16 w-auto mx-auto mb-4 drop-shadow-lg" />
+          <Image src="/images/logo.webp" alt="CIPREL" width={160} height={64} className="h-16 w-auto mx-auto mb-4 drop-shadow-lg" />
           <h1 className="text-3xl font-bold text-ciprel-orange-600 mb-2">Espace Admin</h1>
           <p className="text-gray-600">Gestion de la Démarche Compétence</p>
         </div>

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Menu, 
@@ -95,7 +96,7 @@ export function CiprelNavigation() {
           {/* Logo CIPREL Corporate */}
           <Link href="/" className="flex items-center space-x-4 group">
             <div className="relative">
-            <img src="../images/logo.webp"/>
+            <Image src="/images/logo.webp" alt="CIPREL" width={120} height={48} />
             </div>
           </Link>
 

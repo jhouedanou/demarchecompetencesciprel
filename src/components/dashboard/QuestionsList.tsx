@@ -77,6 +77,7 @@ export default function QuestionsList({ fixedQuizType }: QuestionsListProps) {
 
   useEffect(() => {
     fetchQuestions(currentPage)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, filterCategory, filterQuizType, filterActive])
 
   const handleDelete = async (questionId: string) => {

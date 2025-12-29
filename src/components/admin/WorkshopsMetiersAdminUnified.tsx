@@ -212,7 +212,41 @@ export function WorkshopsMetiersAdminUnified() {
     path: string[]
     placeholder?: string 
   }) => {
-    const items = getContenuValue(path, []) as string[]
+    // Récupérer les données et les normaliser en tableau
+    const rawValue = getContenuValue(path, [])
+    
+    // Fonction pour normaliser les données en tableau de strings
+    const normalizeToArray = (value: any): string[] => {
+      if (Array.isArray(value)) {
+        return value.map(item => typeof item === 'string' ? item : JSON.stringify(item))
+      }
+      if (typeof value === 'string') {
+        // Essayer de parser si c'est du JSON
+        try {
+          const parsed = JSON.parse(value)
+          if (Array.isArray(parsed)) return parsed
+          if (parsed.activites && Array.isArray(parsed.activites)) {
+            // Format {"activites": [...], "part": "80%"}
+            const prefix = parsed.part ? `(${parsed.part}) ` : ''
+            return parsed.activites.map((a: string) => prefix + a)
+          }
+          return [value]
+        } catch {
+          return [value]
+        }
+      }
+      if (typeof value === 'object' && value !== null) {
+        // Gérer le format {"activites": [...], "part": "80%"}
+        if (value.activites && Array.isArray(value.activites)) {
+          const prefix = value.part ? `(${value.part}) ` : ''
+          return value.activites.map((a: string) => prefix + a)
+        }
+        return []
+      }
+      return []
+    }
+    
+    const items = normalizeToArray(rawValue)
     const [newItem, setNewItem] = useState('')
 
     const addItem = () => {

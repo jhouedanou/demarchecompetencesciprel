@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Bell, Search, User, LogOut, Settings, Eye, CheckCircle, AlertCircle, Play, Brain, Clock } from 'lucide-react'
 import { useAuthStore } from '@/stores/auth-store'
 import { LogoutModal } from '@/components/auth/LogoutModal'
@@ -105,9 +106,11 @@ export function Navbar() {
       <div className="h-full px-4 lg:px-6 flex items-center justify-between">
         {/* Logo et titre (visible sur mobile) */}
         <div className="flex items-center lg:hidden">
-          <img
+          <Image
             src="/images/logo.webp"
             alt="CIPREL"
+            width={80}
+            height={32}
             className="h-8 w-auto mr-3"
           />
           <span className="text-xl font-bold text-gray-900">

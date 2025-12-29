@@ -1,4 +1,5 @@
 import { Loader2 } from 'lucide-react'
+import Image from 'next/image'
 
 interface LoadingScreenProps {
   message?: string
@@ -9,9 +10,11 @@ export function LoadingScreen({ message = 'Chargement...' }: LoadingScreenProps)
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-ciprel-green-50 via-white to-ciprel-orange-50">
       <div className="flex flex-col items-center justify-center space-y-6 px-4">
         {/* Logo CIPREL */}
-        <img
+        <Image
           src="/images/logo.webp"
           alt="CIPREL"
+          width={240}
+          height={96}
           className="h-24 w-auto object-contain drop-shadow-lg animate-pulse"
         />
 

@@ -61,7 +61,8 @@ export default function MetierQuestionsPage() {
             return
         }
         loadQuestions()
-    }, [isAdminAuthenticated, metierId])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAdminAuthenticated, metierId, router])
 
     const loadQuestions = async () => {
         try {

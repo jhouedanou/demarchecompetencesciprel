@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Questrial } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
 import './globals.css'
@@ -15,6 +15,17 @@ const questrial = Questrial({
   weight: '400',
   display: 'swap',
 })
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#EE7F00' },
+    { media: '(prefers-color-scheme: dark)', color: '#EE7F00' },
+  ],
+}
 
 export const metadata: Metadata = {
   title: {
@@ -62,16 +73,6 @@ export const metadata: Metadata = {
     description: 'Développez vos compétences avec CIPREL',
     images: [`${ENV.APP_URL}/images/og-image.png`],
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#EE7F00' },
-    { media: '(prefers-color-scheme: dark)', color: '#EE7F00' },
-  ],
   manifest: '/manifest.json',
   icons: {
     icon: [
