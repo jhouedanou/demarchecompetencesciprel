@@ -1,9 +1,29 @@
 /**
  * API Client utilities for authenticated requests
  * Handles JWT token injection for server-side authentication
+ * Supports both Supabase JWT auth and local admin auth
  */
 
 import { supabase } from '@/lib/supabase/client'
+
+const ADMIN_STORAGE_KEY = 'ciprel_admin_auth'
+
+/**
+ * Check if local admin is authenticated
+ */
+function isLocalAdminAuthenticated(): boolean {
+  if (typeof window === 'undefined') return false
+  try {
+    const savedAuth = localStorage.getItem(ADMIN_STORAGE_KEY)
+    if (savedAuth) {
+      const auth = JSON.parse(savedAuth)
+      return auth.isAuthenticated === true
+    }
+  } catch {
+    // Ignore errors
+  }
+  return false
+}
 
 /**
  * Get the current user's JWT access token
@@ -33,6 +53,7 @@ export async function getAccessToken(): Promise<string | null> {
 /**
  * Fetch wrapper that automatically adds JWT token to requests
  * Use this instead of native fetch() for authenticated API calls
+ * Supports both Supabase JWT auth and local admin auth
  *
  * @example
  * const data = await authFetch('/api/admin/users')
@@ -43,13 +64,18 @@ export async function authFetch(
   options: RequestInit = {}
 ): Promise<Response> {
   const token = await getAccessToken()
+  const isLocalAdmin = isLocalAdminAuthenticated()
 
   const headers = new Headers(options.headers || {})
 
-  // Add Authorization header with JWT token
+  // Add Authorization header with JWT token if available
   if (token) {
     headers.set('Authorization', `Bearer ${token}`)
     console.log('[authFetch] Token added to request:', url)
+  } else if (isLocalAdmin) {
+    // If no JWT but local admin is authenticated, add admin auth header
+    headers.set('X-Admin-Auth', 'local-admin-authenticated')
+    console.log('[authFetch] Local admin auth header added to request:', url)
   } else {
     console.warn('[authFetch] No token available for request:', url)
   }
@@ -62,7 +88,8 @@ export async function authFetch(
   console.log('[authFetch] Request details:', {
     method: options.method || 'GET',
     url,
-    hasToken: !!token
+    hasToken: !!token,
+    hasLocalAdmin: isLocalAdmin
   })
 
   try {

@@ -8,6 +8,34 @@ import { createClient } from '@supabase/supabase-js'
 import type { Database } from '@/types/database'
 
 /**
+ * Check if admin local authentication header is present
+ */
+export function checkAdminLocalAuth(request: NextRequest): boolean {
+  const adminAuthHeader = request.headers.get('X-Admin-Auth')
+  return adminAuthHeader === 'local-admin-authenticated'
+}
+
+/**
+ * Create a service role Supabase client for admin operations
+ * This bypasses RLS policies
+ */
+export function createServiceClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  if (!supabaseUrl || !supabaseServiceKey) {
+    throw new Error('Missing Supabase configuration')
+  }
+
+  return createClient<Database>(supabaseUrl, supabaseServiceKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  })
+}
+
+/**
  * Extract JWT token from Authorization header
  */
 export function extractToken(request: NextRequest): string | null {
@@ -124,11 +152,36 @@ export async function checkAdminPermissions(
 /**
  * Middleware-like function to protect admin routes
  * Returns authenticated user and supabase client or error response data
+ * Supports both Supabase JWT auth and local admin auth
  */
 export async function requireAdmin(request: NextRequest): Promise<
   | { user: any; supabase: any; error: null }
   | { user: null; supabase: null; error: { message: string; status: number } }
 > {
+  // First, check for local admin authentication
+  if (checkAdminLocalAuth(request)) {
+    console.log('[API Auth] Local admin authentication detected')
+    try {
+      const serviceClient = createServiceClient()
+      return {
+        user: { id: 'local-admin', email: 'admin@ciprel.local', role: 'ADMIN' },
+        supabase: serviceClient,
+        error: null,
+      }
+    } catch (error) {
+      console.error('[API Auth] Failed to create service client:', error)
+      return {
+        user: null,
+        supabase: null,
+        error: {
+          message: 'Erreur de configuration serveur',
+          status: 500,
+        },
+      }
+    }
+  }
+
+  // Fall back to Supabase JWT authentication
   const authResult = await getAuthenticatedUser(request)
 
   if (!authResult) {
