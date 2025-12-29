@@ -54,6 +54,12 @@ export default function WorkshopQuestionsPage() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editingQuestion, setEditingQuestion] = useState<Question | null>(null)
     const [deletingId, setDeletingId] = useState<string | null>(null)
+    const [isHydrated, setIsHydrated] = useState(false)
+
+    // Mark component as hydrated after mount
+    useEffect(() => {
+        setIsHydrated(true)
+    }, [])
 
     const loadQuestions = useCallback(async () => {
         try {
@@ -83,12 +89,15 @@ export default function WorkshopQuestionsPage() {
     }, [workshopId])
 
     useEffect(() => {
+        // Wait for hydration before checking authentication
+        if (!isHydrated) return
+        
         if (!isAdminAuthenticated) {
             router.push('/admin')
             return
         }
         loadQuestions()
-    }, [isAdminAuthenticated, workshopId, loadQuestions, router])
+    }, [isAdminAuthenticated, isHydrated, workshopId, loadQuestions, router])
 
     const handleToggleActive = async (questionId: string, currentActive: boolean) => {
         try {

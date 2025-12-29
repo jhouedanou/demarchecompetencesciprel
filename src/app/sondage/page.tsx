@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { CiprelNavigation } from '@/components/ciprel/CiprelNavigation'
-import { CiprelSondageContent } from '@/components/ciprel/CiprelSondageContent'
+import { CiprelUXSurveyContent } from '@/components/ciprel/CiprelUXSurveyContent'
 import { useUser } from '@/hooks/useUser'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
 import { Lock, BookOpen, ArrowLeft, HelpCircle } from 'lucide-react'
@@ -176,10 +176,10 @@ export default function SondagePage() {
               Retour à l'accueil
             </Link>
             <h1 className="text-3xl font-bold text-gray-900 mb-4">
-              Sondage d&apos;opinion
+              Sondage d&apos;expérience utilisateur
             </h1>
             <p className="text-lg text-gray-600 mb-6">
-              Partagez vos attentes et vos retours pour améliorer le déploiement de la démarche compétences.
+              Aidez-nous à améliorer la plateforme en partageant votre expérience de navigation et d&apos;utilisation.
             </p>
 
             <button
@@ -196,13 +196,13 @@ export default function SondagePage() {
       <Dialog open={isModalOpen} onOpenChange={(open) => !open && handleCloseModal()}>
         <DialogContent className="max-w-5xl w-full max-h-[90vh] overflow-y-auto">
           <DialogTitle className="text-2xl font-semibold text-ciprel-black">
-            Sondage d&apos;opinion
+            Sondage Expérience Utilisateur
           </DialogTitle>
           <DialogDescription className="text-sm text-gray-600">
-            Partagez vos attentes et vos retours pour améliorer le déploiement de la démarche compétences.
+            Aidez-nous à améliorer la plateforme en partageant votre expérience de navigation et d&apos;utilisation.
           </DialogDescription>
           <div className="mt-6">
-            <CiprelSondageContent
+            <CiprelUXSurveyContent
               variant="modal"
               onClose={handleCloseModal}
               onNavigate={handleSurveyNavigate}

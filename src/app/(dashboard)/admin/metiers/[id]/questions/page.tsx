@@ -54,15 +54,24 @@ export default function MetierQuestionsPage() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editingQuestion, setEditingQuestion] = useState<Question | null>(null)
     const [deletingId, setDeletingId] = useState<string | null>(null)
+    const [isHydrated, setIsHydrated] = useState(false)
+
+    // Mark component as hydrated after mount
+    useEffect(() => {
+        setIsHydrated(true)
+    }, [])
 
     useEffect(() => {
+        // Wait for hydration before checking authentication
+        if (!isHydrated) return
+        
         if (!isAdminAuthenticated) {
             router.push('/admin')
             return
         }
         loadQuestions()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isAdminAuthenticated, metierId, router])
+    }, [isAdminAuthenticated, isHydrated, metierId, router])
 
     const loadQuestions = async () => {
         try {

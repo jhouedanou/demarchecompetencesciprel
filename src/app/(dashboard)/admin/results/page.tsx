@@ -37,15 +37,24 @@ export default function AdminResultsPage() {
     const [total, setTotal] = useState(0)
     const [filterQuizType, setFilterQuizType] = useState<string>('')
     const [selectedResult, setSelectedResult] = useState<QuizResult | null>(null)
+    const [isHydrated, setIsHydrated] = useState(false)
+
+    // Mark component as hydrated after mount
+    useEffect(() => {
+        setIsHydrated(true)
+    }, [])
 
     useEffect(() => {
+        // Wait for hydration before checking authentication
+        if (!isHydrated) return
+        
         if (!isAdminAuthenticated) {
             router.push('/admin')
             return
         }
         loadResults()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isAdminAuthenticated, page, filterQuizType, router])
+    }, [isAdminAuthenticated, isHydrated, page, filterQuizType, router])
 
     const loadResults = async () => {
         try {

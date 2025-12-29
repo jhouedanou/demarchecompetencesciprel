@@ -26,7 +26,7 @@ const SynoptiqueContent = lazy(() => import('@/components/sections/SynoptiqueCon
 const LeviersContent = lazy(() => import('@/components/sections/LeviersContent').then(m => ({ default: m.LeviersContent })))
 const RessourcesContent = lazy(() => import('@/components/sections/RessourcesContent').then(m => ({ default: m.RessourcesContent })))
 const QuizEngine = lazy(() => import('@/components/quiz/QuizEngine').then(m => ({ default: m.QuizEngine })))
-const SurveySelector = lazy(() => import('@/components/ciprel/SurveySelector').then(m => ({ default: m.SurveySelector })))
+const CiprelUXSurveyContent = lazy(() => import('@/components/ciprel/CiprelUXSurveyContent').then(m => ({ default: m.CiprelUXSurveyContent })))
 const LogoutModal = lazy(() => import('@/components/auth/LogoutModal').then(m => ({ default: m.LogoutModal })))
 const VideoPlayerModal = lazy(() => import('@/components/modals/VideoPlayerModal').then(m => ({ default: m.VideoPlayerModal })))
 const MetiersHome = lazy(() => import('@/components/MetiersHome').then(m => ({ default: m.MetiersHome })))
@@ -74,25 +74,25 @@ const PRACTICE_VIDEOS = [
   {
     id: 1,
     title: 'Étude de cas 1',
-    description: 'Découvrez une situation métier illustrant la mise en œuvre de la démarche compétences.',
+    description: 'Découvrez une situation métier illustrant la mise en œuvre de la démarche compétence.',
     url: 'https://www.youtube.com/embed/ScMzIvxBSi4',
   },
   {
     id: 2,
     title: 'Étude de cas 2',
-    description: 'Découvrez une situation métier illustrant la mise en œuvre de la démarche compétences.',
+    description: 'Découvrez une situation métier illustrant la mise en œuvre de la démarche compétence.',
     url: 'https://www.youtube.com/embed/ScMzIvxBSi4',
   },
   {
     id: 3,
     title: 'Étude de cas 3',
-    description: 'Découvrez une situation métier illustrant la mise en œuvre de la démarche compétences.',
+    description: 'Découvrez une situation métier illustrant la mise en œuvre de la démarche compétence.',
     url: 'https://www.youtube.com/embed/ScMzIvxBSi4',
   },
   {
     id: 4,
     title: 'Étude de cas 4',
-    description: 'Découvrez une situation métier illustrant la mise en œuvre de la démarche compétences.',
+    description: 'Découvrez une situation métier illustrant la mise en œuvre de la démarche compétence.',
     url: 'https://www.youtube.com/embed/ScMzIvxBSi4',
   },
 ]
@@ -447,7 +447,7 @@ export default function HomePage() {
                 <div className="flex items-center justify-center gap-6 mb-6 flex-wrap">
                   <Image src="/images/logo.webp" alt="CIPREL" width={120} height={48} className="h-12 w-auto object-contain drop-shadow-lg" />
                   <h1 className="text-3xl md:text-4xl font-bold text-ciprel-orange-600 whitespace-nowrap">
-                    Bienvenue dans l'univers de la démarche compétences
+                    Bienvenue dans l'univers de la démarche compétence
                   </h1>
                   <Image src="/images/30ans.png" alt="30 ans CIPREL" width={120} height={48} className="h-12 w-auto object-contain drop-shadow-lg" />
                 </div>
@@ -529,7 +529,7 @@ export default function HomePage() {
                     className="bg-ciprel-green-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
                   >
                     <ChevronDown className="h-5 w-5 mr-2" />
-                    Accéder à l'introduction de la démarche compétences
+                    Accéder à l'introduction de la démarche compétence
                   </button>
                 </div>
               </div>
@@ -540,6 +540,12 @@ export default function HomePage() {
             {/* DEFINITIONS AND OBJECTIVES SLIDE - Slide 1 - Définitions et objectifs */}
             <section className="h-full overflow-y-auto bg-gradient-to-br from-ciprel-green-50 via-white to-gray-50">
               <div className="max-w-7xl mx-auto px-4 py-16">
+                {/* Titre de la slide */}
+                <div className="text-center mb-8">
+                  <h2 className="text-3xl md:text-4xl font-bold text-ciprel-black">
+                    Introduction à la démarche compétence
+                  </h2>
+                </div>
                 {/* Internal Carousel for Definitions and Objectives */}
                 <div className="relative px-12 min-h-[600px]">
                   <Swiper
@@ -1115,10 +1121,10 @@ export default function HomePage() {
                     Votre avis compte
                   </div>
                   <h2 className="text-3xl md:text-4xl font-bold text-ciprel-black mb-4">
-                    Sondage d'opinion
+                    Sondage d'expérience utilisateur
                   </h2>
                   <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                    Participez à l'amélioration continue de la démarche compétences en partageant votre avis et vos suggestions.
+                    Participez à l'amélioration continue de la démarche compétence en partageant votre avis et vos suggestions.
                   </p>
                 </div>
 
@@ -1134,7 +1140,7 @@ export default function HomePage() {
                           Partagez votre expérience
                         </h3>
                         <p className="text-gray-600">
-                          Vos retours nous aident à améliorer la démarche compétences et à mieux répondre à vos besoins.
+                          Vos retours nous aident à améliorer la démarche compétence et à mieux répondre à vos besoins.
                         </p>
                       </div>
 
@@ -1145,7 +1151,7 @@ export default function HomePage() {
                             Ce que nous aimerions savoir
                           </h4>
                           <ul className="text-sm text-gray-600 space-y-1 ml-7">
-                            <li>• Votre compréhension de la démarche compétences</li>
+                            <li>• Votre compréhension de la démarche compétence</li>
                             <li>• L'utilité des ressources proposées</li>
                             <li>• Vos suggestions d'amélioration</li>
                           </ul>
@@ -1485,7 +1491,7 @@ export default function HomePage() {
                   Application pratique
                 </span>
                 <h2 className="text-3xl font-bold text-ciprel-black mb-3">
-                  Application pratique de votre démarche compétences
+                  Application pratique de votre démarche compétence
                 </h2>
                 <p className="text-gray-600">
                   Inspirez-vous de ces mises en situation pour animer vos propres ateliers compétences.
@@ -1784,7 +1790,7 @@ export default function HomePage() {
             </DialogTitle>
             <DialogDescription className="text-sm text-gray-600">
               {quizConfig.type === 'INTRODUCTION'
-                ? "Validez vos connaissances sur les fondamentaux de la démarche compétences."
+                ? "Validez vos connaissances sur les fondamentaux de la démarche compétence."
                 : "Testez vos connaissances sur ce métier."}
             </DialogDescription>
             <Suspense fallback={<LoadingScreen message="Chargement du quiz..." />}>
@@ -1811,13 +1817,13 @@ export default function HomePage() {
         >
           <DialogContent className="max-w-5xl w-full max-h-[90vh] overflow-y-auto">
             <DialogTitle className="text-2xl font-semibold text-ciprel-black">
-              Sondages CIPREL
+              Sondage Expérience Utilisateur
             </DialogTitle>
             <DialogDescription className="text-sm text-gray-600">
-              Choisissez le sondage que vous souhaitez remplir pour nous aider à améliorer la plateforme.
+              Aidez-nous à améliorer la plateforme en partageant votre expérience de navigation et d'utilisation.
             </DialogDescription>
-            <Suspense fallback={<LoadingScreen message="Chargement des sondages..." />}>
-              <SurveySelector
+            <Suspense fallback={<LoadingScreen message="Chargement du sondage..." />}>
+              <CiprelUXSurveyContent
                 variant="modal"
                 onClose={() => setSurveyModalOpen(false)}
                 onNavigate={handleSurveyNavigate}
