@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { ArrowLeft, Plus, Trash2, Edit, Eye, EyeOff, Loader2 } from 'lucide-react'
 import { useAdmin } from '@/contexts/AdminContext'
+import { useAuthStore } from '@/stores/auth-store'
 import { authFetch } from '@/lib/api/client'
 import toast from 'react-hot-toast'
 
@@ -46,6 +47,12 @@ export default function WorkshopQuestionsPage() {
     const workshopId = params.id as string
     const router = useRouter()
     const { isAdminAuthenticated } = useAdmin()
+    const { user, isAuthenticated, isLoading: isAuthLoading } = useAuthStore()
+    const [mounted, setMounted] = useState(false)
+
+    // Support both local admin auth and Supabase auth
+    const isSupabaseAdmin = isAuthenticated && user && ['ADMIN', 'MANAGER'].includes(user.role)
+    const hasAdminAccess = isAdminAuthenticated || isSupabaseAdmin
 
     const [questions, setQuestions] = useState<Question[]>([])
     const [loading, setLoading] = useState(true)
@@ -54,6 +61,11 @@ export default function WorkshopQuestionsPage() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editingQuestion, setEditingQuestion] = useState<Question | null>(null)
     const [deletingId, setDeletingId] = useState<string | null>(null)
+
+    // Wait for client-side hydration
+    useEffect(() => {
+        setMounted(true)
+    }, [])
 
     const loadQuestions = useCallback(async () => {
         try {
@@ -83,12 +95,39 @@ export default function WorkshopQuestionsPage() {
     }, [workshopId])
 
     useEffect(() => {
-        if (!isAdminAuthenticated) {
-            router.push('/admin')
+        // Wait for client-side hydration and auth loading to complete
+        if (!mounted) return
+
+        // If local admin auth is present, we're good - load immediately
+        if (isAdminAuthenticated) {
+            console.log('[WorkshopQuestions] Local admin auth detected, loading questions')
+            loadQuestions()
             return
         }
-        loadQuestions()
-    }, [isAdminAuthenticated, workshopId, loadQuestions, router])
+
+        // If Supabase auth is still loading, wait
+        if (isAuthLoading) {
+            console.log('[WorkshopQuestions] Auth still loading, waiting...')
+            return
+        }
+
+        // Check Supabase admin access
+        if (isSupabaseAdmin) {
+            console.log('[WorkshopQuestions] Supabase admin auth detected, loading questions')
+            loadQuestions()
+            return
+        }
+
+        // No valid auth found after loading complete
+        console.log('[WorkshopQuestions] No admin access, redirecting...', {
+            mounted,
+            isAuthLoading,
+            isAdminAuthenticated,
+            isSupabaseAdmin,
+            user: user?.email
+        })
+        router.push('/admin')
+    }, [mounted, isAuthLoading, hasAdminAccess, isAdminAuthenticated, isSupabaseAdmin, workshopId, loadQuestions, router, user])
 
     const handleToggleActive = async (questionId: string, currentActive: boolean) => {
         try {
@@ -201,7 +240,8 @@ export default function WorkshopQuestionsPage() {
         setIsModalOpen(true)
     }
 
-    if (loading) {
+    // Show loading while waiting for hydration or auth
+    if (!mounted || isAuthLoading || loading) {
         return (
             <div className="flex items-center justify-center min-h-screen">
                 <Loader2 className="w-8 h-8 animate-spin text-ciprel-green-600" />
