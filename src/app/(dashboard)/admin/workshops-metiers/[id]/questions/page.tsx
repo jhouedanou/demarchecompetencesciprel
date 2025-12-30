@@ -6,6 +6,7 @@ import { ArrowLeft, Plus, Trash2, Edit, Eye, EyeOff, Loader2 } from 'lucide-reac
 import { useAdmin } from '@/contexts/AdminContext'
 import { useAuthStore } from '@/stores/auth-store'
 import { authFetch } from '@/lib/api/client'
+import { AdminLoadingScreen } from '@/components/admin/AdminLoadingScreen'
 import toast from 'react-hot-toast'
 
 interface Question {
@@ -241,12 +242,12 @@ export default function WorkshopQuestionsPage() {
     }
 
     // Show loading while waiting for hydration or auth
-    if (!mounted || isAuthLoading || loading) {
-        return (
-            <div className="flex items-center justify-center min-h-screen">
-                <Loader2 className="w-8 h-8 animate-spin text-ciprel-green-600" />
-            </div>
-        )
+    if (!mounted || isAuthLoading) {
+        return <AdminLoadingScreen message="Verification des droits d'acces" />
+    }
+
+    if (loading) {
+        return <AdminLoadingScreen message="Chargement des questions" />
     }
 
     return (

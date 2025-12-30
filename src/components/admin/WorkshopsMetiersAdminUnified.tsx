@@ -3,15 +3,16 @@
 import { useState, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { authFetch } from '@/lib/api/client'
+import { AdminLoadingScreen } from '@/components/admin/AdminLoadingScreen'
 import toast from 'react-hot-toast'
-import { 
-  Loader2, 
-  Edit2, 
-  Save, 
-  X, 
-  Eye, 
-  EyeOff, 
-  ChevronDown, 
+import {
+  Loader2,
+  Edit2,
+  Save,
+  X,
+  Eye,
+  EyeOff,
+  ChevronDown,
   ChevronUp,
   Plus,
   Trash2,
@@ -776,9 +777,7 @@ export function WorkshopsMetiersAdminUnified() {
       {/* Liste des workshops */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
         {loading ? (
-          <div className="flex justify-center items-center p-8">
-            <Loader2 className="animate-spin text-ciprel-green-600" size={32} />
-          </div>
+          <AdminLoadingScreen message="Chargement des workshops" />
         ) : workshops.length === 0 ? (
           <div className="p-8 text-center text-gray-500">
             <p>Aucun workshop métier trouvé</p>
