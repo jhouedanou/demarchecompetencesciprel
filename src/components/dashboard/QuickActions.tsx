@@ -16,7 +16,7 @@ const quickActions = [
   {
     title: 'Gérer les workshops',
     description: 'Configurer les workshops métiers',
-    href: '/admin/workshops',
+    href: '/admin/workshops-metiers',
     icon: Presentation,
     color: 'bg-ciprel-orange-500 hover:bg-ciprel-orange-600',
   },

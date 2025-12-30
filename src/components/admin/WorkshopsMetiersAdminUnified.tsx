@@ -47,15 +47,22 @@ export function WorkshopsMetiersAdminUnified() {
   const loadWorkshops = useCallback(async () => {
     try {
       setLoading(true)
+      console.log('[WorkshopsAdmin] Loading workshops...')
       const response = await authFetch('/api/admin/workshops-metiers')
 
+      console.log('[WorkshopsAdmin] Response status:', response.status)
+
       if (!response.ok) {
-        throw new Error('Erreur lors du chargement des workshops métiers')
+        const errorData = await response.json().catch(() => ({}))
+        console.error('[WorkshopsAdmin] Error response:', errorData)
+        throw new Error(errorData.error || 'Erreur lors du chargement des workshops métiers')
       }
 
       const data = await response.json()
+      console.log('[WorkshopsAdmin] Workshops loaded:', data.workshops?.length || 0)
       setWorkshops(data.workshops || [])
     } catch (error) {
+      console.error('[WorkshopsAdmin] Load error:', error)
       toast.error(error instanceof Error ? error.message : 'Erreur lors du chargement')
       setWorkshops([])
     } finally {

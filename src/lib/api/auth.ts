@@ -23,7 +23,19 @@ export function createServiceClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
+  console.log('[API Auth] Creating service client:', {
+    hasUrl: !!supabaseUrl,
+    hasServiceKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+    hasAnonKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    usingServiceKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY
+  })
+
   if (!supabaseUrl || !supabaseServiceKey) {
+    console.error('[API Auth] Missing Supabase configuration:', {
+      url: supabaseUrl ? 'present' : 'MISSING',
+      serviceKey: process.env.SUPABASE_SERVICE_ROLE_KEY ? 'present' : 'MISSING',
+      anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'present' : 'MISSING'
+    })
     throw new Error('Missing Supabase configuration')
   }
 
@@ -158,11 +170,23 @@ export async function requireAdmin(request: NextRequest): Promise<
   | { user: any; supabase: any; error: null }
   | { user: null; supabase: null; error: { message: string; status: number } }
 > {
+  const requestUrl = request.url
+  const hasAdminHeader = request.headers.get('X-Admin-Auth')
+  const hasAuthHeader = request.headers.get('Authorization')
+
+  console.log('[API Auth] requireAdmin called:', {
+    url: requestUrl,
+    hasAdminHeader: !!hasAdminHeader,
+    hasAuthHeader: !!hasAuthHeader,
+    adminHeaderValue: hasAdminHeader
+  })
+
   // First, check for local admin authentication
   if (checkAdminLocalAuth(request)) {
-    console.log('[API Auth] Local admin authentication detected')
+    console.log('[API Auth] Local admin authentication detected - creating service client')
     try {
       const serviceClient = createServiceClient()
+      console.log('[API Auth] Service client created successfully')
       return {
         user: { id: 'local-admin', email: 'admin@ciprel.local', role: 'ADMIN' },
         supabase: serviceClient,
@@ -174,7 +198,7 @@ export async function requireAdmin(request: NextRequest): Promise<
         user: null,
         supabase: null,
         error: {
-          message: 'Erreur de configuration serveur',
+          message: 'Erreur de configuration serveur - vérifiez SUPABASE_SERVICE_ROLE_KEY',
           status: 500,
         },
       }
