@@ -25,7 +25,8 @@ const ressourcesData = [
     icon: BookOpen,
     color: "from-ciprel-green-500 to-ciprel-green-600",
     bgColor: "bg-ciprel-green-50",
-    dateUpdate: "Mars 2024"
+    dateUpdate: "Mars 2024",
+    downloadUrl: "/Guide_démarche_compétence.pdf"
   },
   {
     id: 2,
@@ -37,7 +38,8 @@ const ressourcesData = [
     icon: BarChart3,
     color: "from-ciprel-orange-500 to-ciprel-orange-600",
     bgColor: "bg-ciprel-orange-50",
-    dateUpdate: "Mars 2024"
+    dateUpdate: "Mars 2024",
+    downloadUrl: "/Guide_démarche_compétence.pdf"
   },
   {
     id: 3,
@@ -49,7 +51,8 @@ const ressourcesData = [
     icon: ClipboardList,
     color: "from-blue-500 to-blue-600",
     bgColor: "bg-blue-50",
-    dateUpdate: "Mars 2024"
+    dateUpdate: "Mars 2024",
+    downloadUrl: "/Guide_démarche_compétence.pdf"
   },
   {
     id: 4,
@@ -61,7 +64,8 @@ const ressourcesData = [
     icon: FileCheck,
     color: "from-purple-500 to-purple-600",
     bgColor: "bg-purple-50",
-    dateUpdate: "Avril 2024"
+    dateUpdate: "Avril 2024",
+    downloadUrl: "/Guide_démarche_compétence.pdf"
   },
   {
     id: 5,
@@ -73,7 +77,8 @@ const ressourcesData = [
     icon: Calendar,
     color: "from-emerald-500 to-emerald-600",
     bgColor: "bg-emerald-50",
-    dateUpdate: "Avril 2024"
+    dateUpdate: "Avril 2024",
+    downloadUrl: "/Guide_démarche_compétence.pdf"
   }
 ]
 
@@ -97,9 +102,16 @@ const categoriesData = [
 
 export function RessourcesContent() {
   const handleDownload = (ressourceId: number) => {
-    // Simulation du téléchargement
-    console.log(`Téléchargement de la ressource ${ressourceId}`)
-    // Dans un vrai projet, cela déclencherait le téléchargement du fichier
+    const ressource = ressourcesData.find(r => r.id === ressourceId)
+    if (!ressource?.downloadUrl) return
+
+    const link = document.createElement('a')
+    link.href = ressource.downloadUrl
+    link.download = `${ressource.titre}.pdf`
+    link.target = '_blank'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   return (

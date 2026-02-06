@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { CheckCircle, XCircle, Clock, User, Calendar, Filter, Download } from 'lucide-react'
-import { useAdmin } from '@/contexts/AdminContext'
+import { useAuthStore } from '@/stores/auth-store'
 
 interface QuizResult {
     id: string
@@ -28,7 +28,8 @@ interface QuizResult {
 
 export default function AdminResultsPage() {
     const router = useRouter()
-    const { isAdminAuthenticated } = useAdmin()
+    const { isAuthenticated, user } = useAuthStore()
+    const isAdmin = isAuthenticated && user && ['ADMIN', 'MANAGER'].includes(user.role)
 
     const [results, setResults] = useState<QuizResult[]>([])
     const [loading, setLoading] = useState(true)
@@ -47,14 +48,14 @@ export default function AdminResultsPage() {
     useEffect(() => {
         // Wait for hydration before checking authentication
         if (!isHydrated) return
-        
-        if (!isAdminAuthenticated) {
-            router.push('/admin')
+
+        if (!isAdmin) {
+            router.push('/admin-login')
             return
         }
         loadResults()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isAdminAuthenticated, isHydrated, page, filterQuizType, router])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAuthenticated, user, isHydrated, page, filterQuizType, router])
 
     const loadResults = async () => {
         try {
@@ -141,7 +142,7 @@ export default function AdminResultsPage() {
         link.click()
     }
 
-    if (!isAdminAuthenticated) return null
+    if (!isAdmin) return null
 
     if (loading && results.length === 0) {
         return (

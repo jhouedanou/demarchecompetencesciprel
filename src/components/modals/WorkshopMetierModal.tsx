@@ -92,7 +92,7 @@ export function WorkshopMetierModal({ workshop, isOpen, onClose, onOpenQuiz }: W
     return match ? match[1] : null
   }
 
-  const youtubeId = workshop.fichier ? null : null // Pour l'instant pas de vidéo YouTube
+  const youtubeId = workshop.video ? getYouTubeId(workshop.video) : null
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -345,14 +345,24 @@ export function WorkshopMetierModal({ workshop, isOpen, onClose, onOpenQuiz }: W
                     Vidéo de présentation
                   </h4>
                   <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
-                    <video
-                      src={workshop.video}
-                      controls
-                      className="w-full h-full"
-                      poster={`/images/workshops/${workshop.id}-poster.jpg`}
-                    >
-                      Votre navigateur ne supporte pas la lecture de vidéos.
-                    </video>
+                    {getYouTubeId(workshop.video) ? (
+                      <iframe
+                        src={`https://www.youtube.com/embed/${getYouTubeId(workshop.video)}?rel=0&modestbranding=1`}
+                        title={workshop.titre}
+                        className="w-full h-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    ) : (
+                      <video
+                        src={workshop.video}
+                        controls
+                        className="w-full h-full"
+                        poster={`/images/workshops/${workshop.id}-poster.jpg`}
+                      >
+                        Votre navigateur ne supporte pas la lecture de vidéos.
+                      </video>
+                    )}
                   </div>
                 </div>
               )}

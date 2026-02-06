@@ -18,22 +18,42 @@ interface StatsData {
 export function StatsCards() {
   const [stats, setStats] = useState<StatsData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
         setIsLoading(true)
+        setError(false)
         const response = await authFetch('/api/admin/analytics/stats')
 
         if (response.ok) {
           const data = await response.json()
           setStats(data)
         } else {
-          const error = await response.json()
-          console.error('Erreur lors du chargement des statistiques:', error)
+          console.error('Erreur lors du chargement des statistiques:', response.status)
+          setError(true)
+          // Set default values to still display the UI
+          setStats({
+            totalUsers: 0,
+            totalQuizAttempts: 0,
+            totalVideos: 0,
+            averageScore: 0,
+            completionRate: 0,
+            activeToday: 0
+          })
         }
       } catch (error) {
         console.error('Erreur lors du chargement des statistiques:', error)
+        setError(true)
+        setStats({
+          totalUsers: 0,
+          totalQuizAttempts: 0,
+          totalVideos: 0,
+          averageScore: 0,
+          completionRate: 0,
+          activeToday: 0
+        })
       } finally {
         setIsLoading(false)
       }

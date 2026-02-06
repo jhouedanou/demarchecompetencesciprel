@@ -20,14 +20,14 @@ export async function middleware(req: NextRequest) {
   if (!supabaseUrl || !supabaseAnonKey) {
     console.warn('Missing Supabase environment variables for middleware - allowing public access')
     const pathname = req.nextUrl.pathname
-    
+
     // Permettre l'accès à toutes les routes publiques même sans Supabase
-    const publicRoutes = ['/', '/login', '/register', '/legal', '/dialectique', '/synoptique', '/quiz', '/facteurs-cles', '/ressources', '/contact', '/sondage']
-    
+    const publicRoutes = ['/', '/login', '/register', '/legal', '/dialectique', '/synoptique', '/quiz', '/facteurs-cles', '/ressources', '/contact', '/sondage', '/admin', '/admin-login']
+
     if (publicRoutes.some(route => pathname.startsWith(route))) {
       return NextResponse.next()
     }
-    
+
     // Pour les autres routes, rediriger vers la page d'accueil
     const url = req.nextUrl.clone()
     url.pathname = '/'
@@ -115,8 +115,8 @@ export async function middleware(req: NextRequest) {
       .single()
 
     if (!profile || !['ADMIN', 'MANAGER'].includes(profile.role)) {
-      // Rediriger vers la porte d'accès admin si pas les bonnes permissions Supabase
-      url.pathname = '/ciprel-admin'
+      // Rediriger vers la page de connexion admin si pas les bonnes permissions Supabase
+      url.pathname = '/admin-login'
       const redirectResponse = NextResponse.redirect(url)
       mergeSupabaseCookies(supabaseResponse, redirectResponse)
       return redirectResponse

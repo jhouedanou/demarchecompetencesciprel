@@ -177,10 +177,45 @@ export default function HomePage() {
       }
     }
 
-    // Bloquer le zoom par raccourcis clavier (Ctrl/Cmd + +/-/0)
+    // Bloquer le zoom par raccourcis clavier (Ctrl/Cmd + +/-/0) + Navigation clavier inter-pages
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '=' || e.key === '0')) {
         e.preventDefault()
+      }
+
+      // Navigation clavier inter-pages (seulement si aucun modal n'est ouvert et pas dans un input)
+      const isInInput = document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA' || document.activeElement?.tagName === 'SELECT'
+      const isModalOpen = activeModal !== null || quizConfig.isOpen || surveyModalOpen || videoModalOpen || workshopModalOpen || logoutModalOpen || !!workshopVideoUrl
+      
+      if (!isInInput && !isModalOpen) {
+        switch (e.key) {
+          case 'ArrowUp':
+          case 'PageUp':
+            e.preventDefault()
+            swiperRef.current?.slidePrev()
+            break
+          case 'ArrowDown':
+          case 'PageDown':
+            e.preventDefault()
+            swiperRef.current?.slideNext()
+            break
+          case 'ArrowLeft':
+            e.preventDefault()
+            swiperDefinitionsRef.current?.slidePrev()
+            break
+          case 'ArrowRight':
+            e.preventDefault()
+            swiperDefinitionsRef.current?.slideNext()
+            break
+          case 'Home':
+            e.preventDefault()
+            swiperRef.current?.slideTo(0)
+            break
+          case 'End':
+            e.preventDefault()
+            swiperRef.current?.slideTo(totalSlides - 1)
+            break
+        }
       }
     }
 
@@ -702,6 +737,8 @@ export default function HomePage() {
                           <div className="relative aspect-video bg-black rounded-2xl shadow-2xl overflow-hidden">
                             <video
                               controls
+                              preload="metadata"
+                              playsInline
                               className="absolute inset-0 w-full h-full"
                               poster="/images/poster.jpg"
                             >

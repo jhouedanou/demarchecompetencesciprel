@@ -20,6 +20,8 @@ import { cn } from '@/lib/utils/cn'
 
 const navigation = [
   { name: 'Accueil', href: '/', icon: BookOpen },
+  { name: 'Démarche', href: '/demarche/introduction', icon: FileText },
+  { name: 'Ressources', href: '/ressources', icon: FileText },
   { name: 'Évaluations', href: '/competences/quiz-introduction', icon: Brain },
 ]
 

@@ -11,8 +11,8 @@ import {
   BarChart3,
   ChevronLeft,
   ChevronRight,
-  Presentation,
-  Briefcase
+  Briefcase,
+  FileText
 } from 'lucide-react'
 
 const navigation = [
@@ -36,6 +36,11 @@ const navigation = [
     href: '/admin/results',
     icon: BarChart3,
   },
+  {
+    name: 'Rapports',
+    href: '/admin/reports',
+    icon: FileText,
+  },
 ]
 
 export function AdminSidebar() {
@@ -44,7 +49,7 @@ export function AdminSidebar() {
 
   return (
     <div className={cn(
-      'fixed inset-y-0 left-0 z-50 flex flex-col bg-white border-r border-gray-200 transition-all duration-300',
+      'fixed top-16 bottom-0 left-0 z-20 flex flex-col bg-white border-r border-gray-200 transition-all duration-300 hidden lg:flex',
       collapsed ? 'w-16' : 'w-64'
     )}>
       {/* Header */}

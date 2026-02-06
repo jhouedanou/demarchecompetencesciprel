@@ -2,17 +2,17 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { 
-  BarChart3, 
-  Users, 
-  FileText, 
-  TrendingUp, 
-  Download, 
+import {
+  BarChart3,
+  Users,
+  FileText,
+  TrendingUp,
+  Download,
   Calendar,
   Filter,
   RefreshCw
 } from 'lucide-react'
-import { useAdmin } from '@/contexts/AdminContext'
+import { useAuthStore } from '@/stores/auth-store'
 import { authFetch } from '@/lib/api/client'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -34,7 +34,8 @@ interface ReportStats {
 
 export default function AdminReportsPage() {
   const router = useRouter()
-  const { isAdminAuthenticated } = useAdmin()
+  const { isAuthenticated, user } = useAuthStore()
+  const isAdmin = isAuthenticated && user && ['ADMIN', 'MANAGER'].includes(user.role)
   const [stats, setStats] = useState<ReportStats | null>(null)
   const [loading, setLoading] = useState(true)
   const [period, setPeriod] = useState('30')
@@ -48,7 +49,7 @@ export default function AdminReportsPage() {
     try {
       setLoading(true)
       const response = await authFetch(`/api/admin/analytics/stats?period=${period}`)
-      
+
       if (response.ok) {
         const data = await response.json()
         setStats({
@@ -71,13 +72,13 @@ export default function AdminReportsPage() {
   useEffect(() => {
     if (!isHydrated) return
 
-    if (!isAdminAuthenticated) {
-      router.push('/ciprel-admin')
+    if (!isAdmin) {
+      router.push('/admin-login')
       return
     }
 
     fetchReports()
-  }, [isHydrated, isAdminAuthenticated, period, router, fetchReports])
+  }, [isHydrated, isAuthenticated, user, period, router, fetchReports])
 
   const handleExport = async () => {
     try {
@@ -102,7 +103,7 @@ export default function AdminReportsPage() {
     return null
   }
 
-  if (!isAdminAuthenticated) {
+  if (!isAdmin) {
     return null
   }
 
@@ -113,7 +114,7 @@ export default function AdminReportsPage() {
           <h1 className="text-3xl font-bold text-gray-900">Rapports et Statistiques</h1>
           <p className="text-gray-600 mt-2">Vue d'ensemble des performances et de l'activité</p>
         </div>
-        
+
         <div className="flex items-center space-x-4">
           <Select value={period} onValueChange={setPeriod}>
             <SelectTrigger className="w-40">
@@ -127,12 +128,12 @@ export default function AdminReportsPage() {
               <SelectItem value="365">Cette année</SelectItem>
             </SelectContent>
           </Select>
-          
+
           <Button variant="outline" onClick={fetchReports} disabled={loading}>
             <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
             Actualiser
           </Button>
-          
+
           <Button onClick={handleExport} disabled={loading}>
             <Download className="w-4 h-4 mr-2" />
             Exporter
@@ -220,10 +221,10 @@ export default function AdminReportsPage() {
                         <span className="text-sm text-gray-600 capitalize">{type.toLowerCase().replace('_', ' ')}</span>
                         <div className="flex items-center space-x-2">
                           <div className="w-32 bg-gray-200 rounded-full h-2">
-                            <div 
+                            <div
                               className="bg-ciprel-600 h-2 rounded-full"
-                              style={{ 
-                                width: `${Math.min((count / (stats.totalQuizzes || 1)) * 100, 100)}%` 
+                              style={{
+                                width: `${Math.min((count / (stats.totalQuizzes || 1)) * 100, 100)}%`
                               }}
                             />
                           </div>
@@ -286,8 +287,8 @@ export default function AdminReportsPage() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="h-auto p-4 flex flex-col items-start"
                   onClick={() => router.push('/admin/results')}
                 >
@@ -295,9 +296,9 @@ export default function AdminReportsPage() {
                   <span className="font-medium">Résultats Quiz</span>
                   <span className="text-xs text-gray-500">Voir tous les résultats détaillés</span>
                 </Button>
-                
-                <Button 
-                  variant="outline" 
+
+                <Button
+                  variant="outline"
                   className="h-auto p-4 flex flex-col items-start"
                   onClick={() => router.push('/admin/questions')}
                 >
@@ -305,9 +306,9 @@ export default function AdminReportsPage() {
                   <span className="font-medium">Gestion Questions</span>
                   <span className="text-xs text-gray-500">Gérer la banque de questions</span>
                 </Button>
-                
-                <Button 
-                  variant="outline" 
+
+                <Button
+                  variant="outline"
                   className="h-auto p-4 flex flex-col items-start"
                   onClick={() => router.push('/admin/users')}
                 >

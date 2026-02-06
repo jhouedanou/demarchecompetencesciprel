@@ -802,7 +802,7 @@
             "questions": [
                 {
                     "id": 1,
-                    "question": "La mission principale des Services Généraux est de :",
+                    "question": "Quelle est la mission principale des Services Généraux ?",
                     "options": [
                         "A. Produire de l’énergie",
                         "B. Assurer un environnement de travail fonctionnel et sécurisé",
@@ -815,7 +815,7 @@
                 },
                 {
                     "id": 2,
-                    "question": "Les Services Généraux interviennent principalement pour :",
+                    "question": "Dans quel domaine les Services Généraux interviennent-ils principalement ?",
                     "options": [
                         "A. Gérer les installations et les besoins matériels du personnel",
                         "B. Superviser les turbines et la salle de commande",
@@ -867,7 +867,7 @@
                 },
                 {
                     "id": 6,
-                    "question": "La fierté principale du métier des Services Généraux réside dans :",
+                    "question": "Quelle est la fierté principale du métier des Services Généraux ?",
                     "options": [
                         "A. La gestion du réseau électrique national",
                         "B. L’optimisation de la production d’énergie",
@@ -898,11 +898,12 @@
             "questions": [
                 {
                     "id": 1,
-                    "question": "Le rôle principal du Pôle QSE-RSE & Sûreté, c’est :",
+                    "question": "Quel est le rôle principal du Pôle QSE-RSE & Sûreté ?",
                     "options": [
                         "A. Superviser uniquement la qualité des produits finis",
                         "B. Garantir la qualité, la sécurité, la sûreté et la responsabilité sociale dans toutes les activités",
-                        "C. Gérer les stocks et l’approvisionnement"
+                        "C. Gérer les stocks et l'approvisionnement",
+                        "D. Assurer la formation continue du personnel"
                     ],
                     "correct_answer": "B",
                     
@@ -1023,11 +1024,12 @@
             "questions": [
                 {
                     "id": 1,
-                    "question": "La Production à CIPREL, c’est avant tout :",
+                    "question": "Quelle est la fonction principale de la Production à CIPREL ?",
                     "options": [
-                        "A. Une fonction administrative",
+                        "A. Une fonction administrative de gestion",
                         "B. Le cœur opérationnel de la centrale électrique",
-                        "C. Une activité de maintenance préventive"
+                        "C. Une activité de maintenance préventive",
+                        "D. La coordination des achats et de la logistique"
                     ],
                     "correct_answer": "B",
                     
@@ -1132,81 +1134,202 @@
             ]
         },
         {
+            "title": "QUIZ – Maintenance",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "Quelle est la mission principale du département Maintenance à CIPREL ?",
+                    "options": [
+                        "A. Gérer les achats de pièces de rechange",
+                        "B. Garantir la fiabilité et la disponibilité des installations de production",
+                        "C. Former les nouveaux opérateurs de conduite",
+                        "D. Piloter la transformation digitale de l'entreprise"
+                    ],
+                    "correct_answer": "B",
+                    "source_ref": "[cite: maintenance, 1]"
+                },
+                {
+                    "id": 2,
+                    "question": "Quelle proportion représente la maintenance préventive par rapport à la maintenance corrective ?",
+                    "options": [
+                        "A. 50% préventive, 50% corrective",
+                        "B. 80% préventive (inspections, contrôles), 20% corrective",
+                        "C. 30% préventive, 70% corrective",
+                        "D. La maintenance est exclusivement corrective"
+                    ],
+                    "correct_answer": "B",
+                    "source_ref": "[cite: maintenance, 2]"
+                },
+                {
+                    "id": 3,
+                    "question": "Quel est le rôle du Préparateur Maintenance ?",
+                    "options": [
+                        "A. Diriger la stratégie globale de maintenance",
+                        "B. Intervenir sur les composants mécaniques et électriques",
+                        "C. Assurer la disponibilité des pièces, la planification et le soutien technique",
+                        "D. Coordonner les équipes terrain et gérer les priorités"
+                    ],
+                    "correct_answer": "C",
+                    "source_ref": "[cite: maintenance, 3]"
+                },
+                {
+                    "id": 4,
+                    "question": "Quel savoir-faire est essentiel pour un technicien de maintenance ?",
+                    "options": [
+                        "A. La gestion financière et comptable",
+                        "B. Le diagnostic, le dépannage et la lecture de plans techniques",
+                        "C. La négociation commerciale avec les fournisseurs",
+                        "D. La rédaction de rapports administratifs"
+                    ],
+                    "correct_answer": "B",
+                    "source_ref": "[cite: maintenance, 4]"
+                },
+                {
+                    "id": 5,
+                    "question": "Quel savoir-être est indispensable en maintenance industrielle ?",
+                    "options": [
+                        "A. La créativité artistique et l'originalité",
+                        "B. La rigueur, la réactivité et la vigilance",
+                        "C. L'autonomie totale sans travail en équipe",
+                        "D. La prise de risque et l'improvisation"
+                    ],
+                    "correct_answer": "B",
+                    "source_ref": "[cite: maintenance, 5]"
+                },
+                {
+                    "id": 6,
+                    "question": "Qui coordonne les équipes terrain et gère les priorités d'intervention ?",
+                    "options": [
+                        "A. Le Technicien de Maintenance",
+                        "B. Le Préparateur Maintenance",
+                        "C. Le Contremaître de Maintenance",
+                        "D. Le Manager des Activités"
+                    ],
+                    "correct_answer": "C",
+                    "source_ref": "[cite: maintenance, 6]"
+                },
+                {
+                    "id": 7,
+                    "question": "Quel est le partenaire interne principal de la Maintenance ?",
+                    "options": [
+                        "A. Le département Juridique",
+                        "B. La Production, disponible 24h/24",
+                        "C. Les Services Généraux uniquement",
+                        "D. La Direction Générale"
+                    ],
+                    "correct_answer": "B",
+                    "source_ref": "[cite: maintenance, 7]"
+                },
+                {
+                    "id": 8,
+                    "question": "Quelle est la fierté principale des équipes de Maintenance ?",
+                    "options": [
+                        "A. Réduire les coûts d'exploitation",
+                        "B. Voir la centrale fonctionner sans interruption grâce à leur travail",
+                        "C. Gérer un large budget d'investissement",
+                        "D. Former les nouvelles recrues"
+                    ],
+                    "correct_answer": "B",
+                    "source_ref": "[cite: maintenance, 8]"
+                },
+                {
+                    "id": 9,
+                    "question": "Quel est le rôle du Coordinateur Maintenance ?",
+                    "options": [
+                        "A. Intervenir physiquement sur les équipements",
+                        "B. Planifier les arrêts majeurs, optimiser les processus et piloter la performance technique",
+                        "C. Gérer les relations avec les autorités réglementaires",
+                        "D. Assurer la sécurité physique du site"
+                    ],
+                    "correct_answer": "B",
+                    "source_ref": "[cite: maintenance, 9]"
+                },
+                {
+                    "id": 10,
+                    "question": "Quelle connaissance technique est fondamentale pour les métiers de la Maintenance ?",
+                    "options": [
+                        "A. Les techniques de marketing et communication",
+                        "B. Les équipements mécaniques, électriques, l'instrumentation et les standards QHSE",
+                        "C. La gestion des ressources humaines",
+                        "D. Les principes de comptabilité analytique"
+                    ],
+                    "correct_answer": "B",
+                    "source_ref": "[cite: maintenance, 10]"
+                }
+            ]
+        },
+        {
             "title": "QUIZ SUR LA PHASE INTRODUCTIVE",
             "questions": [
                 {
                     "id": 1,
-                    "question": "La démarche compétence c’est :",
+                    "question": "Qu'est-ce que la démarche compétence ?",
                     "options": [
-                        "Un moyen de retenir les potentiels et les talents",
-                        "Un levier de performance",
-                        "Un levier de certification qualité"
+                        "A. Un moyen de retenir les potentiels et les talents",
+                        "B. Un levier de performance pour l'entreprise",
+                        "C. Un levier de certification qualité"
                     ],
-                    "correct_answer": "b",
+                    "correct_answer": "B",
                     
                     "source_ref": "[cite: 355, 359]"
                 },
                 {
                     "id": 2,
-                    "question": "La démarche compétence est la responsabilité de :",
+                    "question": "À qui incombe la responsabilité de la démarche compétence ?",
                     "options": [
-                        "Tous",
-                        "La direction générale",
-                        "Le groupe ERANOVE"
+                        "A. Tous les collaborateurs",
+                        "B. La direction générale uniquement",
+                        "C. Le groupe ERANOVE"
                     ],
-                    "correct_answer": "a",
+                    "correct_answer": "A",
                     
                     "source_ref": "[cite: 360, 364]"
                 },
                 {
                     "id": 3,
-                    "question": "Les compétences sont essentiellement :",
+                    "question": "Quels sont les deux principaux types de compétences ?",
                     "options": [
-                        "Techniques",
-                        "Comportementales",
-                        "Fondamentales"
+                        "A. Techniques et comportementales",
+                        "B. Comportementales et fondamentales",
+                        "C. Fondamentales et techniques"
                     ],
-                    "correct_answer": "a et b",
+                    "correct_answer": "A",
                     
                     "source_ref": "[cite: 365, 369]"
                 },
                 {
                     "id": 4,
-                    "question": "Le savoir-faire c’est :",
+                    "question": "Quelle est la meilleure définition du savoir-faire ?",
                     "options": [
-                        "La capacité à assurer des tâches techniques ou managériales.",
-                        "L’ensemble des capacités cognitives et relationnelles",
-                        "La capacité à bien faire les choses"
+                        "A. La capacité à assurer des tâches techniques ou managériales",
+                        "B. L'ensemble des capacités cognitives et relationnelles",
+                        "C. La capacité à bien faire les choses au quotidien"
                     ],
-                    "correct_answer": "a",
+                    "correct_answer": "A",
                     
                     "source_ref": "[cite: 370, 374]"
                 },
                 {
                     "id": 5,
-                    "question": "Le savoir être c’est",
+                    "question": "Quelle est la meilleure définition du savoir-être ?",
                     "options": [
-                        "L’ensemble des connaissances cumulées grâce à l’expérience",
-                        "La capacité à agir dans son environnement",
-                        "L’ensemble des capacités cognitives et relationnelles"
+                        "A. L'ensemble des connaissances cumulées grâce à l'expérience",
+                        "B. La capacité à agir dans son environnement",
+                        "C. L'ensemble des capacités cognitives et relationnelles"
                     ],
-                    "correct_answer": "c",
+                    "correct_answer": "C",
                     
                     "source_ref": "[cite: 375, 379]"
                 },
                 {
                     "id": 6,
-                    "question": "Quelles sont les étapes de la démarche compétence :",
+                    "question": "Parmi les propositions suivantes, laquelle N'EST PAS une étape de la démarche compétence ?",
                     "options": [
-                        "a) Identification des compétences requises",
-                        "b) Développer les compétences",
-                        "c) Challenger les plus méritants",
-                        "d) Cartographier et évaluer les compétences acquises",
-                        "e) Evaluer et suivre les évolutions",
-                        "f) Tolérer les écarts",
-                        "g) Analyser les écarts en compétences et définir les besoins"
+                        "A. Identifier les compétences requises et cartographier les acquis",
+                        "B. Challenger les plus méritants et tolérer les écarts",
+                        "C. Analyser les écarts, développer les compétences et suivre les évolutions"
                     ],
-                    "correct_answer": "a, b, d, e, g",
+                    "correct_answer": "B",
                     
                     "source_ref": "[cite: 380, 388]"
                 }
