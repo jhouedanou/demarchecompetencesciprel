@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -32,34 +32,54 @@ interface ActivityItem {
   status?: 'success' | 'warning' | 'error'
 }
 
+// Module-level cache for navbar notifications to avoid re-fetching on every render
+let navbarActivityCache: ActivityItem[] = []
+let navbarCacheTimestamp = 0
+const NAVBAR_CACHE_TTL = 2 * 60 * 1000 // 2 minutes
+
 export function Navbar() {
   const { user } = useAuthStore()
   const router = useRouter()
-  const [activities, setActivities] = useState<ActivityItem[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [activities, setActivities] = useState<ActivityItem[]>(navbarActivityCache)
+  const [isLoading, setIsLoading] = useState(navbarActivityCache.length === 0)
   const [logoutModalOpen, setLogoutModalOpen] = useState(false)
+  const fetchingRef = useRef(false)
 
   useEffect(() => {
+    if (!user) return
+
     const fetchRecentActivity = async () => {
+      // Skip if already fetching or cache is fresh
+      if (fetchingRef.current) return
+      if (navbarActivityCache.length > 0 && Date.now() - navbarCacheTimestamp < NAVBAR_CACHE_TTL) {
+        setActivities(navbarActivityCache)
+        setIsLoading(false)
+        return
+      }
+
+      fetchingRef.current = true
       try {
-        const response = await authFetch('/api/admin/analytics/activity')
+        // Use the combined dashboard endpoint to piggyback on existing data
+        const response = await authFetch('/api/admin/dashboard')
         if (response.ok) {
           const data = await response.json()
-          setActivities(data.activities || [])
+          const newActivities = data.activities || []
+          navbarActivityCache = newActivities
+          navbarCacheTimestamp = Date.now()
+          setActivities(newActivities)
         }
       } catch (error) {
         console.error('Erreur lors du chargement des notifications:', error)
       } finally {
         setIsLoading(false)
+        fetchingRef.current = false
       }
     }
 
-    if (user) {
-      fetchRecentActivity()
-      // Poll every minute
-      const interval = setInterval(fetchRecentActivity, 60000)
-      return () => clearInterval(interval)
-    }
+    fetchRecentActivity()
+    // Poll every 2 minutes (not every minute)
+    const interval = setInterval(fetchRecentActivity, NAVBAR_CACHE_TTL)
+    return () => clearInterval(interval)
   }, [user])
 
   const getRelativeTime = (timestamp: string) => {

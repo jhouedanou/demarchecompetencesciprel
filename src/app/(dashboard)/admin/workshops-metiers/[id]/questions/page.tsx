@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { ArrowLeft, Plus, Trash2, Edit, Eye, EyeOff, Loader2 } from 'lucide-react'
-import { useAdmin } from '@/contexts/AdminContext'
 import { useAuthStore } from '@/stores/auth-store'
 import { authFetch } from '@/lib/api/client'
 import { AdminLoadingScreen } from '@/components/admin/AdminLoadingScreen'
@@ -47,13 +46,9 @@ export default function WorkshopQuestionsPage() {
     const params = useParams()
     const workshopId = params.id as string
     const router = useRouter()
-    const { isAdminAuthenticated } = useAdmin()
-    const { user, isAuthenticated, isLoading: isAuthLoading } = useAuthStore()
+    const { isAuthenticated, user, isLoading: isAuthLoading } = useAuthStore()
+    const isAdmin = isAuthenticated && user && ['ADMIN', 'MANAGER'].includes(user.role)
     const [mounted, setMounted] = useState(false)
-
-    // Support both local admin auth and Supabase auth
-    const isSupabaseAdmin = isAuthenticated && user && ['ADMIN', 'MANAGER'].includes(user.role)
-    const hasAdminAccess = isAdminAuthenticated || isSupabaseAdmin
 
     const [questions, setQuestions] = useState<Question[]>([])
     const [loading, setLoading] = useState(true)
@@ -99,22 +94,15 @@ export default function WorkshopQuestionsPage() {
         // Wait for client-side hydration and auth loading to complete
         if (!mounted) return
 
-        // If local admin auth is present, we're good - load immediately
-        if (isAdminAuthenticated) {
-            console.log('[WorkshopQuestions] Local admin auth detected, loading questions')
-            loadQuestions()
-            return
-        }
-
-        // If Supabase auth is still loading, wait
+        // If auth is still loading, wait
         if (isAuthLoading) {
             console.log('[WorkshopQuestions] Auth still loading, waiting...')
             return
         }
 
-        // Check Supabase admin access
-        if (isSupabaseAdmin) {
-            console.log('[WorkshopQuestions] Supabase admin auth detected, loading questions')
+        // Check admin access
+        if (isAdmin) {
+            console.log('[WorkshopQuestions] Admin auth detected, loading questions')
             loadQuestions()
             return
         }
@@ -123,12 +111,11 @@ export default function WorkshopQuestionsPage() {
         console.log('[WorkshopQuestions] No admin access, redirecting...', {
             mounted,
             isAuthLoading,
-            isAdminAuthenticated,
-            isSupabaseAdmin,
+            isAdmin,
             user: user?.email
         })
         router.push('/admin')
-    }, [mounted, isAuthLoading, hasAdminAccess, isAdminAuthenticated, isSupabaseAdmin, workshopId, loadQuestions, router, user])
+    }, [mounted, isAuthLoading, isAdmin, workshopId, loadQuestions, router, user])
 
     const handleToggleActive = async (questionId: string, currentActive: boolean) => {
         try {
@@ -297,9 +284,8 @@ export default function WorkshopQuestionsPage() {
                     {questions.map((question, index) => (
                         <div
                             key={question.id}
-                            className={`bg-white rounded-lg shadow p-4 border-l-4 ${
-                                question.active ? 'border-ciprel-green-500' : 'border-gray-300'
-                            }`}
+                            className={`bg-white rounded-lg shadow p-4 border-l-4 ${question.active ? 'border-ciprel-green-500' : 'border-gray-300'
+                                }`}
                         >
                             <div className="flex items-start justify-between">
                                 <div className="flex-1">
@@ -307,11 +293,10 @@ export default function WorkshopQuestionsPage() {
                                         <span className="text-sm font-medium text-gray-500">
                                             #{index + 1}
                                         </span>
-                                        <span className={`px-2 py-0.5 text-xs rounded-full ${
-                                            question.active 
-                                                ? 'bg-green-100 text-green-700' 
+                                        <span className={`px-2 py-0.5 text-xs rounded-full ${question.active
+                                                ? 'bg-green-100 text-green-700'
                                                 : 'bg-gray-100 text-gray-500'
-                                        }`}>
+                                            }`}>
                                             {question.active ? 'Active' : 'Inactive'}
                                         </span>
                                         <span className="px-2 py-0.5 text-xs bg-blue-100 text-blue-700 rounded-full">
@@ -345,11 +330,10 @@ export default function WorkshopQuestionsPage() {
                                     <button
                                         onClick={() => handleToggleActive(question.id, question.active)}
                                         disabled={saving}
-                                        className={`p-2 rounded-lg transition-colors ${
-                                            question.active 
-                                                ? 'text-green-600 hover:bg-green-50' 
+                                        className={`p-2 rounded-lg transition-colors ${question.active
+                                                ? 'text-green-600 hover:bg-green-50'
                                                 : 'text-gray-400 hover:bg-gray-50'
-                                        }`}
+                                            }`}
                                         title={question.active ? 'Désactiver' : 'Activer'}
                                     >
                                         {question.active ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
@@ -501,11 +485,10 @@ function QuestionModal({ isOpen, onClose, onSubmit, question, workshopId }: Ques
                                 <button
                                     type="button"
                                     onClick={() => toggleCorrectAnswer('A')}
-                                    className={`px-3 py-2 rounded-lg font-medium ${
-                                        formData.correct_answer.includes('A')
+                                    className={`px-3 py-2 rounded-lg font-medium ${formData.correct_answer.includes('A')
                                             ? 'bg-green-500 text-white'
                                             : 'bg-gray-100 text-gray-600'
-                                    }`}
+                                        }`}
                                 >
                                     ✓
                                 </button>
@@ -526,11 +509,10 @@ function QuestionModal({ isOpen, onClose, onSubmit, question, workshopId }: Ques
                                 <button
                                     type="button"
                                     onClick={() => toggleCorrectAnswer('B')}
-                                    className={`px-3 py-2 rounded-lg font-medium ${
-                                        formData.correct_answer.includes('B')
+                                    className={`px-3 py-2 rounded-lg font-medium ${formData.correct_answer.includes('B')
                                             ? 'bg-green-500 text-white'
                                             : 'bg-gray-100 text-gray-600'
-                                    }`}
+                                        }`}
                                 >
                                     ✓
                                 </button>
@@ -550,11 +532,10 @@ function QuestionModal({ isOpen, onClose, onSubmit, question, workshopId }: Ques
                                 <button
                                     type="button"
                                     onClick={() => toggleCorrectAnswer('C')}
-                                    className={`px-3 py-2 rounded-lg font-medium ${
-                                        formData.correct_answer.includes('C')
+                                    className={`px-3 py-2 rounded-lg font-medium ${formData.correct_answer.includes('C')
                                             ? 'bg-green-500 text-white'
                                             : 'bg-gray-100 text-gray-600'
-                                    }`}
+                                        }`}
                                 >
                                     ✓
                                 </button>
@@ -574,11 +555,10 @@ function QuestionModal({ isOpen, onClose, onSubmit, question, workshopId }: Ques
                                 <button
                                     type="button"
                                     onClick={() => toggleCorrectAnswer('D')}
-                                    className={`px-3 py-2 rounded-lg font-medium ${
-                                        formData.correct_answer.includes('D')
+                                    className={`px-3 py-2 rounded-lg font-medium ${formData.correct_answer.includes('D')
                                             ? 'bg-green-500 text-white'
                                             : 'bg-gray-100 text-gray-600'
-                                    }`}
+                                        }`}
                                 >
                                     ✓
                                 </button>
@@ -588,7 +568,7 @@ function QuestionModal({ isOpen, onClose, onSubmit, question, workshopId }: Ques
 
                     <div className="bg-yellow-50 p-3 rounded-lg text-sm text-yellow-800">
                         <strong>Réponses correctes :</strong>{' '}
-                        {formData.correct_answer.length > 0 
+                        {formData.correct_answer.length > 0
                             ? formData.correct_answer.join(', ')
                             : 'Aucune sélectionnée - cliquez sur ✓ pour marquer les bonnes réponses'
                         }

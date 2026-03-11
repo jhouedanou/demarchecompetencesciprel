@@ -8,6 +8,7 @@ import { Navbar } from '@/components/layout/Navbar'
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner'
 import { PageTransition } from '@/components/shared/PageTransition'
 import { TopLoadingBar } from '@/components/shared/TopLoadingBar'
+import { DashboardProvider } from '@/contexts/DashboardContext'
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -67,21 +68,23 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <TopLoadingBar />
-      <Navbar />
+    <DashboardProvider>
+      <div className="min-h-screen bg-gray-50">
+        <TopLoadingBar />
+        <Navbar />
 
-      <div className="flex pt-16">
-        <AdminSidebar />
+        <div className="flex pt-16">
+          <AdminSidebar />
 
-        <main className="flex-1 lg:ml-64 p-6">
-          <div className="max-w-7xl mx-auto">
-            <PageTransition>
-              {children}
-            </PageTransition>
-          </div>
-        </main>
+          <main className="flex-1 lg:ml-64 p-6">
+            <div className="max-w-7xl mx-auto">
+              <PageTransition>
+                {children}
+              </PageTransition>
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
+    </DashboardProvider>
   )
 }
