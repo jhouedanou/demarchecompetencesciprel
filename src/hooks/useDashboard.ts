@@ -122,7 +122,7 @@ export function useDashboard(): UseDashboardReturn {
 
       if (response.ok) {
         const newData = await response.json()
-        
+
         // Update module-level cache
         cachedData = newData
         cacheTimestamp = Date.now()
@@ -133,7 +133,7 @@ export function useDashboard(): UseDashboardReturn {
       } else {
         const errBody = await response.json().catch(() => ({}))
         const errMsg = errBody.error || `Erreur ${response.status}`
-        
+
         // Only set error if no cached data is available
         if (!cachedData) {
           setError(errMsg)
@@ -142,7 +142,7 @@ export function useDashboard(): UseDashboardReturn {
       }
     } catch (err) {
       if (!mountedRef.current) return
-      
+
       const errMsg = err instanceof Error ? err.message : 'Erreur réseau'
       if (!cachedData) {
         setError(errMsg)
@@ -162,25 +162,19 @@ export function useDashboard(): UseDashboardReturn {
 
     // If we have fresh cached data, use it and schedule background refresh
     const isCacheFresh = cachedData && (Date.now() - cacheTimestamp < CACHE_DURATION_MS)
-    
+
     if (isCacheFresh) {
-      // Show cached data immediately, refresh in background
+      // Show cached data immediately — no background refresh needed
       setData(cachedData)
       setIsLoading(false)
-      
-      // Background refresh after a short delay
-      const refreshTimer = setTimeout(() => {
-        fetchDashboard(true)
-      }, 500)
 
-      // Set up auto-refresh interval
+      // Set up auto-refresh interval (every 60s)
       const interval = setInterval(() => {
         fetchDashboard(true)
       }, 60000)
 
       return () => {
         mountedRef.current = false
-        clearTimeout(refreshTimer)
         clearInterval(interval)
       }
     }

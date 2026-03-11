@@ -8,6 +8,11 @@ import { supabase } from '@/lib/supabase/client'
 
 const ADMIN_STORAGE_KEY = 'ciprel_admin_auth'
 
+// Module-level token cache to avoid repeated getSession() calls
+let cachedToken: string | null = null
+let tokenCacheTimestamp = 0
+const TOKEN_CACHE_TTL = 30_000 // 30 seconds
+
 /**
  * Check if local admin is authenticated
  */
@@ -26,28 +31,47 @@ function isLocalAdminAuthenticated(): boolean {
 }
 
 /**
- * Get the current user's JWT access token
+ * Get the current user's JWT access token (with 30s in-memory cache)
  * @returns The JWT token or null if not authenticated
  */
 export async function getAccessToken(): Promise<string | null> {
+  // Return cached token if still fresh
+  if (cachedToken && (Date.now() - tokenCacheTimestamp < TOKEN_CACHE_TTL)) {
+    return cachedToken
+  }
+
   try {
     const { data: { session }, error } = await supabase.auth.getSession()
 
     if (error) {
       console.error('[API Client] Error getting session:', error)
+      cachedToken = null
       return null
     }
 
     if (!session?.access_token) {
       console.warn('[API Client] No access token in session')
+      cachedToken = null
       return null
     }
 
-    return session.access_token
+    // Cache the token
+    cachedToken = session.access_token
+    tokenCacheTimestamp = Date.now()
+    return cachedToken
   } catch (error) {
     console.error('[API Client] Exception getting token:', error)
+    cachedToken = null
     return null
   }
+}
+
+/**
+ * Invalidate the cached token (e.g. on sign-out)
+ */
+export function clearTokenCache(): void {
+  cachedToken = null
+  tokenCacheTimestamp = 0
 }
 
 /**
@@ -71,11 +95,8 @@ export async function authFetch(
   // Add Authorization header with JWT token if available
   if (token) {
     headers.set('Authorization', `Bearer ${token}`)
-    console.log('[authFetch] Token added to request:', url)
   } else if (isLocalAdmin) {
-    // If no JWT but local admin is authenticated, add admin auth header
     headers.set('X-Admin-Auth', 'local-admin-authenticated')
-    console.log('[authFetch] Local admin auth header added to request:', url)
   } else {
     console.warn('[authFetch] No token available for request:', url)
   }
@@ -85,31 +106,15 @@ export async function authFetch(
     headers.set('Content-Type', 'application/json')
   }
 
-  console.log('[authFetch] Request details:', {
-    method: options.method || 'GET',
-    url,
-    hasToken: !!token,
-    hasLocalAdmin: isLocalAdmin
-  })
-
   try {
     const response = await fetch(url, {
       ...options,
       headers,
     })
 
-    console.log('[authFetch] Response:', {
-      url,
-      status: response.status,
-      statusText: response.statusText
-    })
-
     return response
   } catch (error) {
-    console.error('[authFetch] Fetch error:', {
-      url,
-      error
-    })
+    console.error('[authFetch] Fetch error:', url, error)
     throw error
   }
 }

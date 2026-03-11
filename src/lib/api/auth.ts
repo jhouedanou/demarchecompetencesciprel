@@ -23,12 +23,7 @@ export function createServiceClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-  console.log('[API Auth] Creating service client:', {
-    hasUrl: !!supabaseUrl,
-    hasServiceKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
-    hasAnonKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    usingServiceKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY
-  })
+
 
   if (!supabaseUrl || !supabaseServiceKey) {
     console.error('[API Auth] Missing Supabase configuration:', {
@@ -99,7 +94,7 @@ export async function getAuthenticatedUser(request: NextRequest) {
       return null
     }
 
-    console.log('[API Auth] User authenticated:', user.email)
+
 
     // Create a new client with the user's token for database queries
     const authenticatedClient = createClient<Database>(
@@ -174,19 +169,14 @@ export async function requireAdmin(request: NextRequest): Promise<
   const hasAdminHeader = request.headers.get('X-Admin-Auth')
   const hasAuthHeader = request.headers.get('Authorization')
 
-  console.log('[API Auth] requireAdmin called:', {
-    url: requestUrl,
-    hasAdminHeader: !!hasAdminHeader,
-    hasAuthHeader: !!hasAuthHeader,
-    adminHeaderValue: hasAdminHeader
-  })
+
 
   // First, check for local admin authentication
   if (checkAdminLocalAuth(request)) {
-    console.log('[API Auth] Local admin authentication detected - creating service client')
+
     try {
       const serviceClient = createServiceClient()
-      console.log('[API Auth] Service client created successfully')
+
       return {
         user: { id: 'local-admin', email: 'admin@ciprel.local', role: 'ADMIN' },
         supabase: serviceClient,
@@ -234,7 +224,7 @@ export async function requireAdmin(request: NextRequest): Promise<
     }
   }
 
-  console.log('[API Auth] Admin access granted:', user.email, 'Role:', role)
+
 
   return {
     user,

@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { supabase } from '@/lib/supabase/client'
+import { clearTokenCache } from '@/lib/api/client'
 import type { AuthUser, LoginCredentials, RegisterCredentials } from '@/types/auth'
 
 interface AuthState {
@@ -250,6 +251,7 @@ export const useAuthStore = create<AuthState>()(
           console.error('Sign out error:', error)
         } finally {
           // Always clear local state regardless of API call success
+          clearTokenCache()
           set({ user: null, isAuthenticated: false, isLoading: false })
         }
       },
@@ -310,9 +312,9 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'ciprel-auth-storage',
-      partialize: (state) => ({ 
-        user: state.user, 
-        isAuthenticated: state.isAuthenticated 
+      partialize: (state) => ({
+        user: state.user,
+        isAuthenticated: state.isAuthenticated
       }),
       skipHydration: false,
       // Specify storage explicitly for better browser compatibility
