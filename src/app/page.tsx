@@ -567,6 +567,18 @@ export default function HomePage() {
                     Accéder à l'introduction de la démarche compétence
                   </button>
                 </div>
+
+                {/* Navigation Buttons */}
+                <div className="flex justify-center gap-4 mt-8">
+                  <button
+                    type="button"
+                    onClick={goNext}
+                    className="bg-ciprel-green-600 text-white px-8 py-4 rounded-lg hover:bg-ciprel-green-700 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                  >
+                    Suivant
+                    <ChevronDown className="h-5 w-5 ml-2" />
+                  </button>
+                </div>
               </div>
             </section>
           </SwiperSlide>
