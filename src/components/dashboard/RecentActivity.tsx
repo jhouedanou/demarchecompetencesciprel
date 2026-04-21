@@ -138,8 +138,8 @@ export function RecentActivity() {
               >
                 <div className="flex items-start space-x-3">
                   <Avatar className="h-8 w-8 flex-shrink-0">
-                    <AvatarImage 
-                      src={activity.user_avatar} 
+                    <AvatarImage
+                      src={activity.user_avatar ?? undefined}
                       alt={activity.user_name}
                     />
                     <AvatarFallback className="bg-blue-500 text-white text-xs">
