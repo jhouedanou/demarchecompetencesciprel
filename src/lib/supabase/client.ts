@@ -2,6 +2,7 @@ import { createBrowserClient } from '@supabase/ssr'
 import { useState, useEffect } from 'react'
 import type { Database } from '@/types/database'
 import type { User } from '@supabase/supabase-js'
+import { isIframeEmbedEnabled } from './cookie-options'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -9,10 +10,22 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 // Vérifier si Supabase est configuré
 const isSupabaseConfigured = supabaseUrl && supabaseAnonKey
 
-// Client-side Supabase client using SSR for cookie management
+// Client-side Supabase client using SSR for cookie management.
+// Lorsque l'app est embarquée dans une iframe (SharePoint / Office 365), les
+// cookies doivent être émis avec SameSite=None; Secure pour être acceptés
+// par le navigateur dans un contexte cross-site.
 export const supabase = createBrowserClient<Database>(
   supabaseUrl,
-  supabaseAnonKey
+  supabaseAnonKey,
+  isIframeEmbedEnabled()
+    ? {
+        cookieOptions: {
+          sameSite: 'none',
+          secure: true,
+          path: '/',
+        },
+      }
+    : undefined
 )
 
 // Hook to get current user avec cache

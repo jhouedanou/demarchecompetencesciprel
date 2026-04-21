@@ -1,5 +1,6 @@
 import { createServerClient as createSupabaseServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import { applyIframeCookieOptions } from './cookie-options'
 
 export const createServerClient = () => {
   const cookieStore = cookies()
@@ -14,14 +15,14 @@ export const createServerClient = () => {
         },
         set(name: string, value: string, options: CookieOptions) {
           try {
-            cookieStore.set({ name, value, ...options })
+            cookieStore.set({ name, value, ...applyIframeCookieOptions(options) })
           } catch (error) {
             // Server component can't set cookies during render
           }
         },
         remove(name: string, options: CookieOptions) {
           try {
-            cookieStore.set({ name, value: '', ...options })
+            cookieStore.set({ name, value: '', ...applyIframeCookieOptions(options) })
           } catch (error) {
             // Server component can't remove cookies during render
           }
@@ -46,7 +47,7 @@ export const createUserServerClient = async () => {
         setAll(cookiesToSet) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
+              cookieStore.set(name, value, applyIframeCookieOptions(options))
             )
           } catch {
             // Server component can't set cookies during render

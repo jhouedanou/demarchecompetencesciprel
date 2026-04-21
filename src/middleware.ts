@@ -1,6 +1,7 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { applyIframeCookieOptions } from '@/lib/supabase/cookie-options'
 
 // Routes protégées nécessitant une authentification
 const protectedRoutes = ['/competences', '/profile', '/admin', '/sondage']
@@ -178,8 +179,12 @@ function toResponseCookieOptions(options: CookieOptions = {}) {
     ...(typeof httpOnly !== 'undefined' ? { httpOnly } : {}),
     ...(typeof maxAge !== 'undefined' ? { maxAge } : {}),
     ...(path ? { path } : {}),
-    ...(typeof sameSite !== 'undefined' ? { sameSite } : {}),
-    ...(typeof secure !== 'undefined' ? { secure } : {}),
+    // `sameSite` et `secure` sont surchargés par applyIframeCookieOptions
+    // afin d'autoriser l'envoi des cookies depuis une iframe SharePoint.
+    ...applyIframeCookieOptions({
+      ...(typeof sameSite !== 'undefined' ? { sameSite } : {}),
+      ...(typeof secure !== 'undefined' ? { secure } : {}),
+    }),
     ...(typeof priority !== 'undefined' ? { priority } : {}),
     ...(typeof partitioned !== 'undefined' ? { partitioned } : {}),
   }

@@ -27,9 +27,13 @@ const nextConfig = {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
           },
+          // NB: X-Frame-Options est volontairement omis (remplacé par la CSP
+          // frame-ancestors ci-dessous) afin d'autoriser l'intégration
+          // de l'application dans SharePoint / Office 365.
           {
-            key: 'X-Frame-Options',
-            value: 'DENY',
+            key: 'Content-Security-Policy',
+            value:
+              "frame-ancestors 'self' https://*.sharepoint.com https://*.office.com https://*.office365.com https://*.microsoft.com https://*.cloud.microsoft;",
           },
           {
             key: 'X-XSS-Protection',
