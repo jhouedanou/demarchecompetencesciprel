@@ -66,7 +66,23 @@ export function SectionModal({
       // Vérifier immédiatement si le contenu est assez court pour être visible entièrement
       handleScroll()
 
-      return () => contentElement.removeEventListener('scroll', handleScroll)
+      // Observer les changements de taille du contenu (ex: chargement lazy Suspense)
+      // pour re-vérifier si le contenu tient dans la vue
+      const resizeObserver = new ResizeObserver(() => {
+        handleScroll()
+      })
+      resizeObserver.observe(contentElement)
+
+      // Re-vérifier après un court délai (pour le rendu Suspense)
+      const timeoutId = setTimeout(handleScroll, 500)
+      const timeoutId2 = setTimeout(handleScroll, 1500)
+
+      return () => {
+        contentElement.removeEventListener('scroll', handleScroll)
+        resizeObserver.disconnect()
+        clearTimeout(timeoutId)
+        clearTimeout(timeoutId2)
+      }
     }
   }, [isOpen])
 

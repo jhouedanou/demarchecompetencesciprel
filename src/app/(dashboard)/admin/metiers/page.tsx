@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { Loader2, AlertCircle, CheckCircle, LogOut, Brain, Link2, Edit2, Save, X, Calendar, RefreshCw, Video } from 'lucide-react'
-import { useAdmin } from '@/contexts/AdminContext'
 import { useAuthStore } from '@/stores/auth-store'
 import { useRouter } from 'next/navigation'
 
@@ -35,8 +34,9 @@ interface ApiResponse {
 }
 
 export default function AdminMetiersPage() {
-  const { isAdminAuthenticated, adminUsername, logoutAdmin } = useAdmin()
-  const { user } = useAuthStore()
+  const { isAuthenticated, user, signOut } = useAuthStore()
+  const isAdmin = isAuthenticated && user && ['ADMIN', 'MANAGER'].includes(user.role)
+  const adminUsername = user?.name || user?.email || 'Admin'
   const router = useRouter()
   const [metiers, setMetiers] = useState<Metier[]>([])
   const [loading, setLoading] = useState(true)
@@ -55,11 +55,10 @@ export default function AdminMetiersPage() {
   // Redirect if not authenticated (only after hydration)
   useEffect(() => {
     if (!isHydrated) return
-    const isSupabaseAdmin = user && ['ADMIN', 'MANAGER'].includes(user.role)
-    if (!isAdminAuthenticated && !isSupabaseAdmin) {
-      router.push('/admin')
+    if (!isAdmin) {
+      router.push('/admin-login')
     }
-  }, [isAdminAuthenticated, user, router, isHydrated])
+  }, [isAuthenticated, user, isAdmin, router, isHydrated])
 
   // Fetch metiers on mount
   useEffect(() => {
@@ -207,7 +206,7 @@ export default function AdminMetiersPage() {
   }
 
   // Don't render until hydrated and authenticated
-  if (!isHydrated || (!isAdminAuthenticated && !user)) {
+  if (!isHydrated || (!isAdmin && !user)) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
@@ -243,10 +242,10 @@ export default function AdminMetiersPage() {
               <span className="text-sm text-gray-700">
                 Connecté en tant que: <strong>{adminUsername || user?.email}</strong>
               </span>
-              {isAdminAuthenticated && (
+              {isAdmin && (
                 <button
                   onClick={() => {
-                    logoutAdmin()
+                    signOut()
                     router.push('/admin')
                   }}
                   className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors"

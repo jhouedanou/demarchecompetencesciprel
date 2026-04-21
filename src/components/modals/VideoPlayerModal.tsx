@@ -75,13 +75,27 @@ export function VideoPlayerModal({ isOpen, onClose, videos, initialVideoIndex = 
                 {/* Video Container */}
                 <div className="flex-1 relative flex items-center justify-center p-4">
                   <div className="w-full h-full rounded-lg overflow-hidden shadow-2xl">
-                    <iframe
-                      src={`${video.url}?autoplay=0&rel=0&modestbranding=1`}
-                      title={video.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                      className="w-full h-full"
-                    />
+                    {video.url.endsWith('.mp4') || (video.url.startsWith('/videos/') && !video.url.includes('youtube')) ? (
+                      <video
+                        src={video.url}
+                        controls
+                        playsInline
+                        preload="metadata"
+                        className="w-full h-full object-contain"
+                        poster="/images/poster.jpg"
+                      >
+                        Votre navigateur ne supporte pas la lecture vidéo.
+                      </video>
+                    ) : (
+                      <iframe
+                        src={`${video.url.includes('/embed/') ? video.url : video.url.replace('watch?v=', 'embed/')}${video.url.includes('?') ? '&' : '?'}autoplay=0&rel=0&modestbranding=1`}
+                        title={video.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                        className="w-full h-full border-0"
+                        style={{ border: 'none' }}
+                      />
+                    )}
                   </div>
                 </div>
 

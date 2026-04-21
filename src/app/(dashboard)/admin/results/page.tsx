@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { CheckCircle, XCircle, Clock, User, Calendar, Filter, Download } from 'lucide-react'
-import { useAdmin } from '@/contexts/AdminContext'
+import { useAuthStore } from '@/stores/auth-store'
 
 interface QuizResult {
     id: string
@@ -28,7 +28,8 @@ interface QuizResult {
 
 export default function AdminResultsPage() {
     const router = useRouter()
-    const { isAdminAuthenticated } = useAdmin()
+    const { isAuthenticated, user } = useAuthStore()
+    const isAdmin = isAuthenticated && user && ['ADMIN', 'MANAGER'].includes(user.role)
 
     const [results, setResults] = useState<QuizResult[]>([])
     const [loading, setLoading] = useState(true)
@@ -37,14 +38,24 @@ export default function AdminResultsPage() {
     const [total, setTotal] = useState(0)
     const [filterQuizType, setFilterQuizType] = useState<string>('')
     const [selectedResult, setSelectedResult] = useState<QuizResult | null>(null)
+    const [isHydrated, setIsHydrated] = useState(false)
+
+    // Mark component as hydrated after mount
+    useEffect(() => {
+        setIsHydrated(true)
+    }, [])
 
     useEffect(() => {
-        if (!isAdminAuthenticated) {
-            router.push('/admin')
+        // Wait for hydration before checking authentication
+        if (!isHydrated) return
+
+        if (!isAdmin) {
+            router.push('/admin-login')
             return
         }
         loadResults()
-    }, [isAdminAuthenticated, page, filterQuizType])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAuthenticated, user, isHydrated, page, filterQuizType, router])
 
     const loadResults = async () => {
         try {
@@ -131,7 +142,7 @@ export default function AdminResultsPage() {
         link.click()
     }
 
-    if (!isAdminAuthenticated) return null
+    if (!isAdmin) return null
 
     if (loading && results.length === 0) {
         return (

@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Plus, Upload, FileText, Users, Settings, BarChart3, Presentation } from 'lucide-react'
+import { Plus, Upload, FileText, Users, BarChart3, Presentation } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
@@ -16,7 +16,7 @@ const quickActions = [
   {
     title: 'Gérer les workshops',
     description: 'Configurer les workshops métiers',
-    href: '/admin/workshops',
+    href: '/admin/workshops-metiers',
     icon: Presentation,
     color: 'bg-ciprel-orange-500 hover:bg-ciprel-orange-600',
   },
@@ -28,10 +28,10 @@ const quickActions = [
     color: 'bg-purple-500 hover:bg-purple-600',
   },
   {
-    title: 'Gestion RGPD',
-    description: 'Consulter les demandes et consentements',
-    href: '/admin/gdpr',
-    icon: Settings,
+    title: 'Voir les résultats',
+    description: 'Consulter les résultats des quiz',
+    href: '/admin/results',
+    icon: BarChart3,
     color: 'bg-gray-500 hover:bg-gray-600',
   },
 ]

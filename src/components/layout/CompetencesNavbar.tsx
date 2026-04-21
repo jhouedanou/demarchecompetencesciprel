@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Menu, X, User, LogOut, Settings, BookOpen, Video, Brain, ChevronDown, FileText, MessageCircle, BarChart3, Shield, Users } from 'lucide-react'
 import { useAuthStore } from '@/stores/auth-store'
 import { Button } from '@/components/ui/button'
@@ -19,6 +20,8 @@ import { cn } from '@/lib/utils/cn'
 
 const navigation = [
   { name: 'Accueil', href: '/', icon: BookOpen },
+  { name: 'Démarche', href: '/demarche/introduction', icon: FileText },
+  { name: 'Ressources', href: '/ressources', icon: FileText },
   { name: 'Évaluations', href: '/competences/quiz-introduction', icon: Brain },
 ]
 
@@ -62,10 +65,12 @@ export function CompetencesNavbar() {
           <div className="flex items-center">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center py-3">
-              <img
+              <Image
                 className="h-10 w-auto"
                 src="/images/logo.webp"
                 alt="CIPREL"
+                width={100}
+                height={40}
               />
               <div className="ml-3 flex flex-col">
                 <span className="text-xl font-bold text-ciprel-black">

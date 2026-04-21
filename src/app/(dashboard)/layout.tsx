@@ -6,21 +6,12 @@ import { useAuthStore } from '@/stores/auth-store'
 import { AdminSidebar } from '@/components/layout/AdminSidebar'
 import { Navbar } from '@/components/layout/Navbar'
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner'
+import { PageTransition } from '@/components/shared/PageTransition'
+import { TopLoadingBar } from '@/components/shared/TopLoadingBar'
+import { DashboardProvider } from '@/contexts/DashboardContext'
 
 interface DashboardLayoutProps {
   children: React.ReactNode
-}
-
-function getLocalAdminAuth(): boolean {
-  if (typeof window === 'undefined') return false
-  try {
-    const authData = localStorage.getItem('ciprel_admin_auth')
-    if (!authData) return false
-    const parsed = JSON.parse(authData)
-    return parsed.isAuthenticated === true
-  } catch {
-    return false
-  }
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
@@ -32,39 +23,30 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     setMounted(true)
   }, [])
 
-  // Check authorization - don't wait for isLoading to be false
-  // Use locally available data first
-  const hasLocalAdminAuth = mounted && getLocalAdminAuth()
-  const isSupabaseAuthorized = isAuthenticated && user && ['ADMIN', 'MANAGER'].includes(user.role)
-  const isAuthorized = hasLocalAdminAuth || isSupabaseAuthorized
+  // Check if user is authorized (ADMIN or MANAGER role)
+  const isAuthorized = mounted && isAuthenticated && user && ['ADMIN', 'MANAGER'].includes(user.role)
 
   // Redirect logic
   useEffect(() => {
     if (!mounted) return
 
-    // If we have local auth, we're good
-    if (hasLocalAdminAuth) {
-      console.log('[Dashboard] User has local admin auth')
+    // If still loading Supabase auth, wait
+    if (isLoading) return
+
+    if (!isAuthenticated) {
+      console.log('[Dashboard] User not authenticated via Supabase, redirecting to login')
+      router.push('/login')
       return
     }
 
-    // If Supabase auth is done loading, check it
-    if (!isLoading) {
-      if (!isAuthenticated) {
-        console.log('[Dashboard] User not authenticated via Supabase, redirecting to login')
-        router.push('/login')
-        return
-      }
-
-      if (user && !['ADMIN', 'MANAGER'].includes(user.role)) {
-        console.log('[Dashboard] User is not admin/manager, redirecting to competences')
-        router.push('/competences')
-        return
-      }
-
-      console.log('[Dashboard] User authorized via Supabase')
+    if (user && !['ADMIN', 'MANAGER'].includes(user.role)) {
+      console.log('[Dashboard] User is not admin/manager, redirecting to competences')
+      router.push('/competences')
+      return
     }
-  }, [mounted, hasLocalAdminAuth, isLoading, isAuthenticated, user, router])
+
+    console.log('[Dashboard] User authorized via Supabase')
+  }, [mounted, isLoading, isAuthenticated, user, router])
 
   // Don't render anything until mounted to avoid hydration mismatch
   if (!mounted) {
@@ -86,18 +68,23 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
+    <DashboardProvider>
+      <div className="min-h-screen bg-gray-50">
+        <TopLoadingBar />
+        <Navbar />
 
-      <div className="flex">
-        <AdminSidebar />
+        <div className="flex pt-16">
+          <AdminSidebar />
 
-        <main className="flex-1 lg:ml-64 p-6">
-          <div className="max-w-7xl mx-auto">
-            {children}
-          </div>
-        </main>
+          <main className="flex-1 lg:ml-64 p-6">
+            <div className="max-w-7xl mx-auto">
+              <PageTransition>
+                {children}
+              </PageTransition>
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
+    </DashboardProvider>
   )
 }

@@ -2,19 +2,20 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAdmin } from '@/contexts/AdminContext'
+import Image from 'next/image'
+import { useAuthStore } from '@/stores/auth-store'
 import { LogIn, AlertCircle } from 'lucide-react'
 
 export default function AdminLoginPage() {
   const router = useRouter()
-  const { loginAdmin, isAdminAuthenticated } = useAdmin()
-  const [username, setUsername] = useState('')
+  const { signIn, isAuthenticated, user } = useAuthStore()
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  // Redirect if already authenticated
-  if (isAdminAuthenticated) {
+  // Redirect if already authenticated as admin
+  if (isAuthenticated && user && ['ADMIN', 'MANAGER'].includes(user.role)) {
     router.push('/admin')
     return null
   }
@@ -24,16 +25,29 @@ export default function AdminLoginPage() {
     setError('')
     setIsLoading(true)
 
-    // Simulate a small delay for security
-    setTimeout(() => {
-      if (loginAdmin(username, password)) {
+    try {
+      const result = await signIn({ email, password })
+
+      if (result.error) {
+        setError(result.error)
+        setPassword('')
+        setIsLoading(false)
+        return
+      }
+
+      // Check if user has admin/manager role
+      const { user: userData } = useAuthStore.getState()
+      if (userData && ['ADMIN', 'MANAGER'].includes(userData.role)) {
         router.push('/admin')
       } else {
-        setError('Identifiant ou mot de passe incorrect')
-        setPassword('')
+        setError('Vous n\'avez pas les permissions nécessaires pour accéder à l\'administration.')
+        await useAuthStore.getState().signOut()
+        setIsLoading(false)
       }
+    } catch (err) {
+      setError('Une erreur est survenue lors de la connexion.')
       setIsLoading(false)
-    }, 500)
+    }
   }
 
   return (
@@ -41,7 +55,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md">
         {/* Logo and branding */}
         <div className="text-center mb-8">
-          <img src="/images/logo.webp" alt="CIPREL" className="h-16 w-auto mx-auto mb-4 drop-shadow-lg" />
+          <Image src="/images/logo.webp" alt="CIPREL" width={160} height={64} className="h-16 w-auto mx-auto mb-4 drop-shadow-lg" />
           <h1 className="text-3xl font-bold text-ciprel-orange-600 mb-2">Espace Admin</h1>
           <p className="text-gray-600">Gestion de la Démarche Compétence</p>
         </div>
@@ -57,19 +71,20 @@ export default function AdminLoginPage() {
               </div>
             )}
 
-            {/* Username field */}
+            {/* Email field */}
             <div>
               <label className="block text-sm font-semibold text-gray-900 mb-2">
-                Identifiant
+                Email
               </label>
               <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Votre identifiant"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="votre.email@ciprel.ci"
                 disabled={isLoading}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ciprel-orange-600 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                 autoFocus
+                required
               />
             </div>
 
@@ -85,13 +100,14 @@ export default function AdminLoginPage() {
                 placeholder="••••••••••"
                 disabled={isLoading}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ciprel-orange-600 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                required
               />
             </div>
 
             {/* Submit button */}
             <button
               type="submit"
-              disabled={isLoading || !username || !password}
+              disabled={isLoading || !email || !password}
               className="w-full bg-ciprel-orange-600 hover:bg-ciprel-orange-700 text-white font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <LogIn className="w-5 h-5" />

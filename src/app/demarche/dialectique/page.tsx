@@ -130,16 +130,9 @@ export default function DialectiquePage() {
         </div>
       </div>
 
-      <div className="flex items-center justify-between bg-white rounded-xl shadow-lg border border-gray-200 p-6">
-        <Link
-          href="/demarche/introduction"
-          className="text-ciprel-orange-600 hover:text-ciprel-orange-700 flex items-center gap-2 font-medium"
-        >
-          <ArrowLeft className="h-5 w-5" />
-          Section précédente
-        </Link>
-
-        <div className="flex items-center gap-3">
+      <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 space-y-4">
+        {/* Validation button */}
+        <div className="flex items-center justify-center gap-3">
           {isCompleted ? (
             <>
               <CheckCircle className="h-6 w-6 text-ciprel-green-600" />
@@ -147,7 +140,7 @@ export default function DialectiquePage() {
             </>
           ) : (
             <>
-              <span className="text-gray-700">Temps : {Math.floor(readingTime / 60)} min {readingTime % 60} s</span>
+              <span className="text-gray-700 text-sm">Temps : {Math.floor(readingTime / 60)} min {readingTime % 60} s</span>
               <button
                 onClick={markAsComplete}
                 disabled={isSaving}
@@ -160,13 +153,24 @@ export default function DialectiquePage() {
           )}
         </div>
 
-        <Link
-          href="/demarche/synoptique"
-          className="bg-ciprel-orange-600 text-white px-6 py-3 rounded-lg hover:bg-ciprel-orange-700 transition-colors flex items-center gap-2"
-        >
-          Section suivante
-          <ArrowRight className="h-5 w-5" />
-        </Link>
+        {/* Navigation */}
+        <div className="flex items-center justify-between">
+          <Link
+            href="/demarche/introduction"
+            className="text-ciprel-orange-600 hover:text-ciprel-orange-700 flex items-center gap-2 font-medium"
+          >
+            <ArrowLeft className="h-5 w-5" />
+            Section précédente
+          </Link>
+
+          <Link
+            href="/demarche/synoptique"
+            className="bg-ciprel-orange-600 text-white px-6 py-3 rounded-lg hover:bg-ciprel-orange-700 transition-colors flex items-center gap-2"
+          >
+            Section suivante
+            <ArrowRight className="h-5 w-5" />
+          </Link>
+        </div>
       </div>
     </div>
   )

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
+import { cache, cacheKeys, CACHE_TTL } from '@/lib/cache'
 
 // Force dynamic rendering for this route
 export const dynamic = 'force-dynamic'
@@ -58,9 +59,25 @@ function transformWorkshopToMetier(workshop: any) {
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = getSupabaseClient()
     const { searchParams } = new URL(request.url)
     const onlyActive = searchParams.get('active') === 'true'
+    
+    // Generate cache key
+    const cacheKey = onlyActive ? `${cacheKeys.metiers()}:active` : cacheKeys.metiers()
+    
+    // Try cache first
+    const cachedMetiers = cache.get<any[]>(cacheKey)
+    if (cachedMetiers !== null) {
+      console.log(`📦 [API /api/metiers] Cache HIT for ${cacheKey}`)
+      return NextResponse.json({
+        success: true,
+        count: cachedMetiers.length,
+        data: cachedMetiers,
+        cached: true
+      })
+    }
+
+    const supabase = getSupabaseClient()
 
     // Optimized query - select only needed fields
     let query = supabase
@@ -82,6 +99,10 @@ export async function GET(request: NextRequest) {
     }
 
     const metiers = workshops?.map(transformWorkshopToMetier) || []
+    
+    // Cache the result
+    cache.set(cacheKey, metiers, CACHE_TTL.MEDIUM)
+    console.log(`📦 [API /api/metiers] Cached ${metiers.length} metiers for ${cacheKey}`)
 
     return NextResponse.json({
       success: true,
@@ -157,6 +178,10 @@ export async function PUT(request: NextRequest) {
         { status: 404 }
       )
     }
+
+    // Invalidate cache after update
+    cache.invalidatePattern('metiers:*')
+    console.log('🗑️ [API /api/metiers] Cache invalidated after update')
 
     return NextResponse.json({
       success: true,

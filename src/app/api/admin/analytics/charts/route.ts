@@ -80,7 +80,10 @@ export async function GET(request: NextRequest) {
       deviceStats
     }
 
-    return NextResponse.json(chartData)
+    const response = NextResponse.json(chartData)
+    // Cache for 5min on Vercel CDN (chart data is mostly simulated and changes slowly)
+    response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600')
+    return response
   } catch (error) {
     console.error('Erreur dans GET /api/admin/analytics/charts:', error)
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })

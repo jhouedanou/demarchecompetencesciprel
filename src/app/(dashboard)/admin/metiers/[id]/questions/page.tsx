@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { ArrowLeft, Plus, Trash2, Edit } from 'lucide-react'
-import { useAdmin } from '@/contexts/AdminContext'
+import { useAuthStore } from '@/stores/auth-store'
 import QuestionFormModal from '@/components/admin/QuestionFormModal'
 
 interface Question {
@@ -44,7 +44,8 @@ export default function MetierQuestionsPage() {
     const params = useParams()
     const metierId = parseInt(params.id as string)
     const router = useRouter()
-    const { isAdminAuthenticated } = useAdmin()
+    const { isAuthenticated, user } = useAuthStore()
+    const isAdmin = isAuthenticated && user && ['ADMIN', 'MANAGER'].includes(user.role)
 
     const [questions, setQuestions] = useState<Question[]>([])
     const [loading, setLoading] = useState(true)
@@ -54,14 +55,24 @@ export default function MetierQuestionsPage() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editingQuestion, setEditingQuestion] = useState<Question | null>(null)
     const [deletingId, setDeletingId] = useState<string | null>(null)
+    const [isHydrated, setIsHydrated] = useState(false)
+
+    // Mark component as hydrated after mount
+    useEffect(() => {
+        setIsHydrated(true)
+    }, [])
 
     useEffect(() => {
-        if (!isAdminAuthenticated) {
+        // Wait for hydration before checking authentication
+        if (!isHydrated) return
+
+        if (!isAdmin) {
             router.push('/admin')
             return
         }
         loadQuestions()
-    }, [isAdminAuthenticated, metierId])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAdmin, isHydrated, metierId, router])
 
     const loadQuestions = async () => {
         try {
@@ -204,7 +215,7 @@ export default function MetierQuestionsPage() {
         setEditingQuestion(null)
     }
 
-    if (!isAdminAuthenticated) return null
+    if (!isAdmin) return null
 
     if (loading) {
         return (

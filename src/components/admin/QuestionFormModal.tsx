@@ -56,7 +56,7 @@ export default function QuestionFormModal({
 
     useEffect(() => {
         if (initialData) {
-            setFormData({ ...formData, ...initialData })
+            setFormData(prev => ({ ...prev, ...initialData }))
         } else {
             setFormData({
                 title: `Question ${metierName}`,

@@ -44,6 +44,7 @@ export default function QuestionsListByEtape({ adminOnly = false }: QuestionsLis
 
   useEffect(() => {
     loadQuestions()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const loadQuestions = async () => {
@@ -94,9 +95,13 @@ export default function QuestionsListByEtape({ adminOnly = false }: QuestionsLis
     return acc
   }, {} as Record<Etape, Question[]>)
 
-  const handleLoadQuestions = useCallback(() => {
-    loadQuestions()
-  }, [])
+  const handleLoadQuestions = useCallback(
+    () => {
+      loadQuestions()
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
   if (loading) {
     return (

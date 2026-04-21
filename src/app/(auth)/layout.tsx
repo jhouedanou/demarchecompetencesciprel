@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 
 export const metadata: Metadata = {
   title: 'Authentification - CIPREL Compétences',
@@ -15,9 +16,11 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
       <div className="flex items-center justify-center min-h-screen p-4">
         <div className="w-100">
           <div className="text-center mb-8">
-            <img
+            <Image
               src="/images/logo.webp"
               alt="CIPREL"
+              width={120}
+              height={48}
               className="mx-auto h-12 w-auto mb-4"
             />
        

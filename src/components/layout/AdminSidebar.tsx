@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils/cn'
 import {
@@ -10,8 +11,8 @@ import {
   BarChart3,
   ChevronLeft,
   ChevronRight,
-  Presentation,
-  Briefcase
+  Briefcase,
+  FileText
 } from 'lucide-react'
 
 const navigation = [
@@ -35,6 +36,11 @@ const navigation = [
     href: '/admin/results',
     icon: BarChart3,
   },
+  {
+    name: 'Rapports',
+    href: '/admin/reports',
+    icon: FileText,
+  },
 ]
 
 export function AdminSidebar() {
@@ -43,16 +49,18 @@ export function AdminSidebar() {
 
   return (
     <div className={cn(
-      'fixed inset-y-0 left-0 z-50 flex flex-col bg-white border-r border-gray-200 transition-all duration-300',
+      'fixed top-16 bottom-0 left-0 z-20 flex flex-col bg-white border-r border-gray-200 transition-all duration-300 hidden lg:flex',
       collapsed ? 'w-16' : 'w-64'
     )}>
       {/* Header */}
       <div className="flex h-16 items-center justify-between px-4 border-b border-gray-200">
         {!collapsed && (
           <div className="flex items-center space-x-3">
-            <img
+            <Image
               src="/images/logo.webp"
               alt="CIPREL"
+              width={80}
+              height={32}
               className="h-8 w-auto"
             />
             <span className="text-xl font-bold text-gray-900">

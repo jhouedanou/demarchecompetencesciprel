@@ -3,7 +3,7 @@
     "id": "rh-juridique",
     "titre": "Workshop Métier RH & Juridique",
     "departement": "Ressources Humaines et Juridique",
-    "video": "",
+    "video": "/videos/video.mp4",
     "onedrive": "",
     "icon": "⚖️",
     "color": "from-indigo-500 to-indigo-600",
@@ -85,7 +85,7 @@
     "id": "qse-rse-surete",
     "titre": "Workshop Métier QSE-RSE & Sûreté",
     "departement": "QSE-RSE & Sûreté",
-    "video": "",
+    "video": "/videos/video.mp4",
     "onedrive": "",
     "icon": "🛡️",
     "color": "from-green-500 to-green-600",
@@ -172,7 +172,7 @@
     "id": "projets",
     "titre": "Workshop Métier Projets",
     "departement": "Projets",
-    "video": "",
+    "video": "/videos/video.mp4",
     "onedrive": "",
     "icon": "🎯",
     "color": "from-cyan-500 to-cyan-600",
@@ -255,7 +255,7 @@
     "id": "maintenance",
     "titre": "Workshop Métier Maintenance",
     "departement": "Maintenance",
-    "video": "",
+    "video": "/videos/video.mp4",
     "onedrive": "",
     "icon": "🔧",
     "color": "from-orange-500 to-orange-600",
@@ -339,7 +339,7 @@
     "id": "achats-logistique",
     "titre": "Workshop Métier Achats & Logistique",
     "departement": "Achats & Logistique",
-    "video": "",
+    "video": "/videos/video.mp4",
     "onedrive": "",
     "icon": "🚚",
     "color": "from-lime-500 to-lime-600",
@@ -419,7 +419,7 @@
     "id": "sitd",
     "titre": "Workshop Métier SITD",
     "departement": "Systèmes d'Information et Transformation Digitale",
-    "video": "",
+    "video": "/videos/video.mp4",
     "onedrive": "",
     "icon": "💻",
     "color": "from-purple-500 to-purple-600",
@@ -490,7 +490,7 @@
     "id": "gestion-stock",
     "titre": "Workshop Métier Gestion de Stock",
     "departement": "Gestion de Stock",
-    "video": "",
+    "video": "/videos/video.mp4",
     "onedrive": "",
     "icon": "📦",
     "color": "from-yellow-500 to-yellow-600",
@@ -560,7 +560,7 @@
     "id": "daf",
     "titre": "Workshop Métier DAF",
     "departement": "Direction Administrative et Financière",
-    "video": "",
+    "video": "/videos/video.mp4",
     "onedrive": "",
     "icon": "💰",
     "color": "from-teal-500 to-teal-600",
@@ -639,7 +639,7 @@
     "id": "controle-interne",
     "titre": "Workshop Métier Contrôle Interne",
     "departement": "Contrôle Interne",
-    "video": "",
+    "video": "/videos/video.mp4",
     "onedrive": "",
     "icon": "📊",
     "color": "from-red-500 to-red-600",
@@ -701,6 +701,80 @@
         ]
       },
       "temoignage": "Garantir que l'entreprise évolue dans un environnement sûr, transparent et maîtrisé. Créer la confiance."
+    }
+  },
+  {
+    "id": "services-generaux",
+    "titre": "Workshop Métier Services Généraux",
+    "departement": "Services Généraux",
+    "video": "/videos/video.mp4",
+    "onedrive": "",
+    "icon": "🏢",
+    "color": "from-teal-500 to-teal-600",
+    "ordre": 10,
+    "is_active": true,
+    "contenu": {
+      "introduction": {
+        "objectifs": [
+          "Comprendre le rôle des Services Généraux dans le fonctionnement quotidien",
+          "Identifier les compétences de gestion des installations et services",
+          "Valoriser le métier qui assure le confort et la fonctionnalité de l'environnement de travail"
+        ]
+      },
+      "presentation_metier": {
+        "definition": "Les Services Généraux assurent un environnement de travail fonctionnel et sécurisé pour l'ensemble des collaborateurs. Ils sont les garants du bon fonctionnement quotidien.",
+        "piliers": [
+          "Gestion des installations et infrastructures internes",
+          "Gestion des besoins matériels du personnel",
+          "Maintenance des locaux et équipements",
+          "Coordination avec les prestataires"
+        ]
+      },
+      "roles": [
+        {
+          "poste": "Responsable Services Généraux",
+          "mission": "Pilote l'ensemble des services, planifie les interventions, gère le budget et coordonne les prestataires."
+        },
+        {
+          "poste": "Agent des Services Généraux",
+          "mission": "Assure le suivi quotidien des installations, gère les demandes du personnel et coordonne les interventions de maintenance."
+        }
+      ],
+      "competences": {
+        "savoirs": [
+          "Normes d'hygiène et de sécurité",
+          "Gestion des infrastructures et bâtiments",
+          "Réglementation en matière de sécurité des locaux",
+          "Gestion des contrats de prestation"
+        ],
+        "savoir_faire": [
+          "Planifier et suivre la maintenance des installations internes",
+          "Gérer les installations et les besoins matériels du personnel",
+          "Coordonner les interventions des prestataires",
+          "Gérer les stocks de fournitures et consommables"
+        ],
+        "savoir_etre": [
+          "Disponibilité et sens du service",
+          "Réactivité face aux urgences",
+          "Rigueur dans le suivi des interventions",
+          "Esprit d'équipe et polyvalence"
+        ]
+      },
+      "interactions": {
+        "internes": [
+          "Tous les départements (support quotidien)",
+          "QSE-RSE (conformité sécurité)",
+          "Achats & Logistique (approvisionnement)",
+          "Finance (budget)"
+        ],
+        "externes": [
+          "Prestataires de nettoyage et entretien",
+          "Fournisseurs de matériel et équipements",
+          "Sociétés de sécurité",
+          "Entreprises de maintenance technique"
+        ]
+      },
+      "temoignage": "Notre fierté ? Que tout fonctionne, soit disponible et prêt pour les équipes. Quand personne ne remarque notre travail, c'est que nous avons bien fait notre métier."
     }
   }
 ]

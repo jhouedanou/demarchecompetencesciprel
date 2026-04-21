@@ -8,7 +8,8 @@ export function RessourcesContent() {
       type: 'PDF',
       size: '2.4 MB',
       icon: FileText,
-      color: 'blue'
+      color: 'blue',
+      url: '/Guide_démarche_compétence.pdf'
     },
     {
       title: 'Sondage d\'opinion',
@@ -16,7 +17,8 @@ export function RessourcesContent() {
       type: 'PDF',
       size: '450 KB',
       icon: HelpCircle,
-      color: 'green'
+      color: 'green',
+      url: '/Guide_démarche_compétence.pdf'
     },
     {
       title: 'Quiz de la phase introductive',
@@ -24,7 +26,8 @@ export function RessourcesContent() {
       type: 'PDF',
       size: '320 KB',
       icon: BookOpen,
-      color: 'purple'
+      color: 'purple',
+      url: '/Guide_démarche_compétence.pdf'
     }
   ]
 
@@ -89,13 +92,14 @@ export function RessourcesContent() {
                       <span>{document.size}</span>
                     </div>
 
-                    <button
-                      onClick={() => alert('Téléchargement à implémenter')}
+                    <a
+                      href={document.url}
+                      download
                       className="inline-flex items-center bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors text-sm font-medium"
                     >
                       <Download className="h-4 w-4 mr-2" />
                       Télécharger
-                    </button>
+                    </a>
                   </div>
                 </div>
               </div>

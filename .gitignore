@@ -69,3 +69,7 @@ build/
 # SQLite Database
 /data/*.db
 /data/*.db-*
+
+# Documentation and guides
+GUIDE_ADMIN.md
+GUIDE_ADMIN.pdf

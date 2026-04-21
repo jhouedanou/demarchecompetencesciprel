@@ -1,13 +1,7 @@
-import { Metadata } from 'next'
 import { StatsCards } from '@/components/dashboard/StatsCards'
 import { AnalyticsCharts } from '@/components/dashboard/AnalyticsCharts'
 import { RecentActivity } from '@/components/dashboard/RecentActivity'
 import { QuickActions } from '@/components/dashboard/QuickActions'
-
-export const metadata: Metadata = {
-  title: 'Tableau de bord - Administration CIPREL',
-  description: 'Dashboard administrateur pour la gestion de la démarche compétences CIPREL',
-}
 
 export default function AdminDashboard() {
   return (

@@ -8,6 +8,41 @@ import { createClient } from '@supabase/supabase-js'
 import type { Database } from '@/types/database'
 
 /**
+ * Check if admin local authentication header is present
+ */
+export function checkAdminLocalAuth(request: NextRequest): boolean {
+  const adminAuthHeader = request.headers.get('X-Admin-Auth')
+  return adminAuthHeader === 'local-admin-authenticated'
+}
+
+/**
+ * Create a service role Supabase client for admin operations
+ * This bypasses RLS policies
+ */
+export function createServiceClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+
+
+  if (!supabaseUrl || !supabaseServiceKey) {
+    console.error('[API Auth] Missing Supabase configuration:', {
+      url: supabaseUrl ? 'present' : 'MISSING',
+      serviceKey: process.env.SUPABASE_SERVICE_ROLE_KEY ? 'present' : 'MISSING',
+      anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'present' : 'MISSING'
+    })
+    throw new Error('Missing Supabase configuration')
+  }
+
+  return createClient<Database>(supabaseUrl, supabaseServiceKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  })
+}
+
+/**
  * Extract JWT token from Authorization header
  */
 export function extractToken(request: NextRequest): string | null {
@@ -59,7 +94,7 @@ export async function getAuthenticatedUser(request: NextRequest) {
       return null
     }
 
-    console.log('[API Auth] User authenticated:', user.email)
+
 
     // Create a new client with the user's token for database queries
     const authenticatedClient = createClient<Database>(
@@ -124,11 +159,43 @@ export async function checkAdminPermissions(
 /**
  * Middleware-like function to protect admin routes
  * Returns authenticated user and supabase client or error response data
+ * Supports both Supabase JWT auth and local admin auth
  */
 export async function requireAdmin(request: NextRequest): Promise<
   | { user: any; supabase: any; error: null }
   | { user: null; supabase: null; error: { message: string; status: number } }
 > {
+  const requestUrl = request.url
+  const hasAdminHeader = request.headers.get('X-Admin-Auth')
+  const hasAuthHeader = request.headers.get('Authorization')
+
+
+
+  // First, check for local admin authentication
+  if (checkAdminLocalAuth(request)) {
+
+    try {
+      const serviceClient = createServiceClient()
+
+      return {
+        user: { id: 'local-admin', email: 'admin@ciprel.local', role: 'ADMIN' },
+        supabase: serviceClient,
+        error: null,
+      }
+    } catch (error) {
+      console.error('[API Auth] Failed to create service client:', error)
+      return {
+        user: null,
+        supabase: null,
+        error: {
+          message: 'Erreur de configuration serveur - vérifiez SUPABASE_SERVICE_ROLE_KEY',
+          status: 500,
+        },
+      }
+    }
+  }
+
+  // Fall back to Supabase JWT authentication
   const authResult = await getAuthenticatedUser(request)
 
   if (!authResult) {
@@ -157,7 +224,7 @@ export async function requireAdmin(request: NextRequest): Promise<
     }
   }
 
-  console.log('[API Auth] Admin access granted:', user.email, 'Role:', role)
+
 
   return {
     user,

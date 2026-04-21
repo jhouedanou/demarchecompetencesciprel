@@ -172,18 +172,27 @@ const config: Config = {
           '50%': { transform: 'scale(1.05)' },
         },
         'blob': {
-          '0%': { 
-            transform: 'translate(0px, 0px) scale(1)' 
+          '0%': {
+            transform: 'translate(0px, 0px) scale(1)'
           },
-          '33%': { 
-            transform: 'translate(30px, -50px) scale(1.1)' 
+          '33%': {
+            transform: 'translate(30px, -50px) scale(1.1)'
           },
-          '66%': { 
-            transform: 'translate(-20px, 20px) scale(0.9)' 
+          '66%': {
+            transform: 'translate(-20px, 20px) scale(0.9)'
           },
-          '100%': { 
-            transform: 'translate(0px, 0px) scale(1)' 
+          '100%': {
+            transform: 'translate(0px, 0px) scale(1)'
           },
+        },
+        'loading-bar': {
+          '0%': { transform: 'translateX(-100%)' },
+          '50%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+        'shimmer': {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
         },
       },
       animation: {
@@ -193,6 +202,8 @@ const config: Config = {
         'slide-in-right': 'slide-in-right 0.3s ease-out',
         'pulse-scale': 'pulse-scale 2s ease-in-out infinite',
         'blob': 'blob 7s infinite',
+        'loading-bar': 'loading-bar 1.5s ease-in-out infinite',
+        'shimmer': 'shimmer 2s linear infinite',
       },
       fontFamily: {
         sans: [

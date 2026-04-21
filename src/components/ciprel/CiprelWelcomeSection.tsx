@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { Building2, Users, Zap, BookOpen, Award, TrendingUp } from 'lucide-react'
 
 export function CiprelWelcomeSection() {
@@ -31,14 +32,18 @@ export function CiprelWelcomeSection() {
           <div className="relative h-48 bg-gradient-to-r from-ciprel-orange-50 to-ciprel-green-50 rounded-lg mb-6 overflow-hidden">
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="flex items-center gap-8">
-                <img
+                <Image
                   src="/images/logo.webp"
                   alt="Logo CIPREL"
+                  width={200}
+                  height={80}
                   className="h-20 w-auto object-contain drop-shadow"
                 />
-                <img
+                <Image
                   src="/images/30ans.png"
                   alt="30 ans CIPREL"
+                  width={200}
+                  height={80}
                   className="h-20 w-auto object-contain drop-shadow"
                 />
               </div>

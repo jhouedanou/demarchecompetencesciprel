@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner'
@@ -15,7 +14,7 @@ import {
 } from 'lucide-react'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import { authFetch } from '@/lib/api/client'
+import { useDashboardContext } from '@/contexts/DashboardContext'
 
 interface ActivityItem {
   id: string
@@ -29,36 +28,7 @@ interface ActivityItem {
 }
 
 export function RecentActivity() {
-  const [activities, setActivities] = useState<ActivityItem[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    const fetchRecentActivity = async () => {
-      try {
-        setIsLoading(true)
-        const response = await authFetch('/api/admin/analytics/activity')
-
-        if (response.ok) {
-          const data = await response.json()
-          setActivities(data.activities || [])
-        } else {
-          const error = await response.json()
-          console.error('Erreur lors du chargement de l\'activité récente:', error)
-        }
-      } catch (error) {
-        console.error('Erreur lors du chargement de l\'activité récente:', error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchRecentActivity()
-
-    // Actualiser toutes les 30 secondes
-    const interval = setInterval(fetchRecentActivity, 30000)
-
-    return () => clearInterval(interval)
-  }, [])
+  const { activities, isLoading, isRefreshing } = useDashboardContext()
 
   const getActivityIcon = (type: string, status?: string) => {
     switch (type) {
@@ -134,8 +104,17 @@ export function RecentActivity() {
         <CardTitle className="text-base flex items-center justify-between">
           Activité récente
           <div className="flex items-center text-xs text-gray-500">
-            <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse" />
-            En temps réel
+            {isRefreshing ? (
+              <>
+                <div className="w-2 h-2 bg-yellow-500 rounded-full mr-2 animate-pulse" />
+                Actualisation...
+              </>
+            ) : (
+              <>
+                <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse" />
+                En temps réel
+              </>
+            )}
           </div>
         </CardTitle>
       </CardHeader>

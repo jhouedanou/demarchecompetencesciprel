@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createUserServerClient } from '@/lib/supabase/server'
+import { cache, cacheKeys, CACHE_TTL, withCache } from '@/lib/cache'
 
 // Force dynamic rendering for this route
 export const dynamic = 'force-dynamic'
@@ -26,6 +27,20 @@ export async function GET(request: NextRequest) {
     // At least one parameter is required
     if (!quizType && !metierId && !workshopId) {
       return NextResponse.json({ error: 'Type de quiz, metier_id ou workshop_id requis' }, { status: 400 })
+    }
+
+    // Generate cache key
+    const cacheKey = cacheKeys.questions(quizType || undefined, metierId || undefined, workshopId || undefined)
+
+    // Try cache first
+    const cachedQuestions = cache.get<any[]>(cacheKey)
+    if (cachedQuestions !== null) {
+      console.log(`📦 [API /api/quiz] Cache HIT for ${cacheKey}`)
+      return NextResponse.json({
+        questions: cachedQuestions,
+        total: cachedQuestions.length,
+        cached: true
+      })
     }
 
     console.log('🎯 [API /api/quiz] Loading questions:', { quizType, metierId, workshopId })
@@ -98,6 +113,12 @@ export async function GET(request: NextRequest) {
     }
 
     console.log(`✅ [API /api/quiz] Found ${questions?.length || 0} questions`)
+
+    // Cache the result (only if we have questions)
+    if (questions && questions.length > 0) {
+      cache.set(cacheKey, questions, CACHE_TTL.MEDIUM)
+      console.log(`📦 [API /api/quiz] Cached ${questions.length} questions for ${cacheKey}`)
+    }
 
     // If still no questions found for the requested workshop, log diagnostic info
     if ((questions?.length || 0) === 0 && workshopId) {
