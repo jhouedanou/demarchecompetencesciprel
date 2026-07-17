@@ -33,7 +33,7 @@ const nextConfig = {
           {
             key: 'Content-Security-Policy',
             value:
-              "frame-ancestors 'self' https://*.sharepoint.com https://*.office.com https://*.office365.com https://*.microsoft.com https://*.cloud.microsoft;",
+              "frame-ancestors 'self' https://*.sharepoint.com https://*.office.com https://*.office365.com https://*.microsoft.com https://*.cloud.microsoft https://*.teams.microsoft.com;",
           },
           {
             key: 'X-XSS-Protection',
