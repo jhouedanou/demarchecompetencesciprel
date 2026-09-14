@@ -1,0 +1,16 @@
+# Surcouche CIPREL pour la stack Supabase self-hosted officielle.
+# Activée par : sh run.sh config add ciprel
+#
+# Objectif : n'exposer AUCUN port Docker sur le réseau. Docker contourne UFW
+# (règles iptables directes), donc chaque port publié doit être lié à 127.0.0.1.
+# L'accès public passe exclusivement par le Nginx de l'hôte (HTTPS) ->
+# 127.0.0.1:8000 (passerelle API Envoy : REST, Auth, Realtime, Storage, Studio).
+services:
+  api-gw:
+    ports: !override
+      - "127.0.0.1:${API_GW_HTTP_PORT:-8000}:8000/tcp"
+
+  supavisor:
+    ports: !override
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+      - "127.0.0.1:${POOLER_PROXY_PORT_TRANSACTION:-6543}:6543"

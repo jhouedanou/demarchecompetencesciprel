@@ -8,6 +8,14 @@ const nextConfig = {
         port: '',
         pathname: '/storage/v1/object/public/**',
       },
+      // Supabase self-hosted : autorise l'hôte défini dans NEXT_PUBLIC_SUPABASE_URL
+      ...(() => {
+        try {
+          const u = new URL(process.env.NEXT_PUBLIC_SUPABASE_URL || '');
+          if (!u.hostname || u.hostname.endsWith('.supabase.co')) return [];
+          return [{ protocol: u.protocol.replace(':', ''), hostname: u.hostname, port: u.port, pathname: '/storage/v1/object/public/**' }];
+        } catch { return []; }
+      })(),
     ],
   },
   async rewrites() {

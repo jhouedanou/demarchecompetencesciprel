@@ -73,3 +73,6 @@ build/
 # Documentation and guides
 GUIDE_ADMIN.md
 GUIDE_ADMIN.pdf
+
+# Production secrets (serveur)
+.env.production
